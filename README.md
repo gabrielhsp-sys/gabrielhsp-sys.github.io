@@ -13,7 +13,7 @@
 </h4>
 
 <p align="center">
-  <img src="https://imgur.com/a/GfeGukx" alt="Preview do Website" width="800">
+  <img src="https://imgur.com/a/portifolio-GfeGukx" alt="Preview do Website" width="800">
 </p>
 
 ## 📄 Sobre o Projeto
