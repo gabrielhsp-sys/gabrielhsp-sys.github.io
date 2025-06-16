@@ -12,10 +12,6 @@
   </a>
 </h4>
 
-<p align="center">
-  <img src="https://imgur.com/a/portifolio-GfeGukx" alt="Preview do Website" width="800">
-</p>
-
 ## 📄 Sobre o Projeto
 
 Este é o projeto do meu portfólio pessoal, desenvolvido para apresentar minhas habilidades, projetos e informações de contato de uma forma moderna e acessível. O site foi construído do zero, utilizando apenas **HTML, CSS e JavaScript puros**, para demonstrar o domínio das tecnologias fundamentais da web.
@@ -50,7 +46,7 @@ Este é um projeto web estático, então não há necessidade de um processo de 
 
 1.  Clone o repositório:
     ```bash
-    git clone [https://github.com/gabriel-bcc/SEU-REPOSITORIO.git](https://github.com/gabriel-bcc/SEU-REPOSITORIO.git)
+    git clone https://github.com/gabriel-bcc/gabriel-bcc.github.io.git
     ```
 2.  Navegue até a pasta do projeto e abra o arquivo `index.html` no seu navegador.
 
@@ -58,7 +54,7 @@ Este é um projeto web estático, então não há necessidade de um processo de 
 
 Para uma melhor experiência (evitando possíveis erros de CORS com arquivos locais), você pode usar a extensão **Live Server** no Visual Studio Code.
 
-1.  Instale a extensão [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) no VS Code.
+1.  Instale a extensão [Live Server] no VS Code.
 2.  Abra a pasta do projeto no VS Code.
 3.  Clique com o botão direito no arquivo `index.html` e selecione "Open with Live Server".
 
