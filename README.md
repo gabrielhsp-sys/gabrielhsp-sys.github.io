@@ -8,12 +8,12 @@
 <h4 align="center">
   Acesse a versão online do projeto:
   <a href="https://gabriel-bcc.github.io/" target="_blank">
-    [seu-dominio.com]
+    [gabriel-bcc.github.io]
   </a>
 </h4>
 
 <p align="center">
-  <img src="[URL_DA_SCREENSHOT_DO_SEU_SITE]" alt="Preview do Website" width="800">
+  <img src="https://imgur.com/a/GfeGukx" alt="Preview do Website" width="800">
 </p>
 
 ## 📄 Sobre o Projeto
