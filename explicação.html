@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Imóveis C++ - Explicação Completa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 60px 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        }
+
+        .header h1 {
+            color: #fff;
+            font-size: 3.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #e0e0e0;
+            font-size: 1.2em;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            padding: 15px 25px;
+            font-size: 1.1em;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 10px;
+            margin: 0 5px;
+            flex-grow: 1;
+        }
+
+        .tab-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .tab-button.active {
+            background: #fff;
+            color: #667eea;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .tab-content {
+            background: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            min-height: 500px;
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .tab-content h2 {
+            color: #667eea;
+            margin-bottom: 25px;
+            font-size: 2.2em;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .tab-content h3 {
+            color: #764ba2;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.6em;
+        }
+
+        .tab-content p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        .tab-content ul {
+            list-style-type: disc;
+            margin-left: 25px;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .tab-content ul li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .code-block {
+            background: #f4f4f4;
+            border-left: 5px solid #764ba2;
+            padding: 15px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.95em;
+            color: #333;
+            border-radius: 8px;
+            box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .code-block pre {
+            margin: 0;
+        }
+
+        .highlight {
+            background-color: #e6ffe6;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        .btn-demo {
+            background-color: #667eea;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 20px;
+            display: block;
+            width: fit-content;
+        }
+
+        .btn-demo:hover {
+            background-color: #5a6edb;
+            transform: translateY(-2px);
+        }
+
+        .demo-output {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #eef;
+            border: 1px solid #ccd;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            color: #333;
+            min-height: 50px;
+        }
+
+        .diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 30px 0;
+        }
+
+        .node {
+            background-color: #e0f2f7;
+            border: 2px solid #2196f3;
+            border-radius: 10px;
+            padding: 15px 25px;
+            margin: 15px 0;
+            font-weight: bold;
+            color: #2196f3;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            width: fit-content;
+            min-width: 200px;
+        }
+
+        .node:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .arrow {
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 20px solid #2196f3;
+            margin: 5px 0;
+        }
+
+        .quiz-section {
+            background-color: #f9f9f9;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-question {
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            color: #444;
+        }
+
+        .quiz-options button {
+            background-color: #a7b7e6;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .quiz-options button:hover {
+            background-color: #8f9ddb;
+        }
+
+        .quiz-options button.correct {
+            background-color: #4CAF50; /* Green */
+        }
+
+        .quiz-options button.wrong {
+            background-color: #f44336; /* Red */
+        }
+        
+        .image-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Demo Excluir */
+        .exclusion-demo {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #eef;
+            border: 1px solid #ccd;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            color: #333;
+        }
+        .data-array {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+        .data-box {
+            background-color: #667eea;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: all 0.5s ease;
+        }
+        .data-box.removed {
+            background-color: #f44336;
+            transform: scale(0.8);
+            opacity: 0.5;
+        }
+        .data-box.moved {
+            background-color: #4CAF50;
+        }
+
+        .resources-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .resources-list li {
+            margin-bottom: 10px;
+        }
+
+        .resources-list li a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .resources-list li a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Sistema de Gerenciamento de Imóveis em C++</h1>
+            <p>Uma explicação detalhada e interativa sobre as funcionalidades e o código-fonte.</p>
+            <p><strong>Autores:</strong> Gabriel Henrique Silva Pereira (RA: 2025.1.08.036) e Otávio de Oliveira (RA: 2025.1.08.034)</p>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-button active" onclick="openTab(event, 'visao-geral')">Visão Geral</button>
+            <button class="tab-button" onclick="openTab(event, 'estrutura-imovel')">Estrutura Imóvel</button>
+            <button class="tab-button" onclick="openTab(event, 'stringstream')">Stringstream (SS)</button>
+            <button class="tab-button" onclick="openTab(event, 'funcoes-principais')">Funções Principais</button>
+            <button class="tab-button" onclick="openTab(event, 'fluxo-programa')">Fluxo do Programa</button>
+            <button class="tab-button" onclick="openTab(event, 'recursos-adicionais')">Recursos Adicionais</button>
+            <button class="tab-button" onclick="openTab(event, 'quiz')">Quiz</button>
+        </nav>
+
+        <div id="visao-geral" class="tab-content active">
+            <h2>Visão Geral do Projeto</h2>
+            <p>Este projeto, desenvolvido em C++, é um sistema robusto para o gerenciamento de imóveis. Ele simula as operações de um banco de dados, permitindo a inclusão, exclusão, busca e análise estatística de dados de imóveis, utilizando um arquivo de texto simples como persistência. É um excelente exemplo de como C++ pode ser usado para desenvolver aplicações de console com manipulação de dados e arquivos.</p>
+            <h3>O que o Sistema Faz?</h3>
+            <ul>
+                <li><strong>Inclusão:</strong> Adiciona novos imóveis ao banco de dados.</li>
+                <li><strong>Exclusão:</strong> Remove imóveis existentes, geralmente por endereço.</li>
+                <li><strong>Busca:</strong> Permite encontrar imóveis por diversos critérios (rua, faixa de valor, características específicas, número de quartos/suítes).</li>
+                <li><strong>Estatísticas:</strong> Gera relatórios sobre o tipo de imóveis, finalidade, características comuns, etc.</li>
+                <li><strong>Persistência:</strong> Salva e carrega os dados de imóveis de um arquivo de texto, garantindo que as informações não sejam perdidas ao fechar o programa.</li>
+            </ul>
+            <h3>Componentes Principais Utilizados:</h3>
+            <ul>
+                <li><strong>Estruturas (Structs):</strong> Para definir o formato dos dados de um imóvel.</li>
+                <li><strong>Arrays:</strong> Para armazenar uma coleção de imóveis na memória.</li>
+                <li><strong>Manipulação de Arquivos (fstream):</strong> Para ler e escrever dados em arquivos de texto.</li>
+                <li><strong>String Streams (sstream):</strong> Ferramenta crucial para analisar (parsear) linhas de texto lidas do arquivo.</li>
+                <li><strong>Funções:</strong> Organização do código em blocos lógicos e reutilizáveis.</li>
+                <li><strong>Fluxo de Controle:</strong> Loops e condicionais para a lógica do programa.</li>
+            </ul>
+        </div>
+
+        <div id="estrutura-imovel" class="tab-content">
+            <h2>Estrutura `Imovel`</h2>
+            <p>A base de todo o sistema é a estrutura `Imovel`. Ela define todos os atributos que um imóvel pode ter, essencialmente atuando como um "esquema" para cada registro de imóvel no nosso banco de dados.</p>
+            <div class="code-block">
+                <pre><code>struct Imovel {
+    string tipo, finalidade, endereco, bairro, cidade;    // Informações básicas do imóvel
+    float area, valor, iptu;                              // Área, valor e IPTU do imóvel
+    int quartos, suites, banheiros, vagas;                // Quantidade de quartos, suítes, banheiros e vagas
+    bool cozinha, sala, varanda, areaServico;             // Presença de cômodos 
+    string piso, conservacao;                             // Tipo de piso e estado de conservação
+    bool armarios, arCondicionado, aquecedor, ventilador; // Características adicionais 
+};</code></pre>
+            </div>
+            <h3>Detalhes de Cada Atributo:</h3>
+            <ul>
+                <li><code>string tipo, finalidade, endereco, bairro, cidade;</code>
+                    <p>São do tipo <code>string</code>, ideais para armazenar informações textuais como "casa", "apartamento", "venda", "aluguel", o endereço completo, o bairro e a cidade. Não há um limite fixo de caracteres, o que é flexível.</p>
+                </li>
+                <li><code>float area, valor, iptu;</code>
+                    <p>São do tipo <code>float</code>, permitindo armazenar números decimais. Usados para a área do imóvel em metros quadrados, o valor de venda/aluguel e o valor do IPTU. É importante usar <code>float</code> (ou <code>double</code> para maior precisão) para valores que podem ter casas decimais.</p>
+                </li>
+                <li><code>int quartos, suites, banheiros, vagas;</code>
+                    <p>São do tipo <code>int</code>, usados para armazenar contagens inteiras. Representam a quantidade de quartos, suítes, banheiros e vagas de garagem. Esses valores geralmente não têm frações, por isso <code>int</code> é o tipo apropriado.</p>
+                </li>
+                <li><code>bool cozinha, sala, varanda, areaServico;</code>
+                    <p>São do tipo <code>bool</code> (booleano), que armazena apenas dois estados: <code>true</code> (verdadeiro) ou <code>false</code> (falso). No nosso arquivo de texto, esses são representados por "sim" ou "não". São usados para indicar a presença ou ausência de certos cômodos ou características no imóvel.</p>
+                </li>
+                <li><code>string piso, conservacao;</code>
+                    <p>Também são do tipo <code>string</code>, para armazenar descrições textuais sobre o tipo de piso (ex: "cerâmica", "madeira") e o estado de conservação do imóvel (ex: "bom", "ruim", "excelente").</p>
+                </li>
+                <li><code>bool armarios, arCondicionado, aquecedor, ventilador;</code>
+                    <p>Similar aos outros campos <code>bool</code>, representam a presença de características adicionais como armários embutidos, ar-condicionado, aquecedor e ventilador. No arquivo, são lidos como "sim" ou "não" e convertidos para <code>true</code> ou <code>false</code>.</p>
+                </li>
+            </ul>
+        </div>
+
+        <div id="stringstream" class="tab-content">
+            <h2>Entendendo o Stringstream (`&lt;sstream&gt;`)</h2>
+            <p>O <code>&lt;sstream&gt;</code> é uma biblioteca poderosa em C++ que permite tratar strings como se fossem streams de entrada ou saída, similar ao <code>cin</code> e <code>cout</code>. Isso é extremamente útil para <strong>analisar (parsear)</strong> dados de uma string ou para <strong>construir</strong> uma string formatada.</p>
+            <h3>Como Funciona o Stringstream na Função `carregarImoveis()`:</h3>
+            <p>No nosso programa, o <code>stringstream</code> é vital para ler as linhas do arquivo <code>BD_Imoveis2.txt</code>. Cada linha contém múltiplos dados (tipo, finalidade, endereço, valor, etc.) separados por espaços. O <code>stringstream</code> nos permite extrair esses dados de forma sequencial e com a conversão de tipo automática.</p>
+            <div class="code-block">
+                <pre><code>// Exemplo de uma linha do arquivo:
+// casa venda rua_silva centro cidade_a 120.5 250000 3 1 2 2 sim sim nao sim ceramica bom sim nao sim nao
+
+while (getline(arquivo, linha) && totalImoveis &lt; MAX_IMOVEIS) {
+    <span class="highlight">stringstream ss(linha);</span> // 1. Cria um stringstream a partir da linha
+    Imovel& im = imoveis[totalImoveis]; 
+
+    <span class="highlight">ss >> im.tipo;</span> // 2. Extrai o primeiro dado (tipo)
+    if (im.tipo == "fim") break; 
+    <span class="highlight">ss >> im.finalidade >> im.endereco >> im.bairro >> im.cidade;</span> // 3. Extrai mais strings
+    <span class="highlight">ss >> im.area >> im.valor >> im.iptu;</span> // 4. Extrai floats
+    <span class="highlight">ss >> im.quartos >> im.suites >> im.banheiros >> im.vagas;</span> // 5. Extrai ints
+
+    string temp; 
+    <span class="highlight">ss >> temp; im.cozinha = (temp == "sim");</span> // 6. Extrai "sim"/"não" e converte para bool
+    // ... e assim por diante para os outros campos booleanos e strings.
+    totalImoveis++;
+}</code></pre>
+            </div>
+            <h3>Explicação Detalhada do `ss` para o Professor:</h3>
+            <ul>
+                <li><code>stringstream ss(linha);</code>
+                    <p>Esta é a linha chave! Ela pega toda a string <code>linha</code> (que contém uma linha completa de dados do arquivo, como "casa venda rua_silva...") e a transforma em um "fluxo" de dados. Pense nisso como uma fita de áudio onde cada pedaço de informação é uma "música" separada por pausas (espaços em branco). O <code>stringstream</code> nos permite "tocar" essa fita e extrair cada música.</p>
+                </li>
+                <li><code>ss >> im.tipo;</code>
+                    <p>O operador <code>>></code> (operador de extração) é usado aqui. Ele lê o próximo "pedaço" de dados do <code>stringstream</code> (o nosso <code>ss</code>) até encontrar um espaço em branco e o armazena na variável <code>im.tipo</code>. O <code>stringstream</code> avança automaticamente para o próximo pedaço da linha. Se <code>im.tipo</code> for uma <code>string</code>, ele armazena o texto. Se for um tipo numérico (`float` ou `int`), ele tenta converter o texto para esse número.</p>
+                </li>
+                <li><code>ss >> im.finalidade >> im.endereco >> im.bairro >> im.cidade;</code>
+                    <p>Podemos encadear o operador <code>>></code> para extrair múltiplos valores sequencialmente. O <code>stringstream</code> "lembra" onde parou na linha e continua lendo o próximo dado para cada variável, um após o outro, separados por espaços.</p>
+                </li>
+                <li><code>ss >> temp; im.cozinha = (temp == "sim");</code>
+                    <p>Para os campos booleanos (`bool`), como <code>cozinha</code>, não podemos ler diretamente "sim" ou "não" para um <code>bool</code>. Então, primeiro lemos a palavra ("sim" ou "não") para uma variável temporária do tipo <code>string</code> (<code>temp</code>). Em seguida, usamos a expressão `(temp == "sim")`. Se <code>temp</code> for "sim", essa expressão resulta em `true`, que é então atribuído a `im.cozinha`. Caso contrário, resulta em `false`.</p>
+                </li>
+            </ul>
+
+            <h3>Como Funciona o Stringstream na Função `salvarImoveis()`:</h3>
+            <p>Embora <code>stringstream</code> não seja usado diretamente na `salvarImoveis` para *montar* a string (usamos `ofstream` diretamente), o conceito de escrever dados formatados com espaços é similar. Para fins de explicação, você pode mencionar o conceito oposto de inserção:</p>
+            <div class="code-block">
+                <pre><code>// Dentro da função salvarImoveis()
+for (int i = 0; i < totalImoveis; ++i) {
+    Imovel& im = imoveis[i];
+    // Operador '<<' (inserção) escreve os dados no arquivo, com espaços.
+    arquivo << im.tipo << ' ' << im.finalidade << ' ' << im.endereco << ' ' << im.bairro << ' ' << im.cidade << ' ';
+    arquivo << im.area << ' ' << im.valor << ' ' << im.iptu << ' ';
+    // ... e converte booleanos de volta para "sim" ou "não"
+    arquivo << (im.cozinha ? "sim" : "não") << ' '; 
+    // ...
+    arquivo << '\n'; // Quebra de linha para o próximo imóvel
+}</code></pre>
+            </div>
+            <p><strong>Para o professor:</strong> "Enquanto na leitura usamos `>>` para extrair, na escrita (`salvarImoveis`), usamos o operador `<<` (operador de inserção) diretamente no objeto `ofstream` (`arquivo`). Ele funciona de forma análoga, pegando os valores de cada atributo do imóvel e os escrevendo no arquivo, intercalando com espaços `' '` para que os dados possam ser facilmente lidos de volta pelo `stringstream` depois. Para os booleanos, usamos um operador ternário `(condicao ? 'se_verdadeiro' : 'se_falso')` para converter `true` em 'sim' e `false` em 'não' antes de escrever no arquivo."</p>
+        </div>
+
+        <div id="funcoes-principais" class="tab-content">
+            <h2>Funções Principais</h2>
+            <p>O programa é modularizado em diversas funções, cada uma com uma responsabilidade específica.</p>
+
+            <h3><code>carregarImoveis(const string& nomeArquivo)</code></h3>
+            <p>Esta função é a primeira a ser chamada no `main()`. Ela é responsável por ler os dados dos imóveis do arquivo de texto (`BD_Imoveis2.txt`) e carregá-los para a memória (o array `imoveis`).</p>
+            <ul>
+                <li><strong><code>ifstream arquivo(nomeArquivo);</code>:</strong> Abre o arquivo especificado para leitura. `ifstream` é a classe para entrada de arquivo.</li>
+                <li><strong><code>if (!arquivo.is_open())</code>:</strong> Verifica se o arquivo foi aberto com sucesso. Se não for encontrado, ele notifica o usuário e o programa continua com um banco de dados vazio.</li>
+                <li><strong><code>getline(arquivo, linha);</code>:</strong> Lê uma linha completa do arquivo. A primeira linha geralmente é ignorada (cabeçalho).</li>
+                <li><strong>Loop <code>while (getline(arquivo, linha) && totalImoveis < MAX_IMOVEIS)</code>:</strong> Continua lendo linha por linha até o final do arquivo ou até atingir o limite `MAX_IMOVEis`.</li>
+                <li><strong>Uso de <code>stringstream ss(linha);</code> e <code>ss >> ...</code>:</strong> Como explicado na seção anterior, é aqui que cada linha é parseada e os dados são atribuídos aos membros da estrutura `Imovel`.</li>
+                <li><strong><code>arquivo.close();</code>:</strong> Fecha o arquivo após a leitura. Essencial para liberar recursos.</li>
+            </ul>
+
+            <h3><code>salvarImoveis(const string& nomeArquivo)</code></h3>
+            <p>Esta função é crucial para a persistência dos dados. Ela é chamada antes do programa finalizar para escrever todas as informações dos imóveis que estão na memória de volta para o arquivo.</p>
+            <ul>
+                <li><strong><code>ofstream arquivo(nomeArquivo);</code>:</strong> Abre o arquivo especificado para escrita. `ofstream` é a classe para saída de arquivo. Se o arquivo não existir, ele será criado. Se existir, seu conteúdo será sobrescrito.</li>
+                <li><strong><code>if (!arquivo.is_open())</code>:</strong> Verifica se o arquivo foi aberto para escrita com sucesso.</li>
+                <li><strong><code>arquivo << "tipo finalidade ...\n";</code>:</strong> Escreve uma linha de cabeçalho no início do arquivo, o que ajuda na legibilidade e na depuração.</li>
+                <li><strong>Loop <code>for (int i = 0; i < totalImoveis; ++i)</code>:</strong> Itera sobre todos os imóveis atualmente no array `imoveis`.</li>
+                <li><strong><code>arquivo << im.tipo << ' ' << im.finalidade << ' ' << ... << '\n';</code>:</strong> Para cada imóvel, os dados de seus atributos são escritos no arquivo, separados por espaços, e uma quebra de linha `\n` é adicionada para o próximo imóvel. Os booleanos são convertidos para "sim" ou "não" (`(im.cozinha ? "sim" : "não")`).</li>
+                <li><strong><code>arquivo << "fim" << endl;</code>:</strong> Adiciona um marcador "fim" no final do arquivo, que é usado por `carregarImoveis` para saber quando parar de ler.</li>
+                <li><strong><code>arquivo.close();</code>:</strong> Fecha o arquivo, garantindo que todos os dados sejam gravados e liberando o recurso.</li>
+            </ul>
+
+            <h3><code>excluir(int indice)</code></h3>
+            <p>Remove um imóvel do array `imoveis` em um determinado índice. Esta função demonstra uma operação comum em estruturas de dados baseadas em arrays fixos.</p>
+            <div class="code-block">
+                <pre><code>void excluir(int indice) {
+    // Loop que começa do índice do imóvel a ser excluído até o penúltimo imóvel.
+    for (int i = indice; i < totalImoveis - 1; ++i)
+        <span class="highlight">imoveis[i] = imoveis[i + 1];</span> // Copia o imóvel da próxima posição para a posição atual, "movendo" todos os imóveis para a esquerda.
+    totalImoveis--; // Decrementa o contador total de imóveis.
+}</code></pre>
+            </div>
+            <p><strong>Explicação Detalhada:</strong> "A função `excluir(int indice)` é responsável por remover um imóvel do nosso array `imoveis`. É importante notar que em C++ com arrays estáticos, não há uma função 'remover' nativa que redimensione o array. Em vez disso, a exclusão é lógica: nós 'movemos' os elementos subsequentes uma posição para a esquerda para 'cobrir o buraco' deixado pelo elemento excluído. O loop `for` faz exatamente isso: ele pega o imóvel que está no índice `i + 1` e o copia para a posição `i`, efetivamente sobrescrevendo o imóvel que queremos excluir e deslocando todos os outros. Por fim, `totalImoveis--` diminui o contador para que o último elemento duplicado não seja mais considerado parte do nosso banco de dados."</p>
+
+            <button class="btn-demo" onclick="runExclusionDemo()">Ver Demonstração de Exclusão</button>
+            <div id="exclusionDemoOutput" class="exclusion-demo">
+                <h3>Demonstração da Exclusão:</h3>
+                <p>Array Original:</p>
+                <div id="originalArray" class="data-array"></div>
+                <p>Após Excluir Índice 1 (Casa B):</p>
+                <div id="modifiedArray" class="data-array"></div>
+                <p id="exclusionResult"></p>
+            </div>
+
+            <h3><code>incluirImovel()</code></h3>
+            <p>Solicita ao usuário os dados de um novo imóvel e o adiciona ao array `imoveis`. Esta função faz uso extensivo de validação de entrada.</p>
+            <ul>
+                <li><strong>Validação de Entrada:</strong> Utiliza loops `do-while` para garantir que o usuário insira dados válidos (ex: valores numéricos positivos para área, valor, IPTU, etc.).</li>
+                <li><strong><code>getline(cin >> ws, im.endereco);</code>:</strong> O <code>cin >> ws</code> é uma técnica para limpar o buffer de entrada antes de ler uma linha com espaços, evitando que um `\n` remanescente de uma leitura anterior cause problemas.</li>
+                <li><strong>Conversão de "sim"/"não" para `bool`:</strong> Semelhante à leitura do arquivo, ele converte as entradas do usuário "sim"/"não" para `true`/`false`.</li>
+                <li><strong><code>totalImoveis++;</code>:</strong> Incrementa o contador após adicionar o novo imóvel.</li>
+            </ul>
+
+            <h3>Funções de Busca (`buscarPorRua()`, `buscarPorFaixaValor()`, `buscarPorCaracteristicas()`, `buscarPorQuartosSuites()`)</h3>
+            <p>Todas as funções de busca seguem um padrão similar: elas iteram sobre o array `imoveis` e aplicam um critério de filtro específico para cada busca.</p>
+            <ul>
+                <li><strong>Loop de Iteração:</strong> Em todas elas, um loop `for (int i = 0; i < totalImoveis; ++i)` é usado para percorrer cada imóvel no array.</li>
+                <li><strong>Critérios de Filtro:</strong>
+                    <ul>
+                        <li><code>buscarPorRua()</code>: Compara o endereço digitado pelo usuário (usando `enderecoBuscado == im.endereco`).</li>
+                        <li><code>buscarPorFaixaValor()</code>: Verifica se o `valor` do imóvel está entre os limites mínimo e máximo fornecidos pelo usuário (`im.valor >= valorMin && im.valor <= valorMax`).</li>
+                        <li><code>buscarPorCaracteristicas()</code>: Verifica múltiplas condições booleanas (ex: `im.armarios && im.arCondicionado`).</li>
+                        <li><code>buscarPorQuartosSuites()</code>: Compara a quantidade de quartos e suítes (`im.quartos >= minQuartos && im.suites >= minSuites`).</li>
+                    </ul>
+                </li>
+                <li><strong>Exibição dos Resultados:</strong> Se um imóvel corresponde aos critérios, suas informações são exibidas na tela.</li>
+                <li><strong>Opção de Excluir:</strong> Em `buscarPorRua()`, após encontrar um imóvel, o usuário tem a opção de excluí-lo.</li>
+            </ul>
+
+            <h3><code>gerarEstatisticas()</code></h3>
+            <p>Calcula e exibe diversas estatísticas sobre os imóveis cadastrados. Demonstra como aggregated data can be derived from the stored records.</p>
+            <ul>
+                <li><strong>Contadores:</strong> Utiliza várias variáveis `int` para contar diferentes categorias de imóveis (ex: `venda`, `locacao`, `temporada`, `casasComSuite`).</li>
+                <li><strong>Cálculo de Porcentagens:</strong> As porcentagens são calculadas dividindo a contagem da categoria pelo total relevante (ex: `(float)casasComSuite / totalCasas * 100`). O `(float)` é um *cast* para garantir que a divisão seja de ponto flutuante e o resultado não seja truncado.</li>
+                <li><strong>Formatação de Saída:</strong> Usa `iomanip` com `fixed` e `setprecision(2)` para garantir que valores numéricos (especialmente monetários e porcentagens) sejam exibidos com duas casas decimais, o que é ideal para apresentação.</li>
+            </ul>
+        </div>
+
+        <div id="fluxo-programa" class="tab-content">
+            <h2>Fluxo Completo do Programa</h2>
+            <p>Compreender o fluxo de execução é fundamental para entender como as partes do sistema interagem. O programa segue uma sequência lógica desde o seu início até o seu término.</p>
+            <div class="diagram">
+                <div class="node">Início do Programa (<code>main()</code>)</div>
+                <div class="arrow"></div>
+                <div class="node">Chama <code>carregarImoveis("BD_Imoveis2.txt")</code><br><em>(Carrega dados do arquivo para a memória)</em></div>
+                <div class="arrow"></div>
+                <div class="node">Loop Principal do <code>menu()</code><br><em>(Exibe opções ao usuário)</em></div>
+                <div class="arrow"></div>
+                <div class="node">Usuário Escolhe uma Opção<br><em>(Ex: Incluir, Buscar, Excluir, Estatísticas)</em></div>
+                <div class="arrow"></div>
+                <div class="node">Chama a Função Correspondente<br><em>(Ex: <code>incluirImovel()</code>, <code>buscarPorRua()</code>, <code>gerarEstatisticas()</code>)</div>
+                <div class="arrow"></div>
+                <div class="node">Executa a Operação Solicitada</div>
+                <div class="arrow"></div>
+                <div class="node">Retorna ao <code>menu()</code><br><em>(Loop Continua...)</em></div>
+                <div class="arrow"></div>
+                <div class="node">Usuário Escolhe Sair (Opção 0)</div>
+                <div class="arrow"></div>
+                <div class="node">Chama <code>salvarImoveis("BD_Imoveis2.txt")</code><br><em>(Salva dados da memória de volta no arquivo)</em></div>
+                <div class="arrow"></div>
+                <div class="node">Fim do Programa</div>
+            </div>
+            <p><strong>Para o Professor:</strong> "O programa inicia em `main()`, onde a primeira ação é chamar `carregarImoveis()` para carregar os dados persistidos do arquivo `BD_Imoveis2.txt` para a memória. Em seguida, entramos no coração do programa: o loop principal da função `menu()`. Este loop continua a exibir opções ao usuário (incluir, buscar, excluir, etc.) até que ele decida sair. Cada opção de menu chama uma função específica que realiza a operação desejada. É importante notar que todas as operações trabalham diretamente com o array de imóveis na memória. Somente quando o usuário escolhe a opção de sair (0), a função `salvarImoveis()` é invocada para persistir todas as alterações feitas no banco de dados, escrevendo-as de volta no arquivo. Isso garante que os dados não sejam perdidos ao fechar o programa."</p>
+        </div>
+
+        <div id="recursos-adicionais" class="tab-content">
+            <h2>Recursos Adicionais para Estudo</h2>
+            <p>Para aprofundar seu conhecimento em C++ e nas bibliotecas usadas neste projeto, recomendamos os seguintes recursos:</p>
+            <ul class="resources-list">
+                <li><a href="https://en.cppreference.com/w/cpp/io/basic_iostream" target="_blank">Documentação C++: iostream</a> - Para entrada e saída padrão (<code>cin</code>, <code>cout</code>).</li>
+                <li><a href="https://en.cppreference.com/w/cpp/io/basic_fstream" target="_blank">Documentação C++: fstream</a> - Para manipulação de arquivos (<code>ifstream</code>, <code>ofstream</code>).</li>
+                <li><a href="https://en.cppreference.com/w/cpp/io/basic_stringstream" target="_blank">Documentação C++: sstream</a> - Para manipulação de strings como streams (<code>stringstream</code>).</li>
+                <li><a href="https://www.learncpp.com/" target="_blank">LearnCpp.com</a> - Um excelente recurso online para aprender C++ do básico ao avançado.</li>
+                <li><a href="https://www.udemy.com/course/complete-cpp-developer/" target="_blank">The Complete C++ Developer Course (Udemy)</a> - (Pode ser pago, mas é um bom exemplo de curso) Um curso abrangente para desenvolvimento em C++.</li>
+                <li>Livros: "C++ Primer" de Stanley B. Lippman, Josée Lajoie, e Barbara E. Moo ou "Programming: Principles and Practice Using C++" de Bjarne Stroustrup (criador do C++).</li>
+            </ul>
+        </div>
+
+        <div id="quiz" class="tab-content">
+            <h2>Quiz Rápido</h2>
+            <div class="quiz-section">
+                <p class="quiz-question">1. Qual biblioteca é usada para manipular strings como fluxos de entrada/saída em C++?</p>
+                <div class="quiz-options">
+                    <button class="quiz-btn" onclick="checkAnswer(this, false)"><code>&lt;iostream&gt;</code></button>
+                    <button class="quiz-btn" onclick="checkAnswer(this, true)"><code>&lt;sstream&gt;</code></button>
+                    <button class="quiz-btn" onclick="checkAnswer(this, false)"><code>&lt;fstream&gt;</code></button>
+                    <button class="quiz-btn" onclick="checkAnswer(this, false)"><code>&lt;string&gt;</code></button>
+                </div>
+            </div>
+
+            <div class="quiz-section">
+                <p class="quiz-question">2. O que o operador <code>>></code> faz em um <code>stringstream</code>?</p>
+                <div class="quiz-options">
+                    <button class="quiz-btn" onclick="checkAnswer(this, false)">Insere dados no stream</button>
+                    <button class="quiz-btn" onclick="checkAnswer(this, true)">Extrai dados do stream</button>
+                    <button class="quiz-btn" onclick="checkAnswer(this, false)">Compara dois streams</button>
+                    <button class="quiz-btn" onclick="checkAnswer(this, false)">Limpa o stream</button>
+                </div>
+            </div>
+
+            <div class="quiz-section">
+                <p class="quiz-question">3. Qual é a principal finalidade das funções <code>carregarImoveis</code> e <code>salvarImoveis</code>?</p>
+                <div class="quiz-options">
+                    <button class="quiz-btn" onclick="checkAnswer(this, false)">Apenas exibir dados no console</button>
+                    <button class="quiz-btn" onclick="checkAnswer(this, false)">Realizar cálculos matemáticos</button>
+                    <button class="quiz-btn" onclick="checkAnswer(this, true)">Garantir a persistência dos dados</button>
+                    <button class="quiz-btn" onclick="checkAnswer(this, false)">Definir a estrutura do imóvel</button>
+                </div>
+            </div>
+
+            <div class="quiz-section">
+                <p class="quiz-question">4. Na função <code>excluir()</code>, como um imóvel é removido de um array estático?</p>
+                <div class="quiz-options">
+                    <button class="quiz-btn" onclick="checkAnswer(this, false)">O imóvel é fisicamente apagado da memória.</button>
+                    <button class="quiz-btn" onclick="checkAnswer(this, true)">Os imóveis seguintes são movidos para cobrir o espaço.</button>
+                    <button class="quiz-btn" onclick="checkAnswer(this, false)">O array é redimensionado automaticamente.</button>
+                    <button class="quiz-btn" onclick="checkAnswer(this, false)">O imóvel é apenas marcado como "inativo".</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+                tabcontent[i].classList.remove('active');
+            }
+            tablinks = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            setTimeout(() => {
+                document.getElementById(tabName).classList.add('active');
+            }, 50); // Small delay for animation
+            evt.currentTarget.className += " active";
+        }
+
+        // Abrir a primeira aba por padrão
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelector(".tab-button").click();
+        });
+
+        function runExclusionDemo() {
+            const originalArrayDiv = document.getElementById('originalArray');
+            const modifiedArrayDiv = document.getElementById('modifiedArray');
+            const resultParagraph = document.getElementById('exclusionResult');
+
+            originalArrayDiv.innerHTML = `
+                <div class="data-box">Casa A</div>
+                <div class="data-box">Casa B</div>
+                <div class="data-box">Casa C</div>
+                <div class="data-box">Casa D</div>
+            `;
+            modifiedArrayDiv.innerHTML = `
+                <div class="data-box">Casa A</div>
+                <div class="data-box removed">Casa B</div>
+                <div class="data-box">Casa C</div>
+                <div class="data-box">Casa D</div>
+            `;
+
+            setTimeout(() => {
+                modifiedArrayDiv.innerHTML = `
+                    <div class="data-box">Casa A</div>
+                    <div class="data-box moved">Casa C</div>
+                    <div class="data-box moved">Casa D</div>
+                    <div class="data-box"></div> `;
+                resultParagraph.innerHTML = '<strong>Resultado:</strong> Casa C e D se moveram para cobrir o espaço da Casa B! O `totalImoveis` seria decrementado, ignorando o último elemento.';
+            }, 1000);
+        }
+
+        function checkAnswer(button, isCorrect) {
+            const buttons = button.parentElement.querySelectorAll('.quiz-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('correct', 'wrong');
+                if (btn === button) {
+                    btn.classList.add(isCorrect ? 'correct' : 'wrong');
+                }
+            });
+            
+            // Remove previous checkmarks and add new one
+            buttons.forEach(btn => {
+                btn.innerHTML = btn.innerHTML.replace(' ✅', '').replace(' ❌', '');
+            });
+
+            if (isCorrect) {
+                button.innerHTML += ' ✅';
+            } else {
+                button.innerHTML += ' ❌';
+            }
+        }
+
+        // Animações suaves ao carregar
+        window.addEventListener('load', () => {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(50px)';
+                    card.style.transition = 'all 0.5s ease';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>
