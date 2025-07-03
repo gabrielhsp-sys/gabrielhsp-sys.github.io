@@ -4,93 +4,118 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Imóveis C++ - Explicação Completa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* NOVA ESTÉTICA PARA COMBINAR COM O PORTFÓLIO */
+        :root {
+            --bg-color: #0A192F;
+            --surface-color: #112240;
+            --text-primary: #CCD6F6;
+            --text-secondary: #8892B0;
+            --accent-cyan: #64FFDA;
+            --accent-blue: #57CBFF;
+            --accent-purple: #8c78f7;
+            --font-sans: 'Inter', sans-serif;
+            --font-body: 'Lato', sans-serif;
+            --font-mono: 'Roboto Mono', monospace;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
-            overflow-x: hidden;
+            background-color: var(--bg-color);
+            color: var(--text-secondary);
+            font-family: var(--font-body);
+            line-height: 1.7;
+            padding-bottom: 50px;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
         }
 
         .header {
             text-align: center;
-            padding: 60px 0;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            padding: 80px 20px 60px 20px;
+            margin-bottom: 40px;
         }
 
         .header h1 {
-            color: #fff;
-            font-size: 3.5em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            margin-bottom: 10px;
+            color: var(--text-primary);
+            font-size: 2.8em;
+            font-family: var(--font-sans);
+            font-weight: 800;
+            margin-bottom: 15px;
         }
 
         .header p {
-            color: #e0e0e0;
-            font-size: 1.2em;
+            color: var(--text-secondary);
+            font-size: 1.1em;
             max-width: 800px;
             margin: 0 auto;
+        }
+        
+        .header p strong {
+            color: var(--accent-cyan);
+            font-weight: 500;
         }
 
         .tabs {
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
-            margin-bottom: 30px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
+            margin-bottom: 40px;
+            gap: 10px;
             padding: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            background-color: var(--surface-color);
+            border-radius: 8px;
         }
 
         .tab-button {
-            background: none;
-            border: none;
-            padding: 15px 25px;
-            font-size: 1.1em;
-            color: #fff;
+            background: transparent;
+            border: 1px solid var(--surface-color);
+            padding: 12px 20px;
+            font-size: 0.9em;
+            font-family: var(--font-sans);
+            color: var(--text-secondary);
             cursor: pointer;
             transition: all 0.3s ease;
-            border-radius: 10px;
-            margin: 0 5px;
-            flex-grow: 1;
+            border-radius: 6px;
         }
 
         .tab-button:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: var(--bg-color);
+            color: var(--accent-purple);
         }
 
         .tab-button.active {
-            background: #fff;
-            color: #667eea;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            background: var(--accent-purple);
+            color: #fff;
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 15px rgba(140, 120, 247, 0.3);
         }
 
         .tab-content {
-            background: #fff;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
-            min-height: 500px;
+            background: var(--surface-color);
+            padding: 30px 40px;
+            border-radius: 8px;
+            border: 1px solid var(--bg-color);
             display: none;
             opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transform: translateY(10px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
         }
 
         .tab-content.active {
@@ -99,108 +124,119 @@
             transform: translateY(0);
         }
 
+        .tab-content h2, .tab-content h3 {
+            font-family: var(--font-sans);
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
         .tab-content h2 {
-            color: #667eea;
+            font-size: 2em;
             margin-bottom: 25px;
-            font-size: 2.2em;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--bg-color);
+            color: var(--accent-cyan);
         }
 
         .tab-content h3 {
-            color: #764ba2;
+            font-size: 1.4em;
             margin-top: 30px;
             margin-bottom: 15px;
-            font-size: 1.6em;
         }
 
         .tab-content p {
             line-height: 1.8;
             margin-bottom: 15px;
-            font-size: 1.1em;
-            color: #555;
+            font-size: 1.05em;
         }
 
         .tab-content ul {
-            list-style-type: disc;
-            margin-left: 25px;
+            list-style-type: none;
+            margin-left: 0;
+            padding-left: 0;
             margin-bottom: 15px;
-            color: #555;
         }
 
         .tab-content ul li {
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             line-height: 1.6;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .tab-content ul li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--accent-cyan);
         }
 
         .code-block {
-            background: #f4f4f4;
-            border-left: 5px solid #764ba2;
+            background: var(--bg-color);
+            border-left: 3px solid var(--accent-purple);
             padding: 15px;
             margin: 20px 0;
             overflow-x: auto;
-            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-            font-size: 0.95em;
-            color: #333;
-            border-radius: 8px;
-            box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.05);
-        }
-
-        .code-block pre {
-            margin: 0;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            border-radius: 4px;
         }
 
         .highlight {
-            background-color: #e6ffe6;
-            padding: 2px 5px;
-            border-radius: 3px;
+            color: var(--accent-cyan);
+            font-weight: bold;
         }
-
+        
+        /* Estilos dos outros elementos mantidos e adaptados */
         .btn-demo {
-            background-color: #667eea;
-            color: white;
-            padding: 12px 25px;
-            border: none;
+            display: inline-block;
+            padding: 0.9rem 2rem;
+            text-decoration: none;
             border-radius: 8px;
+            font-weight: 700;
+            font-family: var(--font-sans);
+            color: var(--text-primary);
+            background-image: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            border: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             cursor: pointer;
-            font-size: 1.1em;
-            transition: background-color 0.3s ease, transform 0.2s ease;
             margin-top: 20px;
-            display: block;
-            width: fit-content;
         }
 
         .btn-demo:hover {
-            background-color: #5a6edb;
-            transform: translateY(-2px);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(140, 120, 247, 0.3);
         }
-
-        .demo-output {
+        
+        .demo-output, .exclusion-demo {
             margin-top: 20px;
             padding: 20px;
-            background-color: #eef;
-            border: 1px solid #ccd;
+            background-color: var(--bg-color);
+            border: 1px solid var(--surface-color);
             border-radius: 8px;
-            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-            color: #333;
-            min-height: 50px;
+            font-family: 'Roboto Mono', monospace;
         }
-
+        
         .diagram {
             display: flex;
             flex-direction: column;
             align-items: center;
             margin: 30px 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+            border-radius: 8px;
         }
 
         .node {
-            background-color: #e0f2f7;
-            border: 2px solid #2196f3;
-            border-radius: 10px;
+            background-color: var(--surface-color);
+            border: 2px solid var(--accent-blue);
+            border-radius: 8px;
             padding: 15px 25px;
             margin: 15px 0;
             font-weight: bold;
-            color: #2196f3;
+            color: var(--text-primary);
             text-align: center;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
@@ -210,7 +246,7 @@
 
         .node:hover {
             transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            border-color: var(--accent-cyan);
         }
 
         .arrow {
@@ -218,69 +254,43 @@
             height: 0;
             border-left: 10px solid transparent;
             border-right: 10px solid transparent;
-            border-top: 20px solid #2196f3;
+            border-top: 20px solid var(--accent-blue);
             margin: 5px 0;
         }
-
+        
         .quiz-section {
-            background-color: #f9f9f9;
+            background-color: var(--bg-color);
             padding: 25px;
             border-radius: 15px;
             margin-top: 30px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--surface-color);
         }
-
+        
         .quiz-question {
             margin-bottom: 20px;
             font-size: 1.2em;
-            color: #444;
+            color: var(--text-primary);
         }
 
         .quiz-options button {
-            background-color: #a7b7e6;
-            color: white;
+            background-color: var(--surface-color);
+            color: var(--text-secondary);
             padding: 10px 20px;
-            border: none;
+            border: 1px solid var(--bg-color);
             border-radius: 5px;
             cursor: pointer;
             margin-right: 10px;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .quiz-options button:hover {
-            background-color: #8f9ddb;
-        }
-
-        .quiz-options button.correct {
-            background-color: #4CAF50; /* Green */
-        }
-
-        .quiz-options button.wrong {
-            background-color: #f44336; /* Red */
+            border-color: var(--accent-purple);
+            color: var(--accent-purple);
         }
         
-        .image-container {
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .image-container img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Demo Excluir */
-        .exclusion-demo {
-            margin-top: 20px;
-            padding: 20px;
-            background-color: #eef;
-            border: 1px solid #ccd;
-            border-radius: 8px;
-            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-            color: #333;
-        }
+        .quiz-options button.correct { background-color: #28a745; color: white; border-color: #28a745;}
+        .quiz-options button.wrong { background-color: #dc3545; color: white; border-color: #dc3545;}
+        
         .data-array {
             display: flex;
             gap: 10px;
@@ -288,39 +298,18 @@
             justify-content: center;
         }
         .data-box {
-            background-color: #667eea;
+            background-color: var(--accent-purple);
             color: white;
             padding: 10px 15px;
             border-radius: 5px;
             transition: all 0.5s ease;
         }
-        .data-box.removed {
-            background-color: #f44336;
-            transform: scale(0.8);
-            opacity: 0.5;
-        }
-        .data-box.moved {
-            background-color: #4CAF50;
-        }
-
-        .resources-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .resources-list li {
-            margin-bottom: 10px;
-        }
-
-        .resources-list li a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .resources-list li a:hover {
-            text-decoration: underline;
-        }
+        .data-box.removed { background-color: #dc3545; transform: scale(0.8); opacity: 0.5; }
+        .data-box.moved { background-color: #28a745; }
+        
+        .resources-list { list-style: none; padding: 0; }
+        .resources-list li a { color: var(--accent-cyan); text-decoration: none; font-weight: bold; }
+        .resources-list li a:hover { text-decoration: underline; }
 
     </style>
 </head>
@@ -329,7 +318,7 @@
         <header class="header">
             <h1>Sistema de Gerenciamento de Imóveis em C++</h1>
             <p>Uma explicação detalhada e interativa sobre as funcionalidades e o código-fonte.</p>
-            <p><strong>Autores:</strong> Gabriel Henrique Silva Pereira (RA: 2025.1.08.036) e Otávio de Oliveira (RA: 2025.1.08.034)</p>
+            <p><strong>Autores:</strong> Gabriel Henrique Silva Pereira e Otávio de Oliveira.</p>
         </header>
 
         <nav class="tabs">
