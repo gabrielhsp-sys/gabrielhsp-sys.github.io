@@ -472,8 +472,8 @@ body.menu-aberto .hamb i:nth-child(3){ transform:translateY(-6px) rotate(-45deg)
 .email-btn.mostra .copiado{ opacity:1; transform:translateX(-50%) translateY(-4px); }
 
 footer{ border-top:1px solid var(--line-soft); padding:30px 0 40px; }
-.foot-int{ display:flex; flex-wrap:wrap; gap:14px; align-items:center; justify-content:space-between;
-  font-size:.78rem; color:var(--ink-3); }
+.foot-int{ display:flex; flex-wrap:wrap; gap:14px; align-items:center; justify-content:center;
+  text-align:center; font-size:.78rem; color:var(--ink-3); }
 .foot-int a{ color:var(--ink-2); }
 .foot-int a:hover{ color:var(--amber); }
 
