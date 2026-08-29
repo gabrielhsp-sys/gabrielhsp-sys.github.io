@@ -130,13 +130,10 @@ python3 -m http.server 8000
 
 ```
 .
-├── index.html          # markup e conteúdo
-├── css/
-│   └── estilo.css      # tokens, componentes, seções, responsivo
-├── js/
-│   └── script.js       # boot, navegação, modais, terminal, jogo
-├── img/
-│   └── profile.jpg
+├── index.html      # markup e conteúdo
+├── estilo.css      # tokens, componentes, seções, responsivo
+├── script.js       # boot, navegação, modais, terminal, jogo
+├── profile.jpg
 └── README.md
 ```
 
