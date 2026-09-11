@@ -9,7 +9,7 @@ Um portfólio pessoal com cara de computador dos anos 90: sequência de boot, mo
   <img src="https://img.shields.io/badge/licença-MIT-B3A793?style=flat-square" alt="Licença">
 </p>
 
-**→ [gabriel-bcc.github.io](https://gabriel-bcc.github.io/)**
+**→ [gabrielhsp-sys.github.io](https://gabrielhsp-sys.github.io/)**
 
 <!-- Dica: tire um print do herói (1280x800), salve como docs/preview.png e descomente a linha abaixo.
      Um README de portfólio com screenshot converte muito melhor que um sem.
@@ -115,8 +115,8 @@ Tem histórico com `↑` e `↓`, autocompletar com `Tab` e sugestão quando voc
 Site estático — não tem build.
 
 ```bash
-git clone https://github.com/gabriel-bcc/gabriel-bcc.github.io.git
-cd gabriel-bcc.github.io
+git clone https://github.com/gabrielhsp-sys/gabrielhsp-sys.github.io.git
+cd gabrielhsp-sys.github.io
 ```
 
 Abra o `index.html` no navegador, ou sirva a pasta para evitar restrições de origem:
@@ -156,6 +156,6 @@ python3 -m http.server 8000
 
 **Gabriel Henrique Silva Pereira** — Ciência da Computação, UNIFAL-MG
 
-[LinkedIn](https://www.linkedin.com/in/gabrielhsp-dev/) · [GitHub](https://github.com/gabriel-bcc) · gabrielhspereira36@gmail.com
+[LinkedIn](https://www.linkedin.com/in/gabrielhsp-dev/) · [GitHub](https://github.com/gabrielhsp-sys) · gabrielhspereira36@gmail.com
 
 Licenciado sob MIT.
