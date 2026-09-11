@@ -378,13 +378,13 @@ COMANDOS.cv = { d: 'resumo', f: function () {
     '&nbsp;',
     '<span class="am">CONTATO</span>',
     '  ' + EMAIL,
-    '  github.com/gabriel-bcc · linkedin.com/in/gabrielhsp-dev'
+    '  github.com/gabrielhsp-sys · linkedin.com/in/gabrielhsp-dev'
   ]);
 }};
 
 COMANDOS.contato = { d: 'como falar comigo', f: function () {
   escreve('e-mail    <a href="mailto:' + EMAIL + '">' + EMAIL + '</a>');
-  escreve('github    <a href="https://github.com/gabriel-bcc" target="_blank" rel="noopener">github.com/gabriel-bcc</a>');
+  escreve('github    <a href="https://github.com/gabrielhsp-sys" target="_blank" rel="noopener">github.com/gabrielhsp-sys</a>');
   escreve('linkedin  <a href="https://www.linkedin.com/in/gabrielhsp-dev/" target="_blank" rel="noopener">linkedin.com/in/gabrielhsp-dev</a>');
   vazio();
   escreve('<span class="esc">Estou procurando estágio. Respondo rápido.</span>');
