@@ -53,11 +53,11 @@ export default function Home() {
           <Link href="/archive/">ver arquivo inteiro <ArrowRight size={17} /></Link>
         </div>
         <div className="record-list">
-          {items.slice(0, 5).map((item, index) => <RecordRow item={item} index={index} key={item.id} />)}
+          {items.slice(0, 3).map((item, index) => <RecordRow item={item} index={index} key={item.id} />)}
         </div>
       </section>
 
-      <section className="channel-section" aria-labelledby="channel-heading">
+      <section className="channel-section" id="canais" aria-labelledby="channel-heading">
         <div className="section-heading compact">
           <h2 id="channel-heading">Canais do arquivo</h2>
           <p>Seis entradas para a mesma história.</p>
