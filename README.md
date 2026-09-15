@@ -22,6 +22,8 @@ npm run dev
 
 Abra `http://localhost:3000`.
 
+O comando de desenvolvimento gera o índice de busca antes de iniciar o servidor.
+
 ## Verificar e gerar
 
 ```bash
@@ -32,7 +34,7 @@ O comando executa lint, testes de conteúdo e o build estático. O site pronto f
 
 ## Conteúdo
 
-Cada registro público é um `.md` ou `.mdx` em `content/public`. O frontmatter segue [`docs/content/SCHEMA.md`](docs/content/SCHEMA.md). Durante o build, `scripts/generate-search-index.mjs` cria um índice compacto em `public/search-index.json`.
+Cada registro público é um `.md` ou `.mdx` em `content/public`. O frontmatter segue [`docs/content/SCHEMA.md`](docs/content/SCHEMA.md). Antes do servidor local e durante o build, `scripts/generate-search-index.mjs` cria um índice compacto em `public/search-index.json`.
 
 Exemplo:
 
