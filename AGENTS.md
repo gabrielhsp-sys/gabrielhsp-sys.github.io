@@ -7,7 +7,7 @@ Antes de alterar produto, conteúdo ou interface, leia:
 - `docs/architecture/DECISIONS.md` — decisões técnicas e fronteira público/privado.
 - `docs/quality/QUALITY.md` — critérios de aceite.
 - `docs/design/HOME.md` — direção da superfície principal.
-- `docs/design/DESIGN.md` — sistema visual consolidado.
+- `DESIGN.md` — sistema visual consolidado; `docs/design/DESIGN.md` mantém o atalho documental.
 
 Regras que não podem ser quebradas:
 
