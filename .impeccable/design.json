@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-15T02:00:00Z",
+  "title": "Design System: GABRIEL.SYS",
+  "extensions": {
+    "colorMeta": {
+      "signal-amber": { "role": "primary", "displayName": "Âmbar de Gravação", "canonical": "#f0ab3c", "tonalRamp": ["#2b1c08", "#543611", "#80521a", "#aa6f25", "#d38d31", "#f0ab3c", "#f7cb83", "#fcebcf"] },
+      "channel-pink": { "role": "secondary", "displayName": "Rosa de Criação", "canonical": "#e76b91", "tonalRamp": ["#2a1119", "#522333", "#7c354c", "#a64a68", "#cb5b80", "#e76b91", "#f2a4ba", "#fbdde6"] },
+      "channel-mint": { "role": "secondary", "displayName": "Menta de Infraestrutura", "canonical": "#72c9a7", "tonalRamp": ["#10251d", "#1f4939", "#306d57", "#449176", "#5ab397", "#72c9a7", "#a9dfc9", "#dcf4ea"] },
+      "channel-violet": { "role": "tertiary", "displayName": "Violeta Acadêmico", "canonical": "#a291c6", "tonalRamp": ["#1e1928", "#3a3150", "#574a75", "#74649a", "#8e7db8", "#a291c6", "#c7bce0", "#ece7f5"] },
+      "warm-black": { "role": "neutral", "displayName": "Preto Quente", "canonical": "#0c0b0a", "tonalRamp": ["#0c0b0a", "#201d19", "#39342d", "#5d574d", "#827b6e", "#aaa394", "#d0c8b7", "#f3eddf"] },
+      "warm-ivory": { "role": "neutral", "displayName": "Marfim de Tela", "canonical": "#e9e0ca", "tonalRamp": ["#29261e", "#4e493b", "#756d59", "#9d947a", "#bdb49b", "#d5ccb4", "#e9e0ca", "#fbf7ed"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Tese", "purpose": "Uma frase dominante por superfície." },
+      "headline": { "displayName": "Seção", "purpose": "Títulos de seção e save focal." },
+      "body": { "displayName": "Leitura", "purpose": "Texto editorial em até 72 caracteres." },
+      "label": { "displayName": "Dado", "purpose": "Rotas, estados, datas e comandos." }
+    },
+    "shadows": [
+      { "name": "cartridge", "value": "0 24px 70px rgb(0 0 0 / .34)", "purpose": "Elevar o único save focal." },
+      { "name": "layer", "value": "0 30px 100px rgb(0 0 0 / .65)", "purpose": "Separar a busca modal do arquivo." },
+      { "name": "terminal", "value": "0 30px 90px rgb(0 0 0 / .6)", "purpose": "Elevar a camada terminal opcional." }
+    ],
+    "motion": [
+      { "name": "ease-out-authored", "value": "cubic-bezier(.16, 1, .3, 1)", "purpose": "Entrada curta de save, busca e terminal." },
+      { "name": "state-fast", "value": "200ms ease", "purpose": "Hover e mudança direta de estado." },
+      { "name": "reduced", "value": "0.01ms", "purpose": "Neutralizar movimento quando solicitado pelo sistema." }
+    ],
+    "breakpoints": [
+      { "name": "stack-opening", "value": "1180px" },
+      { "name": "mobile-dock", "value": "820px" },
+      { "name": "compact-phone", "value": "520px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Search Trigger",
+      "kind": "button",
+      "refersTo": "search-trigger",
+      "description": "Abre a busca central sem competir com o conteúdo.",
+      "html": "<button class=\"ds-search-trigger\"><span>⌕</span><b>Procurar no arquivo</b><kbd>Ctrl K</kbd></button>",
+      "css": ".ds-search-trigger{height:40px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;padding:0 10px 0 13px;border:1px solid var(--line,#39342d);border-radius:5px;background:var(--ink-2,#151311);color:var(--paper-dim,#b8b09f);font-family:'Bricolage Grotesque',sans-serif}.ds-search-trigger:hover{border-color:var(--paper-faint,#9b9487);color:var(--paper,#e9e0ca)}.ds-search-trigger:focus-visible{outline:2px solid var(--amber,#f0ab3c);outline-offset:4px}.ds-search-trigger kbd{font-family:'IBM Plex Mono',monospace;font-size:10px}"
+    },
+    {
+      "name": "Selected Filter",
+      "kind": "chip",
+      "refersTo": "filter-chip",
+      "description": "Filtro compacto com estado selecionado explícito.",
+      "html": "<button class=\"ds-filter\" aria-pressed=\"true\">/CODE</button>",
+      "css": ".ds-filter{min-height:44px;padding:5px 8px;border:1px solid #9f6421;border-radius:3px;background:rgb(240 171 60/.08);color:#f0ab3c;font:600 9px 'IBM Plex Mono',monospace}.ds-filter:hover{color:#e9e0ca}.ds-filter:focus-visible{outline:2px solid #f0ab3c;outline-offset:4px}"
+    },
+    {
+      "name": "Save Cartridge",
+      "kind": "custom",
+      "refersTo": "save-container",
+      "description": "O único contêiner focal com silhueta de cartucho.",
+      "html": "<article class=\"ds-save\"><small>NOW PLAYING · SLOT_A</small><h2>Este arquivo vivo</h2><p>Um sistema que acumula contexto.</p></article>",
+      "css": ".ds-save{padding:34px;border:1px solid #9b9487;border-radius:13px 13px 5px 5px;background:#151311;color:#e9e0ca;box-shadow:0 24px 70px rgb(0 0 0/.34);font-family:'Bricolage Grotesque',sans-serif}.ds-save small{color:#f0ab3c;font:600 10px 'IBM Plex Mono',monospace}.ds-save h2{font-size:42px;line-height:.98;letter-spacing:-.035em}.ds-save p{color:#b8b09f}"
+    },
+    {
+      "name": "Record Row",
+      "kind": "custom",
+      "refersTo": "record-row",
+      "description": "Linha editorial que substitui grades de cards.",
+      "html": "<a class=\"ds-record\" href=\"#\"><small>/CODE · PLAYING</small><strong>Academic System</strong><span>Sistema acadêmico em Java.</span></a>",
+      "css": ".ds-record{min-height:120px;display:flex;flex-direction:column;justify-content:center;gap:5px;border-top:1px solid #39342d;border-bottom:1px solid #39342d;color:#e9e0ca;text-decoration:none;font-family:'Bricolage Grotesque',sans-serif}.ds-record small{color:#f0ab3c;font:600 10px 'IBM Plex Mono',monospace}.ds-record strong{font-size:26px}.ds-record span{color:#b8b09f}.ds-record:hover{background:rgb(255 255 255/.018)}.ds-record:focus-visible{outline:2px solid #f0ab3c;outline-offset:4px}"
+    },
+    {
+      "name": "System Rail Link",
+      "kind": "nav",
+      "description": "Navegação compacta de sistema com contato ativo.",
+      "html": "<a class=\"ds-rail-link\" aria-current=\"page\" href=\"#\">ARQUIVO</a>",
+      "css": ".ds-rail-link{position:relative;width:88px;height:72px;display:grid;place-items:center;border-bottom:1px solid #26221e;background:#151311;color:#e9e0ca;font:600 9px 'IBM Plex Mono',monospace;text-decoration:none}.ds-rail-link:before{position:absolute;inset:16px auto 16px 0;width:2px;content:'';background:#f0ab3c}.ds-rail-link:hover{color:#f0ab3c}.ds-rail-link:focus-visible{outline:2px solid #f0ab3c;outline-offset:-4px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "A Bancada de Saves",
+    "overview": "GABRIEL.SYS é um arquivo editorial operável. A densidade vem de índices, relações e sinais de estado; a personalidade vem de encaixes e contatos de hardware aplicados com contenção.",
+    "keyCharacteristics": ["Fluxo editorial denso", "Estrutura assimétrica", "Cor funcional", "Terminal opcional", "Mono somente para dados"],
+    "rules": [
+      { "name": "The Signal Has Meaning Rule", "body": "Âmbar e cores de canal indicam uma ação, um estado ou uma origem; não são decoração espalhada.", "section": "colors" },
+      { "name": "The Mono Measures Rule", "body": "Use uma face monoespaçada somente quando alinhamento, comando ou dado forem parte do significado.", "section": "typography" },
+      { "name": "The Flat Until Lifted Rule", "body": "Um bloco que não muda o plano de interação não recebe sombra.", "section": "elevation" }
+    ],
+    "dos": ["Do deixe um único save ou ação liderar cada superfície.", "Do use linhas, estado e relações para tornar o arquivo percorrível.", "Do derive datas, contagens e indicadores do conteúdo real.", "Do preserve contraste mínimo de 4.5:1 e alvos móveis de 44px."],
+    "donts": ["Don't transforme a página em terminal, console literal ou efeito CRT contínuo.", "Don't estruture o conteúdo como uma grade de cards iguais.", "Don't use brilho, vidro, texto em gradiente ou sombra dura como atalho de personalidade.", "Don't invente progresso, métricas ou estados que o conteúdo não sustenta."]
+  }
+}
