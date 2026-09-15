@@ -10,6 +10,7 @@
 ## Experiência
 
 - [x] Busca abre com botão e `Ctrl/⌘ + K`, fecha com `Esc` e funciona por teclado.
+- [x] A navegação principal separa apresentação, exploração do arquivo e contexto pessoal sem índices redundantes.
 - [x] Navegação e leitura funcionam sem depender da camada terminal.
 - [x] Estados de carregamento, vazio e erro da busca são legíveis.
 - [x] Foco, seleção, scrollbar e links pertencem ao sistema visual.

@@ -62,7 +62,6 @@ Este repositório é público e contém somente material aprovado para publicaç
 
 - `/` — índice e atividade recente.
 - `/archive` — todos os saves com filtros.
-- `/projects` — projetos por estado.
 - `/projects/[slug]` — detalhe e relações.
 - `/channel/[channel]` — entrada por área.
 - `Ctrl/⌘ + K` — busca global.
