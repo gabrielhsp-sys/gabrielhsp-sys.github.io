@@ -1,0 +1,33 @@
+---
+id: academic-system
+title: Academic System
+summary: Sistema de gestão acadêmica em Java com RBAC, duas interfaces e uma arquitetura feita para continuar legível.
+type: project
+channel: CODE
+status: PLAYING
+visibility: public
+publishedAt: 2026-06-30
+updatedAt: 2026-09-11
+tags: [java, javafx, arquitetura, testes, github-actions]
+related: [faculdade-bcc, fedora-post-install]
+github: https://github.com/gabrielhsp-sys/academic-system
+featured: true
+---
+
+O Academic System começou como um trabalho de faculdade e cresceu até virar o melhor retrato atual de como eu penso software: regra de negócio separada da interface, decisões explícitas e testes onde uma alteração realmente pode quebrar o sistema.
+
+## Duas portas, uma lógica
+
+A aplicação oferece CLI e JavaFX sobre a mesma camada de negócio. O objetivo não era apenas entregar duas telas; era provar que a interface pode mudar sem arrastar o domínio junto.
+
+O controle de acesso usa RBAC. Repositórios isolam persistência e estratégias permitem trabalhar com TXT, XML e JSON. Maven coordena o build, enquanto JUnit 5, Mockito e JaCoCo cobrem testes e qualidade.
+
+## O que vale guardar
+
+- Arquitetura em camadas e responsabilidades visíveis.
+- Repository e Strategy aplicados a um problema concreto.
+- Quatro workflows no GitHub Actions.
+- Docker como ambiente reproduzível.
+- Uma base que ainda pode receber novas interfaces e formas de persistência.
+
+Este registro continuará em `PLAYING` enquanto o código e a documentação pública evoluírem.
