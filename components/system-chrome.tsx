@@ -5,7 +5,6 @@ import { usePathname, useRouter } from "next/navigation";
 import {
   ArchiveIcon as ArchiveBox,
   ArrowRightIcon as ArrowRight,
-  CommandIcon as Command,
   GithubLogoIcon as GithubLogo,
   HouseIcon as House,
   InfoIcon as Info,
@@ -31,7 +30,6 @@ type SearchRecord = {
 const nav = [
   { href: "/", label: "Início", icon: House },
   { href: "/archive/", label: "Arquivo", icon: ArchiveBox },
-  { href: "/projects/", label: "Projetos", icon: Command },
   { href: "/about/", label: "Sobre", icon: Info },
 ];
 
@@ -356,7 +354,7 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
             <p>Comandos rápidos:</p>
             <div className="terminal-links">
               <Link href="/archive/" onClick={closeLayers}><b>$</b> open archive</Link>
-              <Link href="/projects/" onClick={closeLayers}><b>$</b> list projects</Link>
+              <Link href="/#canais" onClick={closeLayers}><b>$</b> browse channels</Link>
               <Link href="/about/" onClick={closeLayers}><b>$</b> whoami</Link>
               <button type="button" onClick={() => { setTerminalOpen(false); setSearchOpen(true); }}>
                 <b>$</b> search --all
