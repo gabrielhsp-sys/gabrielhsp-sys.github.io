@@ -4,3 +4,5 @@ out/
 *.log
 .DS_Store
 public/search-index.json
+public/og.png
+tsconfig.tsbuildinfo

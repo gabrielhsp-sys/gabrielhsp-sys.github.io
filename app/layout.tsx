@@ -19,8 +19,14 @@ export const metadata: Metadata = {
     siteName: site.name,
     title: site.title,
     description: site.description,
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: `${site.name} — arquivo público` }],
   },
-  twitter: { card: "summary", title: site.title, description: site.description },
+  twitter: {
+    card: "summary_large_image",
+    title: site.title,
+    description: site.description,
+    images: [{ url: "/og.png", alt: `${site.name} — arquivo público` }],
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
