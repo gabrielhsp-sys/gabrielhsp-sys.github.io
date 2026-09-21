@@ -7,7 +7,8 @@ import { channelDescriptions, channels } from "@/lib/site";
 
 export default function Home() {
   const items = getAllContent();
-  const current = items.find((item) => item.id === "gabriel-sys-site") ?? items[0];
+  const current = items.find((item) => item.featured && item.status === "PLAYING") ?? items[0];
+  const recent = items.filter((item) => item.id !== current.id).slice(0, 3);
 
   return (
     <main id="conteudo">
@@ -53,7 +54,7 @@ export default function Home() {
           <Link href="/archive/">ver arquivo inteiro <ArrowRight size={17} /></Link>
         </div>
         <div className="record-list">
-          {items.slice(0, 3).map((item, index) => <RecordRow item={item} index={index} key={item.id} />)}
+          {recent.map((item, index) => <RecordRow item={item} index={index} key={item.id} />)}
         </div>
       </section>
 
@@ -66,10 +67,15 @@ export default function Home() {
           {channels.map((channel) => {
             const count = items.filter((item) => item.channel === channel).length;
             return (
-              <Link href={`/channel/${channel.toLowerCase()}/`} key={channel} data-channel={channel}>
+              <Link
+                href={`/channel/${channel.toLowerCase()}/`}
+                key={channel}
+                data-channel={channel}
+                data-empty={count === 0}
+              >
                 <span>/{channel}</span>
                 <p>{channelDescriptions[channel]}</p>
-                <small>{String(count).padStart(2, "0")} saves</small>
+                <small>{count === 0 ? "sem save público" : `${String(count).padStart(2, "0")} saves`}</small>
                 <ArrowRight size={20} />
               </Link>
             );

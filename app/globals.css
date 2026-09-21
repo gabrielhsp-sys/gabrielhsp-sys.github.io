@@ -210,7 +210,7 @@ kbd {
   box-shadow: 0 2px 6px rgb(0 0 0 / .25);
 }
 
-main { overflow: hidden; }
+main { overflow-x: clip; }
 
 .home-opening {
   min-height: calc(100svh - 72px);
@@ -389,6 +389,8 @@ h1 em, h2 em { color: var(--amber); font-style: normal; }
 .channel-index > a p { margin: 0; color: var(--paper-dim); }
 .channel-index > a small { color: var(--paper-faint); font-family: var(--mono); font-size: 10px; text-transform: uppercase; }
 .channel-index > a:hover > span, .channel-index > a:hover > svg { color: var(--channel, var(--amber)); }
+.channel-index > a[data-empty="true"] > span, .channel-index > a[data-empty="true"] p { color: var(--paper-faint); }
+.channel-index > a[data-empty="true"] small { color: var(--paper-faint); opacity: .72; }
 [data-channel="CODE"] { --channel: var(--amber); }
 [data-channel="HOMELAB"] { --channel: var(--mint); }
 [data-channel="COLLEGE"] { --channel: var(--violet); }
