@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowUpRightIcon as ArrowUpRight, FunnelSimpleIcon as FunnelSimple, XIcon as X } from "@phosphor-icons/react";
 import { formatDate, normalizeSearch } from "@/lib/format";
-import { typeLabels, type types } from "@/lib/site";
+import { channels as allChannels, statuses as allStatuses, typeLabels, types as allTypes } from "@/lib/site";
 
 type ArchiveItem = {
   id: string;
@@ -21,7 +21,14 @@ type ArchiveItem = {
 type Order = "recent" | "alpha";
 
 const typeLabel = (value: string) =>
-  typeLabels[value as (typeof types)[number]] ?? value.toUpperCase();
+  typeLabels[value as (typeof allTypes)[number]] ?? value.toUpperCase();
+
+// Keep the canonical order from the schema instead of whatever order the
+// content happens to be sorted in.
+const inOrder = (canonical: readonly string[], present: string[]) => [
+  "ALL",
+  ...canonical.filter((value) => present.includes(value)),
+];
 
 export function ArchiveExplorer({ items }: { items: ArchiveItem[] }) {
   const [channel, setChannel] = useState("ALL");
@@ -30,9 +37,9 @@ export function ArchiveExplorer({ items }: { items: ArchiveItem[] }) {
   const [term, setTerm] = useState("");
   const [order, setOrder] = useState<Order>("recent");
 
-  const channels = ["ALL", ...new Set(items.map((item) => item.channel))];
-  const statuses = ["ALL", ...new Set(items.map((item) => item.status))];
-  const itemTypes = ["ALL", ...new Set(items.map((item) => item.type))];
+  const channels = inOrder(allChannels, items.map((item) => item.channel));
+  const statuses = inOrder(allStatuses, items.map((item) => item.status));
+  const itemTypes = inOrder(allTypes, items.map((item) => item.type));
   const filtered = channel !== "ALL" || status !== "ALL" || type !== "ALL" || term.trim() !== "";
 
   const visible = useMemo(() => {

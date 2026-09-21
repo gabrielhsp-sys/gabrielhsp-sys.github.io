@@ -22,4 +22,21 @@ Navegação, leitura e descoberta básica funcionam no HTML exportado. JavaScrip
 
 ## ADR-006 — dependências visuais pequenas
 
-Phosphor fornece ícones consistentes. Bricolage Grotesque e IBM Plex Mono são empacotadas localmente. Não há imagens geradas, vídeo de fundo ou biblioteca de animação nesta versão.
+Phosphor fornece ícones consistentes. Bricolage Grotesque e IBM Plex Mono são empacotadas localmente. Não há vídeo de fundo nem biblioteca de animação nesta versão. A única imagem gerada é a carta de compartilhamento descrita na ADR-008.
+
+## ADR-007 — o arquivo é a única listagem
+
+A navegação principal tem início, arquivo e sobre. Uma listagem `/projects`
+separada repetia o arquivo com outra roupa, ficava fora do menu e fora do
+sitemap. Ela foi removida; `/projects/[slug]` continua sendo a rota de
+detalhe, porque os endereços já publicados dependem dela.
+
+## ADR-008 — imagem de compartilhamento gerada no build
+
+A carta OpenGraph é desenhada a partir do próprio sistema visual e gerada por
+`scripts/generate-og-image.mjs` em `public/og.png`, junto do índice de busca.
+
+A convenção `opengraph-image` do Next emite um arquivo sem extensão na
+exportação estática. O GitHub Pages serve esse arquivo como
+`application/octet-stream`, que boa parte dos leitores de metadados recusa.
+Gravar um `.png` explícito mantém o tipo correto sem serviço externo.

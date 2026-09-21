@@ -22,7 +22,9 @@ npm run dev
 
 Abra `http://localhost:3000`.
 
-O comando de desenvolvimento gera o índice de busca antes de iniciar o servidor.
+O comando de desenvolvimento gera o índice de busca e a imagem de
+compartilhamento antes de iniciar o servidor. Os dois artefatos são derivados
+do conteúdo e não são versionados.
 
 ## Verificar e gerar
 
@@ -34,7 +36,7 @@ O comando executa lint, testes de conteúdo e o build estático. O site pronto f
 
 ## Conteúdo
 
-Cada registro público é um `.md` ou `.mdx` em `content/public`. O frontmatter segue [`docs/content/SCHEMA.md`](docs/content/SCHEMA.md). Antes do servidor local e durante o build, `scripts/generate-search-index.mjs` cria um índice compacto em `public/search-index.json`.
+Cada registro público é um `.md` ou `.mdx` em `content/public`. O frontmatter segue [`docs/content/SCHEMA.md`](docs/content/SCHEMA.md). Antes do servidor local e durante o build, `scripts/generate-search-index.mjs` cria um índice compacto em `public/search-index.json` e `scripts/generate-og-image.mjs` grava `public/og.png`.
 
 Exemplo:
 
@@ -60,12 +62,18 @@ Este repositório é público e contém somente material aprovado para publicaç
 
 ## Navegação
 
-- `/` — índice e atividade recente.
-- `/archive` — todos os saves com filtros.
+A navegação principal tem três entradas: início, arquivo e sobre. Não existe
+uma listagem de projetos separada; o arquivo é a coleção central.
+
+- `/` — abertura editorial, save atual e últimos registros.
+- `/archive` — todos os saves, com filtro textual, canal, estado, tipo e ordenação.
 - `/projects/[slug]` — detalhe e relações.
 - `/channel/[channel]` — entrada por área.
-- `Ctrl/⌘ + K` — busca global.
-- `~` — camada terminal opcional.
+- `Ctrl/⌘ + K` — busca global; setas navegam e `Enter` abre.
+- `~` (ou crase) — camada terminal opcional, também no dock móvel.
+
+No terminal: `help`, `ls`, `open <slot>`, `archive`, `channels`,
+`search <termo>`, `whoami`, `clear` e `exit`.
 
 ## Documentação
 
