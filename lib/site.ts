@@ -35,3 +35,12 @@ export const statusDescriptions: Record<(typeof statuses)[number], string> = {
   CLEARED: "entregue",
   CODEX: "consulta",
 };
+
+export const types = ["project", "log", "note", "reference"] as const;
+
+export const typeLabels: Record<(typeof types)[number], string> = {
+  project: "PROJETO",
+  log: "REGISTRO",
+  note: "NOTA",
+  reference: "REFERÊNCIA",
+};
