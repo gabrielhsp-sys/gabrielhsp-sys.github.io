@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeftIcon as ArrowLeft } from "@phosphor-icons/react/dist/ssr";
+
+// O Next ja marca esta rota como noindex; aqui so o titulo da aba.
+export const metadata: Metadata = {
+  title: "Save não encontrado",
+};
 
 export default function NotFound() {
   return (
