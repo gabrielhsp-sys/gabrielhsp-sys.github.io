@@ -40,3 +40,15 @@ A convenção `opengraph-image` do Next emite um arquivo sem extensão na
 exportação estática. O GitHub Pages serve esse arquivo como
 `application/octet-stream`, que boa parte dos leitores de metadados recusa.
 Gravar um `.png` explícito mantém o tipo correto sem serviço externo.
+
+## ADR-009 — canal vazio não aparece
+
+Os seis canais continuam no esquema e seguem validando o frontmatter, mas a
+interface pública só mostra os que têm pelo menos um registro. A home, as
+rotas `/channel/[channel]`, o sitemap e os filtros do arquivo derivam a lista
+de `getPublicChannels()`, então um canal reaparece sozinho no primeiro save
+que receber.
+
+Um canal sem conteúdo era um destino que só sabia dizer que estava vazio.
+`scripts/verify-export.mjs` roda depois do build e falha se a exportação
+tiver um canal sem registro, ou faltar um que tenha.

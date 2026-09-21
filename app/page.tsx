@@ -1,14 +1,15 @@
 import Link from "next/link";
 import { ArrowDownIcon as ArrowDown, ArrowRightIcon as ArrowRight, KeyboardIcon as Keyboard } from "@phosphor-icons/react/dist/ssr";
 import { RecordRow, Status } from "@/components/content-ui";
-import { getAllContent } from "@/lib/content";
+import { getAllContent, getPublicChannels } from "@/lib/content";
 import { formatDate } from "@/lib/format";
-import { channelDescriptions, channels } from "@/lib/site";
+import { channelDescriptions } from "@/lib/site";
 
 export default function Home() {
   const items = getAllContent();
   const current = items.find((item) => item.featured && item.status === "PLAYING") ?? items[0];
   const recent = items.filter((item) => item.id !== current.id).slice(0, 3);
+  const channels = getPublicChannels();
 
   return (
     <main id="conteudo">
@@ -61,21 +62,16 @@ export default function Home() {
       <section className="channel-section" id="canais" aria-labelledby="channel-heading">
         <div className="section-heading compact">
           <h2 id="channel-heading">Canais do arquivo</h2>
-          <p>Seis entradas para a mesma história.</p>
+          <p>{channels.length} entradas para a mesma história.</p>
         </div>
         <div className="channel-index">
           {channels.map((channel) => {
             const count = items.filter((item) => item.channel === channel).length;
             return (
-              <Link
-                href={`/channel/${channel.toLowerCase()}/`}
-                key={channel}
-                data-channel={channel}
-                data-empty={count === 0}
-              >
+              <Link href={`/channel/${channel.toLowerCase()}/`} key={channel} data-channel={channel}>
                 <span>/{channel}</span>
                 <p>{channelDescriptions[channel]}</p>
-                <small>{count === 0 ? "sem save público" : `${String(count).padStart(2, "0")} saves`}</small>
+                <small>{String(count).padStart(2, "0")} saves</small>
                 <ArrowRight size={20} />
               </Link>
             );

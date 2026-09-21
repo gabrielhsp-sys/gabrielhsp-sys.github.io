@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { RecordRow } from "@/components/content-ui";
-import { getAllContent } from "@/lib/content";
-import { channelDescriptions, channels } from "@/lib/site";
+import { getAllContent, getPublicChannels } from "@/lib/content";
+import { channelDescriptions } from "@/lib/site";
 
 type Props = { params: Promise<{ channel: string }> };
 
 export function generateStaticParams() {
-  return channels.map((channel) => ({ channel: channel.toLowerCase() }));
+  return getPublicChannels().map((channel) => ({ channel: channel.toLowerCase() }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { channel: slug } = await params;
-  const channel = channels.find((candidate) => candidate.toLowerCase() === slug);
+  const channel = getPublicChannels().find((candidate) => candidate.toLowerCase() === slug);
   if (!channel) return {};
   const canonical = `/channel/${slug}/`;
   return {
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ChannelPage({ params }: Props) {
   const { channel: slug } = await params;
-  const channel = channels.find((candidate) => candidate.toLowerCase() === slug);
+  const channel = getPublicChannels().find((candidate) => candidate.toLowerCase() === slug);
   if (!channel) notFound();
   const items = getAllContent().filter((item) => item.channel === channel);
 
@@ -37,16 +37,9 @@ export default async function ChannelPage({ params }: Props) {
         <code className="page-path">/channel/{slug}</code>
       </header>
       <section className="project-group" aria-label={`Registros de ${channel}`}>
-        {items.length ? (
-          <div className="record-list">
-            {items.map((item, index) => <RecordRow item={item} index={index} key={item.id} />)}
-          </div>
-        ) : (
-          <div className="empty-state permanent">
-            <p>Este canal está conectado, mas ainda não recebeu um save público.</p>
-            <span>Conteúdo privado não é promovido automaticamente.</span>
-          </div>
-        )}
+        <div className="record-list">
+          {items.map((item, index) => <RecordRow item={item} index={index} key={item.id} />)}
+        </div>
       </section>
     </main>
   );

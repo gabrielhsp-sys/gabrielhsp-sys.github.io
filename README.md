@@ -32,7 +32,7 @@ do conteúdo e não são versionados.
 npm run check
 ```
 
-O comando executa lint, testes de conteúdo e o build estático. O site pronto fica em `out/`.
+O comando executa lint, testes de conteúdo e o build estático, que termina verificando a exportação. O site pronto fica em `out/`.
 
 ## Conteúdo
 
@@ -68,7 +68,7 @@ uma listagem de projetos separada; o arquivo é a coleção central.
 - `/` — abertura editorial, save atual e últimos registros.
 - `/archive` — todos os saves, com filtro textual, canal, estado, tipo e ordenação.
 - `/projects/[slug]` — detalhe e relações.
-- `/channel/[channel]` — entrada por área.
+- `/channel/[channel]` — entrada por área, só para canais com registro público.
 - `Ctrl/⌘ + K` — busca global; setas navegam e `Enter` abre.
 - `~` (ou crase) — camada terminal opcional, também no dock móvel.
 

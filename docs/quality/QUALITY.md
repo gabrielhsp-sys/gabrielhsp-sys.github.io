@@ -6,6 +6,8 @@
 - [x] Todo item possui `visibility: public` e frontmatter válido.
 - [x] Nenhum conteúdo privado, token ou segredo está no repositório ou no bundle.
 - [x] Relações apontam para IDs existentes.
+- [x] Canais sem registro público não aparecem em nenhuma superfície.
+- [x] A exportação é verificada depois do build por `scripts/verify-export.mjs`.
 
 ## Experiência
 

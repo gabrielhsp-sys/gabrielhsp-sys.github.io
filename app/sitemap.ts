@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
-import { getAllContent } from "@/lib/content";
-import { channels, site } from "@/lib/site";
+import { getAllContent, getPublicChannels } from "@/lib/content";
+import { site } from "@/lib/site";
 
 export const dynamic = "force-static";
 
@@ -19,16 +19,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${site.url}${item.href}`,
     lastModified: item.updatedAt,
   }));
-  const channelPages = channels.map((channel) => {
+  const channelPages = getPublicChannels().map((channel) => {
     const inChannel = items.filter((item) => item.channel === channel);
     return {
       url: `${site.url}/channel/${channel.toLowerCase()}/`,
-      lastModified: inChannel.length
-        ? inChannel.reduce(
-            (newest, item) => (item.updatedAt > newest ? item.updatedAt : newest),
-            inChannel[0].updatedAt,
-          )
-        : latest,
+      lastModified: inChannel.reduce(
+        (newest, item) => (item.updatedAt > newest ? item.updatedAt : newest),
+        inChannel[0].updatedAt,
+      ),
     };
   });
 

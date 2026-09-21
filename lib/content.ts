@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 import { contentSchema, type ContentItem } from "@/lib/content-schema";
+import { channels } from "@/lib/site";
 
 const contentDirectory = path.join(process.cwd(), "content/public");
 
@@ -58,4 +59,11 @@ export function getRelatedContent(item: ContentItem) {
   return item.related
     .map((id) => items.find((candidate) => candidate.id === id))
     .filter((candidate): candidate is ContentItem => Boolean(candidate));
+}
+
+// Um canal sem registro publico fica fora da interface. Ele continua no
+// esquema e volta sozinho assim que receber um save.
+export function getPublicChannels() {
+  const items = getAllContent();
+  return channels.filter((channel) => items.some((item) => item.channel === channel));
 }

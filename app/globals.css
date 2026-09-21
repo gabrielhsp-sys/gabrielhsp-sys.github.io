@@ -389,8 +389,6 @@ h1 em, h2 em { color: var(--amber); font-style: normal; }
 .channel-index > a p { margin: 0; color: var(--paper-dim); }
 .channel-index > a small { color: var(--paper-faint); font-family: var(--mono); font-size: 10px; text-transform: uppercase; }
 .channel-index > a:hover > span, .channel-index > a:hover > svg { color: var(--channel, var(--amber)); }
-.channel-index > a[data-empty="true"] > span, .channel-index > a[data-empty="true"] p { color: var(--paper-faint); }
-.channel-index > a[data-empty="true"] small { color: var(--paper-faint); opacity: .72; }
 [data-channel="CODE"] { --channel: var(--amber); }
 [data-channel="HOMELAB"] { --channel: var(--mint); }
 [data-channel="COLLEGE"] { --channel: var(--violet); }
@@ -564,8 +562,6 @@ h1 em, h2 em { color: var(--amber); font-style: normal; }
 .empty-state p { margin: 0 0 14px; font-size: 1.3rem; }
 .empty-state button { padding: 8px 12px; border: 1px solid var(--paper-faint); border-radius: 3px; background: transparent; cursor: pointer; }
 .empty-state button:hover { border-color: var(--amber); color: var(--amber); }
-.empty-state.permanent { margin: 0 clamp(28px, 6vw, 104px); }
-.empty-state.permanent span { color: var(--paper-faint); }
 
 .project-group + .project-group { padding-top: 0; }
 .channel-page .page-intro h1 { color: var(--channel); }
@@ -790,7 +786,6 @@ h1 em, h2 em { color: var(--amber); font-style: normal; }
   .relations a { grid-template-columns: 90px 1fr 18px; }
   .about-grid { grid-template-columns: 1fr; padding: 76px 24px; }
   .identity-block { position: static; max-width: 420px; }
-  .empty-state.permanent { margin: 0 24px; }
 }
 
 @media (max-width: 520px) {
