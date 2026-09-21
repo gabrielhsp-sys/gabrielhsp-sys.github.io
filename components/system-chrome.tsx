@@ -27,10 +27,17 @@ type SearchRecord = {
   text: string;
 };
 
+type TerminalLine = { kind: "in" | "out" | "err"; text: string };
+
 const nav = [
   { href: "/", label: "Início", icon: House },
   { href: "/archive/", label: "Arquivo", icon: ArchiveBox },
   { href: "/about/", label: "Sobre", icon: Info },
+];
+
+const terminalIntro: TerminalLine[] = [
+  { kind: "out", text: "GABRIEL.SYS archive shell · public mode" },
+  { kind: "out", text: "digite `help` para ver os comandos." },
 ];
 
 function BrandMark() {
@@ -49,10 +56,15 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [terminalOpen, setTerminalOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [selected, setSelected] = useState(0);
   const [records, setRecords] = useState<SearchRecord[] | null>(null);
   const [searchError, setSearchError] = useState(false);
   const [clock, setClock] = useState("--:--");
+  const [lines, setLines] = useState<TerminalLine[]>(terminalIntro);
+  const [command, setCommand] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const commandRef = useRef<HTMLInputElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
   const searchLayerRef = useRef<HTMLElement>(null);
   const terminalLayerRef = useRef<HTMLDivElement>(null);
   const openerRef = useRef<HTMLElement | null>(null);
@@ -62,6 +74,13 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
     setSearchOpen(false);
     setTerminalOpen(false);
     setQuery("");
+  }, []);
+
+  const openSearch = useCallback((initial = "") => {
+    setTerminalOpen(false);
+    setQuery(initial);
+    setSelected(0);
+    setSearchOpen(true);
   }, []);
 
   useEffect(() => {
@@ -78,21 +97,65 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
     return () => window.clearInterval(timer);
   }, []);
 
+  const results = useMemo(() => {
+    if (!records) return [];
+    const needle = normalizeSearch(query.trim());
+    if (!needle) return records.slice(0, 6);
+    return records
+      .filter((record) =>
+        normalizeSearch(
+          `${record.title} ${record.summary} ${record.channel} ${record.status} ${record.tags.join(" ")} ${record.text}`,
+        ).includes(needle),
+      )
+      .slice(0, 8);
+  }, [query, records]);
+
+  const openResult = useCallback(
+    (href: string) => {
+      closeLayers();
+      router.push(href);
+    },
+    [closeLayers, router],
+  );
+
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement;
       const isTyping = ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName);
+      const bareKey = !event.ctrlKey && !event.metaKey && !event.altKey;
 
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
         event.preventDefault();
-        setTerminalOpen(false);
-        setSearchOpen(true);
-      } else if (event.key === "Escape") {
+        openSearch();
+        return;
+      }
+
+      if (event.key === "Escape") {
         closeLayers();
-      } else if (!isTyping && event.key === "~") {
+        return;
+      }
+
+      if (!isTyping && bareKey && (event.key === "~" || event.key === "`" || event.code === "Backquote")) {
         event.preventDefault();
         setSearchOpen(false);
         setTerminalOpen((open) => !open);
+        return;
+      }
+
+      if (searchOpen && ["ArrowDown", "ArrowUp", "Home", "End", "Enter"].includes(event.key)) {
+        if (!results.length) return;
+        event.preventDefault();
+        if (event.key === "Enter") {
+          openResult(results[Math.min(selected, results.length - 1)].href);
+          return;
+        }
+        setSelected((current) => {
+          if (event.key === "Home") return 0;
+          if (event.key === "End") return results.length - 1;
+          const next = event.key === "ArrowDown" ? current + 1 : current - 1;
+          return (next + results.length) % results.length;
+        });
+        return;
       }
 
       if (event.key === "Tab" && (searchOpen || terminalOpen)) {
@@ -120,22 +183,19 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [closeLayers, searchOpen, terminalOpen]);
+  }, [closeLayers, openResult, openSearch, results, searchOpen, selected, terminalOpen]);
 
   useEffect(() => {
     const openFromPage = (event: Event) => {
       const target = event.target as HTMLElement;
-      if (target.closest("[data-search-shortcut]")) {
-        setTerminalOpen(false);
-        setSearchOpen(true);
-      }
+      if (target.closest("[data-search-shortcut]")) openSearch();
     };
     document.addEventListener("click", openFromPage);
     return () => document.removeEventListener("click", openFromPage);
-  }, []);
+  }, [openSearch]);
 
   useEffect(() => {
-    if (!searchOpen || records || searchError) return;
+    if ((!searchOpen && !terminalOpen) || records || searchError) return;
     fetch("/search-index.json")
       .then((response) => {
         if (!response.ok) throw new Error("search index unavailable");
@@ -143,7 +203,14 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
       })
       .then(setRecords)
       .catch(() => setSearchError(true));
-  }, [records, searchError, searchOpen]);
+  }, [records, searchError, searchOpen, terminalOpen]);
+
+  useEffect(() => {
+    if (!searchOpen) return;
+    resultsRef.current
+      ?.querySelector<HTMLElement>('[data-selected="true"]')
+      ?.scrollIntoView({ block: "nearest" });
+  }, [searchOpen, selected, results]);
 
   useEffect(() => {
     const layerOpen = searchOpen || terminalOpen;
@@ -159,7 +226,7 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
     background.forEach((element) => { element.inert = layerOpen; });
 
     if (searchOpen) window.setTimeout(() => inputRef.current?.focus(), 40);
-    if (terminalOpen) window.setTimeout(() => terminalLayerRef.current?.focus(), 40);
+    if (terminalOpen) window.setTimeout(() => commandRef.current?.focus(), 40);
 
     if (!layerOpen) {
       delete document.body.dataset.layerOpen;
@@ -170,23 +237,83 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
     return () => background.forEach((element) => { element.inert = false; });
   }, [searchOpen, terminalOpen]);
 
-  const results = useMemo(() => {
-    if (!records) return [];
-    const needle = normalizeSearch(query.trim());
-    if (!needle) return records.slice(0, 6);
-    return records
-      .filter((record) =>
-        normalizeSearch(
-          `${record.title} ${record.summary} ${record.channel} ${record.status} ${record.tags.join(" ")} ${record.text}`,
-        ).includes(needle),
-      )
-      .slice(0, 8);
-  }, [query, records]);
+  const runCommand = (raw: string) => {
+    const entry = raw.trim();
+    if (!entry) return;
+    const [name, ...rest] = entry.split(/\s+/);
+    const argument = rest.join(" ");
+    const echo: TerminalLine = { kind: "in", text: entry };
+    const push = (...output: TerminalLine[]) => setLines((current) => [...current, echo, ...output]);
 
-  const openResult = (href: string) => {
-    closeLayers();
-    router.push(href);
+    switch (name.toLowerCase()) {
+      case "help":
+      case "?":
+        push(
+          { kind: "out", text: "ls            lista os saves públicos" },
+          { kind: "out", text: "open <slot>   abre um save pelo identificador" },
+          { kind: "out", text: "archive       vai para o arquivo completo" },
+          { kind: "out", text: "channels      vai para o índice de canais" },
+          { kind: "out", text: "search <termo> abre a busca global" },
+          { kind: "out", text: "whoami        contexto e contato" },
+          { kind: "out", text: "clear         limpa a sessão · exit fecha" },
+        );
+        return;
+      case "ls":
+        if (!records) {
+          push({ kind: "err", text: searchError ? "índice indisponível." : "índice carregando…" });
+          return;
+        }
+        push(
+          ...records.map((record) => ({
+            kind: "out" as const,
+            text: `${record.id.padEnd(22)} /${record.channel.padEnd(9)} ${record.status}`,
+          })),
+        );
+        return;
+      case "open": {
+        if (!argument) {
+          push({ kind: "err", text: "uso: open <slot>" });
+          return;
+        }
+        const match = records?.find((record) => record.id === argument);
+        if (!match) {
+          push({ kind: "err", text: `slot "${argument}" não existe. use \`ls\`.` });
+          return;
+        }
+        push({ kind: "out", text: `carregando ${match.id}…` });
+        openResult(match.href);
+        return;
+      }
+      case "archive":
+        push({ kind: "out", text: "abrindo /archive…" });
+        openResult("/archive/");
+        return;
+      case "channels":
+        push({ kind: "out", text: "abrindo índice de canais…" });
+        openResult("/#canais");
+        return;
+      case "whoami":
+      case "about":
+        push({ kind: "out", text: "gabriel henrique · ciência da computação · unifal-mg" });
+        openResult("/about/");
+        return;
+      case "search":
+        openSearch(argument);
+        return;
+      case "clear":
+        setLines(terminalIntro);
+        return;
+      case "exit":
+      case "close":
+      case "q":
+        closeLayers();
+        return;
+      default:
+        push({ kind: "err", text: `comando não reconhecido: ${name}. tente \`help\`.` });
+    }
   };
+
+  const activeResult = results[Math.min(selected, Math.max(results.length - 1, 0))];
 
   return (
     <div className="site-frame">
@@ -215,7 +342,7 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
         <button
           className="rail-action"
           type="button"
-          onClick={() => setTerminalOpen(true)}
+          onClick={() => { setSearchOpen(false); setTerminalOpen(true); }}
           aria-label="Abrir terminal"
         >
           <TerminalWindow size={20} />
@@ -231,11 +358,7 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
           <p className="system-state">
             <span aria-hidden="true" /> arquivo online <time>{clock}</time>
           </p>
-          <button
-            className="search-trigger"
-            type="button"
-            onClick={() => setSearchOpen(true)}
-          >
+          <button className="search-trigger" type="button" onClick={() => openSearch()}>
             <MagnifyingGlass size={18} />
             <span>Procurar no arquivo</span>
             <kbd>Ctrl K</kbd>
@@ -271,8 +394,15 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
             </Link>
           );
         })}
-        <button type="button" onClick={() => setSearchOpen(true)} aria-label="Buscar">
+        <button type="button" onClick={() => openSearch()} aria-label="Buscar">
           <MagnifyingGlass size={22} />
+        </button>
+        <button
+          type="button"
+          onClick={() => { setSearchOpen(false); setTerminalOpen(true); }}
+          aria-label="Abrir terminal"
+        >
+          <TerminalWindow size={22} />
         </button>
       </nav>
 
@@ -290,17 +420,23 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
               <MagnifyingGlass size={24} aria-hidden="true" />
               <input
                 ref={inputRef}
-                type="search"
+                type="text"
+                role="combobox"
+                aria-expanded="true"
+                aria-controls="search-results"
+                aria-autocomplete="list"
+                aria-activedescendant={activeResult ? `search-option-${activeResult.id}` : undefined}
                 value={query}
-                onChange={(event) => setQuery(event.target.value)}
+                onChange={(event) => { setQuery(event.target.value); setSelected(0); }}
                 placeholder="Projeto, canal, tecnologia ou ideia…"
                 aria-label="Termo de busca"
+                autoComplete="off"
               />
               <button type="button" onClick={closeLayers} aria-label="Fechar busca">
                 <X size={22} />
               </button>
             </div>
-            <div className="search-results" aria-live="polite">
+            <div className="search-results" id="search-results" role="listbox" aria-label="Resultados" ref={resultsRef}>
               {!records && !searchError && <p className="search-message">Lendo os saves públicos…</p>}
               {searchError && (
                 <p className="search-message error-message">
@@ -310,12 +446,16 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
               {records && results.length === 0 && (
                 <p className="search-message">Nenhum save combina com “{query}”.</p>
               )}
-              {results.map((record) => (
-                <button
-                  type="button"
+              {results.map((record, index) => (
+                <div
+                  role="option"
+                  id={`search-option-${record.id}`}
+                  aria-selected={index === selected}
+                  data-selected={index === selected}
                   className="search-result"
                   key={record.id}
                   onClick={() => openResult(record.href)}
+                  onMouseEnter={() => setSelected(index)}
                 >
                   <span className="result-code">/{record.channel}</span>
                   <span>
@@ -323,11 +463,15 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
                     <small>{record.summary}</small>
                   </span>
                   <ArrowRight size={18} aria-hidden="true" />
-                </button>
+                </div>
               ))}
             </div>
             <div className="search-help">
-              <span><kbd>Tab</kbd> navegar</span>
+              <span role="status">
+                {records ? `${results.length} ${results.length === 1 ? "save" : "saves"}` : ""}
+              </span>
+              <span><kbd>↑</kbd><kbd>↓</kbd> navegar</span>
+              <span><kbd>Enter</kbd> abrir</span>
               <span><kbd>Esc</kbd> fechar</span>
             </div>
           </section>
@@ -341,7 +485,6 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
           role="dialog"
           aria-modal="true"
           aria-label="Terminal GABRIEL.SYS"
-          tabIndex={-1}
         >
           <div className="terminal-titlebar">
             <span>gabriel.sys — tty1</span>
@@ -350,17 +493,33 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
             </button>
           </div>
           <div className="terminal-body">
-            <p>GABRIEL.SYS archive shell · public mode</p>
-            <p>Comandos rápidos:</p>
-            <div className="terminal-links">
-              <Link href="/archive/" onClick={closeLayers}><b>$</b> open archive</Link>
-              <Link href="/#canais" onClick={closeLayers}><b>$</b> browse channels</Link>
-              <Link href="/about/" onClick={closeLayers}><b>$</b> whoami</Link>
-              <button type="button" onClick={() => { setTerminalOpen(false); setSearchOpen(true); }}>
-                <b>$</b> search --all
-              </button>
+            <div className="terminal-log" aria-live="polite">
+              {lines.map((line, index) => (
+                <p key={`${index}-${line.text}`} data-kind={line.kind}>
+                  {line.kind === "in" && <b>guest@gabriel.sys:~$ </b>}
+                  {line.text}
+                </p>
+              ))}
             </div>
-            <p className="terminal-cursor">guest@gabriel.sys:~$ <i /></p>
+            <form
+              className="terminal-prompt"
+              onSubmit={(event) => {
+                event.preventDefault();
+                runCommand(command);
+                setCommand("");
+              }}
+            >
+              <label htmlFor="terminal-command">guest@gabriel.sys:~$</label>
+              <input
+                id="terminal-command"
+                ref={commandRef}
+                value={command}
+                onChange={(event) => setCommand(event.target.value)}
+                autoComplete="off"
+                spellCheck={false}
+                placeholder="help"
+              />
+            </form>
           </div>
         </div>
       )}
