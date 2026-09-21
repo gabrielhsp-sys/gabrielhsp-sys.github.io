@@ -6,7 +6,7 @@ export const site = {
     "Projetos, estudos, homelab, hardware e registros de Gabriel Henrique — organizados como um arquivo vivo.",
   url: "https://gabrielhsp-sys.github.io",
   github: "https://github.com/gabrielhsp-sys",
-  email: "mailto:gabrielhsp.dev@gmail.com",
+  email: "mailto:gabrielhspereira36@gmail.com",
 } as const;
 
 export const channels = [

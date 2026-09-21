@@ -55,7 +55,7 @@ export default function AboutPage() {
             <a href="https://github.com/gabrielhsp-sys" target="_blank" rel="noreferrer">
               <GithubLogo size={20} /> GitHub <ArrowUpRight size={17} />
             </a>
-            <a href="mailto:gabrielhsp.dev@gmail.com">mandar um e-mail <ArrowUpRight size={17} /></a>
+            <a href="mailto:gabrielhspereira36@gmail.com">mandar um e-mail <ArrowUpRight size={17} /></a>
           </div>
         </article>
       </div>

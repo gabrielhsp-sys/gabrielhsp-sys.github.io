@@ -83,6 +83,19 @@ No terminal: `help`, `ls`, `open <slot>`, `archive`, `channels`,
 - [`docs/design/DESIGN.md`](docs/design/DESIGN.md)
 - [`docs/quality/QUALITY.md`](docs/quality/QUALITY.md)
 
+## Licença
+
+Código e conteúdo deste repositório estão sob a licença MIT — ver [`LICENSE`](LICENSE).
+
+Exceções, que a MIT deste repositório não cobre:
+
+- `public/profile.jpg` é uma fotografia pessoal de Gabriel Henrique. A licença cobre o código que a
+  exibe, não o uso da imagem.
+- As dependências de terceiros (Next.js, React, Tailwind CSS, Zod, Phosphor Icons e as fontes IBM
+  Plex Mono e Bricolage Grotesque) mantêm cada uma a sua própria licença. Nenhuma delas é
+  redistribuída neste repositório: todas são instaladas pelo npm no build, e `node_modules/` não é
+  versionado.
+
 ## Publicação
 
 O workflow `.github/workflows/deploy.yml` executa `npm ci`, `npm run check` e envia somente `out/` ao GitHub Pages quando há push na `main`.
