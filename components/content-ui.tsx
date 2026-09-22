@@ -21,7 +21,17 @@ export function AreaTag({ value }: { value: ContentItem["area"] }) {
   );
 }
 
-export function RecordRow({ item, index }: { item: ContentItem; index?: number }) {
+// `showArea` sai quando a lista ja esta dentro de uma area: repetir o nome em
+// cada linha nao informa nada.
+export function RecordRow({
+  item,
+  index,
+  showArea = true,
+}: {
+  item: ContentItem;
+  index?: number;
+  showArea?: boolean;
+}) {
   return (
     <article className="record-row">
       <span className="record-index" aria-hidden="true">
@@ -29,7 +39,7 @@ export function RecordRow({ item, index }: { item: ContentItem; index?: number }
       </span>
       <div className="record-main">
         <div className="record-meta">
-          <AreaTag value={item.area} />
+          {showArea && <AreaTag value={item.area} />}
           <Status value={item.status} />
           <time dateTime={item.updatedAt.toISOString()}>{formatDate(item.updatedAt)}</time>
         </div>

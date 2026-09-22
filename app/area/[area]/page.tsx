@@ -38,7 +38,9 @@ export default async function AreaPage({ params }: Props) {
       </header>
       <section className="project-group" aria-label={`Projetos de ${areaLabels[area]}`}>
         <div className="record-list">
-          {items.map((item, index) => <RecordRow item={item} index={index} key={item.id} />)}
+          {items.map((item, index) => (
+            <RecordRow item={item} index={index} showArea={false} key={item.id} />
+          ))}
         </div>
       </section>
     </main>

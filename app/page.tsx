@@ -57,6 +57,9 @@ export default function Home() {
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section className="hero" aria-labelledby="hero-heading">
         <div className="hero-copy">
+          <p className="hero-badge">
+            <i aria-hidden="true" /> Disponível para estágio
+          </p>
           <p className="hero-kicker">Gabriel Henrique · Ciência da Computação, UNIFAL-MG</p>
           <h1 id="hero-heading">
             Eu construo software que <em>fica de pé sozinho.</em>

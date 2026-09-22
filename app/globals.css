@@ -680,6 +680,25 @@ main { overflow-x: clip; }
   border-bottom: 1px solid var(--line-soft);
 }
 .hero-copy { max-width: 62rem; }
+/* Selo de disponibilidade: verde de "no ar", mesmo vocabulario do .status. */
+.hero-badge {
+  margin: 0 0 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 14px 7px 12px;
+  border: 1px solid rgb(114 201 167 / .38);
+  border-radius: 999px;
+  background: rgb(114 201 167 / .08);
+  color: var(--mint);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.hero-badge i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; animation: badge-pulse 2.6s ease-in-out infinite; }
+@keyframes badge-pulse { 0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgb(114 201 167 / .5); } 55% { opacity: .5; box-shadow: 0 0 0 5px rgb(114 201 167 / 0); } }
 .hero-kicker { margin: 0 0 26px; color: var(--paper-faint); font-family: var(--mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; }
 .hero h1 { margin: 0; font-size: clamp(2.9rem, 6.6vw, 6rem); font-weight: 650; line-height: .98; letter-spacing: -.04em; text-wrap: balance; }
 .hero-lede { max-width: 58ch; margin: 34px 0 0; color: var(--paper-dim); font-size: clamp(1.05rem, 1.6vw, 1.32rem); line-height: 1.55; }
