@@ -33,12 +33,14 @@ Conferido por código e build:
 - [x] O modo retrô sai pela mesma sequência do Konami ou pelo botão "sair do modo retrô".
 - [x] `prefers-reduced-motion` tem regra explícita para a tela de entrada, o glitch, o toast e o cursor do título; o CRT fica estático.
 - [x] A animação de entrada lê e grava `sessionStorage`, então não repete na navegação interna.
+- [x] A animação de entrada não recebe ponteiro: um clique pula a animação e ainda chega no link, então nenhuma navegação precisa de dois cliques (ADR-014).
+- [x] O ícone por rota é declarado pelo Next (`app/**/icon.svg`); a camada de personalidade não remove tags `<link>` que o React renderiza (ADR-014).
 
 Pendente de verificação no navegador (`needs-verification`):
 
 - [ ] Animação de entrada: aparece na primeira carga, é pulável e não repete.
 - [ ] Som: começa no primeiro gesto e a preferência sobrevive ao recarregar.
-- [ ] Konami, snake, conquistas e favicon dinâmico em uso real.
+- [ ] Konami, snake e conquistas em uso real.
 - [ ] Teclado completo nas superfícies novas, em 360, 768 e 1280 px.
 - [x] Layout validado em 360, 768 e 1280 px, sem estouro horizontal em nenhuma rota.
 

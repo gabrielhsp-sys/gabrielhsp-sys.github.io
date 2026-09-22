@@ -911,6 +911,12 @@ body[data-booting] { overflow: hidden; }
   place-items: center;
   padding: 24px;
   background: var(--ink);
+  /* A tela cobre a pagina, mas nao intercepta ponteiro: ela entra depois da
+     hidratacao, por cima de uma pagina que ja estava visivel e clicavel. Se
+     capturasse o clique, o primeiro clique em um link so serviria para pular a
+     animacao e a navegacao exigiria um segundo clique. O `pointerdown` que pula
+     e ouvido na janela, entao pular por clique continua funcionando. */
+  pointer-events: none;
 }
 .boot-screen[data-leaving="true"] { animation: boot-off .5s cubic-bezier(.16, 1, .3, 1) forwards; }
 @keyframes boot-off {
@@ -929,6 +935,7 @@ body[data-booting] { overflow: hidden; }
   position: fixed;
   right: 20px;
   bottom: 20px;
+  pointer-events: auto;
   min-height: 40px;
   display: inline-flex;
   align-items: center;

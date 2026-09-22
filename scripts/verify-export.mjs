@@ -13,8 +13,12 @@ const items = fs
 
 // Uma area so existe no site exportado se carregar pelo menos um registro.
 const used = new Set(items.map((item) => item.area));
+// Só diretórios são áreas; /area/icon.svg é o favicon do segmento.
 const exported = fs.existsSync(path.join(out, "area"))
-  ? fs.readdirSync(path.join(out, "area"))
+  ? fs
+      .readdirSync(path.join(out, "area"), { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => entry.name)
   : [];
 
 for (const slug of exported) {

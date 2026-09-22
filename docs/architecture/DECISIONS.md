@@ -110,3 +110,26 @@ Os filetes que apenas separam seções e linhas de lista foram movidos para
 `hardware-line-soft` (`#39342d`) e `hardware-line-faint` (`#26221e`). Eles são
 decorativos: não identificam componente nem estado, então o limiar não se
 aplica a eles e a densidade visual do arquivo não mudou.
+
+## ADR-014 — a personalidade não intercepta clique nem mexe no DOM do React
+
+Dois defeitos de navegação nasceram da mesma origem: a camada de personalidade
+disputando com o navegador e com o React o que não era dela.
+
+A animação de entrada entra **depois** da hidratação, por cima de uma página que
+já estava visível e clicável. Enquanto ela cobria a tela com `pointer-events`
+ativo, o primeiro clique em um link só servia para pulá-la — a navegação exigia
+um segundo clique. A tela passou a ser `pointer-events: none` (só o botão
+"pular" recebe ponteiro). Pular por clique continua valendo, porque o gesto é
+ouvido na janela: um clique pula a animação **e** faz o que o visitante pediu.
+
+O favicon por rota era trocado removendo do `<head>` toda tag
+`<link rel="icon">` — inclusive a que o React renderiza a partir de
+`app/icon.svg`. Na transição seguinte o React tentava desmontar um nó já sem
+pai e estourava `Cannot read properties of null (reading 'removeChild')` no meio
+da navegação. O ícone por rota passou a ser declarado pelo próprio Next, com
+`app/archive/icon.svg` e `app/area/icon.svg` sobrescrevendo `app/icon.svg`;
+`browser-chrome.tsx` ficou só com o cursor piscando no título da aba.
+
+Regra que fica: a camada de personalidade nunca remove nem reordena nós que o
+React renderiza, e nunca fica entre o visitante e um alvo clicável.
