@@ -12,7 +12,7 @@ const entry = z.object({
   title: z.string(),
   summary: z.string(),
   type: z.string(),
-  channel: z.string(),
+  area: z.string(),
   status: z.string(),
   visibility: z.literal("public"),
   tags: z.array(z.string()).default([]),

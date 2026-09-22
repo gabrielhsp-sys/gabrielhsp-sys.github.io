@@ -1,0 +1,75 @@
+---
+id: telegram-offers
+title: Telegram Offers
+summary: Serviço em Python que lê canais de promoção, pontua cada anúncio contra uma wishlist e avisa só quando a oferta é mesmo a peça certa.
+type: project
+area: software
+status: live
+visibility: public
+publishedAt: 2026-09-21
+updatedAt: 2026-09-21
+tags: [python, telethon, sqlite, systemd, automacao]
+related: [academic-system, fedora-post-install]
+featured: true
+featuredRank: 1
+---
+
+## O problema
+
+Acompanhar canais de promoção para montar um PC é um trabalho de atenção que ninguém
+consegue manter. São centenas de mensagens por dia, o mesmo anúncio é copiado entre
+canais, e o produto certo aparece no meio de "PC gamer completo" e de placas de vídeo
+que só compartilham um número no nome. Quem lê tudo desiste; quem desiste perde a queda
+de preço real.
+
+## O que eu fiz
+
+Um serviço que faz essa leitura no meu lugar e só me interrompe quando vale a pena.
+
+Ele usa duas sessões do Telegram no mesmo processo, com papéis separados de propósito:
+a minha conta **apenas lê** os canais de origem — nunca envia, reage nem entra em canal
+automaticamente — e um bot escreve no meu canal privado de destino.
+
+Cada mensagem passa por um pipeline curto:
+
+- **Normalização** separa o título real do corpo, pulando enfeites como "Parceladinho"
+  antes do nome do produto e descartando linhas de cupom e link. Foi essa etapa que
+  acabou com um falso positivo teimoso: um código de cupom continha o modelo de um
+  produto e casava com anúncios de outra coisa.
+- **Pontuação de 0 a 100** contra uma wishlist declarativa. SKU exato vale 100; termos
+  obrigatórios no título valem mais do que no corpo; padrões de reforço somam; padrões
+  de exclusão subtraem ou zeram. Acima de 70 é oferta, entre 40 e 69 chega marcada com
+  o motivo da dúvida, abaixo de 40 é descartada.
+- **Extração** de preço, cupom, loja e link.
+- **Deduplicação** por quatro chaves com janelas diferentes, da mais literal
+  (mesma mensagem reprocessada após restart) à mais semântica: produto + link + faixa
+  de preço. A faixa é logarítmica de 2%, então R$ 249 e R$ 250 são a mesma oferta, mas
+  uma queda de R$ 622 para R$ 508 volta a ser notícia.
+
+Adicionar uma peça nova é editar um arquivo YAML. Nenhum Python precisa mudar.
+
+Antes de ligar os alertas, há um conjunto de scripts de calibração que reproduz meses
+de histórico e responde quantos alertas por dia aquela configuração geraria — o volume
+é decidido com dados, não no susto.
+
+## Stack
+
+Python 3.12, Telethon (MTProto), SQLite para histórico de preços e deduplicação, YAML
+para a wishlist, `rapidfuzz`, e uma suíte de testes automatizados que roda sem tocar no
+Telegram. Publicado como serviço systemd de usuário, com `linger` para sobreviver a
+logout e subir no boot.
+
+## Resultado
+
+Está **no ar**, rodando 24 horas por dia, e é o projeto que mais usa a palavra
+"operação": tem serviço, logs, backup do histórico e comandos administrativos
+(`/lista`, `/status`, `/fontes`, `/historico`) enviados pelo próprio canal de destino.
+
+A parte que eu mais levo para outros projetos é a disciplina de segurança em volta do
+arquivo de sessão: ele é a credencial mais sensível do sistema, vive com permissão
+restrita fora do versionamento, e nada vai para o log sem máscara.
+
+## Link
+
+O repositório é privado, então não há link público. O que está descrito aqui é o
+sistema como ele existe hoje.

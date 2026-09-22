@@ -11,17 +11,17 @@ const items = fs
   .filter((file) => /\.mdx?$/.test(file))
   .map((file) => matter(fs.readFileSync(path.join(root, "content/public", file), "utf8")).data);
 
-// Um canal so existe no site exportado se carregar pelo menos um registro.
-const used = new Set(items.map((item) => item.channel));
-const exported = fs.existsSync(path.join(out, "channel"))
-  ? fs.readdirSync(path.join(out, "channel"))
+// Uma area so existe no site exportado se carregar pelo menos um registro.
+const used = new Set(items.map((item) => item.area));
+const exported = fs.existsSync(path.join(out, "area"))
+  ? fs.readdirSync(path.join(out, "area"))
   : [];
 
 for (const slug of exported) {
-  if (!used.has(slug.toUpperCase())) errors.push(`/channel/${slug} nao tem registro publico`);
+  if (!used.has(slug)) errors.push(`/area/${slug} nao tem registro publico`);
 }
-for (const channel of used) {
-  if (!exported.includes(channel.toLowerCase())) errors.push(`/channel/${channel.toLowerCase()} faltando`);
+for (const area of used) {
+  if (!exported.includes(area)) errors.push(`/area/${area} faltando`);
 }
 
 // Nada privado ou nao publicado pode ter virado pagina.
@@ -36,4 +36,4 @@ if (errors.length) {
   console.error(errors.join("\n"));
   process.exit(1);
 }
-console.log(`export: ${exported.length} canais, ${items.length} registros`);
+console.log(`export: ${exported.length} areas, ${items.length} registros`);

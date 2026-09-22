@@ -1,23 +1,73 @@
 ---
 id: gabriel-sys-site
-title: Este arquivo vivo
-summary: O próprio portfólio reconstruído como índice de projetos, estudos e referências, com busca e conteúdo em Markdown.
+title: GABRIEL.SYS
+summary: Este site. Um portfólio estático em Next.js onde cada projeto é um arquivo Markdown validado no build, com busca, terminal e acessibilidade levadas a sério.
 type: project
-channel: CREATE
-status: PLAYING
+area: web
+status: live
 visibility: public
 publishedAt: 2025-06-16
-updatedAt: 2026-09-15
-tags: [nextjs, typescript, mdx, design, github-pages]
-related: [academic-system, fedora-post-install, homelab-acer]
+updatedAt: 2026-09-21
+tags: [nextjs, typescript, mdx, acessibilidade, github-pages]
+related: [academic-system, fedora-post-install]
 github: https://github.com/gabrielhsp-sys/gabrielhsp-sys.github.io
 featured: true
+featuredRank: 2
 ---
 
-O portfólio anterior já tinha boot, terminal, CRT e easter eggs. Esta versão preserva a personalidade, mas muda a função: em vez de uma apresentação que termina, o site passa a ser um sistema que acumula contexto.
+## O problema
 
-## A mudança
+O portfólio anterior era uma página só: bonito, com personalidade, e terminal — mas
+uma apresentação que termina. Cada projeto novo significava editar HTML na mão, e
+nada ali sobrevivia ao contexto em que foi escrito.
 
-Projetos e registros agora nascem como Markdown/MDX validado. Canais ajudam a percorrer áreas; estados mostram se algo está ativo, pausado, entregue ou servindo como referência. Relações conectam trabalhos que normalmente ficariam separados em repositórios e pastas.
+O problema real não era o visual. Era que um portfólio precisa fazer duas coisas ao
+mesmo tempo, e elas puxam para lados opostos: convencer quem chegou para contratar,
+em segundos, e continuar servindo como arquivo do que já foi feito.
 
-A busca global é o centro operacional. O terminal continua existindo, mas como atalho e brincadeira — nunca como barreira para leitura.
+## O que eu fiz
+
+Separei as duas camadas.
+
+**Conteúdo é dado, não marcação.** Cada projeto é um `.mdx` em `content/public` com
+frontmatter validado por Zod no build. Se um campo estiver errado, ou uma relação
+apontar para um projeto que não existe, o build falha — não existe página publicada
+com metadado inválido.
+
+**O índice é derivado.** Áreas, estados, relações, índice de busca, sitemap, feed RSS
+e a imagem de compartilhamento nascem do conteúdo durante o build. Uma área sem
+nenhum projeto simplesmente não vira rota, e volta sozinha no dia em que receber um.
+
+**A personalidade vive por cima.** Animação de entrada, sons sintetizados em Web
+Audio, terminal com jogo, modo retrô e conquistas existem — e nada essencial depende
+deles. Tudo funciona só com teclado, tudo é desligável, e `prefers-reduced-motion`
+desliga a animação agressiva. Os rótulos da navegação usam a língua de quem contrata;
+a metáfora de terminal fica nos easter eggs.
+
+**A fronteira público/privado é física.** O repositório de deploy contém apenas o que
+foi aprovado como público. Nada importado de conversa, e-mail ou nota privada é
+publicado automaticamente — não é uma flag em dado já enviado ao GitHub.
+
+## Stack
+
+Next.js 16 com App Router e `output: export`, React 19, TypeScript estrito,
+Tailwind CSS 4 com CSS autoral, MDX validado com Zod, Phosphor Icons. Publicado no
+GitHub Pages por GitHub Actions, que roda lint, testes de conteúdo e build antes de
+enviar — e verifica a exportação depois.
+
+Zero JavaScript de terceiros para animação ou som: os efeitos são Web Audio e CSS
+escritos aqui.
+
+## Resultado
+
+Está **no ar**. Site estático, sem servidor, sem banco e sem rastrear ninguém.
+Contraste dos tokens verificado contra a WCAG, navegação completa por teclado e
+skip link.
+
+É o projeto onde eu testo o que acho de interface antes de defender em qualquer
+outro lugar.
+
+## Link
+
+[gabrielhsp-sys.github.io](https://gabrielhsp-sys.github.io) ·
+[código no GitHub](https://github.com/gabrielhsp-sys/gabrielhsp-sys.github.io)

@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getAllContent, getPublicChannels } from "@/lib/content";
+import { getAllContent, getPublicAreas } from "@/lib/content";
 import { site } from "@/lib/site";
 
 export const dynamic = "force-static";
@@ -19,16 +19,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${site.url}${item.href}`,
     lastModified: item.updatedAt,
   }));
-  const channelPages = getPublicChannels().map((channel) => {
-    const inChannel = items.filter((item) => item.channel === channel);
+  const areaPages = getPublicAreas().map((area) => {
+    const inArea = items.filter((item) => item.area === area);
     return {
-      url: `${site.url}/channel/${channel.toLowerCase()}/`,
-      lastModified: inChannel.reduce(
+      url: `${site.url}/area/${area}/`,
+      lastModified: inArea.reduce(
         (newest, item) => (item.updatedAt > newest ? item.updatedAt : newest),
-        inChannel[0].updatedAt,
+        inArea[0].updatedAt,
       ),
     };
   });
 
-  return [...fixed, ...projects, ...channelPages];
+  return [...fixed, ...projects, ...areaPages];
 }

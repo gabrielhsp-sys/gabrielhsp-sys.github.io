@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 import { contentSchema, type ContentItem } from "@/lib/content-schema";
-import { channels } from "@/lib/site";
+import { areas } from "@/lib/site";
 
 const contentDirectory = path.join(process.cwd(), "content/public");
 
@@ -61,9 +61,16 @@ export function getRelatedContent(item: ContentItem) {
     .filter((candidate): candidate is ContentItem => Boolean(candidate));
 }
 
-// Um canal sem registro publico fica fora da interface. Ele continua no
-// esquema e volta sozinho assim que receber um save.
-export function getPublicChannels() {
+// Uma area sem registro publico fica fora da interface. Ela continua no
+// esquema e volta sozinha assim que receber um registro.
+export function getPublicAreas() {
   const items = getAllContent();
-  return channels.filter((channel) => items.some((item) => item.channel === channel));
+  return areas.filter((area) => items.some((item) => item.area === area));
+}
+
+// Os estudos de caso da home, na ordem escolhida em featuredRank.
+export function getFeaturedContent() {
+  return getAllContent()
+    .filter((item) => item.featured)
+    .sort((a, b) => a.featuredRank - b.featuredRank);
 }

@@ -1,33 +1,77 @@
 ---
 id: academic-system
 title: Academic System
-summary: Sistema de gestão acadêmica em Java com RBAC, duas interfaces e uma arquitetura feita para continuar legível.
+summary: Sistema de gestão acadêmica em Java com RBAC, duas interfaces sobre a mesma regra de negócio e uma arquitetura feita para continuar legível.
 type: project
-channel: CODE
-status: PLAYING
+area: software
+status: building
 visibility: public
 publishedAt: 2026-06-30
 updatedAt: 2026-09-11
 tags: [java, javafx, arquitetura, testes, github-actions]
-related: [faculdade-bcc, fedora-post-install]
+related: [faculdade-bcc, telegram-offers]
 github: https://github.com/gabrielhsp-sys/academic-system
 featured: true
+featuredRank: 3
 ---
 
-O Academic System começou como um trabalho de faculdade e cresceu até virar o melhor retrato atual de como eu penso software: regra de negócio separada da interface, decisões explícitas e testes onde uma alteração realmente pode quebrar o sistema.
+## O problema
 
-## Duas portas, uma lógica
+Um sistema acadêmico parece simples até a segunda interface. Aí a regra de negócio,
+que estava escondida na tela, precisa existir em dois lugares — e normalmente é
+copiada. O mesmo acontece com persistência: o primeiro formato vira premissa e
+trocá-lo depois vira reescrita.
 
-A aplicação oferece CLI e JavaFX sobre a mesma camada de negócio. O objetivo não era apenas entregar duas telas; era provar que a interface pode mudar sem arrastar o domínio junto.
+O trabalho pedia, além disso, crescer por entregas incrementais sem que cada entrega
+transformasse a anterior em dívida.
 
-O controle de acesso usa RBAC. Repositórios isolam persistência e estratégias permitem trabalhar com TXT, XML e JSON. Maven coordena o build, enquanto JUnit 5, Mockito e JaCoCo cobrem testes e qualidade.
+## O que eu fiz
 
-## O que vale guardar
+Uma aplicação em camadas onde a interface é a parte descartável.
 
-- Arquitetura em camadas e responsabilidades visíveis.
-- Repository e Strategy aplicados a um problema concreto.
-- Quatro workflows no GitHub Actions.
-- Docker como ambiente reproduzível.
-- Uma base que ainda pode receber novas interfaces e formas de persistência.
+CLI e JavaFX falam com a **mesma** camada de serviço. Trocar ou acrescentar uma
+interface não arrasta o domínio junto — que era exatamente a hipótese a ser provada.
 
-Este registro continuará em `PLAYING` enquanto o código e a documentação pública evoluírem.
+O controle de acesso é **RBAC**, com autenticação, autorização por papel, sessão e
+logout. A persistência fica atrás de repositórios, com estratégias intercambiáveis
+para TXT, XML e JSON: o formato deixou de ser uma decisão irreversível.
+
+Validação de domínio com Jakarta Bean Validation, log estruturado com SLF4J e Logback,
+e testes com JUnit Jupiter e Mockito onde uma mudança pode quebrar o sistema de
+verdade. Docker dá um ambiente reproduzível e quatro workflows no GitHub Actions
+cuidam de CI, validação de pull request, publicação da imagem e release.
+
+### Sobre o fork — o que é meu
+
+Este repositório é um fork de
+[`pagliares/academic-system-semester-assignment-2026`](https://github.com/pagliares/academic-system-semester-assignment-2026),
+o repositório inicial da disciplina de Programação Orientada a Objetos da UNIFAL-MG.
+Trabalhar sobre o fork era o formato exigido pelo trabalho, e a relação é mantida
+de propósito.
+
+O ponto de partida era um esqueleto Maven: `pom.xml`, `.gitignore`, `LICENSE`, um
+README de exemplo e uma classe `Main` vazia — dez arquivos.
+
+Todo o resto foi escrito por mim: 59 classes de aplicação, 14 classes de teste, o
+`Dockerfile` e os quatro workflows, além das mudanças no `pom.xml` e no `.gitignore`.
+São 88 arquivos e cerca de 3.700 linhas acrescentadas em 13 commits sobre o esqueleto.
+O modelo de domínio, a arquitetura em camadas, o RBAC, as três persistências, os
+relatórios, a interface JavaFX e a suíte de testes fazem parte desse trabalho.
+
+## Stack
+
+Java SE 25, Maven, Lombok, Jakarta Bean Validation, JUnit Jupiter, Mockito, SLF4J com
+Logback, JavaFX, Docker e GitHub Actions.
+
+## Resultado
+
+É o retrato mais completo de como eu organizo software: regra de negócio separada da
+interface, decisões explícitas, e o tipo de teste que impede uma refatoração de
+passar despercebida.
+
+Continua **em desenvolvimento** enquanto novas histórias de usuário entram — a
+arquitetura foi desenhada para que isso não exija reescrever o que já está de pé.
+
+## Link
+
+[github.com/gabrielhsp-sys/academic-system](https://github.com/gabrielhsp-sys/academic-system)

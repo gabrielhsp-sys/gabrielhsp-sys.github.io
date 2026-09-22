@@ -12,7 +12,7 @@ const paperFaint = "#9b9487";
 const line = "#39342d";
 const amber = "#f0ab3c";
 
-const channels = ["CODE", "HOMELAB", "COLLEGE", "HARDWARE", "CREATE", "RESEARCH"];
+const areas = ["Software & Automação", "Web & Interfaces", "Acadêmico"];
 const description =
   "Projetos, estudos, homelab, hardware e registros de Gabriel Henrique — organizados como um arquivo vivo.";
 const host = "gabrielhsp-sys.github.io";
@@ -68,7 +68,7 @@ const body = h(
   h(
     "div",
     { style: { display: "flex", fontSize: 18, color: paperFaint, letterSpacing: "0.06em", whiteSpace: "nowrap" } },
-    `ARQUIVO PÚBLICO · ${channels.map((channel) => `/${channel}`).join("  ")}`,
+    `PROJETOS · ${areas.join("  ·  ")}`,
   ),
   h(
     "div",

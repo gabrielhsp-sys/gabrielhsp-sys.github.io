@@ -1,25 +1,63 @@
 ---
 id: fedora-post-install
 title: Fedora pós-instalação
-summary: Guia em português para transformar uma instalação limpa do Fedora 44 em uma estação segura, útil e pronta para jogos.
-type: reference
-channel: RESEARCH
-status: CODEX
+summary: Guia em português que transforma uma instalação limpa do Fedora 44 em uma estação completa em menos de quinze minutos, com como desfazer cada passo.
+type: project
+area: software
+status: done
 visibility: public
 publishedAt: 2026-08-17
 updatedAt: 2026-08-17
-tags: [fedora, linux, dnf5, secure-boot, gaming]
-related: [academic-system, homelab-acer]
+tags: [fedora, linux, dnf5, secure-boot, documentacao]
+related: [academic-system, telegram-offers]
 github: https://github.com/gabrielhsp-sys/fedora-post-install
 featured: true
+featuredRank: 4
 ---
 
-Uma reinstalação deveria terminar com uma máquina melhor documentada, não com a sensação de que meia dúzia de comandos importantes sumiram da memória.
+## O problema
 
-Este guia organiza o pós-instalação do Fedora 44 como uma sequência copiável, verificável e reversível. Ele cobre atualização do sistema, RPM Fusion, codecs, drivers, Secure Boot, snapshots e a base para jogos.
+Toda reinstalação do Fedora recomeça a mesma caçada: repositórios, codecs, drivers de
+GPU, firmware, snapshots. O conhecimento existe, mas espalhado em guias que copiam uns
+aos outros — inclusive os erros. Um exemplo pequeno e caro: metade dos guias na
+internet ensina a acelerar o `dnf` com o nome errado da opção, e o `dnf5` responde
+reclamando de opção desconhecida.
 
-## Princípio
+O resultado é sempre o mesmo: a máquina fica pronta, e meia dúzia de comandos
+importantes some da memória até a próxima vez.
 
-Cada bloco precisa dizer o que muda e como confirmar que funcionou. Quando a alteração pode afetar o boot ou o sistema de pacotes, a saída também precisa incluir recuperação ou rollback.
+## O que eu fiz
 
-O guia está em `CODEX`: não é um projeto encerrado, mas uma referência que deve acompanhar novas versões do Fedora.
+Transformei o meu próprio pós-instalação em um guia de copiar e colar, escrito em
+português, testado no Fedora 44 Workstation com `dnf5`.
+
+Três decisões sustentam o texto:
+
+- **Cada bloco diz o que muda.** Não é uma lista de comandos soltos; é a explicação de
+  por que aquele passo existe, na ordem em que ele precisa acontecer — os plugins do
+  `dnf5` vêm antes, porque sem eles metade dos comandos seguintes quebra.
+- **A parte perigosa é sinalizada.** O guia é dividido: a parte de cima é segura para
+  qualquer pessoa; a parte de baixo mexe em kernel, memória e disco, e vem com aviso
+  antes, não depois.
+- **Tem como desfazer.** Há uma seção de rollback no fim. Um guia que só sabe instalar
+  é um guia que você tem medo de seguir.
+
+Cobre atualização do sistema, plugins do `dnf5`, RPM Fusion completo (free, nonfree e
+tainted), codecs, firmware, drivers de GPU, Flatpak, snapshots, pacotes essenciais,
+limpeza final e a base para jogos.
+
+## Stack
+
+Não é software: é documentação técnica. Markdown no GitHub, licença CC BY 4.0, escrito
+contra o Fedora 44 Workstation e o `dnf5`.
+
+## Resultado
+
+Está **concluído** para o Fedora 44: leva menos de quinze minutos do sistema limpo à
+estação pronta, e é o guia que eu mesmo sigo. É também o projeto que me ensinou que
+escrever uma instrução verificável é tão técnico quanto escrever a automação dela — e
+bem mais fácil de outra pessoa usar.
+
+## Link
+
+[github.com/gabrielhsp-sys/fedora-post-install](https://github.com/gabrielhsp-sys/fedora-post-install)
