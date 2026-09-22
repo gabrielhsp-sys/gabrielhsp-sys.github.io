@@ -4,24 +4,28 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowUpRightIcon as ArrowUpRight, FunnelSimpleIcon as FunnelSimple, XIcon as X } from "@phosphor-icons/react";
 import { formatDate, normalizeSearch } from "@/lib/format";
-import { channels as allChannels, statuses as allStatuses, typeLabels, types as allTypes } from "@/lib/site";
+import {
+  areaLabels,
+  areas as allAreas,
+  statusLabels,
+  statuses as allStatuses,
+} from "@/lib/site";
 
 type ArchiveItem = {
   id: string;
   title: string;
   summary: string;
   href: string;
-  channel: string;
+  area: string;
   status: string;
-  type: string;
   updatedAt: string;
   tags: string[];
 };
 
 type Order = "recent" | "alpha";
 
-const typeLabel = (value: string) =>
-  typeLabels[value as (typeof allTypes)[number]] ?? value.toUpperCase();
+const areaLabel = (value: string) => areaLabels[value as (typeof allAreas)[number]] ?? value;
+const statusLabel = (value: string) => statusLabels[value as (typeof allStatuses)[number]] ?? value;
 
 // Keep the canonical order from the schema instead of whatever order the
 // content happens to be sorted in.
@@ -31,38 +35,34 @@ const inOrder = (canonical: readonly string[], present: string[]) => [
 ];
 
 export function ArchiveExplorer({ items }: { items: ArchiveItem[] }) {
-  const [channel, setChannel] = useState("ALL");
+  const [area, setArea] = useState("ALL");
   const [status, setStatus] = useState("ALL");
-  const [type, setType] = useState("ALL");
   const [term, setTerm] = useState("");
   const [order, setOrder] = useState<Order>("recent");
 
-  const channels = inOrder(allChannels, items.map((item) => item.channel));
+  const areas = inOrder(allAreas, items.map((item) => item.area));
   const statuses = inOrder(allStatuses, items.map((item) => item.status));
-  const itemTypes = inOrder(allTypes, items.map((item) => item.type));
-  const filtered = channel !== "ALL" || status !== "ALL" || type !== "ALL" || term.trim() !== "";
+  const filtered = area !== "ALL" || status !== "ALL" || term.trim() !== "";
 
   const visible = useMemo(() => {
     const needle = normalizeSearch(term.trim());
     const matched = items.filter((item) => {
-      if (channel !== "ALL" && item.channel !== channel) return false;
+      if (area !== "ALL" && item.area !== area) return false;
       if (status !== "ALL" && item.status !== status) return false;
-      if (type !== "ALL" && item.type !== type) return false;
       if (!needle) return true;
       return normalizeSearch(
-        `${item.title} ${item.summary} ${item.channel} ${item.status} ${item.type} ${item.tags.join(" ")}`,
+        `${item.title} ${item.summary} ${areaLabel(item.area)} ${statusLabel(item.status)} ${item.tags.join(" ")}`,
       ).includes(needle);
     });
 
     return order === "alpha"
       ? [...matched].sort((a, b) => a.title.localeCompare(b.title, "pt-BR"))
       : [...matched].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
-  }, [channel, items, order, status, term, type]);
+  }, [area, items, order, status, term]);
 
   const clearAll = () => {
-    setChannel("ALL");
+    setArea("ALL");
     setStatus("ALL");
-    setType("ALL");
     setTerm("");
   };
 
@@ -88,24 +88,17 @@ export function ArchiveExplorer({ items }: { items: ArchiveItem[] }) {
           )}
         </div>
 
-        <div className="filter-group" role="group" aria-label="Filtrar por canal">
-          {channels.map((value) => (
-            <button key={value} type="button" aria-pressed={channel === value} data-active={channel === value} onClick={() => setChannel(value)}>
-              {value === "ALL" ? "TODOS OS CANAIS" : `/${value}`}
+        <div className="filter-group" role="group" aria-label="Filtrar por área">
+          {areas.map((value) => (
+            <button key={value} type="button" aria-pressed={area === value} data-active={area === value} onClick={() => setArea(value)}>
+              {value === "ALL" ? "Todas as áreas" : areaLabel(value)}
             </button>
           ))}
         </div>
         <div className="filter-group" role="group" aria-label="Filtrar por estado">
           {statuses.map((value) => (
             <button key={value} type="button" aria-pressed={status === value} data-active={status === value} onClick={() => setStatus(value)}>
-              {value === "ALL" ? "QUALQUER ESTADO" : value}
-            </button>
-          ))}
-        </div>
-        <div className="filter-group" role="group" aria-label="Filtrar por tipo">
-          {itemTypes.map((value) => (
-            <button key={value} type="button" aria-pressed={type === value} data-active={type === value} onClick={() => setType(value)}>
-              {value === "ALL" ? "QUALQUER TIPO" : typeLabel(value)}
+              {value === "ALL" ? "Qualquer estado" : statusLabel(value)}
             </button>
           ))}
         </div>
@@ -113,7 +106,7 @@ export function ArchiveExplorer({ items }: { items: ArchiveItem[] }) {
 
       <div className="archive-status">
         <p className="result-count" role="status">
-          <b>{visible.length}</b> de {items.length} saves visíveis
+          <b>{visible.length}</b> de {items.length} projetos visíveis
           {filtered && (
             <button type="button" className="clear-all" onClick={clearAll}>
               limpar filtros
@@ -122,7 +115,7 @@ export function ArchiveExplorer({ items }: { items: ArchiveItem[] }) {
         </p>
         <div className="order-group" role="group" aria-label="Ordenar">
           <button type="button" aria-pressed={order === "recent"} data-active={order === "recent"} onClick={() => setOrder("recent")}>
-            MAIS RECENTE
+            Mais recente
           </button>
           <button type="button" aria-pressed={order === "alpha"} data-active={order === "alpha"} onClick={() => setOrder("alpha")}>
             A–Z
@@ -139,9 +132,8 @@ export function ArchiveExplorer({ items }: { items: ArchiveItem[] }) {
               <small>{item.summary}</small>
             </span>
             <span className="archive-line-meta">
-              <span className="archive-line-channel">/{item.channel}</span>
-              <span data-status={item.status}>{item.status}</span>
-              <span className="archive-line-type">{typeLabel(item.type)}</span>
+              <span className="archive-line-area" data-area={item.area}>{areaLabel(item.area)}</span>
+              <span data-status={item.status}>{statusLabel(item.status)}</span>
               <time dateTime={item.updatedAt}>{formatDate(new Date(item.updatedAt))}</time>
             </span>
             <ArrowUpRight size={18} aria-hidden="true" />
@@ -149,7 +141,7 @@ export function ArchiveExplorer({ items }: { items: ArchiveItem[] }) {
         ))}
         {visible.length === 0 && (
           <div className="empty-state">
-            <p>Nenhum save ocupa esse cruzamento.</p>
+            <p>Nenhum projeto combina com esse filtro.</p>
             <button type="button" onClick={clearAll}>Limpar filtros</button>
           </div>
         )}

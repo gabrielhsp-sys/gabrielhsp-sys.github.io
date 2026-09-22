@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { ArrowUpRightIcon as ArrowUpRight, GithubLogoIcon as GithubLogo } from "@phosphor-icons/react/dist/ssr";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Sobre",
@@ -46,16 +47,20 @@ export default function AboutPage() {
           </p>
           <h2>Como este site funciona</h2>
           <p>
-            Cada registro público é um arquivo Markdown ou MDX versionado no GitHub. Canais organizam áreas; estados mostram o momento; relações criam atalhos entre projetos, estudos e referências.
+            Cada projeto público é um arquivo Markdown ou MDX versionado no GitHub e validado no build. Três áreas organizam o acervo, o estado mostra em que ponto cada coisa está, e as relações criam atalhos entre um trabalho e outro.
           </p>
           <p>
-            O acervo privado planejado será separado fisicamente deste deploy. Nada de chats, e-mails ou notas pessoais vira página sem seleção e revisão explícitas.
+            O acervo privado planejado fica fisicamente separado deste deploy. Nada de conversa, e-mail ou nota pessoal vira página sem seleção e revisão explícitas.
+          </p>
+          <p>
+            A camada de personalidade — animação de entrada, sons, terminal, modo retrô — é opcional por princípio: nada essencial depende dela, tudo funciona só com teclado, e o movimento some para quem pediu menos movimento.
           </p>
           <div className="about-actions">
-            <a href="https://github.com/gabrielhsp-sys" target="_blank" rel="noreferrer">
+            <a href={site.github} target="_blank" rel="noreferrer">
               <GithubLogo size={20} /> GitHub <ArrowUpRight size={17} />
             </a>
-            <a href="mailto:gabrielhspereira36@gmail.com">mandar um e-mail <ArrowUpRight size={17} /></a>
+            <a href={`mailto:${site.email}`}>mandar um e-mail <ArrowUpRight size={17} /></a>
+            <a href={site.linkedin} target="_blank" rel="noreferrer">LinkedIn <ArrowUpRight size={17} /></a>
           </div>
         </article>
       </div>

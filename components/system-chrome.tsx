@@ -9,35 +9,48 @@ import {
   HouseIcon as House,
   InfoIcon as Info,
   MagnifyingGlassIcon as MagnifyingGlass,
+  SpeakerHighIcon as SpeakerHigh,
+  SpeakerSlashIcon as SpeakerSlash,
   TerminalWindowIcon as TerminalWindow,
   XIcon as X,
 } from "@phosphor-icons/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { BootSequence } from "@/components/boot-sequence";
+import { BrowserChrome } from "@/components/browser-chrome";
+import { usePersonality } from "@/components/personality";
+import { Snake } from "@/components/snake";
 import { normalizeSearch } from "@/lib/format";
+import { areaLabels, site, statusLabels } from "@/lib/site";
 
 type SearchRecord = {
   id: string;
   title: string;
   summary: string;
   type: string;
-  channel: string;
+  area: string;
   status: string;
   tags: string[];
   href: string;
   text: string;
 };
 
-type TerminalLine = { kind: "in" | "out" | "err"; text: string };
+type TerminalLine = { kind: "in" | "out" | "err" | "good"; text: string; href?: string };
 
 const nav = [
   { href: "/", label: "Início", icon: House },
-  { href: "/archive/", label: "Arquivo", icon: ArchiveBox },
+  { href: "/archive/", label: "Projetos", icon: ArchiveBox },
   { href: "/about/", label: "Sobre", icon: Info },
 ];
 
 const terminalIntro: TerminalLine[] = [
-  { kind: "out", text: "GABRIEL.SYS archive shell · public mode" },
-  { kind: "out", text: "digite `help` para ver os comandos." },
+  { kind: "out", text: "GABRIEL.SYS — terminal do portfólio" },
+  { kind: "out", text: "Tudo que está no site também está aqui, em texto." },
+  { kind: "out", text: "Digite `help` para ver os comandos." },
+];
+
+const KONAMI = [
+  "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown",
+  "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a",
 ];
 
 function BrandMark() {
@@ -62,17 +75,25 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
   const [clock, setClock] = useState("--:--");
   const [lines, setLines] = useState<TerminalLine[]>(terminalIntro);
   const [command, setCommand] = useState("");
+  const [history, setHistory] = useState<string[]>([]);
+  const [historyAt, setHistoryAt] = useState(-1);
+  const [playing, setPlaying] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const commandRef = useRef<HTMLInputElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
+  const logRef = useRef<HTMLDivElement>(null);
   const searchLayerRef = useRef<HTMLElement>(null);
   const terminalLayerRef = useRef<HTMLDivElement>(null);
   const openerRef = useRef<HTMLElement | null>(null);
   const layerWasOpen = useRef(false);
+  const konamiAt = useRef(0);
+
+  const { sound, retro, achievements } = usePersonality();
 
   const closeLayers = useCallback(() => {
     setSearchOpen(false);
     setTerminalOpen(false);
+    setPlaying(false);
     setQuery("");
   }, []);
 
@@ -82,6 +103,12 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
     setSelected(0);
     setSearchOpen(true);
   }, []);
+
+  const openTerminal = useCallback(() => {
+    setSearchOpen(false);
+    setTerminalOpen(true);
+    achievements.unlock("terminal");
+  }, [achievements]);
 
   useEffect(() => {
     const tick = () =>
@@ -104,7 +131,7 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
     return records
       .filter((record) =>
         normalizeSearch(
-          `${record.title} ${record.summary} ${record.channel} ${record.status} ${record.tags.join(" ")} ${record.text}`,
+          `${record.title} ${record.summary} ${record.area} ${record.status} ${record.tags.join(" ")} ${record.text}`,
         ).includes(needle),
       )
       .slice(0, 8);
@@ -118,11 +145,24 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
     [closeLayers, router],
   );
 
+  /* ───────── teclado global ───────── */
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement;
       const isTyping = ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName);
       const bareKey = !event.ctrlKey && !event.metaKey && !event.altKey;
+
+      /* konami — em qualquer lugar, menos durante o snake */
+      if (!playing) {
+        const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
+        konamiAt.current = key === KONAMI[konamiAt.current]
+          ? konamiAt.current + 1
+          : (key === KONAMI[0] ? 1 : 0);
+        if (konamiAt.current === KONAMI.length) {
+          konamiAt.current = 0;
+          retro.toggle();
+        }
+      }
 
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
         event.preventDefault();
@@ -130,15 +170,16 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
         return;
       }
 
-      if (event.key === "Escape") {
+      if (event.key === "Escape" && !playing) {
         closeLayers();
         return;
       }
 
+      /* o terminal abre na crase/til, inclusive com a tecla morta do ABNT2 */
       if (!isTyping && bareKey && (event.key === "~" || event.key === "`" || event.code === "Backquote")) {
         event.preventDefault();
-        setSearchOpen(false);
-        setTerminalOpen((open) => !open);
+        if (terminalOpen) closeLayers();
+        else openTerminal();
         return;
       }
 
@@ -183,16 +224,17 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [closeLayers, openResult, openSearch, results, searchOpen, selected, terminalOpen]);
+  }, [closeLayers, openResult, openSearch, openTerminal, playing, results, retro, searchOpen, selected, terminalOpen]);
 
   useEffect(() => {
     const openFromPage = (event: Event) => {
       const target = event.target as HTMLElement;
       if (target.closest("[data-search-shortcut]")) openSearch();
+      if (target.closest("[data-terminal-shortcut]")) openTerminal();
     };
     document.addEventListener("click", openFromPage);
     return () => document.removeEventListener("click", openFromPage);
-  }, [openSearch]);
+  }, [openSearch, openTerminal]);
 
   useEffect(() => {
     if ((!searchOpen && !terminalOpen) || records || searchError) return;
@@ -213,6 +255,10 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
   }, [searchOpen, selected, results]);
 
   useEffect(() => {
+    if (logRef.current) logRef.current.scrollTop = logRef.current.scrollHeight;
+  }, [lines, playing]);
+
+  useEffect(() => {
     const layerOpen = searchOpen || terminalOpen;
     const background = document.querySelectorAll<HTMLElement>(
       ".site-column, .system-rail, .mobile-dock",
@@ -226,7 +272,7 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
     background.forEach((element) => { element.inert = layerOpen; });
 
     if (searchOpen) window.setTimeout(() => inputRef.current?.focus(), 40);
-    if (terminalOpen) window.setTimeout(() => commandRef.current?.focus(), 40);
+    if (terminalOpen && !playing) window.setTimeout(() => commandRef.current?.focus(), 40);
 
     if (!layerOpen) {
       delete document.body.dataset.layerOpen;
@@ -235,81 +281,225 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
     }
 
     return () => background.forEach((element) => { element.inert = false; });
-  }, [searchOpen, terminalOpen]);
+  }, [playing, searchOpen, terminalOpen]);
+
+  /* ───────── terminal ───────── */
 
   const runCommand = (raw: string) => {
     const entry = raw.trim();
     if (!entry) return;
+    setHistory((current) => [entry, ...current]);
+    setHistoryAt(-1);
+
     const [name, ...rest] = entry.split(/\s+/);
     const argument = rest.join(" ");
     const echo: TerminalLine = { kind: "in", text: entry };
     const push = (...output: TerminalLine[]) => setLines((current) => [...current, echo, ...output]);
+    const out = (text: string, href?: string): TerminalLine => ({ kind: "out", text, href });
 
     switch (name.toLowerCase()) {
       case "help":
+      case "ajuda":
       case "?":
         push(
-          { kind: "out", text: "ls            lista os saves públicos" },
-          { kind: "out", text: "open <slot>   abre um save pelo identificador" },
-          { kind: "out", text: "archive       vai para o arquivo completo" },
-          { kind: "out", text: "channels      vai para o índice de canais" },
-          { kind: "out", text: "search <termo> abre a busca global" },
-          { kind: "out", text: "whoami        contexto e contato" },
-          { kind: "out", text: "clear         limpa a sessão · exit fecha" },
+          out("projetos        lista os projetos públicos"),
+          out("abrir <slot>    abre um projeto pelo identificador"),
+          out("contato         copia o e-mail e abre o contato"),
+          out("cv              resumo em uma tela"),
+          out("busca <termo>   abre a busca global"),
+          out("theme           liga ou desliga o modo retrô"),
+          out("som             liga ou desliga os bipes"),
+          out("snake           joga snake aqui dentro"),
+          out("clear           limpa a sessão · sair fecha"),
+          { kind: "out", text: "" },
+          { kind: "good", text: "Tem coisa que não está nessa lista. Tente adivinhar." },
         );
         return;
+      case "projetos":
       case "ls":
         if (!records) {
           push({ kind: "err", text: searchError ? "índice indisponível." : "índice carregando…" });
           return;
         }
         push(
-          ...records.map((record) => ({
-            kind: "out" as const,
-            text: `${record.id.padEnd(22)} /${record.channel.padEnd(9)} ${record.status}`,
-          })),
+          ...records.map((record) =>
+            out(`${record.id.padEnd(20)} ${(areaLabels[record.area as keyof typeof areaLabels] ?? record.area).padEnd(22)} ${statusLabels[record.status as keyof typeof statusLabels] ?? record.status}`),
+          ),
+          { kind: "out", text: "" },
+          { kind: "good", text: "Use `abrir <slot>` para ler o estudo de caso." },
         );
         return;
+      case "abrir":
       case "open": {
         if (!argument) {
-          push({ kind: "err", text: "uso: open <slot>" });
+          push({ kind: "err", text: "uso: abrir <slot>" });
           return;
         }
         const match = records?.find((record) => record.id === argument);
         if (!match) {
-          push({ kind: "err", text: `slot "${argument}" não existe. use \`ls\`.` });
+          push({ kind: "err", text: `slot "${argument}" não existe. use \`projetos\`.` });
           return;
         }
-        push({ kind: "out", text: `carregando ${match.id}…` });
+        push(out(`carregando ${match.id}…`));
         openResult(match.href);
         return;
       }
+      case "arquivo":
       case "archive":
-        push({ kind: "out", text: "abrindo /archive…" });
+        push(out("abrindo a lista completa…"));
         openResult("/archive/");
         return;
-      case "channels":
-        push({ kind: "out", text: "abrindo índice de canais…" });
-        openResult("/#canais");
+      case "contato":
+        void navigator.clipboard?.writeText(site.email).then(
+          () => setLines((current) => [...current, { kind: "good", text: "e-mail copiado para a área de transferência." }]),
+          () => undefined,
+        );
+        push(
+          out(site.email, `mailto:${site.email}`),
+          out("github.com/gabrielhsp-sys", site.github),
+          out("linkedin.com/in/gabrielhsp-dev", site.linkedin),
+        );
+        sound.play("ok");
         return;
-      case "whoami":
-      case "about":
-        push({ kind: "out", text: "gabriel henrique · ciência da computação · unifal-mg" });
-        openResult("/about/");
+      case "cv":
+        push(
+          { kind: "good", text: "GABRIEL HENRIQUE" },
+          out("Ciência da Computação · UNIFAL-MG · Minas Gerais, BR"),
+          { kind: "out", text: "" },
+          { kind: "good", text: "SOFTWARE & AUTOMAÇÃO" },
+          out("  Python, Telethon, SQLite, systemd — serviço em produção 24/7"),
+          out("  Java, Maven, JUnit, Mockito, Docker, GitHub Actions"),
+          out("  Linux, dnf5, documentação técnica verificável"),
+          { kind: "out", text: "" },
+          { kind: "good", text: "WEB & INTERFACES" },
+          out("  Next.js, React, TypeScript, MDX, acessibilidade, GitHub Pages"),
+          { kind: "out", text: "" },
+          { kind: "good", text: "ACADÊMICO" },
+          out("  C, C++, Java, Prolog, SQL — graduação em curso na UNIFAL-MG"),
+          { kind: "out", text: "" },
+          { kind: "good", text: "CONTATO" },
+          out(`  ${site.email}`, `mailto:${site.email}`),
+        );
         return;
+      case "busca":
       case "search":
         openSearch(argument);
         return;
+      case "sobre":
+      case "whoami":
+        push(out("gabriel henrique · ciência da computação · unifal-mg"));
+        openResult("/about/");
+        return;
+      case "theme":
+      case "tema":
+        retro.toggle();
+        push(out(retro.on ? "voltando ao tema normal." : "fósforo verde ligado. `theme` de novo desliga."));
+        return;
+      case "som":
+      case "sound":
+        sound.toggle();
+        push(out(sound.on ? "som desligado." : "som ligado."));
+        return;
+      case "snake":
+      case "jogo":
+        push(out("carregando snake…"));
+        setPlaying(true);
+        return;
+      case "sudo": {
+        const target = argument.toLowerCase();
+        if (target === "hire gabriel") {
+          achievements.unlock("hire");
+          push(
+            { kind: "good", text: "permissão concedida." },
+            out("abrindo o contato. o e-mail está copiado."),
+          );
+          void navigator.clipboard?.writeText(site.email).catch(() => undefined);
+          openResult("/#contato");
+          return;
+        }
+        if (target.startsWith("rm")) {
+          push(
+            { kind: "err", text: "Boa tentativa." },
+            out("Este site é estático e versionado no Git. Volta com um comando."),
+          );
+          sound.play("error");
+          return;
+        }
+        push(
+          { kind: "err", text: "visitante não está no arquivo sudoers." },
+          out("Mas `sudo hire gabriel` funciona."),
+        );
+        sound.play("error");
+        return;
+      }
+      case "kernel":
+        if (!retro.on) break;
+        achievements.unlock("kernel");
+        push(
+          { kind: "good", text: "GHSP-KERNEL 3.0 · fósforo verde" },
+          out("uptime ......... desde 2023, quebrando e consertando"),
+          out("hobby .......... abrir a máquina antes de usar a máquina"),
+          out("primeiro bug ... o registro do Windows, por vontade própria"),
+          out("disponível ..... para conversar sobre vaga ou projeto"),
+          { kind: "out", text: "" },
+          { kind: "good", text: "Você achou o comando secreto. É o último." },
+        );
+        return;
       case "clear":
+      case "limpar":
         setLines(terminalIntro);
         return;
+      case "sair":
       case "exit":
       case "close":
       case "q":
         closeLayers();
         return;
       default:
-        push({ kind: "err", text: `comando não reconhecido: ${name}. tente \`help\`.` });
+        break;
+    }
+
+    const guesses: Record<string, string> = {
+      cat: "sobre", pwd: "projetos", man: "help", cd: "abrir", git: "contato",
+      about: "sobre", projects: "projetos", contact: "contato", email: "contato",
+      curriculo: "cv", resume: "cv", hire: "sudo hire gabriel",
+    };
+    const guess = guesses[name.toLowerCase()];
+    push(
+      { kind: "err", text: `comando não encontrado: ${name}` },
+      out(guess ? `Você quis dizer \`${guess}\`?` : "Digite `help`."),
+    );
+    sound.play("error");
+  };
+
+  const endGame = useCallback((score: number) => {
+    setPlaying(false);
+    setLines((current) => [
+      ...current,
+      { kind: "good", text: `fim de jogo — ${score} pontos` },
+      { kind: "out", text: "Digite `snake` para tentar de novo." },
+    ]);
+    window.setTimeout(() => commandRef.current?.focus(), 40);
+  }, []);
+
+  const onCommandKey = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "ArrowUp") {
+      event.preventDefault();
+      if (historyAt < history.length - 1) {
+        const next = historyAt + 1;
+        setHistoryAt(next);
+        setCommand(history[next]);
+      }
+    } else if (event.key === "ArrowDown") {
+      event.preventDefault();
+      if (historyAt > 0) {
+        const next = historyAt - 1;
+        setHistoryAt(next);
+        setCommand(history[next]);
+      } else {
+        setHistoryAt(-1);
+        setCommand("");
+      }
     }
   };
 
@@ -317,6 +507,9 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="site-frame">
+      <BootSequence />
+      <BrowserChrome />
+
       <aside className="system-rail" aria-label="Navegação principal">
         <Link href="/" className="brand-link" aria-label="GABRIEL.SYS — início">
           <BrandMark />
@@ -339,12 +532,7 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
             );
           })}
         </nav>
-        <button
-          className="rail-action"
-          type="button"
-          onClick={() => { setSearchOpen(false); setTerminalOpen(true); }}
-          aria-label="Abrir terminal"
-        >
+        <button className="rail-action" type="button" onClick={openTerminal} aria-label="Abrir terminal">
           <TerminalWindow size={20} />
           <span>Terminal</span>
         </button>
@@ -356,24 +544,44 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
             GABRIEL<span>.SYS</span>
           </Link>
           <p className="system-state">
-            <span aria-hidden="true" /> arquivo online <time>{clock}</time>
+            <span aria-hidden="true" /> online <time>{clock}</time>
           </p>
-          <button className="search-trigger" type="button" onClick={() => openSearch()}>
-            <MagnifyingGlass size={18} />
-            <span>Procurar no arquivo</span>
-            <kbd>Ctrl K</kbd>
-          </button>
+          <div className="topbar-tools">
+            {retro.on && (
+              <button className="retro-exit" type="button" onClick={retro.toggle}>
+                sair do modo retrô
+              </button>
+            )}
+            <button
+              className="sound-toggle"
+              type="button"
+              onClick={sound.toggle}
+              aria-pressed={sound.on}
+              aria-label={sound.on ? "Desligar som" : "Ligar som"}
+              title={sound.on ? "Desligar som" : "Ligar som"}
+            >
+              {sound.on ? <SpeakerHigh size={18} /> : <SpeakerSlash size={18} />}
+            </button>
+            <button className="search-trigger" type="button" onClick={() => openSearch()}>
+              <MagnifyingGlass size={18} />
+              <span>Procurar</span>
+              <kbd>Ctrl K</kbd>
+            </button>
+          </div>
         </header>
 
         {children}
 
         <footer className="site-footer">
-          <p>GABRIEL.SYS · salvo em Markdown, servido sem rastrear você.</p>
+          <p>GABRIEL.SYS · escrito em Markdown, servido sem rastrear você.</p>
           <div>
             <a href="/feed.xml">RSS</a>
-            <a href="https://github.com/gabrielhsp-sys" target="_blank" rel="noreferrer">
+            <a href={site.github} target="_blank" rel="noreferrer">
               <GithubLogo size={18} /> GitHub
             </a>
+            <button type="button" onClick={openTerminal}>
+              <TerminalWindow size={18} /> terminal <kbd>`</kbd>
+            </button>
           </div>
         </footer>
       </div>
@@ -397,11 +605,7 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
         <button type="button" onClick={() => openSearch()} aria-label="Buscar">
           <MagnifyingGlass size={22} />
         </button>
-        <button
-          type="button"
-          onClick={() => { setSearchOpen(false); setTerminalOpen(true); }}
-          aria-label="Abrir terminal"
-        >
+        <button type="button" onClick={openTerminal} aria-label="Abrir terminal">
           <TerminalWindow size={22} />
         </button>
       </nav>
@@ -428,7 +632,7 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
                 aria-activedescendant={activeResult ? `search-option-${activeResult.id}` : undefined}
                 value={query}
                 onChange={(event) => { setQuery(event.target.value); setSelected(0); }}
-                placeholder="Projeto, canal, tecnologia ou ideia…"
+                placeholder="Projeto, área, tecnologia ou ideia…"
                 aria-label="Termo de busca"
                 autoComplete="off"
               />
@@ -437,14 +641,14 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
               </button>
             </div>
             <div className="search-results" id="search-results" role="listbox" aria-label="Resultados" ref={resultsRef}>
-              {!records && !searchError && <p className="search-message">Lendo os saves públicos…</p>}
+              {!records && !searchError && <p className="search-message">Lendo os projetos públicos…</p>}
               {searchError && (
                 <p className="search-message error-message">
-                  O índice não respondeu. Recarregue a página ou use o arquivo completo.
+                  O índice não respondeu. Recarregue a página ou use a lista completa.
                 </p>
               )}
               {records && results.length === 0 && (
-                <p className="search-message">Nenhum save combina com “{query}”.</p>
+                <p className="search-message">Nenhum projeto combina com “{query}”.</p>
               )}
               {results.map((record, index) => (
                 <div
@@ -457,7 +661,9 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
                   onClick={() => openResult(record.href)}
                   onMouseEnter={() => setSelected(index)}
                 >
-                  <span className="result-code">/{record.channel}</span>
+                  <span className="result-code">
+                    {areaLabels[record.area as keyof typeof areaLabels] ?? record.area}
+                  </span>
                   <span>
                     <strong>{record.title}</strong>
                     <small>{record.summary}</small>
@@ -468,7 +674,7 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
             </div>
             <div className="search-help">
               <span role="status">
-                {records ? `${results.length} ${results.length === 1 ? "save" : "saves"}` : ""}
+                {records ? `${results.length} ${results.length === 1 ? "projeto" : "projetos"}` : ""}
               </span>
               <span><kbd>↑</kbd><kbd>↓</kbd> navegar</span>
               <span><kbd>Enter</kbd> abrir</span>
@@ -493,33 +699,43 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
             </button>
           </div>
           <div className="terminal-body">
-            <div className="terminal-log" aria-live="polite">
+            <div className="terminal-log" aria-live="polite" ref={logRef}>
               {lines.map((line, index) => (
                 <p key={`${index}-${line.text}`} data-kind={line.kind}>
                   {line.kind === "in" && <b>guest@gabriel.sys:~$ </b>}
-                  {line.text}
+                  {line.href ? (
+                    <a href={line.href} target={line.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
+                      {line.text}
+                    </a>
+                  ) : (
+                    line.text
+                  )}
                 </p>
               ))}
+              {playing && <Snake onExit={endGame} />}
             </div>
-            <form
-              className="terminal-prompt"
-              onSubmit={(event) => {
-                event.preventDefault();
-                runCommand(command);
-                setCommand("");
-              }}
-            >
-              <label htmlFor="terminal-command">guest@gabriel.sys:~$</label>
-              <input
-                id="terminal-command"
-                ref={commandRef}
-                value={command}
-                onChange={(event) => setCommand(event.target.value)}
-                autoComplete="off"
-                spellCheck={false}
-                placeholder="help"
-              />
-            </form>
+            {!playing && (
+              <form
+                className="terminal-prompt"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  runCommand(command);
+                  setCommand("");
+                }}
+              >
+                <label htmlFor="terminal-command">guest@gabriel.sys:~$</label>
+                <input
+                  id="terminal-command"
+                  ref={commandRef}
+                  value={command}
+                  onChange={(event) => setCommand(event.target.value)}
+                  onKeyDown={onCommandKey}
+                  autoComplete="off"
+                  spellCheck={false}
+                  placeholder="help"
+                />
+              </form>
+            )}
           </div>
         </div>
       )}

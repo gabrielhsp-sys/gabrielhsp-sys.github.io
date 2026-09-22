@@ -6,6 +6,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import { RelationList, Status } from "@/components/content-ui";
 import { getAllContent, getContentBySlug, getRelatedContent } from "@/lib/content";
 import { formatDate } from "@/lib/format";
+import { areaLabels, statusLabels, typeLabels } from "@/lib/site";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -33,16 +34,16 @@ export default async function ProjectDetail({ params }: Props) {
 
   return (
     <main id="conteudo" className="article-page">
-      <Link href="/archive/" className="back-link"><ArrowLeft size={17} /> voltar ao arquivo</Link>
-      <header className="article-header" data-channel={item.channel}>
+      <Link href="/archive/" className="back-link"><ArrowLeft size={17} /> voltar aos projetos</Link>
+      <header className="article-header" data-area={item.area}>
         <h1>{item.title}</h1>
         <p>{item.summary}</p>
         <div className="article-kernel">
-          <span>/{item.channel}</span>
+          <Link href={`/area/${item.area}/`}>{areaLabels[item.area]}</Link>
           <Status value={item.status} />
         </div>
         <div className="article-facts">
-          <span>TIPO <b>{item.type.toUpperCase()}</b></span>
+          <span>TIPO <b>{typeLabels[item.type]}</b></span>
           <span>ATUALIZADO <b>{formatDate(item.updatedAt)}</b></span>
           <span>LEITURA <b>{item.readingTime} MIN</b></span>
         </div>
@@ -58,11 +59,11 @@ export default async function ProjectDetail({ params }: Props) {
           <MDXRemote source={item.body} />
         </article>
         <aside className="article-aside">
-          <p>SAVE DATA</p>
+          <p>FICHA DO PROJETO</p>
           <dl>
-            <div><dt>slot</dt><dd>{item.id}</dd></div>
-            <div><dt>canal</dt><dd>/{item.channel}</dd></div>
-            <div><dt>estado</dt><dd>{item.status}</dd></div>
+            <div><dt>identificador</dt><dd>{item.id}</dd></div>
+            <div><dt>área</dt><dd>{areaLabels[item.area]}</dd></div>
+            <div><dt>estado</dt><dd>{statusLabels[item.status]}</dd></div>
             <div><dt>publicado</dt><dd>{formatDate(item.publishedAt)}</dd></div>
           </dl>
           <div className="article-tags">
