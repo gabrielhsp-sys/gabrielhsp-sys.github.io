@@ -4,7 +4,7 @@ title: Academic System
 summary: Sistema de gestão acadêmica em Java com RBAC, duas interfaces sobre a mesma regra de negócio e uma arquitetura feita para continuar legível.
 type: project
 area: software
-status: building
+status: done
 visibility: public
 publishedAt: 2026-06-30
 updatedAt: 2026-09-11
@@ -22,8 +22,9 @@ que estava escondida na tela, precisa existir em dois lugares — e normalmente 
 copiada. O mesmo acontece com persistência: o primeiro formato vira premissa e
 trocá-lo depois vira reescrita.
 
-O trabalho pedia, além disso, crescer por entregas incrementais sem que cada entrega
-transformasse a anterior em dívida.
+O trabalho pedia, além disso, crescer por entregas incrementais — uma história de
+usuário por vez, ao longo do semestre — sem que cada entrega transformasse a anterior
+em dívida.
 
 ## O que eu fiz
 
@@ -65,12 +66,13 @@ Logback, JavaFX, Docker e GitHub Actions.
 
 ## Resultado
 
-É o retrato mais completo de como eu organizo software: regra de negócio separada da
-interface, decisões explícitas, e o tipo de teste que impede uma refatoração de
-passar despercebida.
+**Concluído.** Foi o trabalho do terceiro período, entregue e avaliado pelo professor
+da disciplina, e não há mudanças previstas.
 
-Continua **em desenvolvimento** enquanto novas histórias de usuário entram — a
-arquitetura foi desenhada para que isso não exija reescrever o que já está de pé.
+É o retrato mais completo de como eu organizo software: regra de negócio separada da
+interface, decisões explícitas, e o tipo de teste que impede uma refatoração de passar
+despercebida. A aposta principal — trocar de interface sem arrastar o domínio junto —
+foi cobrada na prática quando o JavaFX entrou depois da CLI, e se sustentou.
 
 ## Link
 

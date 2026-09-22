@@ -32,7 +32,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pt-BR">
+    // Extensoes que reescrevem a pagina antes da hidratacao (Dark Reader e
+    // companhia) injetam atributos no <html>. O aviso e delas, nao do site;
+    // suprimir aqui nao esconde divergencia de nenhum outro elemento.
+    <html lang="pt-BR" suppressHydrationWarning>
       <body>
         <a className="skip-link" href="#conteudo">Pular para o conteúdo</a>
         <PersonalityProvider>

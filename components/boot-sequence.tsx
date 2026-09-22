@@ -10,18 +10,18 @@ import { usePersonality } from "@/components/personality";
 type Line = { text: string; tone?: "ok" | "warn" | "head"; wait: number };
 
 const SCRIPT: Line[] = [
-  { text: "GABRIEL.SYS  v3", tone: "head", wait: 260 },
-  { text: "Memória ............... 640K  OK", tone: "ok", wait: 190 },
-  { text: "Teclado ............... OK", tone: "ok", wait: 150 },
-  { text: "Café .................. CRÍTICO", tone: "warn", wait: 190 },
-  { text: "", wait: 110 },
-  { text: "Carregando perfil:", wait: 180 },
-  { text: "  software   serviços, arquitetura, Linux", wait: 160 },
-  { text: "  web        interfaces rápidas e acessíveis", wait: 160 },
-  { text: "  acadêmico  ciência da computação, UNIFAL-MG", wait: 160 },
-  { text: "", wait: 110 },
-  { text: "Montando /home/gabriel ... ok", tone: "ok", wait: 230 },
-  { text: "Iniciando portfolio.sh", wait: 300 },
+  { text: "GABRIEL.SYS  v3", tone: "head", wait: 520 },
+  { text: "Memória ............... 640K  OK", tone: "ok", wait: 380 },
+  { text: "Teclado ............... OK", tone: "ok", wait: 300 },
+  { text: "Café .................. CRÍTICO", tone: "warn", wait: 380 },
+  { text: "", wait: 220 },
+  { text: "Carregando perfil:", wait: 360 },
+  { text: "  software   serviços, arquitetura, Linux", wait: 320 },
+  { text: "  web        interfaces rápidas e acessíveis", wait: 320 },
+  { text: "  acadêmico  ciência da computação, UNIFAL-MG", wait: 320 },
+  { text: "", wait: 220 },
+  { text: "Montando /home/gabriel ... ok", tone: "ok", wait: 460 },
+  { text: "Iniciando portfolio.sh", wait: 600 },
 ];
 
 const SESSION_KEY = "gsys:booted";
@@ -84,7 +84,7 @@ export function BootSequence() {
   /* terminou o roteiro: desliga a tela */
   useEffect(() => {
     if (!running || leaving || shown < SCRIPT.length) return;
-    const timer = window.setTimeout(() => setLeaving(true), 340);
+    const timer = window.setTimeout(() => setLeaving(true), 680);
     return () => window.clearTimeout(timer);
   }, [leaving, running, shown]);
 
