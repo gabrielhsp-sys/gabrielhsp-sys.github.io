@@ -436,7 +436,7 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
         if (!retro.on) break;
         achievements.unlock("kernel");
         push(
-          { kind: "good", text: "GHSP-KERNEL 3.0 · fósforo verde" },
+          { kind: "good", text: "GHSP-KERNEL · fósforo verde" },
           out("uptime ......... desde 2023, quebrando e consertando"),
           out("hobby .......... abrir a máquina antes de usar a máquina"),
           out("primeiro bug ... o registro do Windows, por vontade própria"),

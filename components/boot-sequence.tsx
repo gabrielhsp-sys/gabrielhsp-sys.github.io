@@ -10,7 +10,7 @@ import { usePersonality } from "@/components/personality";
 type Line = { text: string; tone?: "ok" | "warn" | "head"; wait: number };
 
 const SCRIPT: Line[] = [
-  { text: "GABRIEL.SYS  v3", tone: "head", wait: 520 },
+  { text: "GABRIEL.SYS", tone: "head", wait: 520 },
   { text: "Memória ............... 640K  OK", tone: "ok", wait: 380 },
   { text: "Teclado ............... OK", tone: "ok", wait: 300 },
   { text: "Café .................. CRÍTICO", tone: "warn", wait: 380 },
