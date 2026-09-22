@@ -1,8 +1,8 @@
 # GABRIEL.SYS
 
-Arquivo público vivo de Gabriel Henrique: projetos, estudos, infraestrutura, referências e registros conectados.
+Portfólio público de Gabriel Henrique: o que ele constrói, como cada coisa foi feita e como falar com ele.
 
-Esta é a segunda versão do portfólio. O site deixou de ser uma apresentação estática com estética de terminal e passou a funcionar como um índice editorial pesquisável. A personalidade retro continua na lógica de saves, nos estados e em detalhes de hardware; leitura e navegação permanecem diretas.
+Esta é a terceira versão. A v1 era uma página só, com boot, terminal e easter eggs. A v2 virou um índice editorial pesquisável, mas falava a própria língua (`PLAYING`, `CLEARED`, "saves", "canais"). A v3 mantém o índice e devolve a personalidade — só que nos lugares certos: **rótulo claro na navegação, personalidade na camada de cima**.
 
 ## Stack
 
@@ -34,6 +34,35 @@ npm run check
 
 O comando executa lint, testes de conteúdo e o build estático, que termina verificando a exportação. O site pronto fica em `out/`.
 
+## Estrutura da home
+
+Hero com proposta de valor e contato → quatro estudos de caso em destaque →
+o que ele faz → arquivo completo filtrável (secundário) → sobre → contato.
+
+Cada estudo de caso segue o mesmo formato: problema → o que ele fez → stack →
+resultado → link, quando o repositório é público.
+
+## Camada de personalidade
+
+Opcional por princípio: nada essencial depende dela e tudo funciona só com
+teclado.
+
+- **Animação de entrada** — uma vez por sessão, poucos segundos, pulável por
+  qualquer tecla ou clique. Não roda com `prefers-reduced-motion`.
+- **Sons** — clique, hover e transição, sintetizados em Web Audio no próprio
+  código. Ligados por padrão, com botão visível na barra superior; o contexto de
+  áudio nasce no primeiro gesto, porque é quando o navegador libera.
+- **Terminal** — crase (ou til), botão do trilho, rodapé e dock móvel.
+- **Modo retrô** — Konami (`↑↑↓↓←→←→BA`): glitch curto, fósforo verde com
+  scanlines, pacote de sons chiptune e um comando secreto no terminal. A mesma
+  sequência, ou o botão "sair do modo retrô", desfaz tudo.
+- **Conquistas** — cinco segredos, com toast discreto ao achar cada um.
+- **Favicon dinâmico** — terminal na home, arquivo na lista de projetos; cursor
+  piscando no título quando a aba perde o foco.
+
+Com `prefers-reduced-motion` não há flicker nem glitch, o CRT fica estático e a
+animação de entrada não roda.
+
 ## Conteúdo
 
 Cada registro público é um `.md` ou `.mdx` em `content/public`. O frontmatter segue [`docs/content/SCHEMA.md`](docs/content/SCHEMA.md). Antes do servidor local e durante o build, `scripts/generate-search-index.mjs` cria um índice compacto em `public/search-index.json` e `scripts/generate-og-image.mjs` grava `public/og.png`.
@@ -45,8 +74,8 @@ id: meu-projeto
 title: Meu projeto
 summary: Um resumo público e verificável.
 type: project
-channel: CODE
-status: PLAYING
+area: software
+status: building
 visibility: public
 publishedAt: 2026-09-15
 updatedAt: 2026-09-15
@@ -62,18 +91,22 @@ Este repositório é público e contém somente material aprovado para publicaç
 
 ## Navegação
 
-A navegação principal tem três entradas: início, arquivo e sobre. Não existe
-uma listagem de projetos separada; o arquivo é a coleção central.
+A navegação principal tem três entradas: início, projetos e sobre.
 
-- `/` — abertura editorial, save atual e últimos registros.
-- `/archive` — todos os saves, com filtro textual, canal, estado, tipo e ordenação.
-- `/projects/[slug]` — detalhe e relações.
-- `/channel/[channel]` — entrada por área, só para canais com registro público.
+- `/` — hero, estudos de caso, o que ele faz, arquivo, sobre e contato.
+- `/archive` — todos os projetos, com filtro textual, área, estado e ordenação.
+- `/projects/[slug]` — estudo de caso completo e relações.
+- `/area/[area]` — entrada por área, só para áreas com registro público.
 - `Ctrl/⌘ + K` — busca global; setas navegam e `Enter` abre.
-- `~` (ou crase) — camada terminal opcional, também no dock móvel.
+- `` ` `` (crase ou til) — camada terminal opcional, também no dock móvel.
 
-No terminal: `help`, `ls`, `open <slot>`, `archive`, `channels`,
-`search <termo>`, `whoami`, `clear` e `exit`.
+No terminal: `help`, `projetos`, `abrir <slot>`, `contato`, `cv`,
+`busca <termo>`, `theme`, `som`, `snake`, `sudo hire gabriel`, `clear` e `sair`.
+Há mais um comando, que só existe no modo retrô.
+
+As áreas públicas são **Software & Automação** (`/software`), **Web &
+Interfaces** (`/web`) e **Acadêmico** (`/academico`). Os estados são
+**Em desenvolvimento**, **No ar**, **Concluído** e **Arquivado**.
 
 ## Documentação
 

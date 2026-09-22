@@ -1,25 +1,52 @@
 # Direção da home
 
-Modo: code-led. A direção foi fixada pelo briefing do proprietário.
+Modo: code-led. A direção foi fixada pelo briefing do proprietário e revista no
+ciclo v3 (2026-09-21).
 
 ## THESIS
 
-Um arquivo vivo contemporâneo com a lógica de um seletor de saves e a clareza de um índice editorial. O site parece operável e pessoal; não parece um console cenográfico nem uma landing page de software.
+Um portfólio que vende o trabalho em segundos e continua servindo como arquivo
+depois disso. Rótulo claro na navegação; personalidade na camada de cima. O site
+parece operável e pessoal; não parece um console cenográfico nem uma landing
+page de software.
 
 ## OWN-WORLD
 
-Fundo preto quente, texto marfim e âmbar queimado como estado de atividade. Rosa, menta, violeta e azul cumprem papéis de canal ou estado. Bricolage Grotesque traz voz editorial; IBM Plex Mono aparece somente em dados, comandos e medidas. Linhas finas, encaixes, slots e contatos lembram hardware sem desenhar um console literal.
+Fundo preto quente, texto marfim e âmbar queimado como estado de atividade.
+Rosa, menta, violeta e azul cumprem papéis de área ou estado. Bricolage
+Grotesque traz voz editorial; IBM Plex Mono aparece somente em dados, comandos e
+medidas. Linhas finas, encaixes e contatos lembram hardware sem desenhar um
+console literal.
 
 ## STORY
 
-O visitante entende primeiro que Gabriel constrói coisas e usa este lugar para não perdê-las. Em seguida encontra o save atual, percorre mudanças recentes, escolhe um canal e descobre as relações entre projetos, estudos e referências. A fronteira pública aparece como parte confiável do sistema, não como nota jurídica escondida.
+O visitante entende primeiro o que Gabriel constrói e como falar com ele. Em
+seguida lê quatro estudos de caso — problema, o que ele fez, stack, resultado —,
+descobre as três frentes de trabalho, e só então encontra o arquivo completo,
+filtrável, rebaixado a superfície secundária. Sobre e contato fecham a página.
 
 ## FIRST VIEWPORT
 
-Um trilho de sistema persistente enquadra uma abertura editorial assimétrica. A frase “Eu construo coisas. Este é o lugar onde elas não somem.” domina a área esquerda; a direita recebe um único save `NOW PLAYING`, com estado e data derivados do conteúdo. `Ctrl/⌘ + K` é a ação principal. Não há hero centralizado, grade de cards ou boot que atrase a leitura.
+Um trilho de sistema persistente enquadra um hero de coluna única: a frase de
+valor, um parágrafo que nomeia a stack real, e dois botões — falar comigo e ver
+os projetos. Abaixo deles, uma dica discreta do terminal, que é convite, não
+requisito. Não há grade de cards nem métrica inventada.
+
+## BOOT
+
+A animação de entrada voltou no ciclo v3 e é a **única** introdução do site: não
+existe outra boot sequence. Ela roda uma vez por sessão, dura poucos segundos, é
+pulável por qualquer tecla ou clique, e não roda com `prefers-reduced-motion`.
+A versão anterior deste documento proibia boot na abertura; a decisão de
+2026-09-21 substitui essa regra, com as condições acima.
 
 ## FORM
 
-Seed key corroborado: `a923e92d` — rodada local degradada, sem challengers externos. A direção do briefing prevalece. Da forma sorteada, “bancada de teste”, entram somente conexões visíveis, sinais de estado honestos e estrutura modular. A aparência literal de placa ou equipamento foi recusada.
+Seed key corroborado: `a923e92d` — rodada local degradada, sem challengers
+externos. A direção do briefing prevalece. Da forma sorteada, "bancada de
+teste", entram somente conexões visíveis, sinais de estado honestos e estrutura
+modular. A aparência literal de placa ou equipamento foi recusada.
 
-O site usa fluxo editorial denso, cantos pequenos, uma única animação de gravação na abertura e respostas diretas nos controles. A camada terminal é opcional, acionada por `~`, e nunca substitui a navegação. Movimento não essencial desaparece com `prefers-reduced-motion`.
+O site usa fluxo editorial denso, cantos pequenos e respostas diretas nos
+controles. A camada terminal é opcional, acionada pela crase, e nunca substitui
+a navegação. Movimento não essencial desaparece com `prefers-reduced-motion`.

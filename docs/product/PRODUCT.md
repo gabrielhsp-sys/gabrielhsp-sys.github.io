@@ -2,37 +2,54 @@
 
 ## Promessa
 
-GABRIEL.SYS é o arquivo público vivo de Gabriel Henrique: projetos, estudos, sistemas, experimentos e registros que continuam úteis depois que o contexto original passou.
+GABRIEL.SYS é o portfólio público de Gabriel Henrique. Quem chega para contratar
+entende em segundos quem ele é, o que ele faz e como falar com ele. Quem chega
+por um repositório ou um guia encontra o contexto completo do trabalho.
 
-O site responde rapidamente a três perguntas:
+O site responde rapidamente a quatro perguntas:
 
-- O que Gabriel está construindo agora?
-- O que já existe e em qual estado está?
-- Que ideias, ferramentas e aprendizados se conectam?
+- Quem é Gabriel e o que ele constrói?
+- Que problemas reais ele já resolveu, e como?
+- O que existe além dos destaques, e em qual estado está?
+- Como falar com ele?
 
 ## Público
 
-- Gabriel, voltando a um projeto esquecido.
-- Recrutadores e colaboradores avaliando trabalho real.
+- Recrutadores, times e clientes avaliando trabalho real.
 - Pessoas que chegam por uma referência, guia ou repositório.
+- Gabriel, voltando a um projeto esquecido.
 
 ## Modelo
 
-O site público é uma visão curada de um arquivo maior. Um arquivo privado futuro poderá receber material bruto de chats, e-mail, Rentry e notas. A promoção de privado para público será sempre explícita, revisada e manual.
+O site público é uma visão curada de um arquivo maior. Um arquivo privado futuro
+poderá receber material bruto de chats, e-mail, Rentry e notas. A promoção de
+privado para público será sempre explícita, revisada e manual.
 
 ## Escopo desta versão
 
-- Índice editorial responsivo.
-- Canais `/CODE`, `/HOMELAB`, `/COLLEGE`, `/HARDWARE`, `/CREATE` e `/RESEARCH`.
-- Estados `PLAYING`, `PAUSED`, `CLEARED` e `CODEX`.
+- Home que vende: hero com proposta de valor e CTA de contato, estudos de caso
+  em destaque, o que ele faz, arquivo completo, sobre e contato.
+- Áreas públicas **Software & Automação**, **Web & Interfaces** e **Acadêmico**.
+- Estados **Em desenvolvimento**, **No ar**, **Concluído** e **Arquivado**.
+- Estudos de caso no formato problema → o que ele fez → stack → resultado → link.
 - Busca global acionada por `Ctrl/⌘ + K`.
-- Páginas de projeto e relações entre registros.
+- Camada de personalidade opcional: animação de entrada, sons em Web Audio,
+  terminal com snake, modo retrô pelo Konami, conquistas e 404 de terminal.
 - Markdown/MDX como fonte de verdade.
 - Feed, sitemap, metadados e exportação estática para GitHub Pages.
+
+## Regras da camada de personalidade
+
+- Nada essencial fica escondido atrás de easter egg ou da animação de entrada.
+- Tudo funciona só com teclado.
+- `prefers-reduced-motion` desliga flicker, glitch e a animação de entrada; o
+  CRT do modo retrô fica estático.
+- Todo efeito é desligável, e a preferência é lembrada no navegador.
 
 ## Fora do escopo
 
 - Área autenticada e ingestão automática de dados privados.
 - CMS remoto.
 - Publicação automática a partir de chats, e-mail ou histórico.
-- Transformar o site inteiro em terminal ou simulação de console.
+- Transformar a navegação em terminal: o console literal vive no modo retrô
+  opcional, que o visitante liga e desliga.
