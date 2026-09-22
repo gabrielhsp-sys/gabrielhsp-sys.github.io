@@ -3,6 +3,7 @@ import "@fontsource-variable/bricolage-grotesque";
 import "@fontsource/ibm-plex-mono/400.css";
 import "@fontsource/ibm-plex-mono/600.css";
 import "./globals.css";
+import { PersonalityProvider } from "@/components/personality";
 import { SystemChrome } from "@/components/system-chrome";
 import { site } from "@/lib/site";
 
@@ -19,13 +20,13 @@ export const metadata: Metadata = {
     siteName: site.name,
     title: site.title,
     description: site.description,
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: `${site.name} — arquivo público` }],
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: `${site.name} — projetos` }],
   },
   twitter: {
     card: "summary_large_image",
     title: site.title,
     description: site.description,
-    images: [{ url: "/og.png", alt: `${site.name} — arquivo público` }],
+    images: [{ url: "/og.png", alt: `${site.name} — projetos` }],
   },
 };
 
@@ -34,7 +35,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="pt-BR">
       <body>
         <a className="skip-link" href="#conteudo">Pular para o conteúdo</a>
-        <SystemChrome>{children}</SystemChrome>
+        <PersonalityProvider>
+          <SystemChrome>{children}</SystemChrome>
+        </PersonalityProvider>
       </body>
     </html>
   );
