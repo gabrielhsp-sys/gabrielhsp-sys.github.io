@@ -49,7 +49,7 @@ topo e o próximo estudo de caso e o contato no fim.
 Opcional por princípio: nada essencial depende dela e tudo funciona só com
 teclado.
 
-- **Animação de entrada** — uma vez por sessão, ~1,5 s, pulável por qualquer
+- **Animação de entrada** — uma vez por sessão, ~1,9 s, pulável por qualquer
   tecla ou clique. Não roda com `prefers-reduced-motion`.
 - **Sons** — clique, hover e transição, sintetizados em Web Audio no próprio
   código. Ligados por padrão, com botão visível na barra superior; o contexto de

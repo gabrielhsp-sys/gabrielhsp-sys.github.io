@@ -25,7 +25,7 @@ copiada. O mesmo acontece com persistência: o primeiro formato vira premissa e
 trocá-lo depois vira reescrita.
 
 O trabalho pedia, além disso, crescer por entregas incrementais — uma história de
-usuário por vez, ao longo do semestre — sem que cada entrega transformasse a anterior
+usuário por vez, ao longo do projeto — sem que cada entrega transformasse a anterior
 em dívida.
 
 ## O que eu fiz
@@ -35,10 +35,10 @@ Uma aplicação em camadas onde a interface é a parte descartável.
 CLI e JavaFX falam com a **mesma** camada de serviço. Trocar ou acrescentar uma
 interface não arrasta o domínio junto — que era exatamente a hipótese a ser provada.
 
-<Flow layout="stack" caption="As camadas, de cima para baixo. Cada uma só conhece a de baixo; as duas interfaces chegam à mesma regra de negócio.">
+<Flow layout="stack" caption="As camadas, de cima para baixo. As duas interfaces chegam à mesma regra de negócio.">
   <Step title="Interface">CLI e JavaFX, lado a lado</Step>
   <Step title="Controller">autenticação e operações do sistema acadêmico</Step>
-  <Step title="Serviço">turmas, avaliações e relatórios, com autorização por papel</Step>
+  <Step title="Serviço">turmas, avaliações, relatórios e a escolha da persistência</Step>
   <Step title="Repositório">TXT, XML ou JSON, trocáveis sem mexer no serviço</Step>
   <Step title="Modelo">o domínio, validado com Jakarta Bean Validation</Step>
 </Flow>

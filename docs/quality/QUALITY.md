@@ -39,7 +39,7 @@ Conferido por código e build:
 - [x] O modo retrô sai pela mesma sequência do Konami ou pelo botão "sair do modo retrô".
 - [x] `prefers-reduced-motion` tem regra explícita para a tela de entrada, o glitch, o toast e o cursor do título; o CRT fica estático.
 - [x] A animação de entrada lê e grava `sessionStorage`, então não repete na navegação interna.
-- [x] A animação de entrada leva ~1,5 s do carregamento ao conteúdo (medido: 1,53 s em 1440 px e 1,50 s em 390 px; antes, 5,8 s).
+- [x] A animação de entrada leva ~1,9 s do carregamento ao conteúdo (medido em três execuções: 1,87–1,90 s em 1440 px e 1,84–1,85 s em 390 px; antes, 5,8 s). `Esc` pula e o conteúdo volta em ~0,34 s.
 - [x] A animação de entrada não recebe ponteiro: um clique pula a animação e ainda chega no link, então nenhuma navegação precisa de dois cliques (ADR-014).
 - [x] O ícone por rota é declarado pelo Next (`app/**/icon.svg`); a camada de personalidade não remove tags `<link>` que o React renderiza (ADR-014).
 

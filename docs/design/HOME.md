@@ -39,7 +39,7 @@ mais recente do conteúdo.
 ## BOOT
 
 A animação de entrada voltou no ciclo v3 e é a **única** introdução do site: não
-existe outra boot sequence. Ela roda uma vez por sessão, dura ~1,5 s do
+existe outra boot sequence. Ela roda uma vez por sessão, dura ~1,9 s do
 carregamento ao conteúdo, é pulável por qualquer tecla ou clique, e não roda com
 `prefers-reduced-motion`. A versão anterior deste documento proibia boot na
 abertura; a decisão de 2026-09-21 substitui essa regra, com as condições acima.

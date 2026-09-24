@@ -171,10 +171,12 @@ texto. `lib/period.ts` não importa nada, e `tests/format.test.mjs` o testa dire
 
 A animação de entrada continua sendo a única introdução (decisão de
 2026-09-21), mas medida no navegador levava 5,8 s até o conteúdo voltar. O
-roteiro foi condensado para cinco linhas e o conjunto cabe em ~1,5 s do
-carregamento ao conteúdo. As regras de antes não mudam: uma vez por sessão,
-pulável por qualquer tecla ou clique, fora do `prefers-reduced-motion`, sem
-interceptar ponteiro (ADR-014).
+roteiro foi condensado para cinco linhas e o conjunto cabe em ~1,9 s do
+carregamento ao conteúdo. A primeira versão condensada levava 1,5 s; a pedido
+do proprietário, as pausas foram esticadas na mesma proporção, sem mudar
+roteiro, aparência nem comportamento (medido: 1,84–1,90 s). As regras de antes
+não mudam: uma vez por sessão, pulável por qualquer tecla ou clique, fora do
+`prefers-reduced-motion`, sem interceptar ponteiro (ADR-014).
 
 Tirar a animação da abertura e deixá-la só como comando foi considerado e
 recusado pelo proprietário: ela é identidade, e o custo real era a duração.

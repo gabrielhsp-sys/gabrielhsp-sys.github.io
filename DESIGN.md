@@ -239,7 +239,7 @@ A mesma linha serve a home, o arquivo e as páginas de área: índice, título e
 
 ### Personality Layer
 
-A personalidade é uma camada por cima, nunca a estrutura. Animação de entrada (uma vez por sessão, ~1,5 s, pulável), sons sintetizados em Web Audio com botão visível, terminal opcional na crase, modo retrô pelo Konami e conquistas discretas. Regras que não se quebram: nada essencial depende dela, tudo alcançável por teclado, e `prefers-reduced-motion` remove flicker e glitch — o CRT fica estático e a animação de entrada não roda.
+A personalidade é uma camada por cima, nunca a estrutura. Animação de entrada (uma vez por sessão, ~1,9 s, pulável), sons sintetizados em Web Audio com botão visível, terminal opcional na crase, modo retrô pelo Konami e conquistas discretas. Regras que não se quebram: nada essencial depende dela, tudo alcançável por teclado, e `prefers-reduced-motion` remove flicker e glitch — o CRT fica estático e a animação de entrada não roda.
 
 ### Search Layer
 

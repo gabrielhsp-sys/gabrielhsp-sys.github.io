@@ -5,22 +5,22 @@ import { usePersonality } from "@/components/personality";
 
 /* A animacao de entrada e a UNICA introducao do site. Roda uma vez por sessao,
    e pulavel por tecla ou clique, e nao roda com prefers-reduced-motion.
-   O roteiro vem do portfolio de 2025. Ele foi condensado para caber em ~1,5 s
-   do inicio ao fim (antes eram 5,8 s medidos): a animacao e cartao de visita,
-   nao sala de espera (ADR-017). */
+   O roteiro vem do portfolio de 2025. Ele foi condensado para caber em ~1,9 s
+   do carregamento ao conteudo (antes eram 5,8 s medidos): a animacao e cartao
+   de visita, nao sala de espera (ADR-017). */
 
 type Line = { text: string; tone?: "ok" | "warn" | "head"; wait: number };
 
 const SCRIPT: Line[] = [
-  { text: "GABRIEL.SYS", tone: "head", wait: 140 },
-  { text: "Memória ........ 640K  OK", tone: "ok", wait: 150 },
-  { text: "Café ........... CRÍTICO", tone: "warn", wait: 170 },
-  { text: "Perfil ......... software · web · acadêmico", wait: 190 },
-  { text: "Iniciando portfolio.sh", wait: 180 },
+  { text: "GABRIEL.SYS", tone: "head", wait: 180 },
+  { text: "Memória ........ 640K  OK", tone: "ok", wait: 195 },
+  { text: "Café ........... CRÍTICO", tone: "warn", wait: 220 },
+  { text: "Perfil ......... software · web · acadêmico", wait: 245 },
+  { text: "Iniciando portfolio.sh", wait: 235 },
 ];
 
 // Depois da ultima linha: quanto a tela fica parada e quanto dura o desligar.
-const HOLD = 260;
+const HOLD = 340;
 const LEAVE = 320;
 
 const SESSION_KEY = "gsys:booted";
