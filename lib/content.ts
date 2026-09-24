@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 import { contentSchema, type ContentItem } from "@/lib/content-schema";
+import { comparePeriods } from "@/lib/period";
 import { areas } from "@/lib/site";
 
 const contentDirectory = path.join(process.cwd(), "content/public");
@@ -45,9 +46,9 @@ export function getAllContent(): ContentItem[] {
     }
   }
 
-  return items.sort(
-    (a, b) => b.updatedAt.getTime() - a.updatedAt.getTime(),
-  );
+  // Mais recente = atividade mais recente no projeto, nao a ultima revisao do
+  // texto: o que continua no ar vem antes do que ja terminou.
+  return items.sort(comparePeriods);
 }
 
 export function getContentBySlug(slug: string) {
@@ -74,3 +75,25 @@ export function getFeaturedContent() {
     .filter((item) => item.featured)
     .sort((a, b) => a.featuredRank - b.featuredRank);
 }
+
+// Data da revisao mais recente de um conjunto de registros.
+export const latestUpdate = (items: ContentItem[]) =>
+  items.reduce((newest, item) => (item.updatedAt > newest ? item.updatedAt : newest), new Date(0));
+
+export const getLatestUpdate = () => latestUpdate(getAllContent());
+
+// Para onde o estudo de caso leva no fim: o proximo destaque na ordem da home,
+// ou o proximo registro do arquivo quando o projeto nao e destaque. Da a volta.
+export function getNextContent(item: ContentItem) {
+  const sequence = item.featured ? getFeaturedContent() : getAllContent().filter((other) => !other.featured);
+  if (sequence.length < 2) return undefined;
+  const at = sequence.findIndex((other) => other.id === item.id);
+  return sequence[(at + 1) % sequence.length];
+}
+
+// O que um componente cliente precisa para desenhar uma linha do arquivo.
+export type ArchiveItem = Pick<ContentItem, "id" | "title" | "summary" | "href" | "area" | "status" | "startedAt" | "endedAt" | "tags">;
+
+export const toArchiveItem = ({ id, title, summary, href, area, status, startedAt, endedAt, tags }: ContentItem): ArchiveItem => ({
+  id, title, summary, href, area, status, startedAt, endedAt, tags,
+});

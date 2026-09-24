@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { ArrowUpRightIcon as ArrowUpRight, GitBranchIcon as GitBranch } from "@phosphor-icons/react/dist/ssr";
 import type { ContentItem } from "@/lib/content-schema";
-import { formatDate } from "@/lib/format";
 import { areaLabels, statusDescriptions, statusLabels } from "@/lib/site";
 
+// Estado e sempre ponto redondo com o nome; area e sempre quadrado com o nome.
+// A forma diz qual das duas coisas a cor esta marcando.
 export function Status({ value }: { value: ContentItem["status"] }) {
   return (
     <span className="status" data-status={value} title={statusDescriptions[value]}>
@@ -12,61 +13,17 @@ export function Status({ value }: { value: ContentItem["status"] }) {
   );
 }
 
-// O nome legivel manda; o prefixo em mono e decoracao ao lado dele.
-export function AreaTag({ value }: { value: ContentItem["area"] }) {
-  return (
-    <Link className="area-tag" href={`/area/${value}/`} data-area={value}>
-      <code aria-hidden="true">/{value}</code> {areaLabels[value]}
-    </Link>
-  );
-}
-
-// `showArea` sai quando a lista ja esta dentro de uma area: repetir o nome em
-// cada linha nao informa nada.
-export function RecordRow({
-  item,
-  index,
-  showArea = true,
-}: {
-  item: ContentItem;
-  index?: number;
-  showArea?: boolean;
-}) {
-  return (
-    <article className="record-row">
-      <span className="record-index" aria-hidden="true">
-        {String((index ?? 0) + 1).padStart(2, "0")}
-      </span>
-      <div className="record-main">
-        <div className="record-meta">
-          {showArea && <AreaTag value={item.area} />}
-          <Status value={item.status} />
-          <time dateTime={item.updatedAt.toISOString()}>{formatDate(item.updatedAt)}</time>
-        </div>
-        <h3><Link href={item.href}>{item.title}</Link></h3>
-        <p>{item.summary}</p>
-      </div>
-      <div className="record-tags" aria-label="Tecnologias e assuntos">
-        {item.tags.slice(0, 3).map((tag) => <span key={tag}>{tag}</span>)}
-      </div>
-      <Link className="record-open" href={item.href} aria-label={`Abrir ${item.title}`}>
-        <ArrowUpRight size={22} />
-      </Link>
-    </article>
-  );
-}
-
 export function RelationList({ items }: { items: ContentItem[] }) {
   if (!items.length) return null;
   return (
     <section className="relations" aria-labelledby="relations-heading">
-      <h2 id="relations-heading"><GitBranch size={24} /> Projetos relacionados</h2>
+      <h2 id="relations-heading"><GitBranch size={24} aria-hidden="true" /> Projetos relacionados</h2>
       <div>
         {items.map((item) => (
           <Link href={item.href} key={item.id}>
-            <span>{areaLabels[item.area]}</span>
+            <span className="area-mark" data-area={item.area}>{areaLabels[item.area]}</span>
             <strong>{item.title}</strong>
-            <ArrowUpRight size={18} />
+            <ArrowUpRight size={18} aria-hidden="true" />
           </Link>
         ))}
       </div>

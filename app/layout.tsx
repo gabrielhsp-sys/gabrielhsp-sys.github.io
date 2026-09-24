@@ -5,6 +5,8 @@ import "@fontsource/ibm-plex-mono/600.css";
 import "./globals.css";
 import { PersonalityProvider } from "@/components/personality";
 import { SystemChrome } from "@/components/system-chrome";
+import { getLatestUpdate } from "@/lib/content";
+import { formatDate } from "@/lib/format";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -31,6 +33,8 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  // O estado da barra superior e um fato do conteudo, nao um relogio.
+  const updated = getLatestUpdate();
   return (
     // Extensoes que reescrevem a pagina antes da hidratacao (Dark Reader e
     // companhia) injetam atributos no <html>. O aviso e delas, nao do site;
@@ -39,7 +43,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <a className="skip-link" href="#conteudo">Pular para o conteúdo</a>
         <PersonalityProvider>
-          <SystemChrome>{children}</SystemChrome>
+          <SystemChrome updated={{ iso: updated.toISOString().slice(0, 10), label: formatDate(updated) }}>
+            {children}
+          </SystemChrome>
         </PersonalityProvider>
       </body>
     </html>

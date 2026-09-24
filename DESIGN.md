@@ -68,7 +68,7 @@ components:
     typography: "{typography.body}"
     rounded: "{rounded.control}"
     padding: "0 10px 0 13px"
-    height: "40px"
+    height: "44px"
   filter-chip:
     backgroundColor: "transparent"
     textColor: "{colors.ivory-quiet}"
@@ -81,11 +81,11 @@ components:
     textColor: "{colors.warm-ivory}"
     rounded: "{rounded.contact}"
     padding: "30px"
-  record-row:
+  archive-line:
     backgroundColor: "transparent"
     textColor: "{colors.warm-ivory}"
     typography: "{typography.body}"
-    height: "160px"
+    height: "104px"
 ---
 
 # Design System: GABRIEL.SYS
@@ -96,13 +96,13 @@ components:
 
 GABRIEL.SYS é um arquivo editorial operável. A densidade vem de índices, relações e sinais de estado; a personalidade vem de encaixes e contatos de hardware aplicados com contenção. A superfície precisa parecer mantida por uma pessoa que constrói sistemas, nunca montada a partir de um kit de landing page.
 
-O mundo é escuro porque o arquivo é usado como estação de trabalho e leitura concentrada. Marfim mantém a página humana; âmbar indica atividade. A linguagem retro vive na lógica de slots, gravação e estados, sem pixel art espalhada, simulação de console ou ruído CRT dominando conteúdo.
+O mundo é escuro porque o arquivo é usado como estação de trabalho e leitura concentrada. Marfim mantém a página humana; âmbar indica ação. A linguagem retro vive na lógica de slots, gravação e estados, sem pixel art espalhada, simulação de console ou ruído CRT dominando conteúdo.
 
 **Key Characteristics:**
 
 - Fluxo editorial denso no lugar de grades de cards iguais.
 - Estrutura assimétrica com trilho persistente e linhas finas.
-- Cor funcional: atividade, área e estado.
+- Cor funcional, e cada função com a sua forma: ação, área e estado.
 - Terminal opcional; leitura e navegação sempre primárias.
 - Tipografia expressiva nos títulos e monoespaçada apenas para dados.
 
@@ -112,11 +112,12 @@ A paleta combina preto aquecido e marfim com sinais curados, como etiquetas em u
 
 ### Primary
 
-- **Âmbar de Gravação:** ação principal, foco, estado ativo e sinal de escrita.
-- **Âmbar de Contato:** versão profunda para bordas selecionadas e contatos com menor saliência.
+- **Âmbar de Gravação:** ação principal, link de ação, foco, navegação ativa e o estado "Em desenvolvimento" (sinal de escrita).
+- **Âmbar de Contato:** versão profunda para sublinhado de link e barra de rolagem.
 
 ### Secondary
 
+- **Âmbar de Gravação** também é a cor da área Software & Automação, só na forma de área (quadrado e filete).
 - **Rosa de Interface:** área Web & Interfaces.
 - **Menta de Operação:** estado "No ar".
 - **Violeta Acadêmico:** área Acadêmico e estado "Arquivado".
@@ -137,19 +138,27 @@ A paleta combina preto aquecido e marfim com sinais curados, como etiquetas em u
 
 **The Signal Has Meaning Rule.** Âmbar e cores de área indicam uma ação, um estado ou uma origem; não são decoração espalhada.
 
+**The Shape Tells The Function Rule.** A cor nunca explica sozinha o que marca; a forma diz (ADR-018):
+
+- **Ação:** âmbar em botão ou link com seta. Hover e foco também.
+- **Área:** quadrado na cor da área ao lado do nome em texto neutro (`.area-mark`), e filetes de 3px no card, no projeto e na página de área. Texto de área nunca é colorido.
+- **Estado:** ponto redondo e o nome na cor do estado (`.status`).
+- **Seleção:** filtro e ordenação selecionados usam campo `inset-black`, borda `hardware-line` e texto marfim, sem âmbar.
+- **Neutro:** marcador de lista, código em linha e título de ficha ficam em marfim.
+
 ## Typography
 
 **Display Font:** Bricolage Grotesque Variable (sans-serif)
 
 **Body Font:** Bricolage Grotesque Variable (sans-serif)
 
-**Label/Mono Font:** IBM Plex Mono (ui-monospace, monospace)
+**Label/Mono Font:** IBM Plex Mono (ui-monospace, monospace). O pacote `@fontsource/ibm-plex-mono` registra a família como `"IBM Plex Mono"`, pesos 400 e 600; o token `--mono` precisa usar esse nome exato, senão todos os rótulos caem na mono do sistema.
 
 **Character:** Bricolage fornece uma voz humana e irregular o bastante para não parecer interface corporativa. IBM Plex Mono mede estado, rota, data e comando; ela nunca fantasia um parágrafo como “técnico”.
 
 ### Hierarchy
 
-- **Display** (650, clamp(3rem, 6.7vw, 6rem), 0.96): tese de uma superfície. Só a home usa.
+- **Display** (650, clamp(3rem, 6.7vw, 6rem), 0.96): tese de uma superfície. Só a home usa. O itálico existe só aqui, na segunda metade da tese; a Bricolage não tem itálico e o navegador sintetiza a inclinação, então ele não se repete em outros títulos.
 - **Page title** (400, clamp(2.5rem, 4.5vw, 3.5rem), 1): título das páginas internas — arquivo, área, sobre e projeto. Em CSS, `var(--type-page-title)`. O título interno não ocupa o primeiro viewport inteiro: o conteúdo começa logo abaixo.
 - **Headline** (600, clamp(2rem, 4vw, 4.6rem), 1): títulos de seção e projetos em destaque.
 - **Title** (600, clamp(1.35rem, 2.2vw, 2rem), 1.15): registros do índice.
@@ -160,7 +169,7 @@ A paleta combina preto aquecido e marfim com sinais curados, como etiquetas em u
 
 ## Layout
 
-Desktop usa um trilho fixo de 88px e uma coluna de conteúdo fluida. A barra superior mede 72px; seções respiram entre 72px e 140px, com margens laterais responsivas que chegam a 104px. O conteúdo editorial prefere linhas e listas a contêineres fechados.
+Desktop usa um trilho fixo de 88px e uma coluna de conteúdo fluida. A barra superior mede 72px e carrega só o estado (a data da revisão mais recente do conteúdo), o som e a busca; seções respiram entre 72px e 140px, com margens laterais responsivas que chegam a 104px. O conteúdo editorial prefere linhas e listas a contêineres fechados.
 
 A 1180px, os estudos de caso e as frentes de trabalho viram uma coluna. A 820px, o trilho lateral vira dock inferior, a barra superior cai para 62px e grades de artigo e identidade viram uma coluna. A 520px, controles deixam metadados secundários cederem espaço; alvos interativos permanecem com 44px.
 
@@ -192,7 +201,7 @@ Controles usam cantos pequenos de 3–8px. O cartão de estudo de caso é um ret
 ### Chips
 
 - **Style:** fundo transparente, borda ausente em repouso, IBM Plex Mono e marfim quieto.
-- **State:** seleção combina borda âmbar profunda e campo âmbar de baixa opacidade; aria-pressed comunica o mesmo estado.
+- **State:** seleção combina borda `hardware-line`, campo `inset-black` e texto marfim — neutro, porque selecionar não é ação; aria-pressed comunica o mesmo estado.
 
 ### Cards / Containers
 
@@ -212,13 +221,25 @@ Controles usam cantos pequenos de 3–8px. O cartão de estudo de caso é um ret
 
 O trilho mostra ícone Phosphor e nome curto; o estado ativo usa campo preto elevado e contato âmbar de 2px. No celular, a mesma família vira dock inferior com cinco áreas iguais. Links editoriais preservam texto explícito fora dessa navegação compacta.
 
+A marca aparece uma vez por tela: no desktop, o monograma G⋮S no topo do trilho; no celular, sem trilho, o nome GABRIEL.SYS na barra superior. A busca é o único controle com moldura na barra; o som é ícone sem moldura com alvo de 44px. No celular a busca vive só no dock.
+
 ### Case Card
 
-O cartão de estudo de caso abre com a área e o estado, leva o título, o resumo, a stack real e dois destinos: o texto completo e o código, quando o repositório é público. Quando não é, ele diz "repositório privado" em vez de esconder o fato.
+O cartão de estudo de caso abre com a área e o estado, leva o título, o resumo, a stack real e dois destinos: o texto completo e o código, quando o repositório é público. Quando não é, ele diz "repositório privado" em vez de esconder o fato. Não há numeração decorativa: a ordem da lista já diz a ordem.
+
+### Case Study Page
+
+- **Ficha (`.facts`):** uma linha de pares rótulo/valor no cabeçalho — área, estado, período, leitura e código. É a única ocorrência desses dados na página. A página "Sobre" usa a mesma ficha para os fatos de quem contrata.
+- **Figuras:** `Flow` desenha passos numerados sobre um fio, com nós quadrados, ou camadas empilhadas ligadas por conectores; `Excerpt` mostra um trecho real de repositório público com barra de arquivo, link de origem e legenda. As duas podem sair da medida de 72ch do texto até 960px e 80ch.
+- **Fim:** próximo estudo de caso à esquerda, contato à direita, num bloco com borda de componente. No celular, empilhados.
+
+### Archive Line
+
+A mesma linha serve a home, o arquivo e as páginas de área: índice, título e resumo, área (omitida dentro de uma área), estado e período real.
 
 ### Personality Layer
 
-A personalidade é uma camada por cima, nunca a estrutura. Animação de entrada (uma vez por sessão, pulável), sons sintetizados em Web Audio com botão visível, terminal opcional na crase, modo retrô pelo Konami e conquistas discretas. Regras que não se quebram: nada essencial depende dela, tudo alcançável por teclado, e `prefers-reduced-motion` remove flicker e glitch — o CRT fica estático e a animação de entrada não roda.
+A personalidade é uma camada por cima, nunca a estrutura. Animação de entrada (uma vez por sessão, ~1,5 s, pulável), sons sintetizados em Web Audio com botão visível, terminal opcional na crase, modo retrô pelo Konami e conquistas discretas. Regras que não se quebram: nada essencial depende dela, tudo alcançável por teclado, e `prefers-reduced-motion` remove flicker e glitch — o CRT fica estático e a animação de entrada não roda.
 
 ### Search Layer
 
@@ -240,4 +261,6 @@ Ctrl/⌘ + K abre uma camada central. Ela inclui carregamento, erro e vazio, tor
 - **Don't** estruture o conteúdo como uma grade de cards iguais.
 - **Don't** use brilho, vidro, texto em gradiente ou sombra dura como atalho de personalidade.
 - **Don't** invente progresso, métricas ou estados que o conteúdo não sustenta.
-- **Don't** use rótulos pequenos acima de títulos como decoração.
+- **Don't** use rótulos pequenos acima ou abaixo de títulos como decoração — nem caminhos de rota (`/whoami`) nem numeração (`01`) que não sirvam de índice.
+- **Don't** mostre um estado que o site não mede, como relógio ou "online".
+- **Don't** repita no corpo de uma página o que a ficha já diz.

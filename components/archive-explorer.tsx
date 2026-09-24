@@ -2,9 +2,11 @@
 
 import { useMemo, useState } from "react";
 import { FunnelSimpleIcon as FunnelSimple, XIcon as X } from "@phosphor-icons/react";
-import { ArchiveLine, areaLabel, statusLabel, type ArchiveItem } from "@/components/archive-line";
+import { ArchiveLine } from "@/components/archive-line";
+import type { ArchiveItem } from "@/lib/content";
 import { normalizeSearch } from "@/lib/format";
-import { areas as allAreas, statuses as allStatuses } from "@/lib/site";
+import { comparePeriods } from "@/lib/period";
+import { areaLabel, areas as allAreas, statusLabel, statuses as allStatuses } from "@/lib/site";
 
 type Order = "recent" | "alpha";
 
@@ -38,7 +40,7 @@ export function ArchiveExplorer({ items }: { items: ArchiveItem[] }) {
 
     return order === "alpha"
       ? [...matched].sort((a, b) => a.title.localeCompare(b.title, "pt-BR"))
-      : [...matched].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+      : [...matched].sort(comparePeriods);
   }, [area, items, order, status, term]);
 
   const clearAll = () => {

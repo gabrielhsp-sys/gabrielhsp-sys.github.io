@@ -5,24 +5,23 @@ import { usePersonality } from "@/components/personality";
 
 /* A animacao de entrada e a UNICA introducao do site. Roda uma vez por sessao,
    e pulavel por tecla ou clique, e nao roda com prefers-reduced-motion.
-   O roteiro vem do portfolio de 2025; o conteudo foi atualizado. */
+   O roteiro vem do portfolio de 2025. Ele foi condensado para caber em ~1,5 s
+   do inicio ao fim (antes eram 5,8 s medidos): a animacao e cartao de visita,
+   nao sala de espera (ADR-017). */
 
 type Line = { text: string; tone?: "ok" | "warn" | "head"; wait: number };
 
 const SCRIPT: Line[] = [
-  { text: "GABRIEL.SYS", tone: "head", wait: 520 },
-  { text: "Memória ............... 640K  OK", tone: "ok", wait: 380 },
-  { text: "Teclado ............... OK", tone: "ok", wait: 300 },
-  { text: "Café .................. CRÍTICO", tone: "warn", wait: 380 },
-  { text: "", wait: 220 },
-  { text: "Carregando perfil:", wait: 360 },
-  { text: "  software   serviços, arquitetura, Linux", wait: 320 },
-  { text: "  web        interfaces rápidas e acessíveis", wait: 320 },
-  { text: "  acadêmico  ciência da computação, UNIFAL-MG", wait: 320 },
-  { text: "", wait: 220 },
-  { text: "Montando /home/gabriel ... ok", tone: "ok", wait: 460 },
-  { text: "Iniciando portfolio.sh", wait: 600 },
+  { text: "GABRIEL.SYS", tone: "head", wait: 140 },
+  { text: "Memória ........ 640K  OK", tone: "ok", wait: 150 },
+  { text: "Café ........... CRÍTICO", tone: "warn", wait: 170 },
+  { text: "Perfil ......... software · web · acadêmico", wait: 190 },
+  { text: "Iniciando portfolio.sh", wait: 180 },
 ];
+
+// Depois da ultima linha: quanto a tela fica parada e quanto dura o desligar.
+const HOLD = 260;
+const LEAVE = 320;
 
 const SESSION_KEY = "gsys:booted";
 
@@ -84,13 +83,13 @@ export function BootSequence() {
   /* terminou o roteiro: desliga a tela */
   useEffect(() => {
     if (!running || leaving || shown < SCRIPT.length) return;
-    const timer = window.setTimeout(() => setLeaving(true), 680);
+    const timer = window.setTimeout(() => setLeaving(true), HOLD);
     return () => window.clearTimeout(timer);
   }, [leaving, running, shown]);
 
   useEffect(() => {
     if (!leaving) return;
-    const timer = window.setTimeout(finish, 520);
+    const timer = window.setTimeout(finish, LEAVE);
     return () => window.clearTimeout(timer);
   }, [leaving]);
 

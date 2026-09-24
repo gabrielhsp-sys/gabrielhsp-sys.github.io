@@ -8,6 +8,8 @@
 - [x] Relações apontam para IDs existentes.
 - [x] Áreas sem registro público não aparecem em nenhuma superfície.
 - [x] Nenhum estudo de caso afirma métrica, usuário ou resultado sem fonte no repositório do projeto.
+- [x] O período de cada projeto vem de evidência (primeiro commit, semestre, envio) e o build recusa período que contradiga o estado.
+- [x] Trecho de código em estudo de caso vem de arquivo público idêntico ao publicado, com as omissões marcadas.
 - [x] A exportação é verificada depois do build por `scripts/verify-export.mjs`.
 
 ## Experiência
@@ -21,6 +23,10 @@
 - [x] Navegação e leitura funcionam sem depender da camada terminal.
 - [x] Estados de carregamento, vazio e erro da busca são legíveis.
 - [x] Foco, seleção, scrollbar e links pertencem ao sistema visual.
+- [x] Âmbar marca ação e foco; área é quadrado, estado é ponto, seleção é campo neutro (ADR-018).
+- [x] Alvos interativos têm 44px, exceto link dentro de frase, que a WCAG 2.5.8 isenta.
+- [x] A página de projeto não repete área, estado, stack nem link, e termina com próximo passo.
+- [x] Home, arquivo e páginas de área desenham o projeto com a mesma linha.
 - [x] `prefers-reduced-motion` remove movimentos não essenciais.
 
 ## Camada de personalidade
@@ -33,6 +39,7 @@ Conferido por código e build:
 - [x] O modo retrô sai pela mesma sequência do Konami ou pelo botão "sair do modo retrô".
 - [x] `prefers-reduced-motion` tem regra explícita para a tela de entrada, o glitch, o toast e o cursor do título; o CRT fica estático.
 - [x] A animação de entrada lê e grava `sessionStorage`, então não repete na navegação interna.
+- [x] A animação de entrada leva ~1,5 s do carregamento ao conteúdo (medido: 1,53 s em 1440 px e 1,50 s em 390 px; antes, 5,8 s).
 - [x] A animação de entrada não recebe ponteiro: um clique pula a animação e ainda chega no link, então nenhuma navegação precisa de dois cliques (ADR-014).
 - [x] O ícone por rota é declarado pelo Next (`app/**/icon.svg`); a camada de personalidade não remove tags `<link>` que o React renderiza (ADR-014).
 
@@ -47,7 +54,7 @@ Pendente de verificação no navegador (`needs-verification`):
 ## Engenharia
 
 - [x] `npm run lint` passa.
-- [x] `npm test` passa.
+- [x] `npm test` passa, incluindo `normalizeSearch` e o formato e a ordem dos períodos.
 - [x] `npm run build` gera `out/`.
 - [x] Índice de busca é derivado de `content/public`.
 - [x] Links internos e relações são verificados.
@@ -78,3 +85,20 @@ Verificado no navegador, não apenas por inspeção de código:
   não se aplica.
 - Paleta do modo retrô conferida no próprio fundo: texto 17,9:1 e borda de
   componente 4,7:1.
+
+### Rodada de 2026-09-24
+
+Capturas com Playwright sobre a exportação estática, em 320, 390, 768 e
+1440 px, antes e depois, para home, três estudos de caso, um projeto sem
+destaque, arquivo, área, sobre e 404, mais modo retrô e a linha do tempo da
+animação de entrada.
+
+- Nenhuma rota com `scrollWidth` maior que a janela; nenhum texto abaixo de
+  11px; nenhum erro de console além do 404 esperado na rota inexistente.
+- Alvos menores que 44px caíram de 9–18 por página para zero, exceto o
+  sobreposto do card (o card inteiro é clicável) e link dentro de frase.
+- A fonte mono não carregava: o token pedia `"IBM Plex Mono Variable"` e o
+  pacote instalado registra `"IBM Plex Mono"`. Todos os rótulos caíam na mono do
+  sistema (Noto Sans Mono no Linux; no Windows, a mono padrão do navegador).
+  Conferido por CDP depois da correção.
+- Com o modo retrô ligado, o atalho da busca não quebra mais em duas linhas.

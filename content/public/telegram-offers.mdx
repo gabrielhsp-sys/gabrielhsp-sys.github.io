@@ -7,7 +7,8 @@ area: software
 status: live
 visibility: public
 publishedAt: 2026-09-21
-updatedAt: 2026-09-22
+updatedAt: 2026-09-24
+startedAt: "2026-08"
 tags: [Python, Telethon, SQLite, systemd, automação]
 related: [academic-system, fedora-post-install]
 github: https://github.com/gabrielhsp-sys/telegram-offer-monitor
@@ -31,6 +32,15 @@ Ele usa duas sessões do Telegram no mesmo processo, com papéis separados de pr
 a minha conta **apenas lê** os canais de origem — nunca envia, reage nem entra em canal
 automaticamente — e um bot escreve no meu canal privado de destino.
 
+<Flow caption="O caminho de uma mensagem, do canal de promoção até o alerta. A minha conta só lê; quem escreve é o bot.">
+  <Step title="Leitura">a conta de usuário lê os canais de origem</Step>
+  <Step title="Normalização">separa o título real do corpo e descarta cupom e link</Step>
+  <Step title="Pontuação">de 0 a 100 contra a wishlist</Step>
+  <Step title="Extração">preço, cupom, loja e link</Step>
+  <Step title="Deduplicação">quatro chaves, cada uma com a sua janela</Step>
+  <Step title="Alerta">o bot publica no canal privado de destino</Step>
+</Flow>
+
 Cada mensagem passa por um pipeline curto:
 
 - **Normalização** separa o título real do corpo, pulando enfeites como "Parceladinho"
@@ -48,6 +58,35 @@ Cada mensagem passa por um pipeline curto:
   uma queda de R$ 622 para R$ 508 volta a ser notícia.
 
 Adicionar uma peça nova é editar um arquivo YAML. Nenhum Python precisa mudar.
+
+<Excerpt file="config/products.example.yaml" href="https://github.com/gabrielhsp-sys/telegram-offer-monitor/blob/main/config/products.example.yaml" caption="Trecho da wishlist de exemplo publicada no repositório. Os limiares 70 e 40 são as faixas de oferta e de dúvida; as linhas omitidas estão marcadas.">
+
+```yaml
+defaults:
+  send_threshold: 70
+  review_threshold: 40
+
+products:
+  - id: ryzen_5700x
+    name: "AMD Ryzen 7 5700X"
+    # …
+    skus: ["100-100000926WOF"]
+    require: ['\b5700\s?x\b']
+    boost:
+      '\bprocessador\b': 20
+      '\bryzen\b': 10
+      # …
+    exclude_hard:
+      - '\bpc\s+(gamer|completo|montado)\b'
+      - '\bcomputador\s+(completo|gamer)\b'
+      # …
+    exclude_soft:
+      - '\bkit\b'
+      - '\bcombo\b'
+      # …
+```
+
+</Excerpt>
 
 Antes de ligar os alertas, há um conjunto de scripts de calibração que reproduz meses
 de histórico e responde quantos alertas por dia aquela configuração geraria — o volume
@@ -70,9 +109,6 @@ A parte que eu mais levo para outros projetos é a disciplina de segurança em v
 arquivo de sessão: ele é a credencial mais sensível do sistema, vive com permissão
 restrita fora do versionamento, e nada vai para o log sem máscara.
 
-## Link
-
-O código está público em
-[github.com/gabrielhsp-sys/telegram-offer-monitor](https://github.com/gabrielhsp-sys/telegram-offer-monitor),
-sob licença MIT. Credenciais, arquivo de sessão e a wishlist que eu uso ficam fora
-do versionamento: o que está publicado é o serviço, não a minha operação.
+O código está público sob licença MIT. Credenciais, arquivo de sessão e a wishlist
+que eu uso ficam fora do versionamento: o que está publicado é o serviço, não a minha
+operação.

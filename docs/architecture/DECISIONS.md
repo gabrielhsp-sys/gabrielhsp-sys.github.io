@@ -150,3 +150,88 @@ explorador, para o mesmo projeto não ter duas caras.
 Regra que fica: na home, cada projeto público aparece uma única vez — em
 destaque ou em "Outros projetos". `scripts/verify-export.mjs` confere isso no
 site exportado.
+
+## ADR-016 — período real no lugar da data de entrada
+
+As datas visíveis vinham de `updatedAt` e `publishedAt`, que marcam quando o
+registro entrou ou foi revisto no site. Como o portfólio foi reescrito em
+setembro de 2026, tudo parecia feito no mesmo mês — inclusive um trabalho do
+primeiro semestre de 2025.
+
+O esquema ganhou `startedAt` e `endedAt` (`YYYY` ou `YYYY-MM`), preenchidos a
+partir de evidência: primeiro commit, semestre registrado no repositório da
+faculdade, envio do trabalho. Linhas do arquivo, páginas de área e a ficha do
+projeto mostram só o período. `updatedAt` continua existindo para feed, sitemap
+e o "atualizado em" da barra superior. A validação recusa fim em projeto que
+continua, ausência de fim em projeto concluído e fim antes do começo. A ordem
+"mais recente" passou a ser a atividade mais recente, não a última revisão do
+texto. `lib/period.ts` não importa nada, e `tests/format.test.mjs` o testa direto.
+
+## ADR-017 — animação de entrada curta
+
+A animação de entrada continua sendo a única introdução (decisão de
+2026-09-21), mas medida no navegador levava 5,8 s até o conteúdo voltar. O
+roteiro foi condensado para cinco linhas e o conjunto cabe em ~1,5 s do
+carregamento ao conteúdo. As regras de antes não mudam: uma vez por sessão,
+pulável por qualquer tecla ou clique, fora do `prefers-reduced-motion`, sem
+interceptar ponteiro (ADR-014).
+
+Tirar a animação da abertura e deixá-la só como comando foi considerado e
+recusado pelo proprietário: ela é identidade, e o custo real era a duração.
+
+## ADR-018 — cada função de cor tem uma forma
+
+O âmbar marcava ação, navegação ativa, filtro selecionado, área Software,
+estado "Em desenvolvimento", rótulos de rota e títulos de ficha ao mesmo tempo.
+A cor sozinha deixava de dizer o que era clicável.
+
+A paleta não mudou; mudou o uso:
+
+- **Ação e foco** — âmbar em botão, link de ação, anel de foco e navegação ativa.
+- **Área** — quadrado na cor da área ao lado do nome, em texto neutro, e os
+  filetes de 3px do card, do projeto e da página de área.
+- **Estado** — ponto redondo com o nome na cor do estado.
+- **Seleção** — filtro e ordenação selecionados usam campo neutro com borda,
+  não âmbar.
+
+Marcadores de lista, código em linha e títulos de ficha voltaram ao neutro.
+
+## ADR-019 — estudo de caso com ficha única, figura e saída
+
+A página de projeto repetia área e estado no cabeçalho e na ficha lateral,
+repetia a stack em etiquetas e no texto, repetia o link do repositório no topo e
+na seção "Link", e terminava sem próximo passo.
+
+Agora a ficha fica uma vez só, no cabeçalho: área, estado, período, leitura e
+código. A seção "Link" saiu do MDX, porque o link já vem de `github` no
+frontmatter. Cada destaque ganhou uma figura escrita no próprio MDX — `Flow`
+para passos e camadas, `Excerpt` para trecho real de repositório público —, em
+texto, para leitor de tela, busca do navegador e modo retrô. A página termina
+com o próximo estudo de caso e o contato; o próximo sai da lista de
+relacionados para não aparecer duas vezes.
+
+As páginas de área passaram a usar a mesma linha do arquivo
+(`components/archive-line.tsx`): o mesmo projeto não muda de cara conforme a
+porta de entrada.
+
+## ADR-020 — identidade sem enfeite de template
+
+Revisão dos padrões que davam "cara de template dev", feita item a item com o
+proprietário:
+
+- O selo pulsante "Disponível para estágio" virou dado na linha de
+  apresentação do hero, com o ponto verde parado.
+- Saíram os rótulos de rota sob os títulos (`/whoami`, `/projetos --todos`,
+  `/software`) e os números 01–04 dos cards. Eram decoração, e o DESIGN.md já
+  vetava rótulo pequeno como enfeite.
+- O itálico ficou só na tese do hero. A Bricolage não tem itálico, então o
+  navegador inclina a fonte à força; um uso é assinatura, três eram tique.
+- A marca aparece uma vez: no desktop, o monograma do trilho; no celular, sem
+  trilho, o nome por extenso no topo. O selo "GH / SYS" da foto saiu. O botão
+  de som virou ícone sem moldura, e a busca é o único controle com peso na
+  barra. No celular a busca fica só no dock.
+- O relógio "ONLINE HH:MM" era um estado inventado. No lugar, a data da revisão
+  mais recente do conteúdo.
+
+Ficaram, por serem identidade e não enfeite: textura de fundo, trilho,
+monograma, índice numerado das linhas do arquivo, terminal, sons e Konami.

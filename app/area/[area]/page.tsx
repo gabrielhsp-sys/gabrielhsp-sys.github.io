@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { RecordRow } from "@/components/content-ui";
-import { getAllContent, getPublicAreas } from "@/lib/content";
+import { ArchiveLine } from "@/components/archive-line";
+import { getAllContent, getPublicAreas, toArchiveItem } from "@/lib/content";
 import { areaDescriptions, areaLabels } from "@/lib/site";
 
 type Props = { params: Promise<{ area: string }> };
@@ -27,21 +27,20 @@ export default async function AreaPage({ params }: Props) {
   const { area: slug } = await params;
   const area = getPublicAreas().find((candidate) => candidate === slug);
   if (!area) notFound();
-  const items = getAllContent().filter((item) => item.area === area);
+  const items = getAllContent().filter((item) => item.area === area).map(toArchiveItem);
 
   return (
     <main id="conteudo" className="inner-page area-page" data-area={area}>
       <header className="page-intro">
         <h1>{areaLabels[area]}</h1>
         <p>{areaDescriptions[area]}</p>
-        <code className="page-path">/{area}</code>
       </header>
-      <section className="project-group" aria-label={`Projetos de ${areaLabels[area]}`}>
-        <div className="record-list">
-          {items.map((item, index) => (
-            <RecordRow item={item} index={index} showArea={false} key={item.id} />
-          ))}
-        </div>
+      {/* A mesma linha do arquivo completo: o mesmo projeto nao muda de cara
+          conforme a porta por onde se chega nele. */}
+      <section className="archive-table area-list" aria-label={`Projetos de ${areaLabels[area]}`}>
+        {items.map((item, index) => (
+          <ArchiveLine item={item} index={index} showArea={false} key={item.id} />
+        ))}
       </section>
     </main>
   );

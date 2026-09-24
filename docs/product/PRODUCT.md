@@ -32,7 +32,13 @@ privado para público será sempre explícita, revisada e manual.
   arquivo completo), sobre e contato.
 - Áreas públicas **Software & Automação**, **Web & Interfaces** e **Acadêmico**.
 - Estados **Em desenvolvimento**, **No ar**, **Concluído** e **Arquivado**.
-- Estudos de caso no formato problema → o que ele fez → stack → resultado → link.
+- Estudos de caso no formato problema → o que ele fez → stack → resultado, com
+  uma figura por destaque (passos, camadas ou trecho real de repositório
+  público), a ficha — área, estado, período real, leitura e código — uma vez no
+  topo, e o próximo estudo de caso e o contato no fim.
+- Datas que dizem quando o trabalho aconteceu, não quando entrou no site.
+- Página "Sobre" com a ficha de quem contrata: curso, período, onde, o que
+  procura e contato. Só fato com evidência; o que falta não é adivinhado.
 - Busca global acionada por `Ctrl/⌘ + K`.
 - Camada de personalidade opcional: animação de entrada, sons em Web Audio,
   terminal com snake, modo retrô pelo Konami, conquistas e 404 de terminal.

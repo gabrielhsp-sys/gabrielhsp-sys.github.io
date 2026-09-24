@@ -1,25 +1,21 @@
 import Link from "next/link";
 import { ArrowUpRightIcon as ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
-import { formatDate } from "@/lib/format";
-import { areaLabels, areas, statusLabels, statuses } from "@/lib/site";
+import type { ArchiveItem } from "@/lib/content";
+import { formatPeriod } from "@/lib/period";
+import { areaLabels, statusLabels } from "@/lib/site";
 
-export type ArchiveItem = {
-  id: string;
-  title: string;
-  summary: string;
-  href: string;
-  area: string;
-  status: string;
-  updatedAt: string;
-  tags: string[];
-};
-
-export const areaLabel = (value: string) => areaLabels[value as (typeof areas)[number]] ?? value;
-export const statusLabel = (value: string) => statusLabels[value as (typeof statuses)[number]] ?? value;
-
-// Uma linha do arquivo. A home e o explorador usam a mesma, para o mesmo
-// projeto nao ter duas caras.
-export function ArchiveLine({ item, index }: { item: ArchiveItem; index: number }) {
+// Uma linha do arquivo. Home, arquivo e paginas de area usam a mesma, para o
+// mesmo projeto nao ter duas caras. `showArea` sai dentro de uma area: repetir
+// o nome em cada linha nao informa nada.
+export function ArchiveLine({
+  item,
+  index,
+  showArea = true,
+}: {
+  item: ArchiveItem;
+  index: number;
+  showArea?: boolean;
+}) {
   return (
     <Link href={item.href} className="archive-line">
       <span className="archive-line-index">{String(index + 1).padStart(2, "0")}</span>
@@ -28,9 +24,9 @@ export function ArchiveLine({ item, index }: { item: ArchiveItem; index: number 
         <small>{item.summary}</small>
       </span>
       <span className="archive-line-meta">
-        <span className="archive-line-area" data-area={item.area}>{areaLabel(item.area)}</span>
-        <span data-status={item.status}>{statusLabel(item.status)}</span>
-        <time dateTime={item.updatedAt}>{formatDate(new Date(item.updatedAt))}</time>
+        {showArea && <span className="area-mark" data-area={item.area}>{areaLabels[item.area]}</span>}
+        <span data-status={item.status}>{statusLabels[item.status]}</span>
+        <span className="archive-line-period">{formatPeriod(item.startedAt, item.endedAt)}</span>
       </span>
       <ArrowUpRight size={18} aria-hidden="true" />
     </Link>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { ArrowUpRightIcon as ArrowUpRight, GithubLogoIcon as GithubLogo } from "@phosphor-icons/react/dist/ssr";
-import { site } from "@/lib/site";
+import { profile, site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Sobre",
@@ -15,7 +15,14 @@ export default function AboutPage() {
     <main id="conteudo" className="about-page">
       <header className="about-heading">
         <h1>Gabriel Henrique.</h1>
-        <code className="page-path">/whoami</code>
+        {/* O que quem contrata procura primeiro, antes da historia. */}
+        <dl className="facts">
+          <div><dt>curso</dt><dd>{profile.course}</dd></div>
+          <div><dt>período</dt><dd>{profile.term}</dd></div>
+          <div><dt>onde</dt><dd>{profile.institution} · {profile.city}</dd></div>
+          <div><dt>procura</dt><dd>{profile.seeking}</dd></div>
+          <div className="facts-wide"><dt>contato</dt><dd><a href={`mailto:${site.email}`}>{site.email}</a></dd></div>
+        </dl>
       </header>
 
       <div className="about-grid">
@@ -28,14 +35,7 @@ export default function AboutPage() {
               alt="Gabriel Henrique ao lado de uma mascote amarela em uma feira"
               sizes="(max-width: 820px) 100vw, 32vw"
             />
-            <i aria-hidden="true">GH / SYS</i>
           </div>
-          <dl>
-            <div><dt>nome</dt><dd>Gabriel Henrique</dd></div>
-            <div><dt>curso</dt><dd>Ciência da Computação</dd></div>
-            <div><dt>instituição</dt><dd>UNIFAL-MG</dd></div>
-            <div><dt>modo</dt><dd>aprendendo em público</dd></div>
-          </dl>
         </aside>
 
         <article className="about-copy">

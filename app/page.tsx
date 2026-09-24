@@ -8,8 +8,7 @@ import {
 import { ArchiveLine } from "@/components/archive-line";
 import { ContactSection } from "@/components/contact-actions";
 import { Status } from "@/components/content-ui";
-import { getAllContent, getFeaturedContent, getPublicAreas } from "@/lib/content";
-import { formatDate } from "@/lib/format";
+import { getAllContent, getFeaturedContent, getPublicAreas, toArchiveItem } from "@/lib/content";
 import { areaLabels } from "@/lib/site";
 
 // O que aparece em "O que eu faco". Cada bloco aponta para projetos que
@@ -42,26 +41,18 @@ export default function Home() {
   const featured = getFeaturedContent();
   const areas = getPublicAreas();
   // Os destaques ja estao nos cards; o arquivo da home mostra so o resto.
-  const others = getAllContent().filter((item) => !item.featured).map((item) => ({
-    id: item.id,
-    title: item.title,
-    summary: item.summary,
-    href: item.href,
-    area: item.area,
-    status: item.status,
-    updatedAt: item.updatedAt.toISOString(),
-    tags: item.tags,
-  }));
+  const others = getAllContent().filter((item) => !item.featured).map(toArchiveItem);
 
   return (
     <main id="conteudo">
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section className="hero" aria-labelledby="hero-heading">
         <div className="hero-copy">
-          <p className="hero-badge">
-            <i aria-hidden="true" /> Disponível para estágio
+          {/* Disponibilidade e dado, nao selo: mesmo ponto verde do estado "No ar". */}
+          <p className="hero-kicker">
+            <span className="hero-available"><i aria-hidden="true" /> Disponível para estágio</span>
+            <span>Gabriel Henrique · Ciência da Computação, UNIFAL-MG</span>
           </p>
-          <p className="hero-kicker">Gabriel Henrique · Ciência da Computação, UNIFAL-MG</p>
           <h1 id="hero-heading">
             Eu construo software que <em>fica de pé sozinho.</em>
           </h1>
@@ -92,11 +83,10 @@ export default function Home() {
           <p>Quatro estudos de caso: o problema, o que eu fiz, a stack e o resultado.</p>
         </div>
         <ol className="case-list">
-          {featured.map((item, index) => (
+          {featured.map((item) => (
             <li className="case-card" key={item.id} data-area={item.area}>
-              <span className="case-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
               <div className="case-meta">
-                <span className="case-area">{areaLabels[item.area]}</span>
+                <span className="area-mark" data-area={item.area}>{areaLabels[item.area]}</span>
                 <Status value={item.status} />
               </div>
               <h3><Link href={item.href}>{item.title}</Link></h3>
@@ -128,10 +118,7 @@ export default function Home() {
         <div className="craft-list">
           {craft.map((block) => (
             <article className="craft-block" key={block.area} data-area={block.area}>
-              <header>
-                <code aria-hidden="true">/{block.area}</code>
-                <h3>{areaLabels[block.area]}</h3>
-              </header>
+              <h3>{areaLabels[block.area]}</h3>
               <p className="craft-line">{block.line}</p>
               <p>{block.body}</p>
               <ul className="craft-stack">
@@ -165,7 +152,7 @@ export default function Home() {
       {/* ── SOBRE ────────────────────────────────────────────── */}
       <section className="about-teaser" id="sobre" aria-labelledby="about-teaser-heading">
         <h2 id="about-teaser-heading">
-          Eu gosto do que acontece <em>por baixo da interface.</em>
+          Eu gosto do que acontece por baixo da interface.
         </h2>
         <p>
           Comecei mexendo no registro do Windows para ganhar alguns quadros por segundo, quebrei o
@@ -175,7 +162,6 @@ export default function Home() {
         </p>
         <div className="about-teaser-actions">
           <Link href="/about/">a história inteira <ArrowRight size={17} /></Link>
-          <span>Último registro atualizado em {formatDate(getAllContent()[0].updatedAt)}</span>
         </div>
       </section>
 

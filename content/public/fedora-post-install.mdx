@@ -7,7 +7,9 @@ area: software
 status: done
 visibility: public
 publishedAt: 2026-08-17
-updatedAt: 2026-08-17
+updatedAt: 2026-09-24
+startedAt: "2026-08"
+endedAt: "2026-08"
 tags: [Fedora, Linux, DNF5, Secure Boot, documentação]
 related: [academic-system, telegram-offers]
 github: https://github.com/gabrielhsp-sys/fedora-post-install
@@ -46,6 +48,33 @@ Cobre atualização do sistema, plugins do `dnf5`, RPM Fusion completo (free, no
 tainted), codecs, firmware, drivers de GPU, Flatpak, snapshots, pacotes essenciais,
 limpeza final e a base para jogos.
 
+<Flow caption="A ordem do guia. O aviso vem antes da parte que mexe em kernel, memória e disco, e o caminho de volta fecha o texto.">
+  <Step title="Parte segura">do dnf5 e do RPM Fusion a codecs, drivers, Flatpak, snapshots e jogos</Step>
+  <Step title="Aviso">leia antes de colar o que vem a seguir</Step>
+  <Step title="Parte avançada">ajustes de kernel, memória, disco e rede, como scheduler eBPF e zram</Step>
+  <Step title="Como desfazer">o caminho de volta de cada mudança</Step>
+</Flow>
+
+Um bloco do guia, como ele está publicado:
+
+<Excerpt file="README.md — Acelerar o dnf" href="https://github.com/gabrielhsp-sys/fedora-post-install#acelerar-o-dnf" caption="O formato de todos os blocos: o que muda e por quê, o comando, como conferir e como voltar atrás.">
+
+O nome da opção é `max_parallel_downloads`, com o `max_`. Sem isso o dnf reclama de opção desconhecida (é o erro mais comum de guia copiado errado por aí).
+
+```bash
+sudo dnf config-manager setopt max_parallel_downloads=10 fastestmirror=True
+```
+
+Pra ver se pegou:
+
+```bash
+dnf --dump-main-config | grep -E '^(fastestmirror|max_parallel_downloads) ='
+```
+
+Se o download piorar, desliga só o fastestmirror com `sudo dnf config-manager setopt fastestmirror=False`.
+
+</Excerpt>
+
 ## Stack
 
 Não é software: é documentação técnica. O repositório é um `README.md` e mais nada —
@@ -61,7 +90,3 @@ Está **concluído** para o Fedora 44: leva menos de quinze minutos do sistema l
 estação pronta, e é o guia que eu mesmo sigo. É também o projeto que me ensinou que
 escrever uma instrução verificável é tão técnico quanto escrever a automação dela — e
 bem mais fácil de outra pessoa usar.
-
-## Link
-
-[github.com/gabrielhsp-sys/fedora-post-install](https://github.com/gabrielhsp-sys/fedora-post-install)

@@ -37,18 +37,20 @@ O comando executa lint, testes de conteúdo e o build estático, que termina ver
 ## Estrutura da home
 
 Hero com proposta de valor e contato → quatro estudos de caso em destaque →
-o que ele faz → arquivo completo filtrável (secundário) → sobre → contato.
+o que ele faz → outros projetos (com link para o arquivo completo) → sobre →
+contato. Nenhum projeto aparece duas vezes.
 
 Cada estudo de caso segue o mesmo formato: problema → o que ele fez → stack →
-resultado → link, quando o repositório é público.
+resultado, com uma figura, a ficha (área, estado, período, leitura e código) no
+topo e o próximo estudo de caso e o contato no fim.
 
 ## Camada de personalidade
 
 Opcional por princípio: nada essencial depende dela e tudo funciona só com
 teclado.
 
-- **Animação de entrada** — uma vez por sessão, poucos segundos, pulável por
-  qualquer tecla ou clique. Não roda com `prefers-reduced-motion`.
+- **Animação de entrada** — uma vez por sessão, ~1,5 s, pulável por qualquer
+  tecla ou clique. Não roda com `prefers-reduced-motion`.
 - **Sons** — clique, hover e transição, sintetizados em Web Audio no próprio
   código. Ligados por padrão, com botão visível na barra superior; o contexto de
   áudio nasce no primeiro gesto, porque é quando o navegador libera.
@@ -79,11 +81,14 @@ status: building
 visibility: public
 publishedAt: 2026-09-15
 updatedAt: 2026-09-15
-tags: [typescript]
+startedAt: "2026-09"
+tags: [TypeScript]
 related: []
 ```
 
 O ID deve ser igual ao nome do arquivo. Relações precisam apontar para IDs existentes.
+`startedAt` e `endedAt` dizem quando o trabalho aconteceu; o esquema completo e os
+componentes de figura (`Flow`, `Excerpt`) estão em `docs/content/SCHEMA.md`.
 
 ## Privacidade
 
@@ -93,7 +98,7 @@ Este repositório é público e contém somente material aprovado para publicaç
 
 A navegação principal tem três entradas: início, projetos e sobre.
 
-- `/` — hero, estudos de caso, o que ele faz, arquivo, sobre e contato.
+- `/` — hero, estudos de caso, o que ele faz, outros projetos, sobre e contato.
 - `/archive` — todos os projetos, com filtro textual, área, estado e ordenação.
 - `/projects/[slug]` — estudo de caso completo e relações.
 - `/area/[area]` — entrada por área, só para áreas com registro público.
@@ -104,8 +109,8 @@ No terminal: `help`, `projetos`, `abrir <slot>`, `contato`, `cv`,
 `busca <termo>`, `theme`, `som`, `snake`, `sudo hire gabriel`, `clear` e `sair`.
 Há mais um comando, que só existe no modo retrô.
 
-As áreas públicas são **Software & Automação** (`/software`), **Web &
-Interfaces** (`/web`) e **Acadêmico** (`/academico`). Os estados são
+As áreas públicas são **Software & Automação** (`/area/software/`), **Web &
+Interfaces** (`/area/web/`) e **Acadêmico** (`/area/academico/`). Os estados são
 **Em desenvolvimento**, **No ar**, **Concluído** e **Arquivado**.
 
 ## Documentação

@@ -7,7 +7,8 @@ area: web
 status: live
 visibility: public
 publishedAt: 2025-06-16
-updatedAt: 2026-09-21
+updatedAt: 2026-09-24
+startedAt: "2025-06"
 tags: [Next.js, TypeScript, MDX, acessibilidade, GitHub Pages]
 related: [academic-system, fedora-post-install]
 github: https://github.com/gabrielhsp-sys/gabrielhsp-sys.github.io
@@ -38,6 +39,14 @@ com metadado inválido.
 e a imagem de compartilhamento nascem do conteúdo durante o build. Uma área sem
 nenhum projeto simplesmente não vira rota, e volta sozinha no dia em que receber um.
 
+<Flow caption="Do arquivo Markdown à página publicada. Se uma etapa falha, nada é publicado.">
+  <Step title="Conteúdo">um arquivo MDX por projeto em content/public</Step>
+  <Step title="Validação">Zod confere o frontmatter e as relações no build</Step>
+  <Step title="Derivados">rotas, busca, sitemap, feed e imagem de compartilhamento</Step>
+  <Step title="Conferência">um script lê o site exportado e confere áreas e páginas</Step>
+  <Step title="Publicação">só a pasta out/ vai para o GitHub Pages</Step>
+</Flow>
+
 **A personalidade vive por cima.** Animação de entrada, sons sintetizados em Web
 Audio, terminal com jogo, modo retrô e conquistas existem — e nada essencial depende
 deles. Tudo funciona só com teclado, tudo é desligável, e `prefers-reduced-motion`
@@ -66,8 +75,3 @@ skip link.
 
 É o projeto onde eu testo o que acho de interface antes de defender em qualquer
 outro lugar.
-
-## Link
-
-[gabrielhsp-sys.github.io](https://gabrielhsp-sys.github.io) ·
-[código no GitHub](https://github.com/gabrielhsp-sys/gabrielhsp-sys.github.io)

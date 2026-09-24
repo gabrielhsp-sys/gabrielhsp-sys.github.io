@@ -20,7 +20,7 @@ import { BrowserChrome } from "@/components/browser-chrome";
 import { usePersonality } from "@/components/personality";
 import { Snake } from "@/components/snake";
 import { normalizeSearch } from "@/lib/format";
-import { areaLabels, site, statusLabels } from "@/lib/site";
+import { areaLabel, site, statusLabel } from "@/lib/site";
 
 type SearchRecord = {
   id: string;
@@ -41,6 +41,9 @@ const nav = [
   { href: "/archive/", label: "Projetos", icon: ArchiveBox },
   { href: "/about/", label: "Sobre", icon: Info },
 ];
+
+const isActive = (href: string, pathname: string) =>
+  href === "/" ? pathname === "/" : pathname.startsWith(href);
 
 const terminalIntro: TerminalLine[] = [
   { kind: "out", text: "GABRIEL.SYS — terminal do portfólio" },
@@ -63,7 +66,13 @@ function BrandMark() {
   );
 }
 
-export function SystemChrome({ children }: { children: React.ReactNode }) {
+export function SystemChrome({
+  updated,
+  children,
+}: {
+  updated: { iso: string; label: string };
+  children: React.ReactNode;
+}) {
   const pathname = usePathname();
   const router = useRouter();
   const [searchOpen, setSearchOpen] = useState(false);
@@ -72,7 +81,6 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
   const [selected, setSelected] = useState(0);
   const [records, setRecords] = useState<SearchRecord[] | null>(null);
   const [searchError, setSearchError] = useState(false);
-  const [clock, setClock] = useState("--:--");
   const [lines, setLines] = useState<TerminalLine[]>(terminalIntro);
   const [command, setCommand] = useState("");
   const [history, setHistory] = useState<string[]>([]);
@@ -109,20 +117,6 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
     setTerminalOpen(true);
     achievements.unlock("terminal");
   }, [achievements]);
-
-  useEffect(() => {
-    const tick = () =>
-      setClock(
-        new Intl.DateTimeFormat("pt-BR", {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        }).format(new Date()),
-      );
-    tick();
-    const timer = window.setInterval(tick, 30_000);
-    return () => window.clearInterval(timer);
-  }, []);
 
   const results = useMemo(() => {
     if (!records) return [];
@@ -323,7 +317,7 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
         }
         push(
           ...records.map((record) =>
-            out(`${record.id.padEnd(20)} ${(areaLabels[record.area as keyof typeof areaLabels] ?? record.area).padEnd(22)} ${statusLabels[record.status as keyof typeof statusLabels] ?? record.status}`),
+            out(`${record.id.padEnd(20)} ${areaLabel(record.area).padEnd(22)} ${statusLabel(record.status)}`),
           ),
           { kind: "out", text: "" },
           { kind: "good", text: "Use `abrir <slot>` para ler o estudo de caso." },
@@ -517,7 +511,7 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
         <nav className="rail-nav">
           {nav.map((item) => {
             const Icon = item.icon;
-            const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+            const active = isActive(item.href, pathname);
             return (
               <Link
                 href={item.href}
@@ -540,11 +534,13 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
 
       <div className="site-column">
         <header className="topbar">
+          {/* No desktop a marca e o monograma do trilho; o nome por extenso so
+              aparece no celular, onde o trilho nao existe. */}
           <Link href="/" className="wordmark">
             GABRIEL<span>.SYS</span>
           </Link>
           <p className="system-state">
-            <span aria-hidden="true" /> online <time>{clock}</time>
+            atualizado em <time dateTime={updated.iso}>{updated.label}</time>
           </p>
           <div className="topbar-tools">
             {retro.on && (
@@ -589,7 +585,7 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
       <nav className="mobile-dock" aria-label="Navegação móvel">
         {nav.map((item) => {
           const Icon = item.icon;
-          const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+          const active = isActive(item.href, pathname);
           return (
             <Link
               href={item.href}
@@ -661,8 +657,8 @@ export function SystemChrome({ children }: { children: React.ReactNode }) {
                   onClick={() => openResult(record.href)}
                   onMouseEnter={() => setSelected(index)}
                 >
-                  <span className="result-code">
-                    {areaLabels[record.area as keyof typeof areaLabels] ?? record.area}
+                  <span className="result-code area-mark" data-area={record.area}>
+                    {areaLabel(record.area)}
                   </span>
                   <span>
                     <strong>{record.title}</strong>

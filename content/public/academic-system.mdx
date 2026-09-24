@@ -7,7 +7,9 @@ area: software
 status: done
 visibility: public
 publishedAt: 2026-06-30
-updatedAt: 2026-09-11
+updatedAt: 2026-09-24
+startedAt: "2026-06"
+endedAt: "2026-06"
 tags: [Java, JavaFX, arquitetura, testes, GitHub Actions]
 related: [faculdade-bcc, telegram-offers]
 github: https://github.com/gabrielhsp-sys/academic-system
@@ -32,6 +34,14 @@ Uma aplicação em camadas onde a interface é a parte descartável.
 
 CLI e JavaFX falam com a **mesma** camada de serviço. Trocar ou acrescentar uma
 interface não arrasta o domínio junto — que era exatamente a hipótese a ser provada.
+
+<Flow layout="stack" caption="As camadas, de cima para baixo. Cada uma só conhece a de baixo; as duas interfaces chegam à mesma regra de negócio.">
+  <Step title="Interface">CLI e JavaFX, lado a lado</Step>
+  <Step title="Controller">autenticação e operações do sistema acadêmico</Step>
+  <Step title="Serviço">turmas, avaliações e relatórios, com autorização por papel</Step>
+  <Step title="Repositório">TXT, XML ou JSON, trocáveis sem mexer no serviço</Step>
+  <Step title="Modelo">o domínio, validado com Jakarta Bean Validation</Step>
+</Flow>
 
 O controle de acesso é **RBAC**, com autenticação, autorização por papel, sessão e
 logout. A persistência fica atrás de repositórios, com estratégias intercambiáveis
@@ -73,7 +83,3 @@ da disciplina, e não há mudanças previstas.
 interface, decisões explícitas, e o tipo de teste que impede uma refatoração de passar
 despercebida. A aposta principal — trocar de interface sem arrastar o domínio junto —
 foi cobrada na prática quando o JavaFX entrou depois da CLI, e se sustentou.
-
-## Link
-
-[github.com/gabrielhsp-sys/academic-system](https://github.com/gabrielhsp-sys/academic-system)
