@@ -36,6 +36,22 @@ for (const item of items) {
   }
 }
 
+// A home mostra os destaques em cards; a secao #arquivo lista so o que nao e
+// destaque, para nenhum projeto aparecer duas vezes (auditoria visual, item 4).
+const home = fs.readFileSync(path.join(out, "index.html"), "utf8");
+const archiveSection = home.match(/<section[^>]*id="arquivo"[^>]*>[\s\S]*?<\/section>/);
+if (!archiveSection) {
+  if (items.some((item) => !item.featured)) errors.push("home: secao #arquivo ausente");
+} else {
+  const listed = new Set(
+    [...archiveSection[0].matchAll(/href="\/projects\/([^/"]+)\/?"/g)].map((match) => match[1]),
+  );
+  for (const item of items) {
+    if (item.featured && listed.has(item.id)) errors.push(`home #arquivo: ${item.id} repete um destaque`);
+    if (!item.featured && !listed.has(item.id)) errors.push(`home #arquivo: ${item.id} faltando`);
+  }
+}
+
 if (errors.length) {
   console.error(errors.join("\n"));
   process.exit(1);

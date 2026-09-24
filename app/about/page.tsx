@@ -14,7 +14,7 @@ export default function AboutPage() {
   return (
     <main id="conteudo" className="about-page">
       <header className="about-heading">
-        <h1>Eu gosto do que acontece <em>por baixo da interface.</em></h1>
+        <h1>Gabriel Henrique.</h1>
         <code className="page-path">/whoami</code>
       </header>
 

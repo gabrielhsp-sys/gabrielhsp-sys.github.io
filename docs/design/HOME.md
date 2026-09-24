@@ -22,8 +22,9 @@ console literal.
 
 O visitante entende primeiro o que Gabriel constrói e como falar com ele. Em
 seguida lê quatro estudos de caso — problema, o que ele fez, stack, resultado —,
-descobre as três frentes de trabalho, e só então encontra o arquivo completo,
-filtrável, rebaixado a superfície secundária. Sobre e contato fecham a página.
+descobre as três frentes de trabalho, e só então encontra os projetos que não
+viraram destaque, numa lista curta que leva ao arquivo completo e filtrável em
+página própria. Nenhum projeto aparece duas vezes. Sobre e contato fecham a página.
 
 ## FIRST VIEWPORT
 

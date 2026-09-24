@@ -25,6 +25,12 @@ typography:
     fontWeight: 650
     lineHeight: 0.96
     letterSpacing: "-0.04em"
+  page-title:
+    fontFamily: "Bricolage Grotesque Variable, sans-serif"
+    fontSize: "clamp(2.5rem, 4.5vw, 3.5rem)"
+    fontWeight: 400
+    lineHeight: 1
+    letterSpacing: "-0.04em"
   headline:
     fontFamily: "Bricolage Grotesque Variable, sans-serif"
     fontSize: "clamp(2rem, 4vw, 4.6rem)"
@@ -38,7 +44,7 @@ typography:
     lineHeight: 1.55
   label:
     fontFamily: "IBM Plex Mono, ui-monospace, monospace"
-    fontSize: "0.625rem"
+    fontSize: "0.6875rem"
     fontWeight: 600
     lineHeight: 1.4
     letterSpacing: "0.04em"
@@ -143,11 +149,12 @@ A paleta combina preto aquecido e marfim com sinais curados, como etiquetas em u
 
 ### Hierarchy
 
-- **Display** (650, clamp(3rem, 6.7vw, 6rem), 0.96): tese de uma superfície.
+- **Display** (650, clamp(3rem, 6.7vw, 6rem), 0.96): tese de uma superfície. Só a home usa.
+- **Page title** (400, clamp(2.5rem, 4.5vw, 3.5rem), 1): título das páginas internas — arquivo, área, sobre e projeto. Em CSS, `var(--type-page-title)`. O título interno não ocupa o primeiro viewport inteiro: o conteúdo começa logo abaixo.
 - **Headline** (600, clamp(2rem, 4vw, 4.6rem), 1): títulos de seção e projetos em destaque.
 - **Title** (600, clamp(1.35rem, 2.2vw, 2rem), 1.15): registros do índice.
 - **Body** (400, 1rem, 1.55): leitura em medidas de até 72 caracteres.
-- **Label** (600, 0.625rem, 0.04em): estado, área, data e controle curto.
+- **Label** (600, 0.6875rem, 0.04em): estado, área, data e controle curto. É também o piso: nenhum texto fica abaixo de 11px. Em CSS, `var(--text-min)`; `tests/typography.test.mjs` garante o piso. Chips de filtro usam 12px.
 
 **The Mono Measures Rule.** Use uma face monoespaçada somente quando alinhamento, comando ou dado forem parte do significado.
 

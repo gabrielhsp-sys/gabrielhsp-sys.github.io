@@ -5,7 +5,7 @@ import {
   EnvelopeSimpleIcon as Envelope,
   TerminalWindowIcon as TerminalWindow,
 } from "@phosphor-icons/react/dist/ssr";
-import { ArchiveExplorer } from "@/components/archive-explorer";
+import { ArchiveLine } from "@/components/archive-line";
 import { ContactSection } from "@/components/contact-actions";
 import { Status } from "@/components/content-ui";
 import { getAllContent, getFeaturedContent, getPublicAreas } from "@/lib/content";
@@ -41,7 +41,8 @@ const craft = [
 export default function Home() {
   const featured = getFeaturedContent();
   const areas = getPublicAreas();
-  const items = getAllContent().map((item) => ({
+  // Os destaques ja estao nos cards; o arquivo da home mostra so o resto.
+  const others = getAllContent().filter((item) => !item.featured).map((item) => ({
     id: item.id,
     title: item.title,
     summary: item.summary,
@@ -146,17 +147,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── ARQUIVO COMPLETO (secundário) ────────────────────── */}
-      <section className="archive-section" id="arquivo" aria-labelledby="archive-heading">
-        <div className="section-heading compact">
-          <h2 id="archive-heading">Arquivo completo</h2>
-          <p>
-            Tudo que é público, inclusive o que não virou destaque. Filtre por área ou estado —
-            ou abra <Link href="/archive/">a lista em página inteira</Link>.
-          </p>
-        </div>
-        <ArchiveExplorer items={items} />
-      </section>
+      {/* ── ARQUIVO (secundário) ─────────────────────────────── */}
+      {others.length > 0 && (
+        <section className="archive-section" id="arquivo" aria-labelledby="archive-heading">
+          <div className="section-heading compact">
+            <h2 id="archive-heading">Outros projetos</h2>
+          </div>
+          <div className="archive-table">
+            {others.map((item, index) => <ArchiveLine item={item} index={index} key={item.id} />)}
+          </div>
+          <Link className="archive-more" href="/archive/">
+            ver o arquivo completo <ArrowRight size={16} />
+          </Link>
+        </section>
+      )}
 
       {/* ── SOBRE ────────────────────────────────────────────── */}
       <section className="about-teaser" id="sobre" aria-labelledby="about-teaser-heading">

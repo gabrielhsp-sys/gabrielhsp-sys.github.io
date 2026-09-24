@@ -28,7 +28,8 @@ privado para público será sempre explícita, revisada e manual.
 ## Escopo desta versão
 
 - Home que vende: hero com proposta de valor e CTA de contato, estudos de caso
-  em destaque, o que ele faz, arquivo completo, sobre e contato.
+  em destaque, o que ele faz, os projetos fora do destaque (com link para o
+  arquivo completo), sobre e contato.
 - Áreas públicas **Software & Automação**, **Web & Interfaces** e **Acadêmico**.
 - Estados **Em desenvolvimento**, **No ar**, **Concluído** e **Arquivado**.
 - Estudos de caso no formato problema → o que ele fez → stack → resultado → link.

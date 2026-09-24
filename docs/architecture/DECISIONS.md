@@ -133,3 +133,20 @@ da navegação. O ícone por rota passou a ser declarado pelo próprio Next, com
 
 Regra que fica: a camada de personalidade nunca remove nem reordena nós que o
 React renderiza, e nunca fica entre o visitante e um alvo clicável.
+
+## ADR-015 — nenhum projeto aparece duas vezes na home
+
+A home mostrava os estudos de caso em cards e, logo abaixo, o explorador do
+arquivo com todos os projetos — quatro dos seis itens apareciam duas vezes, com
+a mesma descrição. A repetição alongava a página e parecia enchimento.
+
+A seção `#arquivo` da home passou a listar só os registros com
+`featured: false`, sem busca nem filtros, sob o título "Outros projetos" e com
+um link para o arquivo completo. O explorador filtrável continua existindo em
+`/archive/`, que segue sendo a listagem completa (ADR-007). A linha de arquivo
+virou um componente só (`components/archive-line.tsx`), usado pela home e pelo
+explorador, para o mesmo projeto não ter duas caras.
+
+Regra que fica: na home, cada projeto público aparece uma única vez — em
+destaque ou em "Outros projetos". `scripts/verify-export.mjs` confere isso no
+site exportado.

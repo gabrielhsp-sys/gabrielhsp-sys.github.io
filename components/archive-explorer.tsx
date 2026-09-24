@@ -1,31 +1,12 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Link from "next/link";
-import { ArrowUpRightIcon as ArrowUpRight, FunnelSimpleIcon as FunnelSimple, XIcon as X } from "@phosphor-icons/react";
-import { formatDate, normalizeSearch } from "@/lib/format";
-import {
-  areaLabels,
-  areas as allAreas,
-  statusLabels,
-  statuses as allStatuses,
-} from "@/lib/site";
-
-type ArchiveItem = {
-  id: string;
-  title: string;
-  summary: string;
-  href: string;
-  area: string;
-  status: string;
-  updatedAt: string;
-  tags: string[];
-};
+import { FunnelSimpleIcon as FunnelSimple, XIcon as X } from "@phosphor-icons/react";
+import { ArchiveLine, areaLabel, statusLabel, type ArchiveItem } from "@/components/archive-line";
+import { normalizeSearch } from "@/lib/format";
+import { areas as allAreas, statuses as allStatuses } from "@/lib/site";
 
 type Order = "recent" | "alpha";
-
-const areaLabel = (value: string) => areaLabels[value as (typeof allAreas)[number]] ?? value;
-const statusLabel = (value: string) => statusLabels[value as (typeof allStatuses)[number]] ?? value;
 
 // Keep the canonical order from the schema instead of whatever order the
 // content happens to be sorted in.
@@ -125,19 +106,7 @@ export function ArchiveExplorer({ items }: { items: ArchiveItem[] }) {
 
       <div className="archive-table">
         {visible.map((item, index) => (
-          <Link href={item.href} key={item.id} className="archive-line">
-            <span className="archive-line-index">{String(index + 1).padStart(2, "0")}</span>
-            <span className="archive-line-title">
-              <strong>{item.title}</strong>
-              <small>{item.summary}</small>
-            </span>
-            <span className="archive-line-meta">
-              <span className="archive-line-area" data-area={item.area}>{areaLabel(item.area)}</span>
-              <span data-status={item.status}>{statusLabel(item.status)}</span>
-              <time dateTime={item.updatedAt}>{formatDate(new Date(item.updatedAt))}</time>
-            </span>
-            <ArrowUpRight size={18} aria-hidden="true" />
-          </Link>
+          <ArchiveLine item={item} index={index} key={item.id} />
         ))}
         {visible.length === 0 && (
           <div className="empty-state">
