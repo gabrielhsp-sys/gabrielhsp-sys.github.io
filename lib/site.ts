@@ -10,6 +10,11 @@ export const site = {
   email: "gabrielhspereira36@gmail.com",
 } as const;
 
+// Destino das respostas do briefing em /orcamento, so em digitos (formato do
+// wa.me). Fica fora de `site` porque nao e contato publico do portfolio, que
+// continua sendo so o e-mail: nenhuma pagina alem do briefing o mostra.
+export const briefingWhatsapp = "5535998586626";
+
 // As areas usam a lingua de quem contrata. O prefixo em mono e decoracao ao
 // lado do nome legivel, nunca o rotulo principal.
 export const areas = ["software", "web", "academico"] as const;
