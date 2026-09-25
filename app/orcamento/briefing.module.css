@@ -122,6 +122,10 @@ textarea.input { min-height: 104px; line-height: 1.5; resize: vertical; }
 .option:hover { border-color: var(--line); color: var(--paper); }
 .option:has(input:checked) { border-color: var(--line); background: var(--ink-3); color: var(--paper); }
 
+/* Opcao com descricao: rotulo em cima, explicacao menor embaixo. */
+.optionText { display: flex; flex-direction: column; gap: 2px; }
+.optionText small { color: var(--paper-dim); font-size: .9rem; line-height: 1.4; }
+
 .option input {
   width: 20px;
   height: 20px;

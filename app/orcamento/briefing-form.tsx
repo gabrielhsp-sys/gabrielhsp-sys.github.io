@@ -21,6 +21,7 @@ import {
   buildSummary,
   fieldError,
   steps,
+  visibleFields,
   visibleSteps,
 } from "./steps";
 
@@ -92,6 +93,7 @@ function Briefing() {
   // Um rascunho que aponta para uma etapa que nao existe mais volta ao inicio.
   const index = reviewing ? visible.length : Math.max(0, visible.findIndex((step) => step.id === at));
   const step = reviewing ? null : visible[index];
+  const fields = step ? visibleFields(step, answers) : [];
   const isLast = index === visible.length - 1;
 
   const summary = useMemo(() => (reviewing ? buildSummary(answers, new Date()) : ""), [answers, reviewing]);
@@ -136,7 +138,7 @@ function Briefing() {
 
   const next = () => {
     if (!step) return;
-    const found = step.fields
+    const found = fields
       .map((field) => [field, fieldError(field, answers[field.id])] as const)
       .filter((entry): entry is readonly [Field, string] => entry[1] !== null);
     if (found.length) {
@@ -216,6 +218,7 @@ function Briefing() {
           <h2 className={styles.stepTitle} id="briefing-step-title" ref={headingRef} tabIndex={-1}>
             {step.title}
           </h2>
+          {step.hint && <p className={styles.note}>{step.hint}</p>}
           {index === 0 && (
             <p className={styles.note}>
               Só os campos com <span aria-hidden="true">*</span><span className={styles.srOnly}>asterisco</span> são
@@ -224,7 +227,7 @@ function Briefing() {
           )}
 
           <div className={styles.fields}>
-            {step.fields.map((field) =>
+            {fields.map((field) =>
               field.kind === "choice" ? (
                 <ChoiceInput
                   key={field.id}
@@ -262,8 +265,8 @@ function Briefing() {
             Confira e envie.
           </h2>
           <p className={styles.note}>
-            É este texto que chega para mim. Logo, fotos e outros materiais você manda depois, na mesma
-            conversa do WhatsApp.
+            É este texto que chega para mim. Arquivos, prints e outros materiais você manda depois, na
+            mesma conversa do WhatsApp.
           </p>
 
           <pre className={styles.summary} ref={summaryRef} tabIndex={0} aria-label="Resumo das respostas">
@@ -351,9 +354,15 @@ function TextInput({
       </label>
       {field.hint && <p className={styles.hint} id={hintId}>{field.hint}</p>}
       {field.multiline ? (
-        <textarea {...common} rows={3} />
+        <textarea {...common} rows={3} placeholder={field.placeholder} />
       ) : (
-        <input {...common} type={field.type ?? "text"} inputMode={field.inputMode} autoComplete={field.autoComplete ?? "off"} />
+        <input
+          {...common}
+          type={field.type ?? "text"}
+          inputMode={field.inputMode}
+          autoComplete={field.autoComplete ?? "off"}
+          placeholder={field.placeholder}
+        />
       )}
       <FieldError id={errorId} message={error} />
     </div>
@@ -408,7 +417,14 @@ function ChoiceInput({
               aria-describedby={error ? errorId : undefined}
               onChange={(event) => toggle(option, event.target.checked)}
             />
-            <span>{option}</span>
+            {field.details?.[option] ? (
+              <span className={styles.optionText}>
+                <span>{option}</span>
+                <small>{field.details[option]}</small>
+              </span>
+            ) : (
+              <span>{option}</span>
+            )}
           </label>
         ))}
       </div>

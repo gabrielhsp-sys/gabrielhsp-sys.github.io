@@ -6,8 +6,8 @@ import { BriefingForm } from "./briefing-form";
    sitemap, e sem indexacao. A busca le content/public e o sitemap lista rotas
    por nome, entao basta nao cadastra-la em nenhum dos dois. */
 export const metadata: Metadata = {
-  title: "Briefing de site",
-  description: "Perguntas para desenhar o seu site ou landing page.",
+  title: "Briefing de projeto",
+  description: "Perguntas para entender o seu projeto: site, automação, sistema ou outra ideia com tecnologia.",
   alternates: { canonical: "/orcamento/" },
   robots: { index: false, follow: false, googleBot: { index: false, follow: false } },
   // O link circula no WhatsApp: a previa precisa da imagem, e o openGraph da
@@ -25,8 +25,11 @@ export default function BriefingPage() {
   return (
     <main id="conteudo" className="inner-page">
       <header className="page-intro">
-        <h1>Vamos desenhar o seu site.</h1>
-        <p>Leva uns 10 minutos. Não sabe responder alguma coisa? “Não sei” é uma resposta válida.</p>
+        <h1>Vamos entender o seu projeto.</h1>
+        <p>
+          Serve para site, automação, sistema ou qualquer ideia que envolva tecnologia. Leva uns 10 minutos.
+          Não sabe responder alguma coisa? “Não sei” é uma resposta válida.
+        </p>
       </header>
       <noscript>
         <p className="page-intro">
