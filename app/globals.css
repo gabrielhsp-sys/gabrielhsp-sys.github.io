@@ -888,6 +888,11 @@ a.area-mark:hover { color: var(--paper); text-decoration: underline; }
   cursor: pointer;
 }
 .retro-exit:hover { background: rgb(114 201 167 / .12); }
+/* Rota fora da navegacao (/orcamento): sem trilho nem dock, a coluna ocupa a
+   largura toda e o nome por extenso aparece em qualquer tela, sem ser link. */
+.site-frame[data-chrome="bare"] .site-column { margin-left: 0; }
+.site-frame[data-chrome="bare"] .wordmark { display: inline-flex; margin: 0; }
+body:has(.site-frame[data-chrome="bare"]) { padding-bottom: 0; }
 .site-footer div button {
   min-height: 44px;
   display: inline-flex;

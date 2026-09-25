@@ -66,13 +66,71 @@ function BrandMark() {
   );
 }
 
-export function SystemChrome({
-  updated,
-  children,
-}: {
+/* Rotas que so chegam por link direto e ficam fora da navegacao do site. Nelas
+   nao ha trilho, dock, busca, terminal nem rodape: um clique perdido nao pode
+   tirar a pessoa do formulario, porque nao ha menu para voltar. */
+const barePaths = ["/orcamento"];
+
+const isBare = (pathname: string) =>
+  barePaths.some((path) => pathname === path || pathname.startsWith(`${path}/`));
+
+type ChromeProps = {
   updated: { iso: string; label: string };
   children: React.ReactNode;
-}) {
+};
+
+export function SystemChrome(props: ChromeProps) {
+  const pathname = usePathname();
+  // Componentes separados, nao um `if` dentro do chrome: assim os atalhos de
+  // teclado (Ctrl K, crase, konami) nem chegam a ser registrados nessas rotas.
+  return isBare(pathname) ? <BareChrome>{props.children}</BareChrome> : <SiteChrome {...props} />;
+}
+
+/* Som e retro sao preferencias, nao navegacao: continuam em qualquer rota. */
+function PreferenceTools() {
+  const { sound, retro } = usePersonality();
+  return (
+    <>
+      {retro.on && (
+        <button className="retro-exit" type="button" onClick={retro.toggle}>
+          sair do modo retrô
+        </button>
+      )}
+      <button
+        className="sound-toggle"
+        type="button"
+        onClick={sound.toggle}
+        aria-pressed={sound.on}
+        aria-label={sound.on ? "Desligar som" : "Ligar som"}
+        title={sound.on ? "Desligar som" : "Ligar som"}
+      >
+        {sound.on ? <SpeakerHigh size={18} /> : <SpeakerSlash size={18} />}
+      </button>
+    </>
+  );
+}
+
+function BareChrome({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="site-frame" data-chrome="bare">
+      <BrowserChrome />
+      <div className="site-column">
+        <header className="topbar">
+          {/* Marca sem link: aqui ela identifica, nao navega. */}
+          <p className="wordmark">
+            GABRIEL<span>.SYS</span>
+          </p>
+          <div className="topbar-tools">
+            <PreferenceTools />
+          </div>
+        </header>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function SiteChrome({ updated, children }: ChromeProps) {
   const pathname = usePathname();
   const router = useRouter();
   const [searchOpen, setSearchOpen] = useState(false);
@@ -543,21 +601,7 @@ export function SystemChrome({
             atualizado em <time dateTime={updated.iso}>{updated.label}</time>
           </p>
           <div className="topbar-tools">
-            {retro.on && (
-              <button className="retro-exit" type="button" onClick={retro.toggle}>
-                sair do modo retrô
-              </button>
-            )}
-            <button
-              className="sound-toggle"
-              type="button"
-              onClick={sound.toggle}
-              aria-pressed={sound.on}
-              aria-label={sound.on ? "Desligar som" : "Ligar som"}
-              title={sound.on ? "Desligar som" : "Ligar som"}
-            >
-              {sound.on ? <SpeakerHigh size={18} /> : <SpeakerSlash size={18} />}
-            </button>
+            <PreferenceTools />
             <button className="search-trigger" type="button" onClick={() => openSearch()}>
               <MagnifyingGlass size={18} />
               <span>Procurar</span>

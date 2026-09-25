@@ -52,6 +52,18 @@ if (!archiveSection) {
   }
 }
 
+// /orcamento circula so por link: sem indexacao, fora do sitemap e da busca, e
+// sem o menu do site, que tirava a pessoa do formulario sem volta.
+const briefing = fs.readFileSync(path.join(out, "orcamento", "index.html"), "utf8");
+if (!/<meta name="robots" content="noindex, nofollow"/.test(briefing)) errors.push("/orcamento: noindex ausente");
+for (const [label, marker] of [["trilho", 'class="system-rail"'], ["dock", 'class="mobile-dock"'], ["busca", 'class="search-trigger"'], ["rodape", 'class="site-footer"']]) {
+  if (briefing.includes(marker)) errors.push(`/orcamento: ${label} do site presente`);
+}
+if (!home.includes('class="system-rail"')) errors.push("home: trilho do site ausente");
+for (const file of ["sitemap.xml", "search-index.json"]) {
+  if (fs.readFileSync(path.join(out, file), "utf8").includes("orcamento")) errors.push(`${file}: lista /orcamento`);
+}
+
 if (errors.length) {
   console.error(errors.join("\n"));
   process.exit(1);
