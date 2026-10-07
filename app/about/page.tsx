@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { ArrowUpRightIcon as ArrowUpRight, GithubLogoIcon as GithubLogo } from "@phosphor-icons/react/dist/ssr";
+import Link from "next/link";
+import {
+  ArrowRightIcon as ArrowRight,
+  ArrowUpRightIcon as ArrowUpRight,
+  EnvelopeSimpleIcon as Envelope,
+  GithubLogoIcon as GithubLogo,
+} from "@phosphor-icons/react/dist/ssr";
 import { StructuredData } from "@/components/structured-data";
 import { pageMetadata } from "@/lib/metadata";
 import { profile, site } from "@/lib/site";
@@ -57,11 +63,13 @@ export default function AboutPage() {
           <p>
             A camada de personalidade — animação de entrada, sons, terminal, modo retrô — é opcional por princípio: nada essencial depende dela, tudo funciona só com teclado, e o movimento some para quem pediu menos movimento.
           </p>
+          {/* Quem chega aqui pela navegacao precisa de um caminho de volta ao trabalho. */}
           <div className="about-actions">
+            <Link href="/archive/">ver os projetos <ArrowRight size={17} aria-hidden="true" /></Link>
             <a href={site.github} target="_blank" rel="noreferrer">
               <GithubLogo size={20} aria-hidden="true" /> GitHub <ArrowUpRight size={17} aria-hidden="true" />
             </a>
-            <a href={`mailto:${site.email}`}>mandar um e-mail <ArrowUpRight size={17} aria-hidden="true" /></a>
+            <a href={`mailto:${site.email}`}><Envelope size={18} aria-hidden="true" /> mandar um e-mail</a>
             <a href={site.linkedin} target="_blank" rel="noreferrer">LinkedIn <ArrowUpRight size={17} aria-hidden="true" /></a>
           </div>
         </article>

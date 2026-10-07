@@ -1230,3 +1230,19 @@ html[data-glitch="on"] .site-frame { animation: retro-glitch .9s steps(2) 1; }
 @media (prefers-reduced-motion: reduce) {
   .copy-email-icon, .achievement-toast[data-leaving="true"] { animation: none !important; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ESTUDO DE CASO — indice da pagina. So em tela larga, onde a metade direita
+   ficava vazia; abaixo disso o texto ja e o indice.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.page-toc { display: none; }
+@media (min-width: 1500px) {
+  .article-body[data-toc] { display: grid; grid-template-columns: minmax(0, 960px) 200px; justify-content: start; gap: clamp(56px, 5vw, 104px); }
+  .page-toc { position: sticky; top: 112px; align-self: start; display: block; padding-left: 18px; border-left: 1px solid var(--line-soft); }
+  .page-toc p { margin: 0 0 6px; color: var(--paper-faint); font-family: var(--mono); font-size: var(--text-min); letter-spacing: .04em; text-transform: uppercase; }
+  .page-toc ol { margin: 0; padding: 0; list-style: none; }
+  .page-toc a { min-height: 44px; display: flex; align-items: center; color: var(--paper-dim); font-size: .95rem; text-decoration: none; }
+}
+@media (min-width: 1500px) and (hover: hover) and (pointer: fine) {
+  .page-toc a:hover { color: var(--amber); }
+}

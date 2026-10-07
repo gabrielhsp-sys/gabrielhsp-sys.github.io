@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useSyncExternalStore } from "react";
 import { FunnelSimpleIcon as FunnelSimple, XIcon as X } from "@phosphor-icons/react";
 import { ArchiveLine } from "@/components/archive-line";
 import type { ArchiveItem } from "@/lib/content";
@@ -10,6 +10,32 @@ import { areaLabel, areas as allAreas, statusLabel, statuses as allStatuses } fr
 
 type Order = "recent" | "alpha";
 
+/* O filtro mora na URL (?area=web&estado=live&busca=java&ordem=az): da para
+   mandar o recorte para alguem, e o voltar do navegador devolve o arquivo como
+   estava. A URL e a fonte da verdade e entra por useSyncExternalStore, entao o
+   HTML estatico sai sem filtro e a hidratacao nao diverge. */
+const urlListeners = new Set<() => void>();
+const subscribeUrl = (notify: () => void) => {
+  urlListeners.add(notify);
+  window.addEventListener("popstate", notify);
+  return () => {
+    urlListeners.delete(notify);
+    window.removeEventListener("popstate", notify);
+  };
+};
+const readSearch = () => window.location.search;
+
+function writeParam(key: string, value: string | null) {
+  const url = new URL(window.location.href);
+  if (value) url.searchParams.set(key, value);
+  else url.searchParams.delete(key);
+  window.history.replaceState(window.history.state, "", url);
+  urlListeners.forEach((notify) => notify());
+}
+
+const pick = (value: string | null, allowed: readonly string[]) =>
+  value && allowed.includes(value) ? value : "ALL";
+
 // Keep the canonical order from the schema instead of whatever order the
 // content happens to be sorted in.
 const inOrder = (canonical: readonly string[], present: string[]) => [
@@ -18,35 +44,37 @@ const inOrder = (canonical: readonly string[], present: string[]) => [
 ];
 
 export function ArchiveExplorer({ items }: { items: ArchiveItem[] }) {
-  const [area, setArea] = useState("ALL");
-  const [status, setStatus] = useState("ALL");
-  const [term, setTerm] = useState("");
-  const [order, setOrder] = useState<Order>("recent");
+  const search = useSyncExternalStore(subscribeUrl, readSearch, () => "");
+  const params = new URLSearchParams(search);
+  const area = pick(params.get("area"), allAreas);
+  const status = pick(params.get("estado"), allStatuses);
+  const term = params.get("busca") ?? "";
+  const order: Order = params.get("ordem") === "az" ? "alpha" : "recent";
+
+  const setArea = (value: string) => writeParam("area", value === "ALL" ? null : value);
+  const setStatus = (value: string) => writeParam("estado", value === "ALL" ? null : value);
+  const setTerm = (value: string) => writeParam("busca", value || null);
+  const setOrder = (value: Order) => writeParam("ordem", value === "alpha" ? "az" : null);
 
   const areas = inOrder(allAreas, items.map((item) => item.area));
   const statuses = inOrder(allStatuses, items.map((item) => item.status));
   const filtered = area !== "ALL" || status !== "ALL" || term.trim() !== "";
 
-  const visible = useMemo(() => {
-    const needle = normalizeSearch(term.trim());
-    const matched = items.filter((item) => {
-      if (area !== "ALL" && item.area !== area) return false;
-      if (status !== "ALL" && item.status !== status) return false;
-      if (!needle) return true;
-      return normalizeSearch(
-        `${item.title} ${item.summary} ${areaLabel(item.area)} ${statusLabel(item.status)} ${item.tags.join(" ")}`,
-      ).includes(needle);
-    });
-
-    return order === "alpha"
-      ? [...matched].sort((a, b) => a.title.localeCompare(b.title, "pt-BR"))
-      : [...matched].sort(comparePeriods);
-  }, [area, items, order, status, term]);
+  const needle = normalizeSearch(term.trim());
+  const matched = items.filter((item) => {
+    if (area !== "ALL" && item.area !== area) return false;
+    if (status !== "ALL" && item.status !== status) return false;
+    if (!needle) return true;
+    return normalizeSearch(
+      `${item.title} ${item.summary} ${areaLabel(item.area)} ${statusLabel(item.status)} ${item.tags.join(" ")}`,
+    ).includes(needle);
+  });
+  const visible = order === "alpha"
+    ? [...matched].sort((a, b) => a.title.localeCompare(b.title, "pt-BR"))
+    : [...matched].sort(comparePeriods);
 
   const clearAll = () => {
-    setArea("ALL");
-    setStatus("ALL");
-    setTerm("");
+    for (const key of ["area", "estado", "busca"]) writeParam(key, null);
   };
 
   return (
