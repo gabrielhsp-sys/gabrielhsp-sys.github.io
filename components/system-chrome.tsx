@@ -493,7 +493,7 @@ function SiteChrome({ updated, children }: ChromeProps) {
         achievements.unlock("kernel");
         push(
           { kind: "good", text: "GHSP-KERNEL · fósforo verde" },
-          out("uptime ......... desde 2023, quebrando e consertando"),
+          out("uptime ......... quebrando e consertando"),
           out("hobby .......... abrir a máquina antes de usar a máquina"),
           out("primeiro bug ... o registro do Windows, por vontade própria"),
           out("disponível ..... para conversar sobre vaga ou projeto"),
