@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRightIcon as ArrowRight } from "@phosphor-icons/react/dist/ssr";
+import { SearchShortcut } from "@/components/shortcut-key";
 
 // O Next ja marca esta rota como noindex; aqui so o titulo da aba.
 export const metadata: Metadata = {
@@ -37,7 +38,7 @@ export default function NotFound() {
           ))}
         </ul>
         <p className="not-found-tip">
-          Dica: aperte <kbd>`</kbd> em qualquer página para abrir o terminal, ou <kbd>Ctrl K</kbd> para buscar.
+          Dica: aperte <kbd>`</kbd> em qualquer página para abrir o terminal, ou <SearchShortcut /> para buscar.
         </p>
       </div>
     </main>

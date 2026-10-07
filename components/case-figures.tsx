@@ -60,4 +60,10 @@ export function Excerpt({
   );
 }
 
-export const caseFigures = { Flow, Step, Excerpt };
+// Bloco de codigo largo rola na horizontal; sem tabIndex o teclado nao alcanca
+// a rolagem (axe: scrollable-region-focusable, a 360px).
+export function Pre(props: React.ComponentProps<"pre">) {
+  return <pre tabIndex={0} {...props} />;
+}
+
+export const caseFigures = { Flow, Step, Excerpt, pre: Pre };
