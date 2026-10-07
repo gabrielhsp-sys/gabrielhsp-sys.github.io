@@ -328,6 +328,19 @@ o protótipo) não são dependência de código.
 Nenhum segredo apareceu. O número de WhatsApp do briefing (`lib/site.ts`) é conteúdo do
 `/orcamento`, já existente e fora desta rodada; não entrou em vídeo, captura nem relatório.
 
+### Respostas do Gabriel (2026-10-07)
+
+| Ponto | Resposta | O que foi feito |
+|---|---|---|
+| 1 | **Bancada**, sem aplicar agora. | Direção salva em [`docs/design/BANCADA.md`](../../design/BANCADA.md) (paleta, tipografia, princípios, capturas e o CSS do protótipo) para a próxima rodada. |
+| 2 | Apagar `app/prototipos/` inteiro. | Apagado, com a checagem dele no `verify-export.mjs` e o desvio de chrome em `system-chrome.tsx`. O código fica no histórico em `a2dde53`. |
+| 3 | "Contato" entra no menu. | Item no trilho e no dock (agora com seis áreas; o terminal continua), apontando para `/#contato`. |
+| 4 | Remover "desde 2023" do `kernel`. | A linha virou "uptime ......... quebrando e consertando". |
+| 5 | Manter os ajustes de tempo do terminal e da conquista. | Sem mudança. |
+
+Os itens 4, 7 e 8 de "Precisa do Gabriel" não foram respondidos e ficam como estão: o texto da home não
+mudou, o hero com prova entra com a aplicação da Bancada, e os vídeos continuam fora do celular.
+
 ## 8. Decisões a registrar no ecossistema (depois que o Gabriel aprovar)
 
 Não registradas agora — são dele.
