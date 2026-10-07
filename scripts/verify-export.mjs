@@ -74,13 +74,11 @@ for (const item of items) {
   if (!fs.existsSync(video)) continue;
   const size = fs.statSync(video).size;
   if (size > 5.5 * 1024 * 1024) errors.push(`${item.id}: video com ${(size / 1048576).toFixed(1)} MB (limite ~5 MB)`);
-  if (!fs.existsSync(path.join(out, "videos", `${item.id}.jpg`))) errors.push(`${item.id}: poster do video ausente`);
-  const html = pageOf(path.join("projects", item.id));
-  const tag = html.match(/<video[^>]*>/)?.[0] ?? "";
-  for (const attr of ["muted", 'preload="none"', `poster="/videos/${item.id}.jpg"`, "playsInline"]) {
-    if (!tag.toLowerCase().includes(attr.toLowerCase())) errors.push(`${item.id}: <video> sem ${attr}`);
-  }
-  if (/<video[^>]*\ssrc=/.test(tag)) errors.push(`${item.id}: <video> ja sai com src no HTML`);
+  if (!fs.existsSync(path.join(out, "videos", `${item.id}.webp`))) errors.push(`${item.id}: poster do video ausente`);
+  // O player e montado so no cliente (components/case-video-lazy.tsx); no HTML
+  // fica o espaco reservado. Os atributos do <video> sao conferidos em
+  // tests/case-video.test.mjs, direto no codigo do componente.
+  if (!pageOf(path.join("projects", item.id)).includes("case-video-placeholder")) errors.push(`${item.id}: espaco do video ausente`);
 }
 
 // A home mostra os destaques em cards; a secao #arquivo lista so o que nao e
