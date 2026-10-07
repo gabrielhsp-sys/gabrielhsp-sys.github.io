@@ -1,0 +1,34 @@
+# Auditoria de UI — /home/gabriel/Dev/projects/personal/gabrielhsp-sys.github.io
+  diretórios: app components
+
+## A. Clichês de IA  (alto = investigar se é decorativo)
+  gradiente                                    4  veja se é textura/função ou hero decorativo
+  glassmorphism                                4  aceitável em overlay; suspeito em card
+  bento grid                                   0  
+  copy genérica                               0  deve ser 0
+
+## B. Conteúdo inventado  (deve ser 0)
+  depoimento/logo/métrica                     2  
+
+## C. Acessibilidade  (0 é achado)
+  prefers-reduced-motion                       7  
+  focus-visible / :focus                       6  
+  atributos aria-                             89  
+  role=                                       17  
+  skip link                                    1  
+  <img> sem alt                                0  deve ser 0
+
+## D. Estados
+  lista vazia tratada                          4  
+  página de erro                              1  
+
+## E. Motion e performance
+  autoplay                                     0  0 é o desejável
+  animações/transições                    22  todas precisam cair no reduced-motion
+
+## F. Responsividade
+  media queries                               11  
+  clamp() fluido                              58  
+
+Próximo passo manual: contraste dos tokens (workflows/ui/contrast.py),
+teclado, 320px/768px/1440px, conteúdo extremo e leitura de copy.
