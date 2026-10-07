@@ -3,9 +3,9 @@
   "version": "3.0.0",
   "private": true,
   "scripts": {
-    "predev": "node scripts/generate-search-index.mjs && node scripts/generate-og-image.mjs",
+    "predev": "node scripts/generate-search-index.mjs && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/generate-og-image.mjs",
     "dev": "next dev",
-    "prebuild": "node scripts/generate-search-index.mjs && node scripts/generate-og-image.mjs",
+    "prebuild": "node scripts/generate-search-index.mjs && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/generate-og-image.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",

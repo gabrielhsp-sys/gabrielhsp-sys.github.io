@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { ArrowUpRightIcon as ArrowUpRight, GithubLogoIcon as GithubLogo } from "@phosphor-icons/react/dist/ssr";
+import { StructuredData } from "@/components/structured-data";
+import { pageMetadata } from "@/lib/metadata";
 import { profile, site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Sobre",
-  description: "Gabriel Henrique, estudante de Ciência da Computação, programador e mantenedor deste arquivo vivo.",
-  alternates: { canonical: "/about/" },
-  openGraph: { url: "/about/" },
-};
+  description: "Gabriel Henrique, estudante de Ciência da Computação na UNIFAL-MG, procurando estágio: curso, período, contato e como este site funciona.",
+  path: "/about/",
+});
 
 export default function AboutPage() {
   return (
     <main id="conteudo" className="about-page">
+      <StructuredData page="about" />
       <header className="about-heading">
         <h1>Gabriel Henrique.</h1>
         {/* O que quem contrata procura primeiro, antes da historia. */}

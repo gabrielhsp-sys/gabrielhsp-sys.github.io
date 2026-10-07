@@ -12,6 +12,7 @@ import { caseFigures } from "@/components/case-figures";
 import { CopyEmailButton } from "@/components/contact-actions";
 import { RelationList, Status } from "@/components/content-ui";
 import { getAllContent, getContentBySlug, getNextContent, getRelatedContent } from "@/lib/content";
+import { pageMetadata } from "@/lib/metadata";
 import { formatPeriod } from "@/lib/period";
 import { areaLabels, site } from "@/lib/site";
 
@@ -25,12 +26,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const item = getContentBySlug(slug);
   if (!item) return {};
-  return {
+  return pageMetadata({
     title: item.title,
     description: item.summary,
-    alternates: { canonical: item.href },
-    openGraph: { title: item.title, description: item.summary, type: "article", url: item.href },
-  };
+    path: item.href,
+    image: `/og/${item.id}.png`,
+    imageAlt: `${item.title} — ${item.featured ? "estudo de caso" : "projeto"} de ${site.owner}`,
+    type: "article",
+  });
 }
 
 export default async function ProjectDetail({ params }: Props) {
