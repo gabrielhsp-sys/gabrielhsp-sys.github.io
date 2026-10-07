@@ -1,4 +1,4 @@
-import { site } from "@/lib/site";
+import { profile, site } from "@/lib/site";
 
 /* Dados estruturados (schema.org em JSON-LD): ligam o nome ao site, ao GitHub e
    ao LinkedIn para o buscador. So entra o que `lib/site.ts` ja afirma — nada de
@@ -11,8 +11,8 @@ const person = {
   url: `${site.url}/`,
   image: `${site.url}/profile.jpg`,
   email: `mailto:${site.email}`,
-  description: "Estudante de Ciência da Computação na UNIFAL-MG. Software, automação e interfaces web.",
-  affiliation: { "@type": "CollegeOrUniversity", name: "UNIFAL-MG" },
+  description: `Estudante de ${profile.course} na ${profile.institution}. Procura: ${profile.seeking}.`,
+  affiliation: { "@type": "CollegeOrUniversity", name: profile.institution },
   sameAs: [site.github, site.linkedin],
 };
 

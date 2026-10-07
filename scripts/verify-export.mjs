@@ -56,6 +56,17 @@ for (const item of items) {
   }
 }
 
+// Indice do estudo de caso: todo link "nesta pagina" aponta para um <h2> que
+// existe com aquele id no HTML exportado (os dois saem de lib/headings.ts).
+for (const item of items) {
+  const html = pageOf(path.join("projects", item.id));
+  const toc = html.match(/<nav class="page-toc"[\s\S]*?<\/nav>/)?.[0];
+  if (!toc) continue;
+  for (const [, id] of toc.matchAll(/href="#([^"]+)"/g)) {
+    if (!new RegExp(`<h2 id="${id}"`).test(html)) errors.push(`${item.id}: indice aponta para #${id}, que nao existe`);
+  }
+}
+
 // Video de estudo de caso: sem som, sem pre-carga, com poster, e leve o bastante
 // para ser versionado (~5 MB). O componente so atribui o src ao entrar na tela.
 for (const item of items) {

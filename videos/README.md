@@ -33,6 +33,7 @@ Git, assim como `renders/` e `snapshots/`.
 
 `components/case-video.tsx`: sem som, em loop, `preload="none"`, pôster, botão de
 pausa de teclado (WCAG 2.2.2), o arquivo só é pedido quando o vídeo chega perto da
-tela e pausa ao sair. Com `prefers-reduced-motion` fica só o pôster. Abaixo de 600 px
-o vídeo não aparece: o texto dele viraria 6 px. `scripts/verify-export.mjs` falha se
+tela e pausa ao sair. Com `prefers-reduced-motion` fica só o pôster. Abaixo de 820 px
+o vídeo não aparece: o texto dele ficaria abaixo do piso de 11 px. O arquivo é pedido
+200 px antes de o vídeo entrar na tela, para não começar em branco. `scripts/verify-export.mjs` falha se
 um vídeo passar de ~5 MB, perder o pôster ou sair com `src` no HTML.

@@ -68,7 +68,7 @@ export default async function ProjectDetail({ params }: Props) {
           </div>
           <div><dt>estado</dt><dd><Status value={item.status} /></dd></div>
           {/* Um intervalo ("JAN 2024 – SET 2026") ocupa a linha inteira no celular. */}
-          <div className={period.includes("–") ? "facts-wide" : undefined}><dt>período</dt><dd>{period}</dd></div>
+          <div className={item.endedAt && item.endedAt !== item.startedAt ? "facts-wide" : undefined}><dt>período</dt><dd>{period}</dd></div>
           <div><dt>leitura</dt><dd>{item.readingTime} min</dd></div>
           <div>
             <dt>código</dt>

@@ -34,7 +34,7 @@ html {
   background: var(--ink);
   color-scheme: dark;
   scroll-behavior: smooth;
-  /* A ancora nao para embaixo da barra fixa (72px). */
+  /* A ancora nao para embaixo da barra fixa: 72px da barra + 16px de folga. */
   scroll-padding-top: 88px;
   /* Toque: sem o lampejo cinza do navegador (cada controle tem :active proprio)
      e sem inflar a fonte no celular deitado. */
@@ -1277,7 +1277,8 @@ html[data-glitch="on"] .site-frame { animation: retro-glitch .9s steps(2) 1; }
 }
 @media (hover: hover) and (pointer: fine) { .case-video-toggle:hover { border-color: var(--amber); color: var(--amber); } }
 @media (max-width: 820px) { .case-video-wrap { padding: 32px 24px 0; } }
-/* No celular o quadro de 1280px cai para ~310px e o texto do video vira 6px:
-   ilegivel e 1 MB de dados por nada. Some, e o IntersectionObserver nunca pede
-   o arquivo (elemento sem caixa nao intersecta). O texto da pagina e o mesmo. */
-@media (max-width: 600px) { .case-video-wrap { display: none; } }
+/* Abaixo de 820px o quadro de 1280px encolhe tanto que o texto do video fica
+   menor que o piso de 11px: ilegivel e 1 MB de dados por nada. Some, e o
+   IntersectionObserver nunca pede o arquivo (elemento sem caixa nao intersecta).
+   O texto da pagina diz o mesmo. */
+@media (max-width: 820px) { .case-video-wrap { display: none; } }
