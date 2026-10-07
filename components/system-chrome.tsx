@@ -80,8 +80,13 @@ type ChromeProps = {
   children: React.ReactNode;
 };
 
+/* Prototipos de identidade: a pagina e o proprio objeto de comparacao, entao
+   nao leva chrome nenhum do site — nem a barra das rotas sem menu. */
+const prototypePaths = ["/prototipos"];
+
 export function SystemChrome(props: ChromeProps) {
   const pathname = usePathname();
+  if (prototypePaths.some((path) => pathname === path || pathname.startsWith(`${path}/`))) return <>{props.children}</>;
   // Componentes separados, nao um `if` dentro do chrome: assim os atalhos de
   // teclado (Ctrl K, crase, konami) nem chegam a ser registrados nessas rotas.
   return isBare(pathname) ? <BareChrome>{props.children}</BareChrome> : <SiteChrome {...props} />;
