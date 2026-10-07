@@ -21,8 +21,9 @@ console literal.
 ## STORY
 
 O visitante entende primeiro o que Gabriel constrói e como falar com ele. Em
-seguida lê quatro estudos de caso — problema, o que ele fez, stack, resultado —,
-em cards sem numeração decorativa, descobre as três frentes de trabalho, e só então encontra os projetos que não
+seguida lê os estudos de caso — problema, o que ele fez, stack, resultado —,
+com o primeiro do `featuredRank` liderando a seção numa linha inteira e os
+outros lado a lado, em cards sem numeração decorativa, descobre as três frentes de trabalho, e só então encontra os projetos que não
 viraram destaque, numa lista curta que leva ao arquivo completo e filtrável em
 página própria. Nenhum projeto aparece duas vezes. Sobre e contato fecham a página.
 
