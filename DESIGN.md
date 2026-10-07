@@ -181,9 +181,9 @@ A 1180px, os estudos de caso e as frentes de trabalho viram uma coluna. A 820px,
 
 Uma curva só, `--ease-out: cubic-bezier(.16, 1, .3, 1)`, para tudo que entra ou responde, e `--press: 140ms` para o aperto. Regras:
 
-- **Aperto:** botão e controle respondem com `scale(.97)` no `:active`; no trilho e no dock quem encolhe é o ícone (`.92`).
+- **Aperto:** botão e controle respondem com `scale(.97)` no `:active`; no trilho e no dock quem encolhe é o ícone (`.94`).
 - **Hover** só existe com ponteiro fino (`@media (hover: hover) and (pointer: fine)`): no toque, o tap não deixa estado preso.
-- **Atalho de teclado não ganha movimento:** a busca (Ctrl/⌘ K) abre com fade de 120ms, sem deslocamento.
+- **Atalho de teclado não ganha movimento:** a busca (Ctrl/⌘ K) abre sem animação.
 - **UI abaixo de 300ms:** terminal 240ms, toast 280ms na entrada e 200ms na saída, pelo mesmo caminho.
 - `prefers-reduced-motion` zera transições e animações; `prefers-reduced-transparency` tira o blur das camadas.
 
