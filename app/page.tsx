@@ -8,6 +8,7 @@ import {
 import { ArchiveLine } from "@/components/archive-line";
 import { ContactSection } from "@/components/contact-actions";
 import { Status } from "@/components/content-ui";
+import { StructuredData } from "@/components/structured-data";
 import { getAllContent, getFeaturedContent, getPublicAreas, toArchiveItem } from "@/lib/content";
 import { areaLabels } from "@/lib/site";
 
@@ -37,6 +38,11 @@ const craft = [
   },
 ];
 
+// "Quatro estudos de caso" vinha escrito a mao; a frase agora conta o conteudo.
+const numberWords = ["Nenhum", "Um", "Dois", "Três", "Quatro", "Cinco", "Seis", "Sete", "Oito", "Nove"];
+const countCases = (count: number) =>
+  `${numberWords[count] ?? count} ${count === 1 ? "estudo de caso" : "estudos de caso"}`;
+
 export default function Home() {
   const featured = getFeaturedContent();
   const areas = getPublicAreas();
@@ -45,6 +51,7 @@ export default function Home() {
 
   return (
     <main id="conteudo">
+      <StructuredData page="home" />
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section className="hero" aria-labelledby="hero-heading">
         <div className="hero-copy">
@@ -63,14 +70,14 @@ export default function Home() {
           </p>
           <div className="hero-actions">
             <a className="button-solid" href="#contato">
-              <Envelope size={19} /> Falar comigo
+              <Envelope size={19} aria-hidden="true" /> Falar comigo
             </a>
             <a className="button-ghost" href="#projetos">
-              Ver os projetos <ArrowRight size={17} />
+              Ver os projetos <ArrowRight size={17} aria-hidden="true" />
             </a>
           </div>
           <button className="hero-hint" type="button" data-terminal-shortcut>
-            <TerminalWindow size={17} />
+            <TerminalWindow size={17} aria-hidden="true" />
             <span>Prefere linha de comando? Aperte</span> <kbd>`</kbd>
           </button>
         </div>
@@ -80,25 +87,28 @@ export default function Home() {
       <section className="featured-section" id="projetos" aria-labelledby="featured-heading">
         <div className="section-heading">
           <h2 id="featured-heading">Projetos em destaque</h2>
-          <p>Quatro estudos de caso: o problema, o que eu fiz, a stack e o resultado.</p>
+          <p>{countCases(featured.length)}: o problema, o que eu fiz, a stack e o resultado.</p>
         </div>
         <ol className="case-list">
-          {featured.map((item) => (
-            <li className="case-card" key={item.id} data-area={item.area}>
-              <div className="case-meta">
-                <span className="area-mark" data-area={item.area}>{areaLabels[item.area]}</span>
-                <Status value={item.status} />
+          {/* O primeiro do featuredRank lidera a secao; os outros vem em linha. */}
+          {featured.map((item, index) => (
+            <li className="case-card" key={item.id} data-area={item.area} data-lead={index === 0 || undefined}>
+              <div className="case-head">
+                <div className="case-meta">
+                  <span className="area-mark" data-area={item.area}>{areaLabels[item.area]}</span>
+                  <Status value={item.status} />
+                </div>
+                <h3><Link href={item.href}>{item.title}</Link></h3>
+                <p>{item.summary}</p>
               </div>
-              <h3><Link href={item.href}>{item.title}</Link></h3>
-              <p>{item.summary}</p>
               <ul className="case-stack">
                 {item.tags.slice(0, 5).map((tag) => <li key={tag}>{tag}</li>)}
               </ul>
               <div className="case-footer">
-                <Link href={item.href}>ler o estudo de caso <ArrowRight size={16} /></Link>
+                <Link href={item.href}>ler o estudo de caso <ArrowRight size={16} aria-hidden="true" /></Link>
                 {item.github ? (
                   <a href={item.github} target="_blank" rel="noreferrer">
-                    código <ArrowUpRight size={15} />
+                    código <ArrowUpRight size={15} aria-hidden="true" />
                   </a>
                 ) : (
                   <span className="case-private">repositório privado</span>
@@ -126,7 +136,7 @@ export default function Home() {
               </ul>
               {areas.includes(block.area) && (
                 <Link href={`/area/${block.area}/`}>
-                  ver projetos de {areaLabels[block.area].toLowerCase()} <ArrowRight size={16} />
+                  ver projetos de {areaLabels[block.area].toLowerCase()} <ArrowRight size={16} aria-hidden="true" />
                 </Link>
               )}
             </article>
@@ -144,7 +154,7 @@ export default function Home() {
             {others.map((item, index) => <ArchiveLine item={item} index={index} key={item.id} />)}
           </div>
           <Link className="archive-more" href="/archive/">
-            ver o arquivo completo <ArrowRight size={16} />
+            ver o arquivo completo <ArrowRight size={16} aria-hidden="true" />
           </Link>
         </section>
       )}
@@ -161,7 +171,7 @@ export default function Home() {
           não só o resultado final.
         </p>
         <div className="about-teaser-actions">
-          <Link href="/about/">a história inteira <ArrowRight size={17} /></Link>
+          <Link href="/about/">a história inteira <ArrowRight size={17} aria-hidden="true" /></Link>
         </div>
       </section>
 

@@ -136,6 +136,8 @@ A paleta combina preto aquecido e marfim com sinais curados, como etiquetas em u
 - **Linha Estrutural:** filete entre seções e linhas de lista. É decorativo: não identifica componente nem estado, então o limiar de 3:1 não se aplica.
 - **Linha de Encaixe:** separações internas de baixa ênfase, também decorativas.
 
+**Cores de estado fora da paleta, registradas:** `#f09c8d` é o vermelho de falha clareado para texto de erro (8,7:1 sobre preto elevado); `#ffc35c` é o âmbar do botão sólido em hover; o terminal usa uma rampa verde própria (`#090b09` fundo, `#abc5ad` texto, `#d4e4d5` entrada, `#748574` dica, `#364037` filete), porque é camada de personalidade e precisa parecer outro aparelho.
+
 **The Signal Has Meaning Rule.** Âmbar e cores de área indicam uma ação, um estado ou uma origem; não são decoração espalhada.
 
 **The Shape Tells The Function Rule.** A cor nunca explica sozinha o que marca; a forma diz (ADR-018):
@@ -152,7 +154,9 @@ A paleta combina preto aquecido e marfim com sinais curados, como etiquetas em u
 
 **Body Font:** Bricolage Grotesque Variable (sans-serif)
 
-**Label/Mono Font:** IBM Plex Mono (ui-monospace, monospace). O pacote `@fontsource/ibm-plex-mono` registra a família como `"IBM Plex Mono"`, pesos 400 e 600; o token `--mono` precisa usar esse nome exato, senão todos os rótulos caem na mono do sistema.
+**Label/Mono Font:** IBM Plex Mono (ui-monospace, monospace), pesos 400 e 600.
+
+As duas fontes entram por `next/font/local` em `app/fonts.ts`, a partir dos arquivos que o fontsource já instala: o Next faz o preload, gera o fallback com métrica da Bricolage e expõe `--font-display` e `--font-mono` no `<html>`. Os tokens `--display` e `--mono` leem essas variáveis. Só o subconjunto latino é carregado — ele cobre o português, as aspas, os traços e as setas do site; um texto novo com caractere fora dele (ő, ł, ∑) cai na fonte de fallback.
 
 **Character:** Bricolage fornece uma voz humana e irregular o bastante para não parecer interface corporativa. IBM Plex Mono mede estado, rota, data e comando; ela nunca fantasia um parágrafo como “técnico”.
 
@@ -172,6 +176,16 @@ A paleta combina preto aquecido e marfim com sinais curados, como etiquetas em u
 Desktop usa um trilho fixo de 88px e uma coluna de conteúdo fluida. A barra superior mede 72px e carrega só o estado (a data da revisão mais recente do conteúdo), o som e a busca; seções respiram entre 72px e 140px, com margens laterais responsivas que chegam a 104px. O conteúdo editorial prefere linhas e listas a contêineres fechados.
 
 A 1180px, os estudos de caso e as frentes de trabalho viram uma coluna. A 820px, o trilho lateral vira dock inferior, a barra superior cai para 62px e grades de artigo e identidade viram uma coluna. A 520px, controles deixam metadados secundários cederem espaço; alvos interativos permanecem com 44px.
+
+## Motion
+
+Uma curva só, `--ease-out: cubic-bezier(.16, 1, .3, 1)`, para tudo que entra ou responde, e `--press: 140ms` para o aperto. Regras:
+
+- **Aperto:** botão e controle respondem com `scale(.97)` no `:active`; no trilho e no dock quem encolhe é o ícone (`.94`).
+- **Hover** só existe com ponteiro fino (`@media (hover: hover) and (pointer: fine)`): no toque, o tap não deixa estado preso.
+- **Atalho de teclado não ganha movimento:** a busca (Ctrl/⌘ K) abre sem animação.
+- **UI abaixo de 300ms:** terminal 240ms, toast 280ms na entrada e 200ms na saída, pelo mesmo caminho.
+- `prefers-reduced-motion` zera transições e animações; `prefers-reduced-transparency` tira o blur das camadas.
 
 ## Elevation & Depth
 
@@ -219,7 +233,7 @@ Controles usam cantos pequenos de 3–8px. O cartão de estudo de caso é um ret
 
 ### Navigation
 
-O trilho mostra ícone Phosphor e nome curto; o estado ativo usa campo preto elevado e contato âmbar de 2px. No celular, a mesma família vira dock inferior com cinco áreas iguais. Links editoriais preservam texto explícito fora dessa navegação compacta.
+O trilho mostra ícone Phosphor e nome curto; o estado ativo usa campo preto elevado e contato âmbar de 2px. Os itens são Início, Projetos, Sobre e Contato (este leva à seção `#contato` da home). No celular, a mesma família vira dock inferior com seis áreas iguais: os quatro itens, a busca e o terminal. Links editoriais preservam texto explícito fora dessa navegação compacta.
 
 A marca aparece uma vez por tela: no desktop, o monograma G⋮S no topo do trilho; no celular, sem trilho, o nome GABRIEL.SYS na barra superior. A busca é o único controle com moldura na barra; o som é ícone sem moldura com alvo de 44px. No celular a busca vive só no dock.
 
@@ -227,15 +241,18 @@ A marca aparece uma vez por tela: no desktop, o monograma G⋮S no topo do trilh
 
 O cartão de estudo de caso abre com a área e o estado, leva o título, o resumo, a stack real e dois destinos: o texto completo e o código, quando o repositório é público. Quando não é, ele diz "repositório privado" em vez de esconder o fato. Não há numeração decorativa: a ordem da lista já diz a ordem.
 
+O primeiro do `featuredRank` lidera (`data-lead`): ocupa a linha inteira, com título maior à esquerda e stack e destinos à direita; os outros dividem a linha de baixo em três. Abaixo de 1180px todos viram uma coluna. O hover clareia as três bordas neutras — o filete de área do topo fica — e a seta de "ler o estudo de caso" anda 3px.
+
 ### Case Study Page
 
 - **Ficha (`.facts`):** uma linha de pares rótulo/valor no cabeçalho — área, estado, período, leitura e código. É a única ocorrência desses dados na página. A página "Sobre" usa a mesma ficha para os fatos de quem contrata.
 - **Figuras:** `Flow` desenha passos numerados sobre um fio, com nós quadrados, ou camadas empilhadas ligadas por conectores; `Excerpt` mostra um trecho real de repositório público com barra de arquivo, link de origem e legenda. As duas podem sair da medida de 72ch do texto até 960px e 80ch.
 - **Fim:** próximo estudo de caso à esquerda, contato à direita, num bloco com borda de componente. No celular, empilhados.
+- **Índice (`.page-toc`):** a partir de 1500px, uma coluna fixa ao lado do texto lista os `h2` reais do MDX ("nesta página"). Os ids saem de `lib/headings.ts`, a mesma função do índice. Abaixo de 1500px não aparece.
 
 ### Archive Line
 
-A mesma linha serve a home, o arquivo e as páginas de área: índice, título e resumo, área (omitida dentro de uma área), estado e período real.
+A mesma linha serve a home, o arquivo e as páginas de área: índice, título e resumo, área (omitida dentro de uma área), estado e período real. Índice, título e estado alinham pela linha de base; a seta é reta (link interno) e anda 3px no hover. No arquivo, área, estado, busca e ordem ficam na URL (`?area=&estado=&busca=&ordem=az`).
 
 ### Personality Layer
 

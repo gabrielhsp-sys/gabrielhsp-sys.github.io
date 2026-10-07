@@ -36,6 +36,51 @@ for (const item of items) {
   }
 }
 
+// Toda pagina publica leva o cartao de compartilhamento completo. O openGraph
+// de uma pagina substitui o do layout sem mesclar, e as internas tinham ficado
+// sem imagem (auditoria 2026-10, achado 1). Projeto usa o proprio cartao.
+const pageOf = (route) => fs.readFileSync(path.join(out, route, "index.html"), "utf8");
+const ogImage = (html) => html.match(/<meta property="og:image" content="([^"]+)"/)?.[1];
+for (const route of ["", "archive", "about", ...[...used].map((area) => `area/${area}`)]) {
+  const image = ogImage(pageOf(route));
+  if (!image) errors.push(`/${route}: og:image ausente`);
+  else if (!fs.existsSync(path.join(out, new URL(image).pathname))) errors.push(`/${route}: ${image} nao foi exportada`);
+}
+for (const item of items) {
+  const html = pageOf(path.join("projects", item.id));
+  const image = ogImage(html);
+  if (!image?.endsWith(`/og/${item.id}.png`)) errors.push(`${item.id}: og:image nao e o cartao do projeto`);
+  else if (!fs.existsSync(path.join(out, "og", `${item.id}.png`))) errors.push(`${item.id}: cartao og ausente`);
+  if (!/<meta name="twitter:title" content="[^"]*/.test(html) || !html.includes(`<meta name="twitter:title" content="${item.title}`)) {
+    errors.push(`${item.id}: twitter:title nao e o titulo do projeto`);
+  }
+}
+
+// Indice do estudo de caso: todo link "nesta pagina" aponta para um <h2> que
+// existe com aquele id no HTML exportado (os dois saem de lib/headings.ts).
+for (const item of items) {
+  const html = pageOf(path.join("projects", item.id));
+  const toc = html.match(/<nav class="page-toc"[\s\S]*?<\/nav>/)?.[0];
+  if (!toc) continue;
+  for (const [, id] of toc.matchAll(/href="#([^"]+)"/g)) {
+    if (!new RegExp(`<h2 id="${id}"`).test(html)) errors.push(`${item.id}: indice aponta para #${id}, que nao existe`);
+  }
+}
+
+// Video de estudo de caso: sem som, sem pre-carga, com poster, e leve o bastante
+// para ser versionado (~5 MB). O componente so atribui o src ao entrar na tela.
+for (const item of items) {
+  const video = path.join(out, "videos", `${item.id}.mp4`);
+  if (!fs.existsSync(video)) continue;
+  const size = fs.statSync(video).size;
+  if (size > 5.5 * 1024 * 1024) errors.push(`${item.id}: video com ${(size / 1048576).toFixed(1)} MB (limite ~5 MB)`);
+  if (!fs.existsSync(path.join(out, "videos", `${item.id}.webp`))) errors.push(`${item.id}: poster do video ausente`);
+  // O player e montado so no cliente (components/case-video-lazy.tsx); no HTML
+  // fica o espaco reservado. Os atributos do <video> sao conferidos em
+  // tests/case-video.test.mjs, direto no codigo do componente.
+  if (!pageOf(path.join("projects", item.id)).includes("case-video-placeholder")) errors.push(`${item.id}: espaco do video ausente`);
+}
+
 // A home mostra os destaques em cards; a secao #arquivo lista so o que nao e
 // destaque, para nenhum projeto aparecer duas vezes (auditoria visual, item 4).
 const home = fs.readFileSync(path.join(out, "index.html"), "utf8");

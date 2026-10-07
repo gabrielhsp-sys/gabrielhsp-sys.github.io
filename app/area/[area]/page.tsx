@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArchiveLine } from "@/components/archive-line";
 import { getAllContent, getPublicAreas, toArchiveItem } from "@/lib/content";
+import { pageMetadata } from "@/lib/metadata";
 import { areaDescriptions, areaLabels } from "@/lib/site";
 
 type Props = { params: Promise<{ area: string }> };
@@ -14,13 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { area: slug } = await params;
   const area = getPublicAreas().find((candidate) => candidate === slug);
   if (!area) return {};
-  const canonical = `/area/${slug}/`;
-  return {
-    title: areaLabels[area],
-    description: areaDescriptions[area],
-    alternates: { canonical },
-    openGraph: { url: canonical },
-  };
+  return pageMetadata({ title: areaLabels[area], description: areaDescriptions[area], path: `/area/${slug}/` });
 }
 
 export default async function AreaPage({ params }: Props) {

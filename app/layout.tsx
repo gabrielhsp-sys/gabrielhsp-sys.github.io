@@ -1,8 +1,6 @@
-import type { Metadata } from "next";
-import "@fontsource-variable/bricolage-grotesque";
-import "@fontsource/ibm-plex-mono/400.css";
-import "@fontsource/ibm-plex-mono/600.css";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { display, mono } from "./fonts";
 import { PersonalityProvider } from "@/components/personality";
 import { SystemChrome } from "@/components/system-chrome";
 import { getLatestUpdate } from "@/lib/content";
@@ -32,6 +30,14 @@ export const metadata: Metadata = {
   },
 };
 
+// A barra do navegador e a area segura acompanham o fundo preto quente; o
+// dock e as camadas fixas somam env(safe-area-inset-*) no CSS.
+export const viewport: Viewport = {
+  themeColor: "#0c0b0a",
+  colorScheme: "dark",
+  viewportFit: "cover",
+};
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   // O estado da barra superior e um fato do conteudo, nao um relogio.
   const updated = getLatestUpdate();
@@ -39,7 +45,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     // Extensoes que reescrevem a pagina antes da hidratacao (Dark Reader e
     // companhia) injetam atributos no <html>. O aviso e delas, nao do site;
     // suprimir aqui nao esconde divergencia de nenhum outro elemento.
-    <html lang="pt-BR" suppressHydrationWarning>
+    <html lang="pt-BR" className={`${display.variable} ${mono.variable}`} suppressHydrationWarning>
       <body>
         <a className="skip-link" href="#conteudo">Pular para o conteúdo</a>
         <PersonalityProvider>

@@ -44,7 +44,7 @@
   text-underline-offset: .24em;
   cursor: pointer;
 }
-.textButton:hover { color: var(--amber); }
+@media (hover: hover) and (pointer: fine) { .textButton:hover { color: var(--amber); } }
 
 /* Progresso: o texto diz, a barra so reforca. */
 .progress { margin-bottom: 32px; display: flex; flex-direction: column; gap: 10px; }
@@ -95,7 +95,7 @@ fieldset > .hint { margin-top: 2px; }
   font-size: 1rem; /* 16px: o iOS nao da zoom ao focar */
   caret-color: var(--amber);
 }
-.input:hover { border-color: var(--paper-faint); }
+@media (hover: hover) and (pointer: fine) { .input:hover { border-color: var(--paper-faint); } }
 textarea.input { min-height: 104px; line-height: 1.5; resize: vertical; }
 .input[aria-invalid="true"] { border-color: var(--red); }
 
@@ -119,7 +119,7 @@ textarea.input { min-height: 104px; line-height: 1.5; resize: vertical; }
   line-height: 1.35;
   cursor: pointer;
 }
-.option:hover { border-color: var(--line); color: var(--paper); }
+@media (hover: hover) and (pointer: fine) { .option:hover { border-color: var(--line); color: var(--paper); } }
 .option:has(input:checked) { border-color: var(--line); background: var(--ink-3); color: var(--paper); }
 
 /* Opcao com descricao: rotulo em cima, explicacao menor embaixo. */

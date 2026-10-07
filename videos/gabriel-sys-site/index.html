@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1280, height=720" />
+    <title>GABRIEL.SYS — GABRIEL.SYS</title>
+    <script src="assets/gsap.min.js"></script>
+    <style>
+/* Base comum dos videos dos estudos de caso: os tokens do GABRIEL.SYS
+   (DESIGN.md) em 1280 x 720. Fontes locais, nada de rede no render. */
+@font-face { font-family: "Bricolage"; src: url("assets/bricolage-latin-wght.woff2") format("woff2"); font-weight: 200 800; font-display: block; }
+@font-face { font-family: "Plex Mono"; src: url("assets/plex-mono-400.woff2") format("woff2"); font-weight: 400; font-display: block; }
+@font-face { font-family: "Plex Mono"; src: url("assets/plex-mono-600.woff2") format("woff2"); font-weight: 600; font-display: block; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { margin: 0; overflow: hidden; background: #0c0b0a; }
+#root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #0c0b0a; color: #e9e0ca; font-family: "Bricolage", sans-serif; }
+.mono { font-family: "Plex Mono", monospace; }
+.frame { position: absolute; inset: 0; }
+/* Cabecalho fixo: area (quadrado) e estado (ponto), como no site. */
+.head { position: absolute; top: 40px; left: 64px; right: 64px; display: flex; align-items: center; gap: 28px; font-family: "Plex Mono", monospace; font-size: 17px; letter-spacing: .04em; color: #b8b09f; }
+.area { display: flex; align-items: center; gap: 10px; }
+.area::before { width: 11px; height: 11px; content: ""; background: var(--area); }
+.status { display: flex; align-items: center; gap: 9px; font-weight: 600; color: var(--status); }
+.status::before { width: 9px; height: 9px; border-radius: 50%; content: ""; background: var(--status); }
+.foot { position: absolute; left: 64px; right: 64px; bottom: 36px; display: flex; justify-content: space-between; align-items: center; padding-top: 18px; border-top: 1px solid #39342d; font-family: "Plex Mono", monospace; font-size: 16px; color: #9b9487; }
+.foot b { color: #e9e0ca; font-weight: 600; }
+.foot b span { color: #f0ab3c; }
+.title { position: absolute; left: 64px; right: 64px; top: 200px; }
+.title h1 { font-size: 96px; font-weight: 650; line-height: .98; letter-spacing: -.04em; }
+.title p { max-width: 900px; margin-top: 26px; font-size: 30px; line-height: 1.35; color: #b8b09f; }
+.rule { position: absolute; left: 0; right: 0; top: 0; height: 4px; background: var(--area); transform-origin: left center; }
+
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="12" data-width="1280" data-height="720" data-fps="30" style="--area: #e76b91; --status: #72c9a7">
+<!-- Fonte: README deste repositorio e content/public/gabriel-sys-site.mdx (a figura
+     "Do arquivo Markdown a pagina publicada"). O frontmatter mostrado tem os campos
+     reais do esquema (docs/content/SCHEMA.md) com os valores do proprio registro. -->
+<style>
+  .split { position: absolute; left: 64px; right: 64px; top: 150px; display: grid; grid-template-columns: 470px 1fr; gap: 56px; }
+  .file { border: 1px solid #6b6459; border-radius: 8px; background: #151311; overflow: hidden; }
+  .file-bar { padding: 12px 18px; border-bottom: 1px solid #39342d; font-family: "Plex Mono", monospace; font-size: 17px; color: #9b9487; }
+  .file pre { margin: 0; padding: 18px; font-family: "Plex Mono", monospace; font-size: 20px; line-height: 1.6; color: #b8b09f; white-space: pre; }
+  .file pre b { color: #e9e0ca; font-weight: 400; }
+  .ok { display: flex; align-items: center; gap: 10px; padding: 12px 18px; border-top: 1px solid #39342d; font-family: "Plex Mono", monospace; font-size: 18px; color: #72c9a7; }
+  .steps { list-style: none; display: grid; gap: 14px; }
+  .steps li { display: grid; grid-template-columns: 26px 1fr; gap: 4px 16px; align-items: baseline; }
+  .steps li i { width: 14px; height: 14px; border: 2px solid #9b9487; background: #0c0b0a; transform: translateY(2px); }
+  .steps li b { font-size: 30px; font-weight: 600; letter-spacing: -.02em; }
+  .steps li span { grid-column: 2; font-size: 21px; color: #b8b09f; }
+  .end { position: absolute; left: 64px; right: 64px; top: 230px; }
+  .end h2 { max-width: 15ch; font-size: 76px; font-weight: 650; line-height: 1; letter-spacing: -.04em; }
+  .end p { margin-top: 28px; font-family: "Plex Mono", monospace; font-size: 22px; color: #9b9487; }
+</style>
+<div id="rule" class="rule"></div>
+<div class="head"><span class="area">Web &amp; Interfaces</span><span class="status">No ar</span></div>
+
+<section id="s-title" class="clip frame" data-start="0" data-duration="2.6" data-track-index="0">
+  <div class="title">
+    <h1 id="t-h1" translate="no">GABRIEL.SYS</h1>
+    <p id="t-p">Um portfólio estático em Next.js onde cada projeto é um arquivo Markdown validado no build.</p>
+  </div>
+</section>
+
+<section id="s-flow" class="clip frame" data-start="2.4" data-duration="6.6" data-track-index="1">
+  <div class="split">
+    <div class="file" id="f-file">
+      <div class="file-bar">content/public/gabriel-sys-site.mdx</div>
+      <pre id="f-pre"><b>id:</b> gabriel-sys-site
+<b>area:</b> web
+<b>status:</b> live
+<b>visibility:</b> public
+<b>startedAt:</b> "2025-06"
+<b>featured:</b> true</pre>
+      <div class="ok" id="f-ok">✓ frontmatter válido (Zod)</div>
+    </div>
+    <ol class="steps">
+      <li id="s1"><i></i><b>Conteúdo</b><span>um arquivo MDX por projeto</span></li>
+      <li id="s2"><i></i><b>Validação</b><span>Zod confere o frontmatter e as relações</span></li>
+      <li id="s3"><i></i><b>Derivados</b><span>rotas, busca, sitemap, feed e cartão</span></li>
+      <li id="s4"><i></i><b>Conferência</b><span>um script lê o site exportado</span></li>
+      <li id="s5"><i></i><b>Publicação</b><span>só a pasta out/ vai para o GitHub Pages</span></li>
+    </ol>
+  </div>
+</section>
+
+<section id="s-end" class="clip frame" data-start="8.9" data-duration="3.1" data-track-index="2">
+  <div class="end">
+    <h2 id="e-h2">Se uma etapa falha, nada é publicado.</h2>
+    <p id="e-p">Next.js · React · TypeScript · MDX · Zod · GitHub Pages</p>
+  </div>
+</section>
+
+<div class="foot"><b>GABRIEL<span>.SYS</span></b><span>estudo de caso · gabrielhsp-sys.github.io · MIT</span></div>
+
+<script>
+  const tl = gsap.timeline({ paused: true });
+  const out = "expo.out";
+  tl.fromTo("#rule", { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease: out }, 0);
+  tl.fromTo("#t-h1", { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: 0.7, ease: out }, 0.15);
+  tl.fromTo("#t-p", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: out }, 0.45);
+  tl.to(["#t-h1", "#t-p"], { opacity: 0, y: -20, duration: 0.35, ease: "power2.in", stagger: 0.05 }, 2.2);
+
+  // o arquivo aparece linha a linha, o build valida, e cada etapa acende
+  tl.fromTo("#f-file", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: out }, 2.5);
+  tl.fromTo("#f-pre", { clipPath: "inset(0 0 100% 0)" }, { clipPath: "inset(0 0 0% 0)", duration: 1.1, ease: "steps(6)" }, 2.7);
+  tl.fromTo(["#s1", "#s2", "#s3", "#s4", "#s5"], { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.45, ease: out, stagger: 0.1 }, 2.9);
+  tl.fromTo("#f-ok", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 4.6);
+  ["#s1", "#s2", "#s3", "#s4", "#s5"].forEach((step, index) => {
+    const at = 4.2 + index * 0.75;
+    tl.to(`${step} i`, { backgroundColor: "#f0ab3c", borderColor: "#f0ab3c", duration: 0.2 }, at);
+    tl.to(`${step} b`, { color: "#f0ab3c", duration: 0.2 }, at);
+    if (index > 0) tl.to(`#s${index} b`, { color: "#e9e0ca", duration: 0.3 }, at);
+  });
+  tl.to([".split"], { opacity: 0, y: -16, duration: 0.35, ease: "power2.in" }, 8.4);
+
+  tl.fromTo("#e-h2", { opacity: 0, y: 32 }, { opacity: 1, y: 0, duration: 0.7, ease: out }, 9.0);
+  tl.fromTo("#e-p", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: out }, 9.35);
+  window.__timelines["main"] = tl;
+  tl.seek(0);
+</script>
+    </div>
+  </body>
+</html>

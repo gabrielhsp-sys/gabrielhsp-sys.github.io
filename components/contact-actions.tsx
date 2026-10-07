@@ -23,7 +23,10 @@ export function CopyEmailButton({ label = "copiar e-mail" }: { label?: string })
 
   return (
     <button className="copy-email" type="button" onClick={copy}>
-      {copied ? <Check size={18} weight="bold" /> : <Copy size={18} />}
+      {/* A chave remonta o icone, para ele entrar com o fade de .copy-email-icon. */}
+      <span className="copy-email-icon" key={copied ? "ok" : "copy"} aria-hidden="true">
+        {copied ? <Check size={18} weight="bold" aria-hidden="true" /> : <Copy size={18} aria-hidden="true" />}
+      </span>
       <span role="status">{copied ? "e-mail copiado" : label}</span>
     </button>
   );
@@ -41,15 +44,15 @@ export function ContactSection() {
       </div>
       <div className="contact-actions">
         <a className="contact-primary" href={`mailto:${site.email}`}>
-          <Envelope size={20} /> {site.email}
+          <Envelope size={20} aria-hidden="true" /> {site.email}
         </a>
         <CopyEmailButton />
         <div className="contact-links">
           <a href={site.github} target="_blank" rel="noreferrer">
-            <GithubLogo size={18} /> GitHub
+            <GithubLogo size={18} aria-hidden="true" /> GitHub
           </a>
           <a href={site.linkedin} target="_blank" rel="noreferrer">
-            <LinkedinLogo size={18} /> LinkedIn
+            <LinkedinLogo size={18} aria-hidden="true" /> LinkedIn
           </a>
         </div>
       </div>

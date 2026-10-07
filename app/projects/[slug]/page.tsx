@@ -7,11 +7,16 @@ import {
   ArrowUpRightIcon as ArrowUpRight,
   EnvelopeSimpleIcon as Envelope,
 } from "@phosphor-icons/react/dist/ssr";
+import fs from "node:fs";
+import path from "node:path";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { caseFigures } from "@/components/case-figures";
+import { CaseVideoLazy } from "@/components/case-video-lazy";
 import { CopyEmailButton } from "@/components/contact-actions";
 import { RelationList, Status } from "@/components/content-ui";
 import { getAllContent, getContentBySlug, getNextContent, getRelatedContent } from "@/lib/content";
+import { sectionHeadings } from "@/lib/headings";
+import { pageMetadata } from "@/lib/metadata";
 import { formatPeriod } from "@/lib/period";
 import { areaLabels, site } from "@/lib/site";
 
@@ -25,12 +30,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const item = getContentBySlug(slug);
   if (!item) return {};
-  return {
+  return pageMetadata({
     title: item.title,
     description: item.summary,
-    alternates: { canonical: item.href },
-    openGraph: { title: item.title, description: item.summary, type: "article", url: item.href },
-  };
+    path: item.href,
+    image: `/og/${item.id}.png`,
+    imageAlt: `${item.title} — ${item.featured ? "estudo de caso" : "projeto"} de ${site.owner}`,
+    type: "article",
+  });
 }
 
 export default async function ProjectDetail({ params }: Props) {
@@ -40,6 +47,12 @@ export default async function ProjectDetail({ params }: Props) {
   const next = getNextContent(item);
   // O proximo ja tem saida propria no fim da pagina; nao repete nos relacionados.
   const related = getRelatedContent(item).filter((other) => other.id !== next?.id);
+  // Indice so quando ha secoes bastantes para ele ajudar a escolher.
+  const sections = sectionHeadings(item.body);
+  const period = formatPeriod(item.startedAt, item.endedAt);
+  // Video curto do estudo de caso (videos/README.md): entra quando o arquivo
+  // existe em public/videos. Acima de ~5 MB ele nao e versionado e nao aparece.
+  const hasVideo = fs.existsSync(path.join(process.cwd(), "public/videos", `${item.id}.mp4`));
 
   return (
     <main id="conteudo" className="article-page">
@@ -54,7 +67,8 @@ export default async function ProjectDetail({ params }: Props) {
             <dd><Link className="area-mark" data-area={item.area} href={`/area/${item.area}/`}>{areaLabels[item.area]}</Link></dd>
           </div>
           <div><dt>estado</dt><dd><Status value={item.status} /></dd></div>
-          <div><dt>período</dt><dd>{formatPeriod(item.startedAt, item.endedAt)}</dd></div>
+          {/* Um intervalo ("JAN 2024 – SET 2026") ocupa a linha inteira no celular. */}
+          <div className={item.endedAt && item.endedAt !== item.startedAt ? "facts-wide" : undefined}><dt>período</dt><dd>{period}</dd></div>
           <div><dt>leitura</dt><dd>{item.readingTime} min</dd></div>
           <div>
             <dt>código</dt>
@@ -71,9 +85,34 @@ export default async function ProjectDetail({ params }: Props) {
         </dl>
       </header>
 
-      <article className="prose article-body">
-        <MDXRemote source={item.body} components={caseFigures} />
-      </article>
+      <div className="article-body" data-toc={sections.length >= 3 || undefined}>
+        <article className="prose">
+          <MDXRemote source={item.body} components={caseFigures} />
+        </article>
+        {sections.length >= 3 && (
+          <nav className="page-toc" aria-label="Nesta página">
+            <p>nesta página</p>
+            <ol>
+              {sections.map((section) => (
+                <li key={section.id}><a href={`#${section.id}`}>{section.title}</a></li>
+              ))}
+            </ol>
+          </nav>
+        )}
+      </div>
+
+      {/* Depois do texto, e nao no topo: no topo o video vira o maior elemento
+          da dobra e atrasa o LCP (Lighthouse desktop 99 -> 98). Aqui ele resume
+          o que a pessoa acabou de ler. */}
+      {hasVideo && (
+        <div className="case-video-wrap">
+          <CaseVideoLazy
+            src={`/videos/${item.id}.mp4`}
+            poster={`/videos/${item.id}.webp`}
+            label={`${item.title}: vídeo de 12 segundos, sem som, que resume o estudo de caso`}
+          />
+        </div>
+      )}
 
       <RelationList items={related} />
 
