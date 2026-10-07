@@ -763,7 +763,12 @@ main { overflow-x: clip; }
    ═══════════════════════════════════════════════════════════════════════════ */
 .featured-section, .craft-section, .archive-section { padding: clamp(72px, 9vw, 140px) clamp(28px, 6vw, 104px); }
 .featured-section { border-bottom: 1px solid var(--line-soft); }
-.case-list { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+/* Um projeto lidera a secao (DESIGN.md: "deixe um unico projeto liderar"):
+   o primeiro do featuredRank ocupa a linha inteira e os outros dividem a
+   linha de baixo em tres. */
+.case-list { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 24px; }
+.case-list > .case-card { grid-column: span 2; }
+.case-list > .case-card[data-lead] { grid-column: 1 / -1; }
 .case-card {
   position: relative;
   display: flex;
@@ -775,13 +780,23 @@ main { overflow-x: clip; }
   border-radius: 4px;
   background: var(--ink-2);
 }
+.case-head { display: flex; flex-direction: column; gap: 14px; }
 .case-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; }
 .case-card h3 { margin: 0; max-width: 20ch; font-size: clamp(1.6rem, 2.4vw, 2.3rem); line-height: 1.05; letter-spacing: -.03em; }
 .case-card h3 a { text-decoration: none; }
 /* O card inteiro leva ao estudo de caso; os links do rodape ficam por cima. */
 .case-card h3 a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
 @media (hover: hover) and (pointer: fine) { .case-card h3 a:hover { color: var(--amber); } }
-.case-card > p { margin: 0; color: var(--paper-dim); }
+.case-head > p { margin: 0; color: var(--paper-dim); }
+/* Card lider: titulo e resumo a esquerda, stack e destinos a direita. */
+@media (min-width: 1181px) {
+  .case-card[data-lead] { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr); grid-template-rows: auto 1fr; gap: 18px 56px; padding: 40px 40px 34px; }
+  .case-card[data-lead] .case-head { grid-column: 1; grid-row: 1 / span 2; }
+  .case-card[data-lead] .case-stack { grid-column: 2; grid-row: 1; align-self: start; margin-top: 2px; }
+  .case-card[data-lead] .case-footer { grid-column: 2; grid-row: 2; align-self: end; }
+  .case-card[data-lead] h3 { max-width: 16ch; font-size: clamp(2.4rem, 4vw, 3.8rem); }
+  .case-card[data-lead] .case-head > p { max-width: 54ch; font-size: 1.15rem; }
+}
 .case-stack { margin: 4px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; list-style: none; }
 .case-stack li { padding: 5px 8px; border: 1px solid var(--line-soft); border-radius: 3px; color: var(--paper-faint); font-family: var(--mono); font-size: var(--text-min); }
 .case-footer { margin-top: auto; padding-top: 12px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; border-top: 1px solid var(--line-soft); font-family: var(--mono); font-size: var(--text-min); }
@@ -1110,6 +1125,7 @@ html[data-glitch="on"] .site-frame { animation: retro-glitch .9s steps(2) 1; }
    ═══════════════════════════════════════════════════════════════════════════ */
 @media (max-width: 1180px) {
   .case-list { grid-template-columns: 1fr; }
+  .case-list > .case-card, .case-list > .case-card[data-lead] { grid-column: auto; }
   .craft-list { grid-template-columns: 1fr; }
   .craft-block { border-right: 0; }
   .about-teaser, .contact-section { grid-template-columns: 1fr; align-items: start; }
