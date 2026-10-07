@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1280, height=720" />
+    <title>Academic System — GABRIEL.SYS</title>
+    <script src="assets/gsap.min.js"></script>
+    <style>
+/* Base comum dos videos dos estudos de caso: os tokens do GABRIEL.SYS
+   (DESIGN.md) em 1280 x 720. Fontes locais, nada de rede no render. */
+@font-face { font-family: "Bricolage"; src: url("assets/bricolage-latin-wght.woff2") format("woff2"); font-weight: 200 800; font-display: block; }
+@font-face { font-family: "Plex Mono"; src: url("assets/plex-mono-400.woff2") format("woff2"); font-weight: 400; font-display: block; }
+@font-face { font-family: "Plex Mono"; src: url("assets/plex-mono-600.woff2") format("woff2"); font-weight: 600; font-display: block; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { margin: 0; overflow: hidden; background: #0c0b0a; }
+#root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #0c0b0a; color: #e9e0ca; font-family: "Bricolage", sans-serif; }
+.mono { font-family: "Plex Mono", monospace; }
+.frame { position: absolute; inset: 0; }
+/* Cabecalho fixo: area (quadrado) e estado (ponto), como no site. */
+.head { position: absolute; top: 40px; left: 64px; right: 64px; display: flex; align-items: center; gap: 28px; font-family: "Plex Mono", monospace; font-size: 17px; letter-spacing: .04em; color: #b8b09f; }
+.area { display: flex; align-items: center; gap: 10px; }
+.area::before { width: 11px; height: 11px; content: ""; background: var(--area); }
+.status { display: flex; align-items: center; gap: 9px; font-weight: 600; color: var(--status); }
+.status::before { width: 9px; height: 9px; border-radius: 50%; content: ""; background: var(--status); }
+.foot { position: absolute; left: 64px; right: 64px; bottom: 36px; display: flex; justify-content: space-between; align-items: center; padding-top: 18px; border-top: 1px solid #39342d; font-family: "Plex Mono", monospace; font-size: 16px; color: #9b9487; }
+.foot b { color: #e9e0ca; font-weight: 600; }
+.foot b span { color: #f0ab3c; }
+.title { position: absolute; left: 64px; right: 64px; top: 200px; }
+.title h1 { font-size: 96px; font-weight: 650; line-height: .98; letter-spacing: -.04em; }
+.title p { max-width: 900px; margin-top: 26px; font-size: 30px; line-height: 1.35; color: #b8b09f; }
+.rule { position: absolute; left: 0; right: 0; top: 0; height: 4px; background: var(--area); transform-origin: left center; }
+
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="12" data-width="1280" data-height="720" data-fps="30" style="--area: #f0ab3c; --status: #78a9d4">
+<!-- Fonte: README de gabrielhsp-sys/academic-system ("Architecture", "Security Model",
+     "About This Fork") e content/public/academic-system.mdx. Os numeros do fim (59
+     classes, 14 de teste, 4 workflows) estao no README. -->
+<style>
+  .stack { position: absolute; left: 64px; right: 64px; top: 140px; display: grid; gap: 12px; }
+  .ui { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .layer { position: relative; display: grid; grid-template-columns: 220px 1fr; align-items: baseline; gap: 20px; padding: 16px 22px; border: 1px solid #6b6459; border-radius: 6px; background: #151311; }
+  .layer b { font-size: 28px; font-weight: 600; letter-spacing: -.02em; }
+  .layer span { font-size: 21px; color: #b8b09f; }
+  .ui .layer { grid-template-columns: 1fr; }
+  .fmt { position: relative; display: inline-block; width: 92px; height: 1.3em; vertical-align: bottom; font-family: "Plex Mono", monospace; color: #f0ab3c; }
+  .fmt em { position: absolute; left: 0; top: 0; font-style: normal; opacity: 0; }
+  .facts { position: absolute; left: 64px; right: 64px; top: 200px; }
+  .facts h2 { max-width: 18ch; font-size: 64px; font-weight: 650; line-height: 1.02; letter-spacing: -.035em; }
+  .roles { display: flex; gap: 14px; margin-top: 30px; font-family: "Plex Mono", monospace; font-size: 22px; }
+  .roles span { padding: 10px 16px; border: 1px solid #6b6459; border-radius: 4px; color: #e9e0ca; }
+  .nums { margin-top: 34px; display: flex; gap: 48px; font-size: 24px; color: #b8b09f; }
+  .nums b { display: block; font-size: 58px; font-weight: 650; letter-spacing: -.03em; color: #e9e0ca; font-variant-numeric: tabular-nums; }
+</style>
+<div id="rule" class="rule"></div>
+<div class="head"><span class="area">Software &amp; Automação</span><span class="status">Concluído</span></div>
+
+<section id="s-title" class="clip frame" data-start="0" data-duration="2.6" data-track-index="0">
+  <div class="title">
+    <h1 id="t-h1">Academic System</h1>
+    <p id="t-p">Sistema acadêmico em Java onde a interface é a parte descartável.</p>
+  </div>
+</section>
+
+<section id="s-stack" class="clip frame" data-start="2.4" data-duration="6.4" data-track-index="1">
+  <div class="stack">
+    <div class="ui">
+      <div class="layer" id="l-cli"><b>CLI</b></div>
+      <div class="layer" id="l-fx"><b>JavaFX</b></div>
+    </div>
+    <div class="layer" id="l-ctrl"><b>Controller</b><span>autenticação e operações</span></div>
+    <div class="layer" id="l-svc"><b>Serviço</b><span>a mesma regra de negócio para as duas interfaces</span></div>
+    <div class="layer" id="l-repo"><b>Repositório</b><span>persistência em <span class="fmt"><em id="fx1">TXT</em><em id="fx2">XML</em><em id="fx3">JSON</em></span> sem mexer no serviço</span></div>
+    <div class="layer" id="l-model"><b>Modelo</b><span>domínio validado com Jakarta Bean Validation</span></div>
+  </div>
+</section>
+
+<section id="s-facts" class="clip frame" data-start="8.7" data-duration="3.3" data-track-index="2">
+  <div class="facts">
+    <h2 id="x-h2">RBAC por papel, testes e CI em quatro workflows.</h2>
+    <div class="roles" id="x-roles"><span>ADMIN</span><span>PROFESSOR</span></div>
+    <div class="nums" id="x-nums">
+      <div><b>59</b>classes de aplicação</div>
+      <div><b>14</b>classes de teste</div>
+      <div><b>4</b>workflows no GitHub Actions</div>
+    </div>
+  </div>
+</section>
+
+<div class="foot"><b>GABRIEL<span>.SYS</span></b><span>estudo de caso · academic-system · UNIFAL-MG</span></div>
+
+<script>
+  const tl = gsap.timeline({ paused: true });
+  const out = "expo.out";
+  tl.fromTo("#rule", { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease: out }, 0);
+  tl.fromTo("#t-h1", { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: 0.7, ease: out }, 0.15);
+  tl.fromTo("#t-p", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: out }, 0.45);
+  tl.to(["#t-h1", "#t-p"], { opacity: 0, y: -20, duration: 0.35, ease: "power2.in", stagger: 0.05 }, 2.2);
+
+  // as camadas sobem de baixo para cima; as duas interfaces chegam por ultimo
+  tl.fromTo(["#l-model", "#l-repo", "#l-svc", "#l-ctrl"], { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: out, stagger: 0.16 }, 2.5);
+  tl.fromTo(["#l-cli", "#l-fx"], { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: out, stagger: 0.08 }, 3.2);
+  tl.to("#l-svc", { borderColor: "#f0ab3c", duration: 0.3 }, 3.9);
+  // a persistencia troca de formato e o servico continua aceso
+  tl.set("#fx1", { opacity: 1 }, 2.9);
+  tl.to("#fx1", { opacity: 0, y: -10, duration: 0.25 }, 5.0);
+  tl.fromTo("#fx2", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: out }, 5.15);
+  tl.to("#fx2", { opacity: 0, y: -10, duration: 0.25 }, 6.3);
+  tl.fromTo("#fx3", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: out }, 6.45);
+  tl.to("#l-repo", { borderColor: "#f0ab3c", duration: 0.3 }, 5.0);
+  tl.to(".stack", { opacity: 0, y: -16, duration: 0.35, ease: "power2.in" }, 8.3);
+
+  tl.fromTo("#x-h2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: out }, 8.8);
+  tl.fromTo("#x-roles", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: out }, 9.1);
+  tl.fromTo("#x-nums > div", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: out, stagger: 0.1 }, 9.3);
+  window.__timelines["main"] = tl;
+  tl.seek(0);
+</script>
+    </div>
+  </body>
+</html>

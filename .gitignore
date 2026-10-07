@@ -7,3 +7,7 @@ public/search-index.json
 public/og.png
 tsconfig.tsbuildinfo
 public/og/
+videos/*/assets/
+videos/*/renders/
+videos/*/snapshots/
+videos/*/.hyperframes/

@@ -56,6 +56,22 @@ for (const item of items) {
   }
 }
 
+// Video de estudo de caso: sem som, sem pre-carga, com poster, e leve o bastante
+// para ser versionado (~5 MB). O componente so atribui o src ao entrar na tela.
+for (const item of items) {
+  const video = path.join(out, "videos", `${item.id}.mp4`);
+  if (!fs.existsSync(video)) continue;
+  const size = fs.statSync(video).size;
+  if (size > 5.5 * 1024 * 1024) errors.push(`${item.id}: video com ${(size / 1048576).toFixed(1)} MB (limite ~5 MB)`);
+  if (!fs.existsSync(path.join(out, "videos", `${item.id}.jpg`))) errors.push(`${item.id}: poster do video ausente`);
+  const html = pageOf(path.join("projects", item.id));
+  const tag = html.match(/<video[^>]*>/)?.[0] ?? "";
+  for (const attr of ["muted", 'preload="none"', `poster="/videos/${item.id}.jpg"`, "playsInline"]) {
+    if (!tag.toLowerCase().includes(attr.toLowerCase())) errors.push(`${item.id}: <video> sem ${attr}`);
+  }
+  if (/<video[^>]*\ssrc=/.test(tag)) errors.push(`${item.id}: <video> ja sai com src no HTML`);
+}
+
 // A home mostra os destaques em cards; a secao #arquivo lista so o que nao e
 // destaque, para nenhum projeto aparecer duas vezes (auditoria visual, item 4).
 const home = fs.readFileSync(path.join(out, "index.html"), "utf8");

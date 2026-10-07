@@ -1247,3 +1247,37 @@ html[data-glitch="on"] .site-frame { animation: retro-glitch .9s steps(2) 1; }
 @media (min-width: 1500px) and (hover: hover) and (pointer: fine) {
   .page-toc a:hover { color: var(--amber); }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   VIDEO DO ESTUDO DE CASO — sem som, com poster e pausa (components/case-video)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.case-video-wrap { padding: clamp(32px, 4vw, 56px) clamp(28px, 6vw, 104px) 0; }
+.case-video { position: relative; max-width: 960px; margin: 0; }
+.case-video-frame { position: relative; }
+.case-video-toggle { transition: transform var(--press) var(--ease-out), border-color .2s ease, color .2s ease; }
+.case-video-toggle:active { transform: scale(.97); }
+.case-video video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border: 1px solid var(--line-soft); border-radius: 6px; background: var(--ink-2); }
+.case-video figcaption { margin-top: 12px; color: var(--paper-faint); font-size: .92rem; }
+.case-video-toggle {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: rgb(12 11 10 / .86);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: var(--text-min);
+  cursor: pointer;
+}
+@media (hover: hover) and (pointer: fine) { .case-video-toggle:hover { border-color: var(--amber); color: var(--amber); } }
+@media (max-width: 820px) { .case-video-wrap { padding: 32px 24px 0; } }
+/* No celular o quadro de 1280px cai para ~310px e o texto do video vira 6px:
+   ilegivel e 1 MB de dados por nada. Some, e o IntersectionObserver nunca pede
+   o arquivo (elemento sem caixa nao intersecta). O texto da pagina e o mesmo. */
+@media (max-width: 600px) { .case-video-wrap { display: none; } }

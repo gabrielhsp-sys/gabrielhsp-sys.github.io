@@ -1,0 +1,23 @@
+/* Base comum dos videos dos estudos de caso: os tokens do GABRIEL.SYS
+   (DESIGN.md) em 1280 x 720. Fontes locais, nada de rede no render. */
+@font-face { font-family: "Bricolage"; src: url("assets/bricolage-latin-wght.woff2") format("woff2"); font-weight: 200 800; font-display: block; }
+@font-face { font-family: "Plex Mono"; src: url("assets/plex-mono-400.woff2") format("woff2"); font-weight: 400; font-display: block; }
+@font-face { font-family: "Plex Mono"; src: url("assets/plex-mono-600.woff2") format("woff2"); font-weight: 600; font-display: block; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { margin: 0; overflow: hidden; background: #0c0b0a; }
+#root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #0c0b0a; color: #e9e0ca; font-family: "Bricolage", sans-serif; }
+.mono { font-family: "Plex Mono", monospace; }
+.frame { position: absolute; inset: 0; }
+/* Cabecalho fixo: area (quadrado) e estado (ponto), como no site. */
+.head { position: absolute; top: 40px; left: 64px; right: 64px; display: flex; align-items: center; gap: 28px; font-family: "Plex Mono", monospace; font-size: 17px; letter-spacing: .04em; color: #b8b09f; }
+.area { display: flex; align-items: center; gap: 10px; }
+.area::before { width: 11px; height: 11px; content: ""; background: var(--area); }
+.status { display: flex; align-items: center; gap: 9px; font-weight: 600; color: var(--status); }
+.status::before { width: 9px; height: 9px; border-radius: 50%; content: ""; background: var(--status); }
+.foot { position: absolute; left: 64px; right: 64px; bottom: 36px; display: flex; justify-content: space-between; align-items: center; padding-top: 18px; border-top: 1px solid #39342d; font-family: "Plex Mono", monospace; font-size: 16px; color: #9b9487; }
+.foot b { color: #e9e0ca; font-weight: 600; }
+.foot b span { color: #f0ab3c; }
+.title { position: absolute; left: 64px; right: 64px; top: 200px; }
+.title h1 { font-size: 96px; font-weight: 650; line-height: .98; letter-spacing: -.04em; }
+.title p { max-width: 900px; margin-top: 26px; font-size: 30px; line-height: 1.35; color: #b8b09f; }
+.rule { position: absolute; left: 0; right: 0; top: 0; height: 4px; background: var(--area); transform-origin: left center; }
