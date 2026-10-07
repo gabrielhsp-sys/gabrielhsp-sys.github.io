@@ -632,7 +632,7 @@ main { overflow-x: clip; }
     z-index: 60;
     height: 54px;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     align-items: center;
     overflow: hidden;
     border: 1px solid var(--line);
