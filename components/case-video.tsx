@@ -53,7 +53,7 @@ export function CaseVideo({ src, poster, label }: { src: string; poster: string;
   }, [loaded, paused, reduced, visible]);
 
   return (
-    <figure className="case-video" data-loaded={loaded || undefined}>
+    <figure className="case-video">
       <div className="case-video-frame">
         <video
           ref={videoRef}
