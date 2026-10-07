@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import {
   ArchiveIcon as ArchiveBox,
   ArrowRightIcon as ArrowRight,
+  EnvelopeSimpleIcon as EnvelopeSimple,
   GithubLogoIcon as GithubLogo,
   HouseIcon as House,
   InfoIcon as Info,
@@ -41,6 +42,8 @@ const nav = [
   { href: "/", label: "Início", icon: House },
   { href: "/archive/", label: "Projetos", icon: ArchiveBox },
   { href: "/about/", label: "Sobre", icon: Info },
+  // A secao de contato fecha a home; de outra pagina, o link volta a ela.
+  { href: "/#contato", label: "Contato", icon: EnvelopeSimple },
 ];
 
 const isActive = (href: string, pathname: string) =>

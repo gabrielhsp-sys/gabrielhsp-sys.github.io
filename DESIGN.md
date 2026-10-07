@@ -233,7 +233,7 @@ Controles usam cantos pequenos de 3–8px. O cartão de estudo de caso é um ret
 
 ### Navigation
 
-O trilho mostra ícone Phosphor e nome curto; o estado ativo usa campo preto elevado e contato âmbar de 2px. No celular, a mesma família vira dock inferior com cinco áreas iguais. Links editoriais preservam texto explícito fora dessa navegação compacta.
+O trilho mostra ícone Phosphor e nome curto; o estado ativo usa campo preto elevado e contato âmbar de 2px. Os itens são Início, Projetos, Sobre e Contato (este leva à seção `#contato` da home). No celular, a mesma família vira dock inferior com seis áreas iguais: os quatro itens, a busca e o terminal. Links editoriais preservam texto explícito fora dessa navegação compacta.
 
 A marca aparece uma vez por tela: no desktop, o monograma G⋮S no topo do trilho; no celular, sem trilho, o nome GABRIEL.SYS na barra superior. A busca é o único controle com moldura na barra; o som é ícone sem moldura com alvo de 44px. No celular a busca vive só no dock.
 
