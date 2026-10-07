@@ -8,6 +8,7 @@ import {
 import { ArchiveLine } from "@/components/archive-line";
 import { ContactSection } from "@/components/contact-actions";
 import { Status } from "@/components/content-ui";
+import { StructuredData } from "@/components/structured-data";
 import { getAllContent, getFeaturedContent, getPublicAreas, toArchiveItem } from "@/lib/content";
 import { areaLabels } from "@/lib/site";
 
@@ -45,6 +46,7 @@ export default function Home() {
 
   return (
     <main id="conteudo">
+      <StructuredData page="home" />
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section className="hero" aria-labelledby="hero-heading">
         <div className="hero-copy">

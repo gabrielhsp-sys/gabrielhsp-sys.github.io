@@ -6,3 +6,4 @@ out/
 public/search-index.json
 public/og.png
 tsconfig.tsbuildinfo
+public/og/

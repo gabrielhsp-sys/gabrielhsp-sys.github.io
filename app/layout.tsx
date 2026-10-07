@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "@fontsource-variable/bricolage-grotesque";
 import "@fontsource/ibm-plex-mono/400.css";
 import "@fontsource/ibm-plex-mono/600.css";
@@ -30,6 +30,14 @@ export const metadata: Metadata = {
     description: site.description,
     images: [{ url: "/og.png", alt: `${site.name} — projetos` }],
   },
+};
+
+// A barra do navegador e a area segura acompanham o fundo preto quente; o
+// dock e as camadas fixas somam env(safe-area-inset-*) no CSS.
+export const viewport: Viewport = {
+  themeColor: "#0c0b0a",
+  colorScheme: "dark",
+  viewportFit: "cover",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

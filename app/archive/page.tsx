@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { ArchiveExplorer } from "@/components/archive-explorer";
 import { getAllContent, toArchiveItem } from "@/lib/content";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Projetos",
   description: "Todos os projetos públicos de Gabriel Henrique, filtráveis por área e estado.",
-  alternates: { canonical: "/archive/" },
-  openGraph: { url: "/archive/" },
-};
+  path: "/archive/",
+});
 
 export default function ArchivePage() {
   return (
