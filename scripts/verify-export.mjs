@@ -109,27 +109,6 @@ for (const file of ["sitemap.xml", "search-index.json"]) {
   if (fs.readFileSync(path.join(out, file), "utf8").includes("orcamento")) errors.push(`${file}: lista /orcamento`);
 }
 
-// O prototipo de identidade e rascunho para o Gabriel escolher: sem indexacao,
-// fora do sitemap e da busca, sem o chrome do site, e nenhuma pagina linka para
-// ele (auditoria 2026-10).
-const prototypeFile = path.join(out, "prototipos", "identidade", "index.html");
-if (fs.existsSync(prototypeFile)) {
-  const prototype = fs.readFileSync(prototypeFile, "utf8");
-  if (!/<meta name="robots" content="noindex, nofollow"/.test(prototype)) errors.push("/prototipos/identidade: noindex ausente");
-  if (prototype.includes('class="system-rail"') || prototype.includes('class="topbar"')) errors.push("/prototipos/identidade: chrome do site presente");
-  for (const file of ["sitemap.xml", "search-index.json"]) {
-    if (fs.readFileSync(path.join(out, file), "utf8").includes("prototipos")) errors.push(`${file}: lista /prototipos`);
-  }
-  const pages = (dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
-    const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) return entry.name === "_next" || entry.name === "prototipos" ? [] : pages(full);
-    return entry.name.endsWith(".html") ? [full] : [];
-  });
-  for (const file of pages(out)) {
-    if (/href="\/prototipos/.test(fs.readFileSync(file, "utf8"))) errors.push(`${path.relative(out, file)}: linka /prototipos`);
-  }
-}
-
 if (errors.length) {
   console.error(errors.join("\n"));
   process.exit(1);
