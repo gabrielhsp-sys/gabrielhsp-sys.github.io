@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRightIcon as ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRightIcon as ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import type { ArchiveItem } from "@/lib/content";
 import { formatPeriod } from "@/lib/period";
 import { areaLabels, statusLabels } from "@/lib/site";
@@ -28,7 +28,8 @@ export function ArchiveLine({
         <span data-status={item.status}>{statusLabels[item.status]}</span>
         <span className="archive-line-period">{formatPeriod(item.startedAt, item.endedAt)}</span>
       </span>
-      <ArrowUpRight size={18} aria-hidden="true" />
+      {/* Link interno: seta reta. A diagonal fica para o que sai do site. */}
+      <ArrowRight size={18} aria-hidden="true" />
     </Link>
   );
 }
