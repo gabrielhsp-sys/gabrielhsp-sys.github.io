@@ -12,6 +12,7 @@ import { caseFigures } from "@/components/case-figures";
 import { CopyEmailButton } from "@/components/contact-actions";
 import { RelationList, Status } from "@/components/content-ui";
 import { getAllContent, getContentBySlug, getNextContent, getRelatedContent } from "@/lib/content";
+import { sectionHeadings } from "@/lib/headings";
 import { pageMetadata } from "@/lib/metadata";
 import { formatPeriod } from "@/lib/period";
 import { areaLabels, site } from "@/lib/site";
@@ -43,6 +44,9 @@ export default async function ProjectDetail({ params }: Props) {
   const next = getNextContent(item);
   // O proximo ja tem saida propria no fim da pagina; nao repete nos relacionados.
   const related = getRelatedContent(item).filter((other) => other.id !== next?.id);
+  // Indice so quando ha secoes bastantes para ele ajudar a escolher.
+  const sections = sectionHeadings(item.body);
+  const period = formatPeriod(item.startedAt, item.endedAt);
 
   return (
     <main id="conteudo" className="article-page">
@@ -57,7 +61,8 @@ export default async function ProjectDetail({ params }: Props) {
             <dd><Link className="area-mark" data-area={item.area} href={`/area/${item.area}/`}>{areaLabels[item.area]}</Link></dd>
           </div>
           <div><dt>estado</dt><dd><Status value={item.status} /></dd></div>
-          <div><dt>período</dt><dd>{formatPeriod(item.startedAt, item.endedAt)}</dd></div>
+          {/* Um intervalo ("JAN 2024 – SET 2026") ocupa a linha inteira no celular. */}
+          <div className={period.includes("–") ? "facts-wide" : undefined}><dt>período</dt><dd>{period}</dd></div>
           <div><dt>leitura</dt><dd>{item.readingTime} min</dd></div>
           <div>
             <dt>código</dt>
@@ -74,9 +79,21 @@ export default async function ProjectDetail({ params }: Props) {
         </dl>
       </header>
 
-      <article className="prose article-body">
-        <MDXRemote source={item.body} components={caseFigures} />
-      </article>
+      <div className="article-body" data-toc={sections.length >= 3 || undefined}>
+        <article className="prose">
+          <MDXRemote source={item.body} components={caseFigures} />
+        </article>
+        {sections.length >= 3 && (
+          <nav className="page-toc" aria-label="Nesta página">
+            <p>nesta página</p>
+            <ol>
+              {sections.map((section) => (
+                <li key={section.id}><a href={`#${section.id}`}>{section.title}</a></li>
+              ))}
+            </ol>
+          </nav>
+        )}
+      </div>
 
       <RelationList items={related} />
 

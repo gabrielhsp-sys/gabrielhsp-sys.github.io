@@ -1,4 +1,5 @@
 import { Children, isValidElement } from "react";
+import { headingId } from "@/lib/headings";
 import { ArrowUpRightIcon as ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 
 /* Figuras dos estudos de caso, escritas no proprio MDX. O diagrama e texto:
@@ -66,4 +67,18 @@ export function Pre(props: React.ComponentProps<"pre">) {
   return <pre tabIndex={0} {...props} />;
 }
 
-export const caseFigures = { Flow, Step, Excerpt, pre: Pre };
+// O <h2> ganha id para o indice da pagina apontar para ele.
+const textOf = (node: React.ReactNode): string =>
+  typeof node === "string" || typeof node === "number"
+    ? String(node)
+    : Array.isArray(node)
+      ? node.map(textOf).join("")
+      : isValidElement<{ children?: React.ReactNode }>(node)
+        ? textOf(node.props.children)
+        : "";
+
+export function H2({ children }: { children?: React.ReactNode }) {
+  return <h2 id={headingId(textOf(children))}>{children}</h2>;
+}
+
+export const caseFigures = { Flow, Step, Excerpt, pre: Pre, h2: H2 };
