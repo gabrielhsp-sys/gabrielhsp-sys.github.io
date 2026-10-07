@@ -152,7 +152,9 @@ A paleta combina preto aquecido e marfim com sinais curados, como etiquetas em u
 
 **Body Font:** Bricolage Grotesque Variable (sans-serif)
 
-**Label/Mono Font:** IBM Plex Mono (ui-monospace, monospace). O pacote `@fontsource/ibm-plex-mono` registra a família como `"IBM Plex Mono"`, pesos 400 e 600; o token `--mono` precisa usar esse nome exato, senão todos os rótulos caem na mono do sistema.
+**Label/Mono Font:** IBM Plex Mono (ui-monospace, monospace), pesos 400 e 600.
+
+As duas fontes entram por `next/font/local` em `app/fonts.ts`, a partir dos arquivos que o fontsource já instala: o Next faz o preload, gera o fallback com métrica da Bricolage e expõe `--font-display` e `--font-mono` no `<html>`. Os tokens `--display` e `--mono` leem essas variáveis. Só o subconjunto latino é carregado — ele cobre o português, as aspas, os traços e as setas do site; um texto novo com caractere fora dele (ő, ł, ∑) cai na fonte de fallback.
 
 **Character:** Bricolage fornece uma voz humana e irregular o bastante para não parecer interface corporativa. IBM Plex Mono mede estado, rota, data e comando; ela nunca fantasia um parágrafo como “técnico”.
 

@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import "@fontsource-variable/bricolage-grotesque";
-import "@fontsource/ibm-plex-mono/400.css";
-import "@fontsource/ibm-plex-mono/600.css";
 import "./globals.css";
+import { display, mono } from "./fonts";
 import { PersonalityProvider } from "@/components/personality";
 import { SystemChrome } from "@/components/system-chrome";
 import { getLatestUpdate } from "@/lib/content";
@@ -47,7 +45,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     // Extensoes que reescrevem a pagina antes da hidratacao (Dark Reader e
     // companhia) injetam atributos no <html>. O aviso e delas, nao do site;
     // suprimir aqui nao esconde divergencia de nenhum outro elemento.
-    <html lang="pt-BR" suppressHydrationWarning>
+    <html lang="pt-BR" className={`${display.variable} ${mono.variable}`} suppressHydrationWarning>
       <body>
         <a className="skip-link" href="#conteudo">Pular para o conteúdo</a>
         <PersonalityProvider>

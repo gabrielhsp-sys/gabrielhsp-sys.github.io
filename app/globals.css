@@ -17,8 +17,9 @@
   --violet: #a291c6;
   --blue: #78a9d4;
   --red: #f07863;
-  --display: "Bricolage Grotesque Variable", sans-serif;
-  --mono: "IBM Plex Mono", ui-monospace, monospace; /* @fontsource/ibm-plex-mono, pesos 400 e 600 */
+  /* next/font (app/fonts.ts) declara as faces e as variaveis no <html>. */
+  --display: var(--font-display, sans-serif);
+  --mono: var(--font-mono, ui-monospace, monospace); /* IBM Plex Mono, pesos 400 e 600 */
   --rail: 88px;
   --text-min: .6875rem;  /* label — piso de legibilidade: nenhum texto abaixo de 11px */
   --type-page-title: clamp(2.5rem, 4.5vw, 3.5rem); /* page-title — titulo de pagina interna */
