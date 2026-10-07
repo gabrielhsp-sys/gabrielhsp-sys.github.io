@@ -7,8 +7,11 @@ import {
   ArrowUpRightIcon as ArrowUpRight,
   EnvelopeSimpleIcon as Envelope,
 } from "@phosphor-icons/react/dist/ssr";
+import fs from "node:fs";
+import path from "node:path";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { caseFigures } from "@/components/case-figures";
+import { CaseVideo } from "@/components/case-video";
 import { CopyEmailButton } from "@/components/contact-actions";
 import { RelationList, Status } from "@/components/content-ui";
 import { getAllContent, getContentBySlug, getNextContent, getRelatedContent } from "@/lib/content";
@@ -47,6 +50,9 @@ export default async function ProjectDetail({ params }: Props) {
   // Indice so quando ha secoes bastantes para ele ajudar a escolher.
   const sections = sectionHeadings(item.body);
   const period = formatPeriod(item.startedAt, item.endedAt);
+  // Video curto do estudo de caso (videos/README.md): entra quando o arquivo
+  // existe em public/videos. Acima de ~5 MB ele nao e versionado e nao aparece.
+  const hasVideo = fs.existsSync(path.join(process.cwd(), "public/videos", `${item.id}.mp4`));
 
   return (
     <main id="conteudo" className="article-page">
@@ -78,6 +84,16 @@ export default async function ProjectDetail({ params }: Props) {
           </div>
         </dl>
       </header>
+
+      {hasVideo && (
+        <div className="case-video-wrap">
+          <CaseVideo
+            src={`/videos/${item.id}.mp4`}
+            poster={`/videos/${item.id}.jpg`}
+            label={`${item.title}: vídeo de 12 segundos, sem som, que resume o estudo de caso`}
+          />
+        </div>
+      )}
 
       <div className="article-body" data-toc={sections.length >= 3 || undefined}>
         <article className="prose">

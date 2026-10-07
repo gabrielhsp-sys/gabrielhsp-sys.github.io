@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1280, height=720" />
+    <title>Fedora pós-instalação — GABRIEL.SYS</title>
+    <script src="assets/gsap.min.js"></script>
+    <style>
+/* Base comum dos videos dos estudos de caso: os tokens do GABRIEL.SYS
+   (DESIGN.md) em 1280 x 720. Fontes locais, nada de rede no render. */
+@font-face { font-family: "Bricolage"; src: url("assets/bricolage-latin-wght.woff2") format("woff2"); font-weight: 200 800; font-display: block; }
+@font-face { font-family: "Plex Mono"; src: url("assets/plex-mono-400.woff2") format("woff2"); font-weight: 400; font-display: block; }
+@font-face { font-family: "Plex Mono"; src: url("assets/plex-mono-600.woff2") format("woff2"); font-weight: 600; font-display: block; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { margin: 0; overflow: hidden; background: #0c0b0a; }
+#root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #0c0b0a; color: #e9e0ca; font-family: "Bricolage", sans-serif; }
+.mono { font-family: "Plex Mono", monospace; }
+.frame { position: absolute; inset: 0; }
+/* Cabecalho fixo: area (quadrado) e estado (ponto), como no site. */
+.head { position: absolute; top: 40px; left: 64px; right: 64px; display: flex; align-items: center; gap: 28px; font-family: "Plex Mono", monospace; font-size: 17px; letter-spacing: .04em; color: #b8b09f; }
+.area { display: flex; align-items: center; gap: 10px; }
+.area::before { width: 11px; height: 11px; content: ""; background: var(--area); }
+.status { display: flex; align-items: center; gap: 9px; font-weight: 600; color: var(--status); }
+.status::before { width: 9px; height: 9px; border-radius: 50%; content: ""; background: var(--status); }
+.foot { position: absolute; left: 64px; right: 64px; bottom: 36px; display: flex; justify-content: space-between; align-items: center; padding-top: 18px; border-top: 1px solid #39342d; font-family: "Plex Mono", monospace; font-size: 16px; color: #9b9487; }
+.foot b { color: #e9e0ca; font-weight: 600; }
+.foot b span { color: #f0ab3c; }
+.title { position: absolute; left: 64px; right: 64px; top: 200px; }
+.title h1 { font-size: 96px; font-weight: 650; line-height: .98; letter-spacing: -.04em; }
+.title p { max-width: 900px; margin-top: 26px; font-size: 30px; line-height: 1.35; color: #b8b09f; }
+.rule { position: absolute; left: 0; right: 0; top: 0; height: 4px; background: var(--area); transform-origin: left center; }
+
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="12" data-width="1280" data-height="720" data-fps="30" style="--area: #f0ab3c; --status: #78a9d4">
+<!-- Fonte: README de gabrielhsp-sys/fedora-post-install. Cada comando e copiado das
+     secoes do guia; o titulo de cada etapa e o titulo da secao. -->
+<style>
+  .term-wrap { position: absolute; left: 64px; right: 64px; top: 150px; display: grid; grid-template-columns: 290px 1fr; gap: 28px; }
+  .check { list-style: none; display: grid; gap: 10px; padding-top: 6px; }
+  .check { gap: 16px !important; }
+  .check li { display: flex; align-items: center; gap: 14px; font-size: 27px; color: #9b9487; }
+  .check li i { width: 22px; height: 22px; flex: none; border: 2px solid #6b6459; border-radius: 4px; }
+  .term { border: 1px solid #6b6459; border-radius: 8px; background: #090b09; overflow: hidden; }
+  .term-bar { padding: 10px 16px; border-bottom: 1px solid #364037; background: #111511; font-family: "Plex Mono", monospace; font-size: 16px; color: #aeb8ae; }
+  .term-body { padding: 16px 18px; display: grid; gap: 10px; font-family: "Plex Mono", monospace; font-size: 18.5px; line-height: 1.5; color: #d4e4d5; }
+  .cmd { white-space: nowrap; overflow: hidden; }
+  .cmd::before { content: "$ "; color: #f0ab3c; }
+  .cmd.cont::before { content: "  "; }
+  .end { position: absolute; left: 64px; right: 64px; top: 210px; }
+  .end h2 { max-width: 16ch; font-size: 72px; font-weight: 650; line-height: 1.02; letter-spacing: -.04em; }
+  .end p { margin-top: 26px; max-width: 46ch; font-size: 26px; line-height: 1.4; color: #b8b09f; }
+</style>
+<div id="rule" class="rule"></div>
+<div class="head"><span class="area">Software &amp; Automação</span><span class="status">Concluído</span></div>
+
+<section id="s-title" class="clip frame" data-start="0" data-duration="2.6" data-track-index="0">
+  <div class="title">
+    <h1 id="t-h1">Fedora pós-instalação</h1>
+    <p id="t-p">Guia copia e cola em português para o Fedora 44 Workstation.</p>
+  </div>
+</section>
+
+<section id="s-term" class="clip frame" data-start="2.4" data-duration="6.6" data-track-index="1">
+  <div class="term-wrap">
+    <ol class="check" id="c-list">
+      <li id="c1"><i></i>Atualizar o sistema</li>
+      <li id="c2"><i></i>Plugins do dnf5</li>
+      <li id="c3"><i></i>Codecs</li>
+      <li id="c4"><i></i>Flatpak</li>
+      <li id="c5"><i></i>Snapshots</li>
+    </ol>
+    <div class="term" id="t-term">
+      <div class="term-bar">bash · Fedora 44 Workstation (dnf5)</div>
+      <div class="term-body">
+        <div class="cmd" id="k1">sudo dnf upgrade --refresh -y</div>
+        <div class="cmd" id="k2">sudo dnf install -y dnf5-plugins</div>
+        <div class="cmd" id="k3">sudo dnf swap -y ffmpeg-free ffmpeg --allowerasing</div>
+        <div class="cmd" id="k4">flatpak remote-add --if-not-exists flathub \</div>
+        <div class="cmd cont" id="k4b">  https://flathub.org/repo/flathub.flatpakrepo</div>
+        <div class="cmd" id="k5">sudo snapper -c root create-config /</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="s-end" class="clip frame" data-start="8.9" data-duration="3.1" data-track-index="2">
+  <div class="end">
+    <h2 id="e-h2">Em menos de 15 minutos, com como desfazer.</h2>
+    <p id="e-p">O guia termina com uma seção de como desfazer os ajustes de kernel, memória e disco.</p>
+  </div>
+</section>
+
+<div class="foot"><b>GABRIEL<span>.SYS</span></b><span>estudo de caso · fedora-post-install · CC BY 4.0</span></div>
+
+<script>
+  const tl = gsap.timeline({ paused: true });
+  const out = "expo.out";
+  tl.fromTo("#rule", { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease: out }, 0);
+  tl.fromTo("#t-h1", { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: 0.7, ease: out }, 0.15);
+  tl.fromTo("#t-p", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: out }, 0.45);
+  tl.to(["#t-h1", "#t-p"], { opacity: 0, y: -20, duration: 0.35, ease: "power2.in", stagger: 0.05 }, 2.2);
+
+  // cada comando e "digitado" (recorte em degraus) e marca a etapa da lista
+  tl.fromTo(["#c-list", "#t-term"], { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: out, stagger: 0.1 }, 2.5);
+  ["#k1", "#k2", "#k3", "#k4", "#k5"].forEach((cmd, index) => {
+    const at = 3.0 + index * 1.0;
+    const chars = document.querySelector(cmd).textContent.length;
+    tl.fromTo(cmd, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.7, ease: `steps(${chars})` }, at);
+    // o flatpak quebra em duas linhas com "\", como no terminal
+    if (cmd === "#k4") tl.fromTo("#k4b", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.45, ease: "steps(30)" }, at + 0.55);
+    tl.to(`#c${index + 1} i`, { backgroundColor: "#72c9a7", borderColor: "#72c9a7", duration: 0.2 }, at + 0.75);
+    tl.to(`#c${index + 1}`, { color: "#e9e0ca", duration: 0.2 }, at + 0.75);
+  });
+  tl.to(".term-wrap", { opacity: 0, y: -16, duration: 0.35, ease: "power2.in" }, 8.4);
+
+  tl.fromTo("#e-h2", { opacity: 0, y: 32 }, { opacity: 1, y: 0, duration: 0.7, ease: out }, 9.0);
+  tl.fromTo("#e-p", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: out }, 9.35);
+  window.__timelines["main"] = tl;
+  tl.seek(0);
+</script>
+    </div>
+  </body>
+</html>
