@@ -5,6 +5,10 @@ import { PauseIcon as Pause, PlayIcon as Play } from "@phosphor-icons/react";
 
 /* Video curto do estudo de caso. Regras (auditoria 2026-10):
    - sem som, em loop, com poster, `preload="none"`;
+   - o poster e uma <picture> embaixo do video, e nao o atributo `poster`:
+     abaixo de 820px o video nem aparece, e a <source> troca a imagem por um
+     pixel embutido, entao nada e baixado; no desktop ela e lazy e chega sem
+     esperar o JS;
    - o arquivo so e pedido quando o video chega perto da tela, e pausa ao sair;
    - botao de pausa visivel e de teclado (WCAG 2.2.2: movimento automatico com
      mais de 5 s precisa poder parar);
@@ -16,6 +20,9 @@ const subscribeMotion = (notify: () => void) => {
   query.addEventListener("change", notify);
   return () => query.removeEventListener("change", notify);
 };
+// GIF transparente de 1px: a <source> do celular aponta para ele, sem rede.
+const EMPTY_PIXEL = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+
 const reducedSnapshot = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 export function CaseVideo({ src, poster, label }: { src: string; poster: string; label: string }) {
@@ -28,15 +35,21 @@ export function CaseVideo({ src, poster, label }: { src: string; poster: string;
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || reduced) return;
+    if (!video) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // O arquivo so e pedido na primeira vez que o video chega perto da tela.
-        if (entry.isIntersecting && !video.getAttribute("src")) {
+        if (!entry.isIntersecting) {
+          setVisible(false);
+          return;
+        }
+        // O arquivo so e pedido na primeira vez que o video chega perto da
+        // tela; com reduced-motion fica so o poster.
+        if (reduced) return;
+        if (!video.getAttribute("src")) {
           video.src = src;
           setLoaded(true);
         }
-        setVisible(entry.isIntersecting);
+        setVisible(true);
       },
       { rootMargin: "200px 0px", threshold: 0.01 },
     );
@@ -55,9 +68,12 @@ export function CaseVideo({ src, poster, label }: { src: string; poster: string;
   return (
     <figure className="case-video">
       <div className="case-video-frame">
+        <picture>
+          <source media="(max-width: 820px)" srcSet={EMPTY_PIXEL} />
+          <img className="case-video-poster" src={poster} alt="" width={1280} height={720} decoding="async" loading="lazy" />
+        </picture>
         <video
           ref={videoRef}
-          poster={poster}
           muted
           loop
           playsInline
@@ -79,7 +95,7 @@ export function CaseVideo({ src, poster, label }: { src: string; poster: string;
           </button>
         )}
       </div>
-      <figcaption>Em movimento, sem som. O mesmo conteúdo está no texto abaixo.</figcaption>
+      <figcaption>Em movimento, sem som: o mesmo caminho do texto acima, em 12 segundos.</figcaption>
     </figure>
   );
 }

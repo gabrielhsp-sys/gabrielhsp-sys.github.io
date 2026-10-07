@@ -11,7 +11,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { caseFigures } from "@/components/case-figures";
-import { CaseVideo } from "@/components/case-video";
+import { CaseVideoLazy } from "@/components/case-video-lazy";
 import { CopyEmailButton } from "@/components/contact-actions";
 import { RelationList, Status } from "@/components/content-ui";
 import { getAllContent, getContentBySlug, getNextContent, getRelatedContent } from "@/lib/content";
@@ -85,16 +85,6 @@ export default async function ProjectDetail({ params }: Props) {
         </dl>
       </header>
 
-      {hasVideo && (
-        <div className="case-video-wrap">
-          <CaseVideo
-            src={`/videos/${item.id}.mp4`}
-            poster={`/videos/${item.id}.jpg`}
-            label={`${item.title}: vídeo de 12 segundos, sem som, que resume o estudo de caso`}
-          />
-        </div>
-      )}
-
       <div className="article-body" data-toc={sections.length >= 3 || undefined}>
         <article className="prose">
           <MDXRemote source={item.body} components={caseFigures} />
@@ -110,6 +100,19 @@ export default async function ProjectDetail({ params }: Props) {
           </nav>
         )}
       </div>
+
+      {/* Depois do texto, e nao no topo: no topo o video vira o maior elemento
+          da dobra e atrasa o LCP (Lighthouse desktop 99 -> 98). Aqui ele resume
+          o que a pessoa acabou de ler. */}
+      {hasVideo && (
+        <div className="case-video-wrap">
+          <CaseVideoLazy
+            src={`/videos/${item.id}.mp4`}
+            poster={`/videos/${item.id}.webp`}
+            label={`${item.title}: vídeo de 12 segundos, sem som, que resume o estudo de caso`}
+          />
+        </div>
+      )}
 
       <RelationList items={related} />
 
