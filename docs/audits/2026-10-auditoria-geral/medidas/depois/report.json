@@ -1,0 +1,725 @@
+{
+  "base": "http://localhost",
+  "when": "2026-10-07T06:23:58.760Z",
+  "pages": {
+    "404": {
+      "360": {
+        "overflow": false,
+        "scrollWidth": 360,
+        "height": 1070,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [],
+        "errors": [],
+        "axe": []
+      },
+      "768": {
+        "overflow": false,
+        "scrollWidth": 768,
+        "height": 1120,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [],
+        "errors": [],
+        "axe": null
+      },
+      "1280": {
+        "overflow": false,
+        "scrollWidth": 1280,
+        "height": 880,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [],
+        "errors": [],
+        "axe": []
+      },
+      "1920": {
+        "overflow": false,
+        "scrollWidth": 1920,
+        "height": 1081,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [],
+        "errors": [],
+        "axe": null
+      },
+      "reducedRunning": []
+    },
+    "home": {
+      "360": {
+        "overflow": false,
+        "scrollWidth": 360,
+        "height": 6548,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Eu construo software que fica de pé sozinho."
+        ],
+        "errors": [],
+        "axe": []
+      },
+      "768": {
+        "overflow": false,
+        "scrollWidth": 768,
+        "height": 5593,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Eu construo software que fica de pé sozinho."
+        ],
+        "errors": [],
+        "axe": null
+      },
+      "1280": {
+        "overflow": false,
+        "scrollWidth": 1280,
+        "height": 4584,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Eu construo software que fica de pé sozinho."
+        ],
+        "errors": [],
+        "axe": []
+      },
+      "1920": {
+        "overflow": false,
+        "scrollWidth": 1920,
+        "height": 4853,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Eu construo software que fica de pé sozinho."
+        ],
+        "errors": [],
+        "axe": null
+      },
+      "reducedRunning": []
+    },
+    "arquivo": {
+      "360": {
+        "overflow": false,
+        "scrollWidth": 360,
+        "height": 2253,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Todos os projetos."
+        ],
+        "errors": [],
+        "axe": []
+      },
+      "768": {
+        "overflow": false,
+        "scrollWidth": 768,
+        "height": 1902,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Todos os projetos."
+        ],
+        "errors": [],
+        "axe": null
+      },
+      "1280": {
+        "overflow": false,
+        "scrollWidth": 1280,
+        "height": 1569,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Todos os projetos."
+        ],
+        "errors": [],
+        "axe": []
+      },
+      "1920": {
+        "overflow": false,
+        "scrollWidth": 1920,
+        "height": 1577,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Todos os projetos."
+        ],
+        "errors": [],
+        "axe": null
+      },
+      "reducedRunning": []
+    },
+    "area-software": {
+      "360": {
+        "overflow": false,
+        "scrollWidth": 360,
+        "height": 1244,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Software & Automação"
+        ],
+        "errors": [],
+        "axe": []
+      },
+      "768": {
+        "overflow": false,
+        "scrollWidth": 768,
+        "height": 1212,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Software & Automação"
+        ],
+        "errors": [],
+        "axe": null
+      },
+      "1280": {
+        "overflow": false,
+        "scrollWidth": 1280,
+        "height": 1009,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Software & Automação"
+        ],
+        "errors": [],
+        "axe": []
+      },
+      "1920": {
+        "overflow": false,
+        "scrollWidth": 1920,
+        "height": 1173,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Software & Automação"
+        ],
+        "errors": [],
+        "axe": null
+      },
+      "reducedRunning": []
+    },
+    "area-web": {
+      "360": {
+        "overflow": false,
+        "scrollWidth": 360,
+        "height": 985,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Web & Interfaces"
+        ],
+        "errors": [],
+        "axe": []
+      },
+      "768": {
+        "overflow": false,
+        "scrollWidth": 768,
+        "height": 1212,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Web & Interfaces"
+        ],
+        "errors": [],
+        "axe": null
+      },
+      "1280": {
+        "overflow": false,
+        "scrollWidth": 1280,
+        "height": 893,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Web & Interfaces"
+        ],
+        "errors": [],
+        "axe": []
+      },
+      "1920": {
+        "overflow": false,
+        "scrollWidth": 1920,
+        "height": 1173,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Web & Interfaces"
+        ],
+        "errors": [],
+        "axe": null
+      },
+      "reducedRunning": []
+    },
+    "area-academico": {
+      "360": {
+        "overflow": false,
+        "scrollWidth": 360,
+        "height": 985,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Acadêmico"
+        ],
+        "errors": [],
+        "axe": []
+      },
+      "768": {
+        "overflow": false,
+        "scrollWidth": 768,
+        "height": 1212,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Acadêmico"
+        ],
+        "errors": [],
+        "axe": null
+      },
+      "1280": {
+        "overflow": false,
+        "scrollWidth": 1280,
+        "height": 893,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Acadêmico"
+        ],
+        "errors": [],
+        "axe": []
+      },
+      "1920": {
+        "overflow": false,
+        "scrollWidth": 1920,
+        "height": 1173,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Acadêmico"
+        ],
+        "errors": [],
+        "axe": null
+      },
+      "reducedRunning": []
+    },
+    "caso-telegram-offers": {
+      "360": {
+        "overflow": false,
+        "scrollWidth": 360,
+        "height": 6360,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Telegram Offers"
+        ],
+        "errors": [],
+        "axe": []
+      },
+      "768": {
+        "overflow": false,
+        "scrollWidth": 768,
+        "height": 4195,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Telegram Offers"
+        ],
+        "errors": [],
+        "axe": null
+      },
+      "1280": {
+        "overflow": false,
+        "scrollWidth": 1280,
+        "height": 4843,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Telegram Offers"
+        ],
+        "errors": [],
+        "axe": []
+      },
+      "1920": {
+        "overflow": false,
+        "scrollWidth": 1920,
+        "height": 4964,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Telegram Offers"
+        ],
+        "errors": [],
+        "axe": null
+      },
+      "reducedRunning": []
+    },
+    "caso-gabriel-sys-site": {
+      "360": {
+        "overflow": false,
+        "scrollWidth": 360,
+        "height": 4614,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "GABRIEL.SYS"
+        ],
+        "errors": [],
+        "axe": []
+      },
+      "768": {
+        "overflow": false,
+        "scrollWidth": 768,
+        "height": 3046,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "GABRIEL.SYS"
+        ],
+        "errors": [],
+        "axe": null
+      },
+      "1280": {
+        "overflow": false,
+        "scrollWidth": 1280,
+        "height": 3651,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "GABRIEL.SYS"
+        ],
+        "errors": [],
+        "axe": []
+      },
+      "1920": {
+        "overflow": false,
+        "scrollWidth": 1920,
+        "height": 3772,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "GABRIEL.SYS"
+        ],
+        "errors": [],
+        "axe": null
+      },
+      "reducedRunning": []
+    },
+    "caso-academic-system": {
+      "360": {
+        "overflow": false,
+        "scrollWidth": 360,
+        "height": 5210,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Academic System"
+        ],
+        "errors": [],
+        "axe": []
+      },
+      "768": {
+        "overflow": false,
+        "scrollWidth": 768,
+        "height": 3403,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Academic System"
+        ],
+        "errors": [],
+        "axe": null
+      },
+      "1280": {
+        "overflow": false,
+        "scrollWidth": 1280,
+        "height": 4149,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Academic System"
+        ],
+        "errors": [],
+        "axe": []
+      },
+      "1920": {
+        "overflow": false,
+        "scrollWidth": 1920,
+        "height": 4269,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Academic System"
+        ],
+        "errors": [],
+        "axe": null
+      },
+      "reducedRunning": []
+    },
+    "caso-fedora-post-install": {
+      "360": {
+        "overflow": false,
+        "scrollWidth": 360,
+        "height": 5123,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Fedora pós-instalação"
+        ],
+        "errors": [],
+        "axe": []
+      },
+      "768": {
+        "overflow": false,
+        "scrollWidth": 768,
+        "height": 3468,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Fedora pós-instalação"
+        ],
+        "errors": [],
+        "axe": null
+      },
+      "1280": {
+        "overflow": false,
+        "scrollWidth": 1280,
+        "height": 4080,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Fedora pós-instalação"
+        ],
+        "errors": [],
+        "axe": []
+      },
+      "1920": {
+        "overflow": false,
+        "scrollWidth": 1920,
+        "height": 4201,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Fedora pós-instalação"
+        ],
+        "errors": [],
+        "axe": null
+      },
+      "reducedRunning": []
+    },
+    "projeto-faculdade-bcc": {
+      "360": {
+        "overflow": false,
+        "scrollWidth": 360,
+        "height": 2175,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Faculdade BCC"
+        ],
+        "errors": [],
+        "axe": []
+      },
+      "768": {
+        "overflow": false,
+        "scrollWidth": 768,
+        "height": 1588,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Faculdade BCC"
+        ],
+        "errors": [],
+        "axe": null
+      },
+      "1280": {
+        "overflow": false,
+        "scrollWidth": 1280,
+        "height": 1624,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Faculdade BCC"
+        ],
+        "errors": [],
+        "axe": []
+      },
+      "1920": {
+        "overflow": false,
+        "scrollWidth": 1920,
+        "height": 1682,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Faculdade BCC"
+        ],
+        "errors": [],
+        "axe": null
+      },
+      "reducedRunning": []
+    },
+    "projeto-banco-de-dados-cpp": {
+      "360": {
+        "overflow": false,
+        "scrollWidth": 360,
+        "height": 2061,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Banco de dados em C++"
+        ],
+        "errors": [],
+        "axe": []
+      },
+      "768": {
+        "overflow": false,
+        "scrollWidth": 768,
+        "height": 1432,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Banco de dados em C++"
+        ],
+        "errors": [],
+        "axe": null
+      },
+      "1280": {
+        "overflow": false,
+        "scrollWidth": 1280,
+        "height": 1487,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Banco de dados em C++"
+        ],
+        "errors": [],
+        "axe": []
+      },
+      "1920": {
+        "overflow": false,
+        "scrollWidth": 1920,
+        "height": 1524,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Banco de dados em C++"
+        ],
+        "errors": [],
+        "axe": null
+      },
+      "reducedRunning": []
+    },
+    "sobre": {
+      "360": {
+        "overflow": false,
+        "scrollWidth": 360,
+        "height": 2593,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Gabriel Henrique."
+        ],
+        "errors": [],
+        "axe": []
+      },
+      "768": {
+        "overflow": false,
+        "scrollWidth": 768,
+        "height": 2038,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Gabriel Henrique."
+        ],
+        "errors": [],
+        "axe": null
+      },
+      "1280": {
+        "overflow": false,
+        "scrollWidth": 1280,
+        "height": 1663,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Gabriel Henrique."
+        ],
+        "errors": [],
+        "axe": []
+      },
+      "1920": {
+        "overflow": false,
+        "scrollWidth": 1920,
+        "height": 1711,
+        "smallText": 0,
+        "smallTargets": [],
+        "h1": [
+          "Gabriel Henrique."
+        ],
+        "errors": [],
+        "axe": null
+      },
+      "reducedRunning": []
+    }
+  },
+  "interactions": {
+    "clicks": {
+      "clicks": [
+        [
+          "Projetos",
+          "/archive/"
+        ],
+        [
+          "Sobre",
+          "/about/"
+        ],
+        [
+          "Início",
+          "/"
+        ],
+        [
+          "primeiro case",
+          "/projects/telegram-offers/"
+        ]
+      ],
+      "errors": []
+    },
+    "search": {
+      "focused": "Termo de busca",
+      "results": 1,
+      "empty": "Nenhum projeto combina com “pythonzzzzqqq”.",
+      "closed": true,
+      "focusReturnedTo": "Falar comigo",
+      "enterWent": "/projects/fedora-post-install/",
+      "errors": []
+    },
+    "personality": {
+      "terminal": {
+        "helpShown": true,
+        "listShown": true,
+        "opened": "/projects/academic-system/"
+      },
+      "retroOn": "on",
+      "retroOff": "off",
+      "sound": {
+        "before": "true",
+        "after": "false",
+        "stored": "0",
+        "afterReload": "false"
+      },
+      "achievements": "terminal,retro",
+      "errors": []
+    }
+  },
+  "links": {
+    "/": 200,
+    "/archive/": 200,
+    "/about/": 200,
+    "/projects/telegram-offers/": 200,
+    "/projects/gabriel-sys-site/": 200,
+    "/projects/academic-system/": 200,
+    "/projects/fedora-post-install/": 200,
+    "/area/software/": 200,
+    "/area/web/": 200,
+    "/area/academico/": 200,
+    "/projects/faculdade-bcc/": 200,
+    "/projects/banco-de-dados-cpp/": 200
+  },
+  "linkErrors": []
+}

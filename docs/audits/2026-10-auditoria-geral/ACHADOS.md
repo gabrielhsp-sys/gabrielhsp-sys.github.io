@@ -59,7 +59,7 @@ Ordem: impacto ÷ esforço. Cada linha diz onde, a evidência e o destino.
 | 10 | Acessibilidade | `.prose pre` em `telegram-offers` e `fedora-post-install` | axe `scrollable-region-focusable` (serious) a 360 px: bloco de código rolável que o teclado não alcança | M | P | **I** |
 | 11 | Acessibilidade | ícones Phosphor | 33 `<svg>` decorativos sem `aria-hidden` só na home (o rótulo já está no texto vizinho) | B | P | **I** |
 | 12 | Desempenho | `app/layout.tsx:2-4` | A fonte do LCP (h1 do hero, Bricolage) não tem `preload`; Lighthouse mobile: LCP 5,05 s, `render-blocking` 960 ms. As fontes vêm do CSS do fontsource, sem métrica de fallback | M | M | **I** |
-| 13 | Movimento | `app/globals.css:549` | A busca abre com `translateY + scale + blur` em 220 ms; ela é aberta por atalho de teclado (Ctrl/⌘ K) — regra de frequência: atalho não anima | M | P | **I** |
+| 13 | Movimento | `app/globals.css:549` | A busca abre com `translateY + scale + blur` em 220 ms; ela é aberta por atalho de teclado (Ctrl/⌘ K) — regra de frequência: atalho não anima | M | P | **I** (sem animação) |
 | 14 | Movimento | `app/globals.css:584` | Terminal entra em 340 ms (> 300 ms de UI) | B | P | **I** |
 | 15 | Movimento / coesão | `app/globals.css` | A mesma curva `cubic-bezier(.16, 1, .3, 1)` digitada em 5 lugares, sem token; `@keyframes save-written` sem uso | B | P | **I** |
 | 16 | Movimento | `components/personality.tsx`, toast | A conquista entra subindo e some de uma vez, sem saída | B | P | **I** |
@@ -97,9 +97,9 @@ Gate de `find-animation-opportunities` (frequência → propósito → duração
 | b | card de estudo de caso | feedback / affordance | ocasional | borda clareia e a seta de "ler o estudo de caso" anda 3 px, 200 ms, só com hover fino |
 | c | copiar e-mail | indicação de estado | rara | crossfade do ícone com `blur(2px)`, 180 ms |
 | d | toast de conquista | consistência espacial | rara | sai pelo mesmo caminho que entrou, 200 ms |
-| e | vídeo dos estudos de caso | evitar troca brusca | ocasional | pôster → vídeo em `opacity` 240 ms |
+| e | vídeo dos estudos de caso | evitar troca brusca | ocasional | pôster → vídeo em `opacity` 240 ms — **descartado depois**: o pôster é o último quadro e o vídeo começa no primeiro; um fade pediria uma segunda camada de imagem e não muda o que se lê |
 
-Rejeitados: abertura da busca (atalho de teclado — reduzida a opacidade, ver #13); entrada em
+Rejeitados: abertura da busca (atalho de teclado — sem animação, ver #13); entrada em
 cascata das seções da home (a animação de entrada é a única introdução, D-091); filtro do arquivo
 (lista que a pessoa está lendo — movimento atrapalha); troca de rota (navegação frequente).
 

@@ -1,0 +1,179 @@
+fundo: #0c0b0a
+
+  #e9e0ca     14.96:1   AA texto
+  #b8b09f      9.13:1   AA texto
+  #9b9487      6.54:1   AA texto
+  #f0ab3c      9.92:1   AA texto
+  #e76b91      6.47:1   AA texto
+  #72c9a7      9.95:1   AA texto
+  #a291c6      6.93:1   AA texto
+  #78a9d4      7.89:1   AA texto
+  #f07863      7.09:1   AA texto
+  #f09c8d      9.22:1   AA texto
+  #6b6459      3.36:1   AA só para texto grande / borda de componente
+
+pior caso: 3.36:1
+fundo: #151311
+
+  #e9e0ca     14.10:1   AA texto
+  #b8b09f      8.60:1   AA texto
+  #9b9487      6.16:1   AA texto
+  #f0ab3c      9.35:1   AA texto
+  #e76b91      6.10:1   AA texto
+  #72c9a7      9.38:1   AA texto
+  #a291c6      6.53:1   AA texto
+  #78a9d4      7.43:1   AA texto
+  #f07863      6.68:1   AA texto
+  #f09c8d      8.69:1   AA texto
+  #6b6459      3.17:1   AA só para texto grande / borda de componente
+
+pior caso: 3.17:1
+fundo: #201d19
+
+  #e9e0ca     12.77:1   AA texto
+  #b8b09f      7.79:1   AA texto
+  #9b9487      5.58:1   AA texto
+  #f0ab3c      8.47:1   AA texto
+  #e76b91      5.52:1   AA texto
+  #72c9a7      8.49:1   AA texto
+  #a291c6      5.92:1   AA texto
+  #78a9d4      6.73:1   AA texto
+  #f07863      6.05:1   AA texto
+  #f09c8d      7.87:1   AA texto
+  #6b6459      2.87:1   ABAIXO de 3:1 — não serve nem como borda de componente
+
+pior caso: 2.87:1
+fundo: #0a0908
+
+  #e9e0ca     15.14:1   AA texto
+  #b8b09f      9.24:1   AA texto
+  #9b9487      6.61:1   AA texto
+  #f0ab3c     10.04:1   AA texto
+  #e76b91      6.55:1   AA texto
+  #72c9a7     10.07:1   AA texto
+  #a291c6      7.01:1   AA texto
+  #78a9d4      7.98:1   AA texto
+  #f07863      7.17:1   AA texto
+  #f09c8d      9.33:1   AA texto
+  #6b6459      3.40:1   AA só para texto grande / borda de componente
+
+pior caso: 3.40:1
+--- contato (fundo marfim)
+fundo: #e9e0ca
+
+  #0c0b0a     14.96:1   AA texto
+  #494238      7.54:1   AA texto
+  #3f3931      8.68:1   AA texto
+  #4c3314      8.92:1   AA texto
+  #6f675b      4.24:1   AA só para texto grande / borda de componente
+
+pior caso: 4.24:1
+--- botao ambar
+fundo: #f0ab3c
+
+  #0c0b0a      9.92:1   AA texto
+
+pior caso: 9.92:1
+fundo: #ffc35c
+
+  #0c0b0a     12.37:1   AA texto
+
+pior caso: 12.37:1
+--- terminal
+fundo: #090b09
+
+  #abc5ad     10.65:1   AA texto
+  #d4e4d5     14.91:1   AA texto
+  #f09c8d      9.26:1   AA texto
+  #748574      5.03:1   AA texto
+  #f0ab3c      9.96:1   AA texto
+  #5f7a60      4.17:1   AA só para texto grande / borda de componente
+  #7dff7d     15.49:1   AA texto
+
+pior caso: 4.17:1
+fundo: #111511
+
+  #aeb8ae      9.01:1   AA texto
+
+pior caso: 9.01:1
+--- retro
+fundo: #030803
+
+  #c9ffc9     17.92:1   AA texto
+  #86e086     12.52:1   AA texto
+  #63b863      8.24:1   AA texto
+  #3f8a3f      4.73:1   AA texto
+  #7dff7d     15.84:1   AA texto
+
+pior caso: 4.73:1
+fundo: #7dff7d
+
+  #041004     15.24:1   AA texto
+
+pior caso: 15.24:1
+
+=== novos pares desta rodada
+--- botao de pausa do video e indice da pagina (fundo preto quente)
+fundo: #0c0b0a
+
+  #e9e0ca     14.96:1   AA texto
+  #b8b09f      9.13:1   AA texto
+  #9b9487      6.54:1   AA texto
+  #6b6459      3.36:1   AA só para texto grande / borda de componente
+
+pior caso: 3.36:1
+--- prototipo Folha
+fundo: #fbfbf8
+
+  #141414     17.77:1   AA texto
+  #4a4a46      8.59:1   AA texto
+  #6b6b65      5.17:1   AA texto
+  #8b8b84      3.31:1   AA só para texto grande / borda de componente
+  #8a5a00      5.72:1   AA texto
+  #0f7a55      5.15:1   AA texto
+  #1d5fa8      6.22:1   AA texto
+  #5b4b9a      6.94:1   AA texto
+  #b57c0c      3.46:1   AA só para texto grande / borda de componente
+  #c4486f      4.50:1   AA só para texto grande / borda de componente
+  #6f5bb5      5.28:1   AA texto
+
+pior caso: 3.31:1
+fundo: #e6f36a
+
+  #141414     15.26:1   AA texto
+
+pior caso: 15.26:1
+--- prototipo Etiqueta (chassi e painel)
+fundo: #d9d7d2
+
+  #161513     12.69:1   AA texto
+  #3d3b37      7.77:1   AA texto
+  #55524c      5.41:1   AA texto
+  #4a4741      6.44:1   AA texto
+  #7f2b00      6.50:1   AA texto
+  #08573a      6.00:1   AA texto
+  #174a85      6.20:1   AA texto
+  #4a3d7d      6.48:1   AA texto
+
+pior caso: 5.41:1
+fundo: #c9c6bf
+
+  #161513     10.70:1   AA texto
+  #3d3b37      6.55:1   AA texto
+  #55524c      4.56:1   AA texto
+  #08573a      5.06:1   AA texto
+  #7f2b00      5.48:1   AA texto
+  #174a85      5.23:1   AA texto
+  #4a3d7d      5.46:1   AA texto
+
+pior caso: 4.56:1
+fundo: #161513
+
+  #f2f0ea     16.01:1   AA texto
+
+pior caso: 16.01:1
+fundo: #ff6a13
+
+  #161513      6.36:1   AA texto
+
+pior caso: 6.36:1
