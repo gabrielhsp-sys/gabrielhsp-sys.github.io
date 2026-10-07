@@ -167,7 +167,7 @@ export default function Home() {
         <p>
           Comecei mexendo no registro do Windows para ganhar alguns quadros por segundo, quebrei o
           sistema, consertei, e descobri que gostava mais de abrir a máquina do que de usar ela.
-          Isso virou curso, virou homelab e virou este arquivo — que guarda as versões e as decisões,
+          Isso virou curso e virou este arquivo — que guarda as versões e as decisões,
           não só o resultado final.
         </p>
         <div className="about-teaser-actions">
