@@ -53,3 +53,14 @@ test("most recent means ongoing first, then the latest to finish", () => {
     ["telegram", "site", "faculdade", "fedora", "academic", "cpp"],
   );
 });
+
+// O indice do estudo de caso e o id do <h2> saem da mesma funcao; acento e
+// pontuacao nao podem gerar dois ids diferentes para o mesmo titulo.
+test("section headings become stable anchors, ignoring code blocks", async () => {
+  const { headingId, sectionHeadings } = await import("../lib/headings.ts");
+  assert.equal(headingId("O que eu fiz"), "o-que-eu-fiz");
+  assert.equal(headingId("Por que manter público"), "por-que-manter-publico");
+  assert.equal(headingId("  Stack!  "), "stack");
+  const body = "## O problema\ntexto\n```md\n## nao e titulo\n```\n## Resultado\n";
+  assert.deepEqual(sectionHeadings(body).map((h) => h.id), ["o-problema", "resultado"]);
+});

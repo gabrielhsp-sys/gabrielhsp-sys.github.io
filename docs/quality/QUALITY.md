@@ -28,6 +28,10 @@
 - [x] A página de projeto não repete área, estado, stack nem link, e termina com próximo passo.
 - [x] Home, arquivo e páginas de área desenham o projeto com a mesma linha.
 - [x] `prefers-reduced-motion` remove movimentos não essenciais.
+- [x] Hover só com ponteiro fino; no toque, nenhum estado fica preso depois do tap (auditoria 2026-10).
+- [x] Campo de texto com 16px em tela de toque: o iOS não dá zoom.
+- [x] Toda página pública tem `og:image`; cada projeto tem o próprio cartão (`verify-export.mjs`).
+- [x] O filtro do arquivo fica na URL e sobrevive ao voltar do navegador.
 
 ## Camada de personalidade
 

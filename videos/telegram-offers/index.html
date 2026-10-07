@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1280, height=720" />
+    <title>Telegram Offers — GABRIEL.SYS</title>
+    <script src="assets/gsap.min.js"></script>
+    <style>
+/* Base comum dos videos dos estudos de caso: os tokens do GABRIEL.SYS
+   (DESIGN.md) em 1280 x 720. Fontes locais, nada de rede no render. */
+@font-face { font-family: "Bricolage"; src: url("assets/bricolage-latin-wght.woff2") format("woff2"); font-weight: 200 800; font-display: block; }
+@font-face { font-family: "Plex Mono"; src: url("assets/plex-mono-400.woff2") format("woff2"); font-weight: 400; font-display: block; }
+@font-face { font-family: "Plex Mono"; src: url("assets/plex-mono-600.woff2") format("woff2"); font-weight: 600; font-display: block; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { margin: 0; overflow: hidden; background: #0c0b0a; }
+#root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #0c0b0a; color: #e9e0ca; font-family: "Bricolage", sans-serif; }
+.mono { font-family: "Plex Mono", monospace; }
+.frame { position: absolute; inset: 0; }
+/* Cabecalho fixo: area (quadrado) e estado (ponto), como no site. */
+.head { position: absolute; top: 40px; left: 64px; right: 64px; display: flex; align-items: center; gap: 28px; font-family: "Plex Mono", monospace; font-size: 17px; letter-spacing: .04em; color: #b8b09f; }
+.area { display: flex; align-items: center; gap: 10px; }
+.area::before { width: 11px; height: 11px; content: ""; background: var(--area); }
+.status { display: flex; align-items: center; gap: 9px; font-weight: 600; color: var(--status); }
+.status::before { width: 9px; height: 9px; border-radius: 50%; content: ""; background: var(--status); }
+.foot { position: absolute; left: 64px; right: 64px; bottom: 36px; display: flex; justify-content: space-between; align-items: center; padding-top: 18px; border-top: 1px solid #39342d; font-family: "Plex Mono", monospace; font-size: 16px; color: #9b9487; }
+.foot b { color: #e9e0ca; font-weight: 600; }
+.foot b span { color: #f0ab3c; }
+.title { position: absolute; left: 64px; right: 64px; top: 200px; }
+.title h1 { font-size: 96px; font-weight: 650; line-height: .98; letter-spacing: -.04em; }
+.title p { max-width: 900px; margin-top: 26px; font-size: 30px; line-height: 1.35; color: #b8b09f; }
+.rule { position: absolute; left: 0; right: 0; top: 0; height: 4px; background: var(--area); transform-origin: left center; }
+
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="12" data-width="1280" data-height="720" data-fps="30" style="--area: #f0ab3c; --status: #72c9a7">
+<!-- Fonte: README de gabrielhsp-sys/telegram-offer-monitor ("Como funciona por
+     dentro", "O que voce recebe") e o estudo de caso content/public/telegram-offers.mdx.
+     O card do fim e o exemplo do proprio README. Nenhum canal, chat ou dado real. -->
+<style>
+  .pipe { position: absolute; left: 64px; right: 64px; top: 196px; }
+  .pipe-head { font-size: 42px; font-weight: 600; letter-spacing: -.02em; }
+  .nodes { position: relative; margin-top: 54px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+  .wire { position: absolute; left: 6%; right: 6%; top: 14px; height: 2px; background: #6b6459; transform-origin: left center; }
+  .node { position: relative; padding-top: 40px; }
+  .node i { position: absolute; top: 6px; left: 0; width: 18px; height: 18px; border: 2px solid #9b9487; background: #0c0b0a; }
+  .node b { display: block; font-family: "Plex Mono", monospace; font-size: 22px; font-weight: 600; color: #e9e0ca; }
+  .node span { display: block; margin-top: 10px; font-size: 22px; line-height: 1.3; color: #b8b09f; }
+  .msg { position: absolute; top: 6px; left: 0; width: 18px; height: 18px; background: #f0ab3c; }
+  .bands { position: absolute; left: 64px; top: 520px; display: flex; gap: 14px; font-family: "Plex Mono", monospace; font-size: 19px; }
+  .band { padding: 10px 14px; border: 1px solid #6b6459; border-radius: 4px; color: #9b9487; }
+  .band.send { border-color: #72c9a7; color: #72c9a7; }
+  .bands-label { position: absolute; left: 64px; top: 482px; font-family: "Plex Mono", monospace; font-size: 17px; color: #9b9487; }
+  .result { position: absolute; left: 64px; top: 200px; width: 520px; }
+  .result h2 { font-size: 52px; font-weight: 650; line-height: 1.02; letter-spacing: -.035em; }
+  .result p { margin-top: 22px; font-size: 24px; line-height: 1.4; color: #b8b09f; }
+  .card { position: absolute; right: 64px; top: 128px; width: 520px; padding: 26px 30px; border: 1px solid #6b6459; border-radius: 8px; background: #151311; font-family: "Plex Mono", monospace; font-size: 21px; line-height: 1.75; color: #e9e0ca; box-shadow: 0 30px 90px rgb(0 0 0 / .55); }
+  .card .k { color: #9b9487; }
+  .card .hot { color: #f0ab3c; font-weight: 600; }
+  .card .cap { margin-top: 14px; padding-top: 12px; border-top: 1px solid #39342d; font-size: 16px; color: #9b9487; }
+</style>
+<div id="rule" class="rule"></div>
+<div class="head"><span class="area">Software &amp; Automação</span><span class="status">No ar</span></div>
+
+<section id="s-title" class="clip frame" data-start="0" data-duration="2.7" data-track-index="0">
+  <div class="title">
+    <h1 id="t-h1">Telegram Offers</h1>
+    <p id="t-p">Lê canais de promoção com a sua conta e avisa só quando a oferta é da sua lista de desejos.</p>
+  </div>
+</section>
+
+<section id="s-pipe" class="clip frame" data-start="2.5" data-duration="6.4" data-track-index="1">
+  <div class="pipe">
+    <p class="pipe-head" id="p-head">Cada mensagem passa por um pipeline curto.</p>
+    <div class="nodes">
+      <div class="wire" id="p-wire"></div>
+      <div class="node" id="n1"><i></i><b>canais</b><span>leitura apenas, pela sua conta</span></div>
+      <div class="node" id="n2"><i></i><b>normalize</b><span>título separado do corpo</span></div>
+      <div class="node" id="n3"><i></i><b>matcher</b><span>pontuação de 0 a 100</span></div>
+      <div class="node" id="n4"><i></i><b>parser</b><span>preço, cupom, loja, link</span></div>
+      <div class="node" id="n5"><i></i><b>dedup</b><span>4 chaves com janelas</span></div>
+      <div class="node" id="n6"><i></i><b>notifier</b><span>o bot publica no seu canal</span></div>
+      <div class="msg" id="p-msg"></div>
+    </div>
+  </div>
+  <p class="bands-label" id="b-label">matcher:</p>
+  <div class="bands" id="bands">
+    <span class="band" id="b1">abaixo de 40: descarta</span>
+    <span class="band" id="b2">40 a 69: chega marcada com dúvida</span>
+    <span class="band send" id="b3">70 ou mais: envia</span>
+  </div>
+</section>
+
+<section id="s-card" class="clip frame" data-start="8.7" data-duration="3.3" data-track-index="2">
+  <div class="result">
+    <h2 id="r-h2">Um card por oferta, no seu canal privado.</h2>
+    <p id="r-p">Repost, crosspost e enxurrada de um canal só são filtrados antes de virar notificação.</p>
+  </div>
+  <div class="card" id="r-card">
+    <div class="hot">OFERTA ENCONTRADA</div>
+    <div>AMD Ryzen 7 5700X</div>
+    <div><span class="k">preço</span> R$ 899,00 no PIX</div>
+    <div><span class="k">cupom</span> MEUDESCONTO</div>
+    <div><span class="k">loja</span> Mercado Livre</div>
+    <div class="cap">exemplo do README do projeto</div>
+  </div>
+</section>
+
+<div class="foot"><b>GABRIEL<span>.SYS</span></b><span>estudo de caso · telegram-offer-monitor · MIT</span></div>
+
+<script>
+  const tl = gsap.timeline({ paused: true });
+  const out = "expo.out";
+  tl.fromTo("#rule", { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease: out }, 0);
+  tl.fromTo("#t-h1", { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: 0.7, ease: out }, 0.15);
+  tl.fromTo("#t-p", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: out }, 0.45);
+  tl.to(["#t-h1", "#t-p"], { opacity: 0, y: -20, duration: 0.35, ease: "power2.in", stagger: 0.05 }, 2.3);
+
+  // pipeline: o fio se desenha, os nos entram, a mensagem atravessa
+  tl.fromTo("#p-head", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: out }, 2.6);
+  tl.fromTo("#p-wire", { scaleX: 0 }, { scaleX: 1, duration: 1.0, ease: "power2.inOut" }, 2.8);
+  tl.fromTo(["#n1", "#n2", "#n3", "#n4", "#n5", "#n6"], { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.45, ease: out, stagger: 0.09 }, 2.9);
+  const step = 1194 / 6 + 14 * 5 / 6; // largura de uma coluna da grade + o vao
+  tl.fromTo("#p-msg", { x: 0, opacity: 0 }, { opacity: 1, duration: 0.2 }, 3.9);
+  ["#n1", "#n2", "#n3", "#n4", "#n5", "#n6"].forEach((node, index) => {
+    const at = 4.0 + index * 0.72;
+    if (index > 0) tl.to("#p-msg", { x: (step - 2.3) * index, duration: 0.5, ease: "power2.inOut" }, at - 0.5);
+    tl.to(`${node} i`, { borderColor: "#f0ab3c", duration: 0.2 }, at);
+    tl.to(`${node} b`, { color: "#f0ab3c", duration: 0.2 }, at);
+  });
+  // no matcher, as tres faixas de decisao; a mensagem cai em "envia"
+  tl.fromTo(["#b-label", "#b1", "#b2", "#b3"], { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.4, ease: out, stagger: 0.08 }, 5.3);
+  tl.to("#b3", { backgroundColor: "rgba(114, 201, 167, 0.14)", duration: 0.3 }, 6.0);
+  tl.to(["#b1", "#b2"], { opacity: 0.45, duration: 0.3 }, 6.0);
+
+  tl.to(["#p-head", ".nodes", "#b-label", "#bands"], { opacity: 0, y: -16, duration: 0.35, ease: "power2.in" }, 8.3);
+
+  // resultado: o card do README
+  tl.fromTo("#r-h2", { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.6, ease: out }, 8.8);
+  tl.fromTo("#r-p", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: out }, 9.05);
+  tl.fromTo("#r-card", { opacity: 0, y: 40, scale: 0.97 }, { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: out }, 9.0);
+  window.__timelines["main"] = tl;
+  tl.seek(0);
+</script>
+    </div>
+  </body>
+</html>

@@ -237,3 +237,24 @@ proprietário:
 
 Ficaram, por serem identidade e não enfeite: textura de fundo, trilho,
 monograma, índice numerado das linhas do arquivo, terminal, sons e Konami.
+
+## ADR-021 — auditoria geral de 2026-10
+
+Rodada de auditoria e polimento na branch `auditoria-geral-2026-10`; achados e
+medidas em `docs/audits/2026-10-auditoria-geral/`. O que muda na arquitetura:
+
+- **Metadata por página.** O `openGraph` de uma página substituía o do layout
+  sem mesclar (o Next mescla metadata de forma rasa), e as páginas internas
+  saíam sem `og:image`. Toda página monta o cartão completo por
+  `lib/metadata.ts`, e `verify-export.mjs` falha se uma página perder o dela.
+- **Cartão por projeto.** `scripts/generate-og-image.mjs` desenha também
+  `public/og/<id>.png` para cada registro. A Bricolage do cartão vem em TTF
+  (OFL, `scripts/og-fonts/`), porque o satori não lê woff2; o arquivo só é
+  usado no build e não vai para o site.
+- **Fontes por `next/font/local`.** Os mesmos arquivos do fontsource, agora com
+  preload e fallback com métrica. Só o subconjunto latino.
+- **Filtro do arquivo na URL.** A URL é a fonte da verdade e entra por
+  `useSyncExternalStore`; o HTML estático sai sem filtro e a hidratação não
+  diverge (mesmo padrão das preferências, ADR-012).
+- **Dados estruturados** (`Person`, `WebSite`, `ProfilePage`) só com o que
+  `lib/site.ts` afirma.

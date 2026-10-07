@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import {
   ArchiveIcon as ArchiveBox,
   ArrowRightIcon as ArrowRight,
+  EnvelopeSimpleIcon as EnvelopeSimple,
   GithubLogoIcon as GithubLogo,
   HouseIcon as House,
   InfoIcon as Info,
@@ -18,6 +19,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BootSequence } from "@/components/boot-sequence";
 import { BrowserChrome } from "@/components/browser-chrome";
 import { usePersonality } from "@/components/personality";
+import { SearchShortcut } from "@/components/shortcut-key";
 import { Snake } from "@/components/snake";
 import { normalizeSearch } from "@/lib/format";
 import { areaLabel, site, statusLabel } from "@/lib/site";
@@ -40,6 +42,8 @@ const nav = [
   { href: "/", label: "Início", icon: House },
   { href: "/archive/", label: "Projetos", icon: ArchiveBox },
   { href: "/about/", label: "Sobre", icon: Info },
+  // A secao de contato fecha a home; de outra pagina, o link volta a ela.
+  { href: "/#contato", label: "Contato", icon: EnvelopeSimple },
 ];
 
 const isActive = (href: string, pathname: string) =>
@@ -104,7 +108,7 @@ function PreferenceTools() {
         aria-label={sound.on ? "Desligar som" : "Ligar som"}
         title={sound.on ? "Desligar som" : "Ligar som"}
       >
-        {sound.on ? <SpeakerHigh size={18} /> : <SpeakerSlash size={18} />}
+        {sound.on ? <SpeakerHigh size={18} aria-hidden="true" /> : <SpeakerSlash size={18} aria-hidden="true" />}
       </button>
     </>
   );
@@ -117,7 +121,7 @@ function BareChrome({ children }: { children: React.ReactNode }) {
       <div className="site-column">
         <header className="topbar">
           {/* Marca sem link: aqui ela identifica, nao navega. */}
-          <p className="wordmark">
+          <p className="wordmark" translate="no">
             GABRIEL<span>.SYS</span>
           </p>
           <div className="topbar-tools">
@@ -489,7 +493,7 @@ function SiteChrome({ updated, children }: ChromeProps) {
         achievements.unlock("kernel");
         push(
           { kind: "good", text: "GHSP-KERNEL · fósforo verde" },
-          out("uptime ......... desde 2023, quebrando e consertando"),
+          out("uptime ......... quebrando e consertando"),
           out("hobby .......... abrir a máquina antes de usar a máquina"),
           out("primeiro bug ... o registro do Windows, por vontade própria"),
           out("disponível ..... para conversar sobre vaga ou projeto"),
@@ -563,7 +567,7 @@ function SiteChrome({ updated, children }: ChromeProps) {
       <BrowserChrome />
 
       <aside className="system-rail" aria-label="Navegação principal">
-        <Link href="/" className="brand-link" aria-label="GABRIEL.SYS — início">
+        <Link href="/" className="brand-link" aria-label="GABRIEL.SYS — início" translate="no">
           <BrandMark />
         </Link>
         <nav className="rail-nav">
@@ -578,14 +582,14 @@ function SiteChrome({ updated, children }: ChromeProps) {
                 data-active={active}
                 aria-current={active ? "page" : undefined}
               >
-                <Icon size={20} weight={active ? "fill" : "regular"} />
+                <Icon size={20} weight={active ? "fill" : "regular"} aria-hidden="true" />
                 <span>{item.label}</span>
               </Link>
             );
           })}
         </nav>
         <button className="rail-action" type="button" onClick={openTerminal} aria-label="Abrir terminal">
-          <TerminalWindow size={20} />
+          <TerminalWindow size={20} aria-hidden="true" />
           <span>Terminal</span>
         </button>
       </aside>
@@ -594,7 +598,7 @@ function SiteChrome({ updated, children }: ChromeProps) {
         <header className="topbar">
           {/* No desktop a marca e o monograma do trilho; o nome por extenso so
               aparece no celular, onde o trilho nao existe. */}
-          <Link href="/" className="wordmark">
+          <Link href="/" className="wordmark" translate="no">
             GABRIEL<span>.SYS</span>
           </Link>
           <p className="system-state">
@@ -603,9 +607,9 @@ function SiteChrome({ updated, children }: ChromeProps) {
           <div className="topbar-tools">
             <PreferenceTools />
             <button className="search-trigger" type="button" onClick={() => openSearch()}>
-              <MagnifyingGlass size={18} />
+              <MagnifyingGlass size={18} aria-hidden="true" />
               <span>Procurar</span>
-              <kbd>Ctrl K</kbd>
+              <SearchShortcut />
             </button>
           </div>
         </header>
@@ -613,14 +617,14 @@ function SiteChrome({ updated, children }: ChromeProps) {
         {children}
 
         <footer className="site-footer">
-          <p>GABRIEL.SYS · escrito em Markdown, servido sem rastrear você.</p>
+          <p><span translate="no">GABRIEL.SYS</span> · escrito em Markdown, servido sem rastrear você.</p>
           <div>
             <a href="/feed.xml">RSS</a>
             <a href={site.github} target="_blank" rel="noreferrer">
-              <GithubLogo size={18} /> GitHub
+              <GithubLogo size={18} aria-hidden="true" /> GitHub
             </a>
             <button type="button" onClick={openTerminal}>
-              <TerminalWindow size={18} /> terminal <kbd>`</kbd>
+              <TerminalWindow size={18} aria-hidden="true" /> terminal <kbd>`</kbd>
             </button>
           </div>
         </footer>
@@ -638,15 +642,15 @@ function SiteChrome({ updated, children }: ChromeProps) {
               aria-label={item.label}
               aria-current={active ? "page" : undefined}
             >
-              <Icon size={22} weight={active ? "fill" : "regular"} />
+              <Icon size={22} weight={active ? "fill" : "regular"} aria-hidden="true" />
             </Link>
           );
         })}
         <button type="button" onClick={() => openSearch()} aria-label="Buscar">
-          <MagnifyingGlass size={22} />
+          <MagnifyingGlass size={22} aria-hidden="true" />
         </button>
         <button type="button" onClick={openTerminal} aria-label="Abrir terminal">
-          <TerminalWindow size={22} />
+          <TerminalWindow size={22} aria-hidden="true" />
         </button>
       </nav>
 
@@ -677,7 +681,7 @@ function SiteChrome({ updated, children }: ChromeProps) {
                 autoComplete="off"
               />
               <button type="button" onClick={closeLayers} aria-label="Fechar busca">
-                <X size={22} />
+                <X size={22} aria-hidden="true" />
               </button>
             </div>
             <div className="search-results" id="search-results" role="listbox" aria-label="Resultados" ref={resultsRef}>
@@ -735,7 +739,7 @@ function SiteChrome({ updated, children }: ChromeProps) {
           <div className="terminal-titlebar">
             <span>gabriel.sys — tty1</span>
             <button type="button" onClick={closeLayers} aria-label="Fechar terminal">
-              <X size={20} />
+              <X size={20} aria-hidden="true" />
             </button>
           </div>
           <div className="terminal-body">

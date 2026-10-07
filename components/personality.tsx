@@ -158,7 +158,7 @@ export function PersonalityProvider({ children }: { children: React.ReactNode })
   const unlockedList = useSyncExternalStore(subscribe, unlockedRaw, () => "");
   const reducedMotion = useSyncExternalStore(subscribeMotion, motionSnapshot, () => false);
 
-  const [toast, setToast] = useState<{ id: AchievementId; count: number } | null>(null);
+  const [toast, setToast] = useState<{ id: AchievementId; count: number; leaving?: boolean } | null>(null);
   const [glitching, setGlitching] = useState(false);
 
   const ctxRef = useRef<AudioContext | null>(null);
@@ -247,9 +247,12 @@ export function PersonalityProvider({ children }: { children: React.ReactNode })
     play(next ? "fanfare" : "move");
   }, [play, unlock]);
 
+  // O toast fica 5 s, depois sai em 200 ms pelo mesmo caminho por onde entrou.
   useEffect(() => {
     if (!toast) return;
-    const timer = window.setTimeout(() => setToast(null), 5200);
+    const timer = toast.leaving
+      ? window.setTimeout(() => setToast(null), 200)
+      : window.setTimeout(() => setToast((current) => current && { ...current, leaving: true }), 5000);
     return () => window.clearTimeout(timer);
   }, [toast]);
 
@@ -310,7 +313,7 @@ export function PersonalityProvider({ children }: { children: React.ReactNode })
       {retroOn && <div className="crt-overlay" aria-hidden="true" />}
       <div className="achievement-live" role="status" aria-live="polite">
         {toast && (
-          <div className="achievement-toast">
+          <div className="achievement-toast" data-leaving={toast.leaving ? "true" : undefined}>
             <span>conquista {toast.count}/{ACHIEVEMENT_TOTAL}</span>
             <strong>{ACHIEVEMENTS[toast.id]}</strong>
           </div>
