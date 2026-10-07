@@ -65,14 +65,14 @@ export default function Home() {
           </p>
           <div className="hero-actions">
             <a className="button-solid" href="#contato">
-              <Envelope size={19} /> Falar comigo
+              <Envelope size={19} aria-hidden="true" /> Falar comigo
             </a>
             <a className="button-ghost" href="#projetos">
-              Ver os projetos <ArrowRight size={17} />
+              Ver os projetos <ArrowRight size={17} aria-hidden="true" />
             </a>
           </div>
           <button className="hero-hint" type="button" data-terminal-shortcut>
-            <TerminalWindow size={17} />
+            <TerminalWindow size={17} aria-hidden="true" />
             <span>Prefere linha de comando? Aperte</span> <kbd>`</kbd>
           </button>
         </div>
@@ -97,10 +97,10 @@ export default function Home() {
                 {item.tags.slice(0, 5).map((tag) => <li key={tag}>{tag}</li>)}
               </ul>
               <div className="case-footer">
-                <Link href={item.href}>ler o estudo de caso <ArrowRight size={16} /></Link>
+                <Link href={item.href}>ler o estudo de caso <ArrowRight size={16} aria-hidden="true" /></Link>
                 {item.github ? (
                   <a href={item.github} target="_blank" rel="noreferrer">
-                    código <ArrowUpRight size={15} />
+                    código <ArrowUpRight size={15} aria-hidden="true" />
                   </a>
                 ) : (
                   <span className="case-private">repositório privado</span>
@@ -128,7 +128,7 @@ export default function Home() {
               </ul>
               {areas.includes(block.area) && (
                 <Link href={`/area/${block.area}/`}>
-                  ver projetos de {areaLabels[block.area].toLowerCase()} <ArrowRight size={16} />
+                  ver projetos de {areaLabels[block.area].toLowerCase()} <ArrowRight size={16} aria-hidden="true" />
                 </Link>
               )}
             </article>
@@ -146,7 +146,7 @@ export default function Home() {
             {others.map((item, index) => <ArchiveLine item={item} index={index} key={item.id} />)}
           </div>
           <Link className="archive-more" href="/archive/">
-            ver o arquivo completo <ArrowRight size={16} />
+            ver o arquivo completo <ArrowRight size={16} aria-hidden="true" />
           </Link>
         </section>
       )}
@@ -163,7 +163,7 @@ export default function Home() {
           não só o resultado final.
         </p>
         <div className="about-teaser-actions">
-          <Link href="/about/">a história inteira <ArrowRight size={17} /></Link>
+          <Link href="/about/">a história inteira <ArrowRight size={17} aria-hidden="true" /></Link>
         </div>
       </section>
 

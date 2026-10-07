@@ -59,10 +59,10 @@ export default function AboutPage() {
           </p>
           <div className="about-actions">
             <a href={site.github} target="_blank" rel="noreferrer">
-              <GithubLogo size={20} /> GitHub <ArrowUpRight size={17} />
+              <GithubLogo size={20} aria-hidden="true" /> GitHub <ArrowUpRight size={17} aria-hidden="true" />
             </a>
-            <a href={`mailto:${site.email}`}>mandar um e-mail <ArrowUpRight size={17} /></a>
-            <a href={site.linkedin} target="_blank" rel="noreferrer">LinkedIn <ArrowUpRight size={17} /></a>
+            <a href={`mailto:${site.email}`}>mandar um e-mail <ArrowUpRight size={17} aria-hidden="true" /></a>
+            <a href={site.linkedin} target="_blank" rel="noreferrer">LinkedIn <ArrowUpRight size={17} aria-hidden="true" /></a>
           </div>
         </article>
       </div>

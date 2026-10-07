@@ -66,7 +66,7 @@ export function ArchiveExplorer({ items }: { items: ArchiveItem[] }) {
           />
           {term && (
             <button type="button" onClick={() => setTerm("")} aria-label="Limpar termo">
-              <X size={16} />
+              <X size={16} aria-hidden="true" />
             </button>
           )}
         </div>
