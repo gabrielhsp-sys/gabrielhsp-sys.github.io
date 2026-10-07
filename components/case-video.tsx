@@ -11,7 +11,8 @@ import { PauseIcon as Pause, PlayIcon as Play } from "@phosphor-icons/react";
      esperar o JS;
    - o arquivo so e pedido quando o video chega perto da tela, e pausa ao sair;
    - botao de pausa visivel e de teclado (WCAG 2.2.2: movimento automatico com
-     mais de 5 s precisa poder parar);
+     mais de 5 s precisa poder parar), fora do quadro, na linha da legenda:
+     por cima do video ele cobria o rodape escrito no proprio video;
    - com prefers-reduced-motion o video nunca carrega: fica so o poster.
    O mesmo conteudo esta no texto da pagina; o video so o mostra em movimento. */
 
@@ -82,19 +83,19 @@ export function CaseVideo({ src, poster, label }: { src: string; poster: string;
           height={720}
           aria-label={label}
         />
-        {!reduced && (
-          <button
-            type="button"
-            className="case-video-toggle"
-            onClick={() => setPaused((value) => !value)}
-            aria-pressed={paused}
-            aria-label={paused ? "Reproduzir vídeo" : "Pausar vídeo"}
-          >
-            {paused ? <Play size={18} weight="fill" aria-hidden="true" /> : <Pause size={18} weight="fill" aria-hidden="true" />}
-            <span aria-hidden="true">{paused ? "reproduzir" : "pausar"}</span>
-          </button>
-        )}
       </div>
+      {!reduced && (
+        <button
+          type="button"
+          className="case-video-toggle"
+          onClick={() => setPaused((value) => !value)}
+          aria-pressed={paused}
+          aria-label={paused ? "Reproduzir vídeo" : "Pausar vídeo"}
+        >
+          {paused ? <Play size={18} weight="fill" aria-hidden="true" /> : <Pause size={18} weight="fill" aria-hidden="true" />}
+          <span aria-hidden="true">{paused ? "reproduzir" : "pausar"}</span>
+        </button>
+      )}
       <figcaption>Em movimento, sem som: o mesmo caminho do texto acima, em 12 segundos.</figcaption>
     </figure>
   );
