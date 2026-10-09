@@ -6,7 +6,7 @@ Ela tinha 441 quadros re-encodados sem commit; estão guardados em `git stash` c
 "home-cinematica-2026-10: quadros public/cine re-encodados…". Nada foi publicado.
 
 Tudo foi medido no export de produção (`npm run build` + `out/` servido com gzip por
-[`medidas/gz-server.mjs`](medidas/gz-server.mjs)), nunca no `next dev`. "Antes" é a `main`;
+[`scripts/serve-out.mjs`](../../../scripts/serve-out.mjs), antes `medidas/gz-server.mjs`), nunca no `next dev`. "Antes" é a `main`;
 "depois" é o `HEAD` desta branch. Os scripts estão em [`medidas/`](medidas/) e rodam de novo
 com Playwright, Lighthouse e axe executados de `movimente-se-site/node_modules` (D-129, em aberto).
 
