@@ -22,7 +22,8 @@ export default function NotFound() {
         <p className="not-found-line">
           <b>guest@gabriel.sys:~$</b> cd essa-pagina
         </p>
-        <p className="not-found-error">bash: essa-pagina: command not found</p>
+        {/* O titulo da pagina: a piada fica na tela, o fato vai junto para o leitor de tela. */}
+        <h1 className="not-found-error"><span className="sr-only">Página não encontrada. </span>bash: essa-pagina: command not found</h1>
         <p className="not-found-hint">
           A rota pode ter mudado de nome ou nunca ter sido publicada. Estes caminhos existem:
         </p>
