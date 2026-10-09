@@ -1,0 +1,116 @@
+{
+ "1440 home": {
+  "stops": 43,
+  "firstMain": 10,
+  "noRing": [],
+  "obscured": [],
+  "offscreen": [],
+  "console": []
+ },
+ "1440 sobre": {
+  "stops": 17,
+  "firstMain": 10,
+  "noRing": [],
+  "obscured": [],
+  "offscreen": [],
+  "console": [
+   {
+    "type": "warning",
+    "text": "The resource http://localhost:4313/home/bancada-1920.avif was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+   }
+  ]
+ },
+ "1440 arquivo": {
+  "stops": 29,
+  "firstMain": 10,
+  "noRing": [
+   "input \"\""
+  ],
+  "obscured": [],
+  "offscreen": [],
+  "console": [
+   {
+    "type": "warning",
+    "text": "The resource http://localhost:4313/home/bancada-1920.avif was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+   },
+   {
+    "type": "warning",
+    "text": "The resource http://localhost:4313/home/bancada-1920.avif was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+   }
+  ]
+ },
+ "1440 caso-telegram": {
+  "stops": 23,
+  "firstMain": 10,
+  "noRing": [],
+  "obscured": [],
+  "offscreen": [],
+  "console": [
+   {
+    "type": "warning",
+    "text": "The resource http://localhost:4313/home/bancada-1920.avif was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+   },
+   {
+    "type": "warning",
+    "text": "The resource http://localhost:4313/home/bancada-1920.avif was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+   }
+  ]
+ },
+ "390 home": {
+  "stops": 42,
+  "firstMain": 4,
+  "noRing": [],
+  "obscured": [],
+  "offscreen": [],
+  "console": []
+ },
+ "390 sobre": {
+  "stops": 17,
+  "firstMain": 4,
+  "noRing": [],
+  "obscured": [],
+  "offscreen": [],
+  "console": [
+   {
+    "type": "warning",
+    "text": "The resource http://localhost:4313/home/bancada-retrato-1100.avif was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+   }
+  ]
+ },
+ "390 arquivo": {
+  "stops": 29,
+  "firstMain": 4,
+  "noRing": [
+   "input \"\""
+  ],
+  "obscured": [],
+  "offscreen": [],
+  "console": [
+   {
+    "type": "warning",
+    "text": "The resource http://localhost:4313/home/bancada-retrato-1100.avif was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+   },
+   {
+    "type": "warning",
+    "text": "The resource http://localhost:4313/home/bancada-retrato-1100.avif was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+   }
+  ]
+ },
+ "390 caso-telegram": {
+  "stops": 22,
+  "firstMain": 4,
+  "noRing": [],
+  "obscured": [],
+  "offscreen": [],
+  "console": [
+   {
+    "type": "warning",
+    "text": "The resource http://localhost:4313/home/bancada-retrato-1100.avif was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+   },
+   {
+    "type": "warning",
+    "text": "The resource http://localhost:4313/home/bancada-retrato-1100.avif was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+   }
+  ]
+ }
+}

@@ -1,0 +1,162 @@
+{
+ "1440 home": {
+  "stops": 46,
+  "withCut": 0,
+  "pct": 0,
+  "titles": {},
+  "step": 100,
+  "anchors": {
+   "#projetos": {
+    "barBottom": 0,
+    "headingTop": 217,
+    "gap": 217
+   },
+   "#contato": {
+    "barBottom": 0,
+    "headingTop": 373,
+    "gap": 373
+   }
+  }
+ },
+ "1440 sobre": {
+  "stops": 9,
+  "withCut": 0,
+  "pct": 0,
+  "titles": {},
+  "step": 100
+ },
+ "1440 arquivo": {
+  "stops": 9,
+  "withCut": 0,
+  "pct": 0,
+  "titles": {},
+  "step": 100
+ },
+ "1440 caso-telegram": {
+  "stops": 42,
+  "withCut": 0,
+  "pct": 0,
+  "titles": {},
+  "step": 100
+ },
+ "1920 home": {
+  "stops": 46,
+  "withCut": 0,
+  "pct": 0,
+  "titles": {},
+  "step": 100,
+  "anchors": {
+   "#projetos": {
+    "barBottom": 0,
+    "headingTop": 228,
+    "gap": 228
+   },
+   "#contato": {
+    "barBottom": 0,
+    "headingTop": 603,
+    "gap": 603
+   }
+  }
+ },
+ "1920 sobre": {
+  "stops": 8,
+  "withCut": 0,
+  "pct": 0,
+  "titles": {},
+  "step": 100
+ },
+ "1920 arquivo": {
+  "stops": 6,
+  "withCut": 0,
+  "pct": 0,
+  "titles": {},
+  "step": 100
+ },
+ "1920 caso-telegram": {
+  "stops": 41,
+  "withCut": 0,
+  "pct": 0,
+  "titles": {},
+  "step": 100
+ },
+ "1366 home": {
+  "stops": 45,
+  "withCut": 0,
+  "pct": 0,
+  "titles": {},
+  "step": 100,
+  "anchors": {
+   "#projetos": {
+    "barBottom": 0,
+    "headingTop": 211,
+    "gap": 211
+   },
+   "#contato": {
+    "barBottom": 0,
+    "headingTop": 258,
+    "gap": 258
+   }
+  }
+ },
+ "1366 sobre": {
+  "stops": 10,
+  "withCut": 0,
+  "pct": 0,
+  "titles": {},
+  "step": 100
+ },
+ "1366 arquivo": {
+  "stops": 10,
+  "withCut": 0,
+  "pct": 0,
+  "titles": {},
+  "step": 100
+ },
+ "1366 caso-telegram": {
+  "stops": 43,
+  "withCut": 0,
+  "pct": 0,
+  "titles": {},
+  "step": 100
+ },
+ "390 home": {
+  "stops": 68,
+  "withCut": 0,
+  "pct": 0,
+  "titles": {},
+  "step": 100,
+  "anchors": {
+   "#projetos": {
+    "barBottom": 0,
+    "headingTop": 164,
+    "gap": 164
+   },
+   "#contato": {
+    "barBottom": 0,
+    "headingTop": 164,
+    "gap": 164
+   }
+  }
+ },
+ "390 sobre": {
+  "stops": 18,
+  "withCut": 0,
+  "pct": 0,
+  "titles": {},
+  "step": 100
+ },
+ "390 arquivo": {
+  "stops": 14,
+  "withCut": 0,
+  "pct": 0,
+  "titles": {},
+  "step": 100
+ },
+ "390 caso-telegram": {
+  "stops": 53,
+  "withCut": 0,
+  "pct": 0,
+  "titles": {},
+  "step": 100
+ }
+}

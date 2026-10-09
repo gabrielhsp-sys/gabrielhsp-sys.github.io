@@ -1,0 +1,81 @@
+{
+ "1440 home": {
+  "stops": 38,
+  "firstMain": 10,
+  "noRing": [],
+  "obscured": [],
+  "offscreen": [],
+  "console": []
+ },
+ "1440 sobre": {
+  "stops": 17,
+  "firstMain": 10,
+  "noRing": [],
+  "obscured": [],
+  "offscreen": [],
+  "console": []
+ },
+ "1440 arquivo": {
+  "stops": 29,
+  "firstMain": 10,
+  "noRing": [
+   "input \"\""
+  ],
+  "obscured": [],
+  "offscreen": [],
+  "console": []
+ },
+ "1440 caso-telegram": {
+  "stops": 23,
+  "firstMain": 10,
+  "noRing": [],
+  "obscured": [],
+  "offscreen": [],
+  "console": []
+ },
+ "390 home": {
+  "stops": 37,
+  "firstMain": 4,
+  "noRing": [],
+  "obscured": [
+   "a \"01Faculdade BCCRepositório da \" (dock)",
+   "a \"RSS\" (dock)",
+   "a \"GitHub\" (dock)",
+   "button \"terminal `\" (dock)"
+  ],
+  "offscreen": [],
+  "console": []
+ },
+ "390 sobre": {
+  "stops": 17,
+  "firstMain": 4,
+  "noRing": [],
+  "obscured": [],
+  "offscreen": [],
+  "console": []
+ },
+ "390 arquivo": {
+  "stops": 29,
+  "firstMain": 4,
+  "noRing": [
+   "input \"\""
+  ],
+  "obscured": [
+   "a \"01Telegram OffersServiço em Py\" (dock)",
+   "a \"04Fedora pós-instalaçãoGuia em\" (dock)"
+  ],
+  "offscreen": [],
+  "console": []
+ },
+ "390 caso-telegram": {
+  "stops": 22,
+  "firstMain": 4,
+  "noRing": [],
+  "obscured": [
+   "pre \"defaults: send_threshold: 70 r\" (dock)",
+   "a \"Falar comigo\" (dock)"
+  ],
+  "offscreen": [],
+  "console": []
+ }
+}
