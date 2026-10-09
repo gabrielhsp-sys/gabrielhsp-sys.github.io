@@ -107,7 +107,9 @@ export default function Home() {
             {/* Disponibilidade e dado, nao selo: mesmo ponto verde do estado "No ar". */}
             <p className="hero-kicker">
               <span className="hero-available"><i aria-hidden="true" /> Disponível para estágio</span>
-              <span>Gabriel Henrique · Ciência da Computação, UNIFAL-MG</span>
+              {/* O nome e a primeira pergunta de quem chega: le-se na fonte do texto,
+                  nao em rotulo de 11px. Curso e faculdade seguem como dado. */}
+              <span className="hero-name"><strong>Gabriel Henrique</strong> Ciência da Computação · UNIFAL-MG</span>
             </p>
             <h1 id="hero-heading">
               Eu construo software que <em>fica de pé sozinho.</em>
