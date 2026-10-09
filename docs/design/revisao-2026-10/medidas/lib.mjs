@@ -5,7 +5,7 @@ import { createRequire } from "node:module";
 import fs from "node:fs";
 
 const require = createRequire(import.meta.url);
-export const { chromium, firefox } = require("playwright");
+export const { chromium, firefox } = require("@playwright/test");
 export const axeSource = fs.readFileSync(require.resolve("axe-core/axe.min.js"), "utf8");
 
 export const routes = [
