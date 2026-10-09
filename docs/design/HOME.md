@@ -26,7 +26,9 @@ com o primeiro do `featuredRank` liderando a seção numa linha inteira e os
 outros lado a lado, em cards sem numeração decorativa, descobre as três frentes de trabalho, e só então encontra os projetos que não
 viraram destaque, numa lista curta que leva ao arquivo completo e filtrável em
 página própria. Nenhum projeto ganha card duas vezes (o cartão do hero é índice).
-O "Sobre" curto vem logo depois do hero, sobre a imagem; o contato fecha a página.
+O contato fecha a página. Depois do hero vem direto "Projetos em destaque", como
+na main: o "Sobre" curto sobre a imagem saiu da home (decisão do Gabriel,
+2026-10-09); a história fica em `/about/`.
 
 ## FIRST VIEWPORT
 
@@ -40,10 +42,9 @@ discreta do terminal, que é convite, não requisito, e some em tela de toque. N
 há métrica inventada nem relógio: a barra superior mostra a data da revisão mais
 recente do conteúdo.
 
-A imagem fica presa atrás do hero e do "Sobre" ("Eu gosto do que acontece por
-baixo da interface."), que vem logo depois do hero; cada frase do "Sobre" acende
-ao passar pela tela, e a imagem apaga enquanto o fim da seção sobe. O resto da
-home é a página de sempre, opaca. A versão com vídeo ficou na tag local
+A imagem fica só atrás do hero, do tamanho dele, e termina num degradê curto
+para o fundo do site, sem efeito de rolagem. O resto da home é a página de
+sempre, opaca e sem imagem. A versão com vídeo ficou na tag local
 `home-video-arquivo-2026-10`.
 
 ## BOOT

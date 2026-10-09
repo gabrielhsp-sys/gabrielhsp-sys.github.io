@@ -26,15 +26,17 @@ for (const width of widths) {
   await page.waitForTimeout(1200);
   // Pontos de rolagem onde o texto esta sobre a imagem.
   const stops = await page.evaluate(() => {
-    const top = (s) => document.querySelector(s).getBoundingClientRect().top + scrollY;
-    return [["hero", 0], ["sobre", top(".bench-about-frame") - innerHeight * 0.3], ["sobre-fim", top(".bench-about-frame") - innerHeight * 0.05]];
+    // Desde 2026-10-09 a bancada fica so atras do hero (o "Sobre" saiu da
+    // home): o topo e a base do hero, onde o degrade de saida comeca.
+    const hero = document.querySelector(".hero").getBoundingClientRect();
+    return [["hero", 0], ["hero-base", hero.bottom + scrollY - innerHeight]];
   });
   for (const [stop, y] of stops) {
     await page.evaluate((y) => scrollTo({ top: y, behavior: "instant" }), Math.max(0, Math.round(y)));
     await page.waitForTimeout(600);
     // Elementos de texto visiveis inteiros na tela, dentro da bancada.
     const items = await page.evaluate(() => {
-      const sel = ".hero-kicker span, .hero-name strong, .hero h1, .hero-lede, .button-ghost, .hero-hint span, .bench-about h2, .bench-about-lines p, .bench-about-more";
+      const sel = ".hero-kicker span, .hero-name strong, .hero h1, .hero-lede, .button-ghost, .hero-hint span";
       return [...document.querySelectorAll(sel)].map((el, i) => {
         el.dataset.cid = String(i);
         const r = el.getBoundingClientRect();

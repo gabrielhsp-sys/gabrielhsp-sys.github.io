@@ -185,7 +185,6 @@ Uma curva só, `--ease-out: cubic-bezier(.16, 1, .3, 1)`, para tudo que entra ou
 - **Hover** só existe com ponteiro fino (`@media (hover: hover) and (pointer: fine)`): no toque, o tap não deixa estado preso.
 - **Atalho de teclado não ganha movimento:** a busca (Ctrl/⌘ K) abre sem animação.
 - **UI abaixo de 300ms:** terminal 240ms, toast 280ms na entrada e 200ms na saída, pelo mesmo caminho; a barra do topo recolhe e volta em 280ms, só com transform.
-- **Ligado à rolagem:** na home, cada frase do "Sobre" começa apagada (opacidade .2, ~1,6:1 contra o fundo; acesa, ~15:1) e .6em abaixo, e acende e sobe enquanto o topo dela vai de 85% a 50% da altura da tela (`animation-range: cover 15vh cover 50vh`); rolando de volta, apaga. A imagem da bancada apaga com o fim da seção. Onde há `animation-timeline`, é CSS no compositor; onde não há (Firefox até a 157), `components/bench-scroll.tsx` faz a mesma conta em JS, sem biblioteca e sem layout por quadro. `/?debug=reveal` mostra o caminho ativo e o progresso de cada frase ao vivo. É a única exceção à curva única: posição de rolagem não é tempo. As frases usam `--ease-reveal` (`cubic-bezier(1/3, .2, 2/3, 1)`): respondem assim que entram na faixa e pousam paradas, sem quina; a imagem usa `--ease-scroll` (`cubic-bezier(1/3, 0, 2/3, 1)`, o smoothstep).
 - `prefers-reduced-motion` zera transições e animações; `prefers-reduced-transparency` tira o blur das camadas.
 
 ## Elevation & Depth
@@ -262,7 +261,7 @@ A personalidade é uma camada por cima, nunca a estrutura. Animação de entrada
 
 ### Bancada (home)
 
-A imagem `assets-src/imagens/hero-bancada.png` (AVIF + WebP por `npm run imagens`, recorte próprio em retrato) fica presa atrás do hero e do "Sobre", dentro de um trilho com a altura das duas seções, e nunca passa delas. É ambientação: alt vazio, todo texto em HTML por cima. Cada seção escurece só o lado onde há texto, até o limite medido do AA (`docs/design/home-imagem/`); por isso o nome no hero usa marfim suave. No modo retrô, a imagem ganha o mesmo filtro verde.
+A imagem `assets-src/imagens/hero-bancada.png` (AVIF + WebP por `npm run imagens`, recorte próprio em retrato) fica só atrás do hero, numa camada da altura dele (`.hero-image`, `position: absolute`), e acaba num degradê curto para o preto quente, da altura do respiro de baixo do hero (`--hero-fade`: 48–96 px; 64 px no celular). Nenhuma seção abaixo tem imagem, e não há efeito de rolagem. É ambientação: alt vazio, todo texto em HTML por cima. O véu escurece só o lado do texto, até o limite medido do AA (`docs/design/revisao-2026-10/medidas/contraste-hero.txt`); por isso o nome no hero usa marfim suave. No modo retrô, a imagem ganha o mesmo filtro verde.
 
 ### Search Layer
 

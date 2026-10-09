@@ -25,10 +25,6 @@
   --type-page-title: clamp(2.5rem, 4.5vw, 3.5rem); /* page-title — titulo de pagina interna */
   /* Movimento: uma curva de saida forte para tudo que entra ou responde. */
   --ease-out: cubic-bezier(.16, 1, .3, 1);
-  /* So para o movimento ligado a rolagem. A imagem: smoothstep, parado nas
-     duas pontas. As frases: saem andando e pousam paradas (lib/scroll-reveal.ts). */
-  --ease-scroll: cubic-bezier(.333, 0, .667, 1);
-  --ease-reveal: cubic-bezier(.333, .2, .667, 1);
   --press: 140ms;
 }
 
@@ -733,40 +729,41 @@ html[data-topbar="hidden"] .filter-bar { top: 0; }
 /* ═══════════════════════════════════════════════════════════════════════════
    HOME — hero
    ═══════════════════════════════════════════════════════════════════════════ */
-/* Bancada: a imagem (scripts/imagens.mjs) fica presa atras do hero e do
-   "Sobre" e sai junto com o fim do "Sobre". Ela e ambientacao: o texto esta
-   todo em HTML, por cima, e cada secao escurece so o lado onde ha texto
-   (contraste medido em docs/design/home-imagem/contraste.txt). */
-.bench {
-  position: relative;
-  isolation: isolate;
-  /* Margem lateral da Bancada, com teto de 1440px de conteudo nas telas largas. */
-  --bench-inline: max(clamp(28px, 6vw, 104px), calc((100% - 1440px) / 2));
+/* Bancada: a imagem (scripts/imagens.mjs) fica so atras do hero, do tamanho
+   dele, e acaba num degrade curto para o fundo do site (decisao do Gabriel,
+   2026-10-09): nenhuma secao abaixo tem imagem. Ela e ambientacao: o texto
+   esta todo em HTML, por cima, e o veu escurece so o lado onde ha texto
+   (contraste medido em docs/design/revisao-2026-10/medidas/contraste.mjs). */
+.hero-image { position: absolute; inset: 0; z-index: -1; overflow: hidden; background: var(--ink); pointer-events: none; }
+.hero-image picture, .hero-image img { display: block; width: 100%; height: 100%; }
+.hero-image img { object-fit: cover; object-position: 50% 50%; }
+html[data-retro="on"] .hero-image img { filter: grayscale(1) sepia(.6) hue-rotate(68deg) saturate(1.8) brightness(.8); }
+/* Por cima da imagem: o degrade de saida na base (da altura do respiro de
+   baixo do hero, para nunca passar por cima do texto) e o veu do lado do
+   texto. A luminaria e o notebook continuam a vista. */
+.hero-image::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background:
+    linear-gradient(180deg, transparent calc(100% - var(--hero-fade)), var(--ink)),
+    linear-gradient(90deg, rgb(12 11 10 / .9) 0%, rgb(12 11 10 / .84) 38%, rgb(12 11 10 / .45) 58%, rgb(12 11 10 / .1) 78%, rgb(12 11 10 / .2) 100%);
 }
-.bench-track { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
-.bench-stage {
-  position: sticky;
-  top: 0;
-  /* A maior altura da janela: quando a barra do navegador do celular some ou
-     volta, a imagem nao muda de tamanho no meio da rolagem. */
-  height: 100lvh;
-  overflow: hidden;
-  background: var(--ink);
-}
-.bench-stage picture, .bench-stage img { display: block; width: 100%; height: 100%; }
-.bench-stage img { object-fit: cover; object-position: 50% 50%; }
-html[data-retro="on"] .bench-stage img { filter: grayscale(1) sepia(.6) hue-rotate(68deg) saturate(1.8) brightness(.8); }
 
 .hero {
   position: relative;
+  isolation: isolate;
+  /* Margem lateral, com teto de 1440px de conteudo nas telas largas. */
+  --hero-inline: max(clamp(28px, 6vw, 104px), calc((100% - 1440px) / 2));
+  --hero-fade: clamp(48px, 6vw, 96px);
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(320px, .85fr);
   align-items: center;
   gap: clamp(40px, 6vw, 96px);
   min-height: calc(100svh - 72px);
-  padding: clamp(48px, 6vw, 96px) var(--bench-inline);
-  /* Escurece so o lado do texto: a luminaria e o notebook continuam a vista. */
-  background: linear-gradient(90deg, rgb(12 11 10 / .9) 0%, rgb(12 11 10 / .84) 38%, rgb(12 11 10 / .45) 58%, rgb(12 11 10 / .1) 78%, rgb(12 11 10 / .2) 100%);
+  padding: var(--hero-fade) var(--hero-inline);
+  /* A mesma linha da main entre o hero e "Projetos em destaque". */
+  border-bottom: 1px solid var(--line-soft);
 }
 .hero-copy { max-width: 62rem; }
 /* Sobre a imagem, o nome usa o marfim suave: o quieto nao passa de 4,5:1 em
@@ -899,63 +896,6 @@ html[data-retro="on"] .bench-stage img { filter: grayscale(1) sepia(.6) hue-rota
 .archive-more { min-height: 44px; margin: 8px 0 clamp(56px, 7vw, 96px); display: inline-flex; align-items: center; gap: 7px; color: var(--amber); font-family: var(--mono); font-size: var(--text-min); text-decoration: none; }
 @media (hover: hover) and (pointer: fine) { .archive-more:hover { text-decoration: underline; } }
 
-/* Sobre: a bancada aparece inteira; a historia numa coluna estreita a esquerda. */
-.bench-about {
-  position: relative;
-  /* Folga em cima: entre o hero e o texto, a bancada fica sozinha na tela. */
-  padding: 34svh var(--bench-inline) 30svh;
-  background: linear-gradient(90deg, rgb(12 11 10 / .74) 0%, rgb(12 11 10 / .64) calc(var(--bench-inline) + min(26rem, 34vw)), rgb(12 11 10 / .2) calc(var(--bench-inline) + min(26rem, 34vw) + 18vw), transparent 78%);
-}
-/* O fim do "Sobre" afunda no preto quente: a imagem nunca termina numa aresta. */
-.bench-about::after {
-  position: absolute;
-  inset: auto 0 0;
-  height: 40svh;
-  content: "";
-  background: linear-gradient(180deg, transparent, var(--ink));
-  pointer-events: none;
-}
-.bench-about-frame { position: relative; z-index: 1; max-width: min(26rem, 34vw); display: flex; flex-direction: column; gap: 22px; }
-.bench-about h2 { margin: 0; font-size: clamp(1.6rem, 2.6vw, 2.6rem); font-weight: 600; line-height: 1.04; letter-spacing: -.03em; text-wrap: balance; }
-.bench-about-lines p { margin: 0 0 .55em; color: var(--paper); font-size: clamp(1.15rem, 1.7vw, 1.6rem); line-height: 1.3; letter-spacing: -.01em; text-wrap: pretty; }
-.bench-about-lines p:last-child { margin-bottom: 0; }
-.bench-about-more { min-height: 44px; align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; color: var(--amber); font-family: var(--mono); font-size: var(--text-min); text-decoration: none; }
-@media (hover: hover) and (pointer: fine) { .bench-about-more:hover { text-decoration: underline; } }
-
-/* Movimento ligado a rolagem: cada frase comeca apagada e um pouco abaixo,
-   acende e sobe enquanto o topo dela vai de 85% a 50% da altura da tela, e
-   apaga de novo se a rolagem volta; a imagem apaga enquanto o fim do "Sobre"
-   sobe. Onde ha animation-timeline, roda no compositor, sem JS. Onde nao ha
-   (Firefox ate a 157), components/bench-scroll.tsx faz a mesma conta e marca a
-   bancada com data-scroll-fallback. Com movimento reduzido, nenhum dos dois
-   liga e tudo fica parado e aceso. Conferir ao vivo: /?debug=reveal.
-   Faixa: "cover 15vh" e o topo da frase a 85% da tela (15vh depois de entrar
-   pela base); "cover 50vh", a 50%. A faixa antiga (entry 0% a cover 38%)
-   acabava com a frase a ~60%, e na metade de baixo ela ja estava acesa.
-   Curvas: a imagem usa --ease-scroll (smoothstep); as frases, --ease-reveal,
-   que responde logo ao entrar na faixa e pousa sem quina (0,6t + 1,8t² - 1,4t³
-   no fallback).
-   Apagada a .2: no fundo do "Sobre" ainda se le a frase (a .16 o texto sumia). */
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .bench { view-timeline: --bench block; }
-    .bench-stage { animation: bench-out var(--ease-scroll) both; animation-timeline: --bench; animation-range: exit 0% exit 70%; }
-    .bench-about-lines p { animation: line-in var(--ease-reveal) both; animation-timeline: view(); animation-range: cover 15vh cover 50vh; }
-  }
-}
-@keyframes bench-out { to { opacity: 0; } }
-@keyframes line-in { from { opacity: .2; transform: translateY(.6em); } to { opacity: 1; transform: none; } }
-.bench[data-scroll-fallback] .bench-about-lines p {
-  opacity: calc(.2 + .8 * var(--reveal, 1));
-  transform: translateY(calc(.6em * (1 - var(--reveal, 1))));
-}
-.bench[data-scroll-fallback] .bench-stage { opacity: calc(1 - var(--fade, 0)); }
-/* Diagnostico, so com ?debug=reveal (components/reveal-debug.tsx): o caminho
-   ativo, o progresso de cada frase e as duas bordas da faixa. */
-.reveal-debug { position: fixed; inset: 0; z-index: 9999; pointer-events: none; }
-.reveal-debug i { position: absolute; left: 0; right: 0; border-top: 1px dashed var(--amber); }
-.reveal-debug pre { position: absolute; top: calc(96px + env(safe-area-inset-top, 0px)); right: 12px; max-width: calc(100% - 24px); margin: 0; padding: 10px 12px; border: 1px solid var(--line); border-radius: 5px; background: rgb(12 11 10 / .92); color: var(--paper); font-family: var(--mono); font-size: 12px; line-height: 1.5; white-space: pre-wrap; }
-
 /* O painel e um indice dos estudos de caso, nao uma vitrine. */
 .hero-panel {
   border: 1px solid var(--line);
@@ -981,14 +921,8 @@ html[data-retro="on"] .bench-stage img { filter: grayscale(1) sepia(.6) hue-rota
 @media (hover: hover) and (pointer: fine) { .hero-panel-foot:hover { color: var(--paper); text-decoration: underline; } }
 @media (prefers-reduced-transparency: reduce) { .hero-panel { background: var(--ink-2); } }
 @media (max-width: 1000px) {
-  .hero { grid-template-columns: 1fr; align-items: start; background: linear-gradient(180deg, rgb(12 11 10 / .62) 0%, rgb(12 11 10 / .7) 60%, rgb(12 11 10 / .5) 100%); }
-}
-/* Em pe (ou estreito), a historia ocupa a largura: a bancada aparece sozinha
-   no topo da secao e o texto sobe sobre um veu que acompanha o proprio bloco. */
-@media (max-width: 1000px), (orientation: portrait) {
-  .bench-about { padding: 64svh 24px 30svh; background: none; }
-  .bench-about-frame { max-width: 36rem; }
-  .bench-about-frame::before { position: absolute; inset: -14svh -24px -8svh; z-index: -1; content: ""; background: linear-gradient(180deg, transparent, rgb(12 11 10 / .8) 14svh); }
+  .hero { grid-template-columns: 1fr; align-items: start; }
+  .hero-image::after { background: linear-gradient(180deg, transparent calc(100% - var(--hero-fade)), var(--ink)), linear-gradient(180deg, rgb(12 11 10 / .62) 0%, rgb(12 11 10 / .7) 60%, rgb(12 11 10 / .5) 100%); }
 }
 /* No celular (em pe ate 600px, ou deitado) o indice sai do hero: os mesmos
    estudos de caso vem logo abaixo, em "Projetos em destaque", e o hero fica so
@@ -1296,7 +1230,7 @@ html[data-glitch="on"] .site-frame { animation: retro-glitch .9s steps(2) 1; }
   .topbar { grid-template-columns: 1fr auto; }
   .topbar-tools { gap: 8px; }
   .retro-exit { font-size: var(--text-min); padding: 0 8px; }
-  .hero { min-height: calc(100svh - 62px); padding: 48px 24px 64px; gap: 40px; }
+  .hero { --hero-fade: 64px; min-height: calc(100svh - 62px); padding: 48px 24px var(--hero-fade); gap: 40px; }
   .hero h1 { font-size: clamp(2.5rem, 10.5vw, 4.4rem); }
   .featured-section, .craft-section, .archive-section { padding: 76px 24px; }
   .case-card { padding: 26px 22px 22px; }
