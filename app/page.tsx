@@ -7,7 +7,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import { ArchiveLine } from "@/components/archive-line";
 import { BenchScroll } from "@/components/bench-scroll";
-import { ContactSection } from "@/components/contact-actions";
+import { ContactSection, HeroEmail } from "@/components/contact-actions";
 import { Status } from "@/components/content-ui";
 import { StructuredData } from "@/components/structured-data";
 import { getAllContent, getFeaturedContent, getPublicAreas, toArchiveItem } from "@/lib/content";
@@ -127,6 +127,7 @@ export default function Home() {
                 Ver os projetos <ArrowRight size={17} aria-hidden="true" />
               </a>
             </div>
+            <HeroEmail />
             <button className="hero-hint" type="button" data-terminal-shortcut>
               <TerminalWindow size={17} aria-hidden="true" />
               <span>Prefere linha de comando? Aperte</span> <kbd>`</kbd>

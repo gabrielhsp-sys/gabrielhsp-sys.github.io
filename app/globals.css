@@ -797,6 +797,12 @@ html[data-retro="on"] .bench-stage img { filter: grayscale(1) sepia(.6) hue-rota
 @media (hover: hover) and (pointer: fine) { .button-solid:hover { background: #ffc35c; border-color: #ffc35c; } }
 .button-ghost { border-color: var(--line); background: transparent; color: var(--paper); }
 @media (hover: hover) and (pointer: fine) { .button-ghost:hover { border-color: var(--amber); color: var(--amber); } }
+/* O e-mail a vista, logo abaixo de "Falar comigo": um clique seleciona o
+   endereco inteiro, e o botao copia (ou seleciona, sem area de transferencia). */
+.hero-email { margin: 18px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; }
+.hero-email-address { color: var(--paper); font-family: var(--mono); font-size: 15px; overflow-wrap: anywhere; user-select: all; }
+.hero-email .copy-email { border-color: var(--line); color: var(--paper-dim); }
+@media (hover: hover) and (pointer: fine) { .hero-email .copy-email:hover { border-color: var(--paper-faint); color: var(--paper); } }
 .hero-hint {
   min-height: 44px;
   margin-top: 26px;
