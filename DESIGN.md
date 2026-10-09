@@ -21,7 +21,7 @@ colors:
 typography:
   display:
     fontFamily: "Bricolage Grotesque Variable, sans-serif"
-    fontSize: "clamp(3rem, 6.7vw, 6rem)"
+    fontSize: "clamp(2.6rem, 5.4vw, 5.2rem)"
     fontWeight: 650
     lineHeight: 0.96
     letterSpacing: "-0.04em"
@@ -162,7 +162,7 @@ As duas fontes entram por `next/font/local` em `app/fonts.ts`, a partir dos arqu
 
 ### Hierarchy
 
-- **Display** (650, clamp(3rem, 6.7vw, 6rem), 0.96): tese de uma superfície. Só a home usa. O itálico existe só aqui, na segunda metade da tese; a Bricolage não tem itálico e o navegador sintetiza a inclinação, então ele não se repete em outros títulos.
+- **Display** (650, clamp(2.6rem, 5.4vw, 5.2rem), 0.98): tese de uma superfície. Só a home usa; divide a primeira tela com o cartão "Estudos de caso", por isso é menor que a coluna única de antes. Na linha de cima, o nome sai na fonte do texto (600, 1.125rem) e não em rótulo: é a primeira pergunta de quem chega. O itálico existe só aqui, na segunda metade da tese; a Bricolage não tem itálico e o navegador sintetiza a inclinação, então ele não se repete em outros títulos.
 - **Page title** (400, clamp(2.5rem, 4.5vw, 3.5rem), 1): título das páginas internas — arquivo, área, sobre e projeto. Em CSS, `var(--type-page-title)`. O título interno não ocupa o primeiro viewport inteiro: o conteúdo começa logo abaixo.
 - **Headline** (600, clamp(2rem, 4vw, 4.6rem), 1): títulos de seção e projetos em destaque.
 - **Title** (600, clamp(1.35rem, 2.2vw, 2rem), 1.15): registros do índice.
@@ -173,9 +173,9 @@ As duas fontes entram por `next/font/local` em `app/fonts.ts`, a partir dos arqu
 
 ## Layout
 
-Desktop usa um trilho fixo de 88px e uma coluna de conteúdo fluida. A barra superior mede 72px e carrega só o estado (a data da revisão mais recente do conteúdo), o som e a busca; seções respiram entre 72px e 140px, com margens laterais responsivas que chegam a 104px. O conteúdo editorial prefere linhas e listas a contêineres fechados.
+Desktop usa um trilho fixo de 88px e uma coluna de conteúdo fluida. A barra superior mede 72px e carrega só o estado (a data da revisão mais recente do conteúdo), o som e a busca; ela recolhe quando a pessoa rola para baixo e volta no primeiro gesto para cima, no topo e com foco dentro dela, para nunca cortar um título ao meio (os filtros fixos do arquivo sobem junto); seções respiram entre 72px e 140px, com margens laterais responsivas que chegam a 104px. O conteúdo editorial prefere linhas e listas a contêineres fechados.
 
-A 1180px, os estudos de caso e as frentes de trabalho viram uma coluna. A 820px, o trilho lateral vira dock inferior, a barra superior cai para 62px e grades de artigo e identidade viram uma coluna. A 520px, controles deixam metadados secundários cederem espaço; alvos interativos permanecem com 44px.
+A 1180px, os estudos de caso e as frentes de trabalho viram uma coluna. A 820px, o trilho lateral vira dock inferior, a barra superior cai para 62px e grades de artigo e identidade viram uma coluna. A 520px, controles deixam metadados secundários cederem espaço; os grupos de filtro do arquivo viram uma linha que rola de lado; alvos interativos permanecem com 44px. No celular, `scroll-padding-bottom` mantém foco e âncoras acima do dock.
 
 ## Motion
 
@@ -184,7 +184,8 @@ Uma curva só, `--ease-out: cubic-bezier(.16, 1, .3, 1)`, para tudo que entra ou
 - **Aperto:** botão e controle respondem com `scale(.97)` no `:active`; no trilho e no dock quem encolhe é o ícone (`.94`).
 - **Hover** só existe com ponteiro fino (`@media (hover: hover) and (pointer: fine)`): no toque, o tap não deixa estado preso.
 - **Atalho de teclado não ganha movimento:** a busca (Ctrl/⌘ K) abre sem animação.
-- **UI abaixo de 300ms:** terminal 240ms, toast 280ms na entrada e 200ms na saída, pelo mesmo caminho.
+- **UI abaixo de 300ms:** terminal 240ms, toast 280ms na entrada e 200ms na saída, pelo mesmo caminho; a barra do topo recolhe e volta em 280ms, só com transform.
+- **Ligado à rolagem, sem JS:** na home, as frases do "Sobre" acendem ao passar pela tela e a imagem da bancada apaga com o fim da seção (`animation-timeline`, no compositor). Sem suporte, fica tudo parado e legível.
 - `prefers-reduced-motion` zera transições e animações; `prefers-reduced-transparency` tira o blur das camadas.
 
 ## Elevation & Depth
@@ -257,6 +258,10 @@ A mesma linha serve a home, o arquivo e as páginas de área: índice, título e
 ### Personality Layer
 
 A personalidade é uma camada por cima, nunca a estrutura. Animação de entrada (uma vez por sessão, ~1,9 s, pulável), sons sintetizados em Web Audio com botão visível, terminal opcional na crase, modo retrô pelo Konami e conquistas discretas. Regras que não se quebram: nada essencial depende dela, tudo alcançável por teclado, e `prefers-reduced-motion` remove flicker e glitch — o CRT fica estático e a animação de entrada não roda.
+
+### Bancada (home)
+
+A imagem `assets-src/imagens/hero-bancada.png` (AVIF + WebP por `npm run imagens`, recorte próprio em retrato) fica presa atrás do hero e do "Sobre", dentro de um trilho com a altura das duas seções, e nunca passa delas. É ambientação: alt vazio, todo texto em HTML por cima. Cada seção escurece só o lado onde há texto, até o limite medido do AA (`docs/design/home-imagem/`); por isso o nome no hero usa marfim suave. No modo retrô, a imagem ganha o mesmo filtro verde.
 
 ### Search Layer
 
