@@ -983,6 +983,11 @@ html[data-retro="on"] .bench-stage img { filter: grayscale(1) sepia(.6) hue-rota
   .bench-about-frame { max-width: 36rem; }
   .bench-about-frame::before { position: absolute; inset: -14svh -24px -8svh; z-index: -1; content: ""; background: linear-gradient(180deg, transparent, rgb(12 11 10 / .8) 14svh); }
 }
+/* No celular o indice sai do hero: os mesmos estudos de caso vem logo abaixo,
+   em "Projetos em destaque", e o hero fica so com a tese e o contato. */
+@media (max-width: 820px) {
+  .hero-panel { display: none; }
+}
 @media (max-width: 520px) {
   .hero-panel li a { padding: 14px 16px; }
   .hero-panel li a strong { grid-column: 1 / -1; }

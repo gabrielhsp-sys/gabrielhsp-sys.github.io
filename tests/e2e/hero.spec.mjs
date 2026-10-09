@@ -36,3 +36,12 @@ test.describe("with clipboard access", () => {
   });
 });
 
+test.describe("on a phone", () => {
+  test.use({ viewport: { width: 390, height: 844 } });
+  test("the case study index leaves the hero", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator(".hero-panel")).toBeHidden();
+    await expect(page.locator(".hero-email-address")).toBeVisible();
+    await expect(page.locator("#projetos .case-card").first()).toBeAttached();
+  });
+});
