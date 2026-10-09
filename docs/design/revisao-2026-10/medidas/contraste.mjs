@@ -34,7 +34,7 @@ for (const width of widths) {
     await page.waitForTimeout(600);
     // Elementos de texto visiveis inteiros na tela, dentro da bancada.
     const items = await page.evaluate(() => {
-      const sel = ".hero-kicker span, .hero h1, .hero-lede, .button-ghost, .hero-hint span, .bench-about h2, .bench-about-lines p, .bench-about-more";
+      const sel = ".hero-kicker span, .hero-name strong, .hero h1, .hero-lede, .button-ghost, .hero-hint span, .bench-about h2, .bench-about-lines p, .bench-about-more";
       return [...document.querySelectorAll(sel)].map((el, i) => {
         el.dataset.cid = String(i);
         const r = el.getBoundingClientRect();

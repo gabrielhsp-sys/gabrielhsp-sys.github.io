@@ -1,0 +1,75 @@
+{
+ "1440 home": {
+  "stops": 46,
+  "withCut": 7,
+  "pct": 15,
+  "titles": {
+   "Eu construo software que fica de pé sozi": 2,
+   "Eu gosto do que acontece por baixo da in": 1,
+   "Projetos em destaque": 1,
+   "Fedora pós-instalação": 1,
+   "O que eu faço": 1,
+   "Outros projetos": 1
+  },
+  "step": 100,
+  "anchors": {
+   "#projetos": {
+    "barBottom": 72,
+    "headingTop": 217,
+    "gap": 145
+   },
+   "#contato": {
+    "barBottom": 72,
+    "headingTop": 373,
+    "gap": 301
+   }
+  }
+ },
+ "1366 home": {
+  "stops": 45,
+  "withCut": 6,
+  "pct": 13,
+  "titles": {
+   "Eu construo software que fica de pé sozi": 2,
+   "Eu gosto do que acontece por baixo da in": 1,
+   "Projetos em destaque": 1,
+   "Software & Automação": 1,
+   "Outros projetos": 1
+  },
+  "step": 100,
+  "anchors": {
+   "#projetos": {
+    "barBottom": 72,
+    "headingTop": 210,
+    "gap": 138
+   },
+   "#contato": {
+    "barBottom": 72,
+    "headingTop": 258,
+    "gap": 186
+   }
+  }
+ },
+ "390 home": {
+  "stops": 68,
+  "withCut": 2,
+  "pct": 3,
+  "titles": {
+   "Eu construo software que fica de pé sozi": 1,
+   "Outros projetos": 1
+  },
+  "step": 100,
+  "anchors": {
+   "#projetos": {
+    "barBottom": 62,
+    "headingTop": 164,
+    "gap": 102
+   },
+   "#contato": {
+    "barBottom": 62,
+    "headingTop": 164,
+    "gap": 102
+   }
+  }
+ }
+}

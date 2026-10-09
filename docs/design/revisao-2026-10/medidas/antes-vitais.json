@@ -1,0 +1,162 @@
+{
+ "1440 home": {
+  "fcp": 172,
+  "lcp": 172,
+  "lcpEl": "h1.",
+  "cls": 0,
+  "tbt": 0,
+  "maxLong": 111,
+  "inp": 56,
+  "p95frame": 17,
+  "over34": 0,
+  "scrollLong": 0,
+  "kb": {
+   "html": 62.2,
+   "js": 165.7,
+   "css": 12,
+   "font": 70,
+   "image": 0.5,
+   "other": 55.3
+  }
+ },
+ "1440 sobre": {
+  "fcp": 132,
+  "lcp": 132,
+  "lcpEl": "p.big-copy",
+  "cls": 0,
+  "tbt": 0,
+  "maxLong": 121,
+  "inp": 40,
+  "p95frame": 17,
+  "over34": 0,
+  "scrollLong": 0,
+  "kb": {
+   "html": 31.5,
+   "js": 161.9,
+   "css": 12,
+   "font": 70,
+   "image": 150.5,
+   "other": 17.1
+  }
+ },
+ "1440 arquivo": {
+  "fcp": 140,
+  "lcp": 140,
+  "lcpEl": "h1.",
+  "cls": 0,
+  "tbt": 0,
+  "maxLong": 119,
+  "inp": 48,
+  "p95frame": 17,
+  "over34": 0,
+  "scrollLong": 0,
+  "kb": {
+   "html": 66.6,
+   "js": 165.7,
+   "css": 12,
+   "font": 70,
+   "image": 0.5,
+   "other": 47.5
+  }
+ },
+ "1440 caso-telegram": {
+  "fcp": 148,
+  "lcp": 148,
+  "lcpEl": "p.",
+  "cls": 0,
+  "tbt": 71,
+  "maxLong": 123,
+  "inp": 48,
+  "p95frame": 17,
+  "over34": 0,
+  "scrollLong": 0,
+  "kb": {
+   "html": 49.7,
+   "js": 167.9,
+   "css": 12,
+   "font": 70,
+   "image": 17.2,
+   "other": 1012.9
+  }
+ },
+ "390 home": {
+  "fcp": 172,
+  "lcp": 172,
+  "lcpEl": "p.hero-lede",
+  "cls": 0,
+  "tbt": 0,
+  "maxLong": 121,
+  "inp": 40,
+  "p95frame": 17,
+  "over34": 0,
+  "scrollLong": 0,
+  "kb": {
+   "html": 35.5,
+   "js": 161.9,
+   "css": 12,
+   "font": 70,
+   "image": 0.5,
+   "other": 14
+  }
+ },
+ "390 sobre": {
+  "fcp": 128,
+  "lcp": 156,
+  "lcpEl": "img.",
+  "cls": 0,
+  "tbt": 66,
+  "maxLong": 118,
+  "inp": 40,
+  "p95frame": 17,
+  "over34": 0,
+  "scrollLong": 0,
+  "kb": {
+   "html": 31.5,
+   "js": 161.9,
+   "css": 12,
+   "font": 70,
+   "image": 150.5,
+   "other": 14
+  }
+ },
+ "390 arquivo": {
+  "fcp": 136,
+  "lcp": 136,
+  "lcpEl": "p.",
+  "cls": 0,
+  "tbt": 0,
+  "maxLong": 116,
+  "inp": 40,
+  "p95frame": 17,
+  "over34": 0,
+  "scrollLong": 0,
+  "kb": {
+   "html": 50.3,
+   "js": 165.7,
+   "css": 12,
+   "font": 70,
+   "image": 0.5,
+   "other": 25.7
+  }
+ },
+ "390 caso-telegram": {
+  "fcp": 192,
+  "lcp": 192,
+  "lcpEl": "p.",
+  "cls": 0,
+  "tbt": 0,
+  "maxLong": 113,
+  "inp": 40,
+  "p95frame": 17,
+  "over34": 0,
+  "scrollLong": 0,
+  "kb": {
+   "html": 40.4,
+   "js": 167.9,
+   "css": 12,
+   "font": 70,
+   "image": 0.5,
+   "other": 17.2
+  }
+ }
+}

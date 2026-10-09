@@ -1,0 +1,2604 @@
+{
+ "1440 home": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Eu construo software que fica de pé sozi",
+    "px": 77.76,
+    "lines": 3,
+    "width": 628
+   },
+   {
+    "tag": "H2",
+    "text": "Eu gosto do que acontece por baixo da in",
+    "px": 37.44,
+    "lines": 3,
+    "width": 416
+   },
+   {
+    "tag": "H2",
+    "text": "Projetos em destaque",
+    "px": 57.6,
+    "lines": 2,
+    "width": 418
+   },
+   {
+    "tag": "H3",
+    "text": "Telegram Offers",
+    "px": 46.08,
+    "lines": 1,
+    "width": 480
+   },
+   {
+    "tag": "H3",
+    "text": "GABRIEL.SYS",
+    "px": 34.56,
+    "lines": 1,
+    "width": 315
+   },
+   {
+    "tag": "H3",
+    "text": "Academic System",
+    "px": 34.56,
+    "lines": 1,
+    "width": 315
+   },
+   {
+    "tag": "H3",
+    "text": "Fedora pós-instalação",
+    "px": 34.56,
+    "lines": 2,
+    "width": 315
+   },
+   {
+    "tag": "H2",
+    "text": "O que eu faço",
+    "px": 57.6,
+    "lines": 1,
+    "width": 430
+   },
+   {
+    "tag": "H3",
+    "text": "Software & Automação",
+    "px": 28.8,
+    "lines": 1,
+    "width": 328
+   },
+   {
+    "tag": "H3",
+    "text": "Web & Interfaces",
+    "px": 28.8,
+    "lines": 1,
+    "width": 328
+   },
+   {
+    "tag": "H3",
+    "text": "Acadêmico",
+    "px": 28.8,
+    "lines": 1,
+    "width": 329
+   },
+   {
+    "tag": "H2",
+    "text": "Outros projetos",
+    "px": 57.6,
+    "lines": 1,
+    "width": 430
+   },
+   {
+    "tag": "H2",
+    "text": "Quer conversar sobre uma vaga ou um proj",
+    "px": 63.36,
+    "lines": 3,
+    "width": 651
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 5312,
+  "firstScreen": {
+   "name": true,
+   "h1": true,
+   "contact": true,
+   "projects": true
+  },
+  "axe": [],
+  "console": []
+ },
+ "1440 sobre": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Gabriel Henrique.",
+    "px": 56,
+    "lines": 1,
+    "width": 1050
+   },
+   {
+    "tag": "H2",
+    "text": "Como este site funciona",
+    "px": 32,
+    "lines": 1,
+    "width": 714
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 1665,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": [],
+  "console": []
+ },
+ "1440 arquivo": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Todos os projetos.",
+    "px": 56,
+    "lines": 1,
+    "width": 1050
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 1603,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": [],
+  "console": []
+ },
+ "1440 area-software": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Software & Automação",
+    "px": 56,
+    "lines": 1,
+    "width": 1050
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 993,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": [],
+  "console": []
+ },
+ "1440 area-web": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Web & Interfaces",
+    "px": 56,
+    "lines": 1,
+    "width": 1050
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 993,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": [],
+  "console": []
+ },
+ "1440 area-academico": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Acadêmico",
+    "px": 56,
+    "lines": 1,
+    "width": 1050
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 993,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": [],
+  "console": []
+ },
+ "1440 orcamento": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [
+   "span.briefing-module__Rpv_CW__srOnly \"asterisco\"",
+   "span.briefing-module__Rpv_CW__srOnly \"(obrigatório)\""
+  ],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Vamos entender o seu projeto.",
+    "px": 56,
+    "lines": 1,
+    "width": 1050
+   },
+   {
+    "tag": "H2",
+    "text": "Tipo de projeto",
+    "px": 40,
+    "lines": 1,
+    "width": 647
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 1293,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": [],
+  "console": []
+ },
+ "1440 caso-telegram": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Telegram Offers",
+    "px": 56,
+    "lines": 1,
+    "width": 1100
+   },
+   {
+    "tag": "H2",
+    "text": "O problema",
+    "px": 43.2,
+    "lines": 1,
+    "width": 1179
+   },
+   {
+    "tag": "H2",
+    "text": "O que eu fiz",
+    "px": 43.2,
+    "lines": 1,
+    "width": 1179
+   },
+   {
+    "tag": "H2",
+    "text": "Stack",
+    "px": 43.2,
+    "lines": 1,
+    "width": 1179
+   },
+   {
+    "tag": "H2",
+    "text": "Resultado",
+    "px": 43.2,
+    "lines": 1,
+    "width": 1179
+   },
+   {
+    "tag": "H2",
+    "text": "Projetos relacionados",
+    "px": 24,
+    "lines": 1,
+    "width": 1179
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 4968,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": [],
+  "console": []
+ },
+ "1440 caso-site": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "GABRIEL.SYS",
+    "px": 56,
+    "lines": 1,
+    "width": 1100
+   },
+   {
+    "tag": "H2",
+    "text": "O problema",
+    "px": 43.2,
+    "lines": 1,
+    "width": 1179
+   },
+   {
+    "tag": "H2",
+    "text": "O que eu fiz",
+    "px": 43.2,
+    "lines": 1,
+    "width": 1179
+   },
+   {
+    "tag": "H2",
+    "text": "Stack",
+    "px": 43.2,
+    "lines": 1,
+    "width": 1179
+   },
+   {
+    "tag": "H2",
+    "text": "Resultado",
+    "px": 43.2,
+    "lines": 1,
+    "width": 1179
+   },
+   {
+    "tag": "H2",
+    "text": "Projetos relacionados",
+    "px": 24,
+    "lines": 1,
+    "width": 1179
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 3777,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": [],
+  "console": []
+ },
+ "1440 caso-faculdade": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Faculdade BCC",
+    "px": 56,
+    "lines": 1,
+    "width": 1100
+   },
+   {
+    "tag": "H2",
+    "text": "Por que manter público",
+    "px": 43.2,
+    "lines": 1,
+    "width": 1179
+   },
+   {
+    "tag": "H2",
+    "text": "Projetos relacionados",
+    "px": 24,
+    "lines": 1,
+    "width": 1179
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 1667,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": [],
+  "console": []
+ },
+ "1440 caso-fedora": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Fedora pós-instalação",
+    "px": 56,
+    "lines": 1,
+    "width": 1100
+   },
+   {
+    "tag": "H2",
+    "text": "O problema",
+    "px": 43.2,
+    "lines": 1,
+    "width": 1179
+   },
+   {
+    "tag": "H2",
+    "text": "O que eu fiz",
+    "px": 43.2,
+    "lines": 1,
+    "width": 1179
+   },
+   {
+    "tag": "H2",
+    "text": "Stack",
+    "px": 43.2,
+    "lines": 1,
+    "width": 1179
+   },
+   {
+    "tag": "H2",
+    "text": "Resultado",
+    "px": 43.2,
+    "lines": 1,
+    "width": 1179
+   },
+   {
+    "tag": "H2",
+    "text": "Projetos relacionados",
+    "px": 24,
+    "lines": 1,
+    "width": 1179
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 4205,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": [],
+  "console": []
+ },
+ "1440 caso-academic": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Academic System",
+    "px": 56,
+    "lines": 1,
+    "width": 1100
+   },
+   {
+    "tag": "H2",
+    "text": "O problema",
+    "px": 43.2,
+    "lines": 1,
+    "width": 1179
+   },
+   {
+    "tag": "H2",
+    "text": "O que eu fiz",
+    "px": 43.2,
+    "lines": 1,
+    "width": 1179
+   },
+   {
+    "tag": "H3",
+    "text": "Sobre o fork — o que é meu",
+    "px": 22.4,
+    "lines": 1,
+    "width": 1049
+   },
+   {
+    "tag": "H2",
+    "text": "Stack",
+    "px": 43.2,
+    "lines": 1,
+    "width": 1179
+   },
+   {
+    "tag": "H2",
+    "text": "Resultado",
+    "px": 43.2,
+    "lines": 1,
+    "width": 1179
+   },
+   {
+    "tag": "H2",
+    "text": "Projetos relacionados",
+    "px": 24,
+    "lines": 1,
+    "width": 1179
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 4274,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": [],
+  "console": []
+ },
+ "1440 caso-banco": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Banco de dados em C++",
+    "px": 56,
+    "lines": 1,
+    "width": 1100
+   },
+   {
+    "tag": "H2",
+    "text": "Projetos relacionados",
+    "px": 24,
+    "lines": 1,
+    "width": 1179
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 1509,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": [],
+  "console": []
+ },
+ "1440 404": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [
+   "span.sr-only \"Página não encontrada.\""
+  ],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Página não encontrada. bash: essa-pagina",
+    "px": 20,
+    "lines": 1,
+    "width": 638
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 901,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": [],
+  "console": []
+ },
+ "1920 home": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Eu construo software que fica de pé sozi",
+    "px": 83.2,
+    "lines": 3,
+    "width": 773
+   },
+   {
+    "tag": "H2",
+    "text": "Eu gosto do que acontece por baixo da in",
+    "px": 41.6,
+    "lines": 3,
+    "width": 416
+   },
+   {
+    "tag": "H2",
+    "text": "Projetos em destaque",
+    "px": 73.6,
+    "lines": 2,
+    "width": 585
+   },
+   {
+    "tag": "H3",
+    "text": "Telegram Offers",
+    "px": 51.2,
+    "lines": 1,
+    "width": 533
+   },
+   {
+    "tag": "H3",
+    "text": "GABRIEL.SYS",
+    "px": 36.8,
+    "lines": 1,
+    "width": 463
+   },
+   {
+    "tag": "H3",
+    "text": "Academic System",
+    "px": 36.8,
+    "lines": 1,
+    "width": 463
+   },
+   {
+    "tag": "H3",
+    "text": "Fedora pós-instalação",
+    "px": 36.8,
+    "lines": 1,
+    "width": 463
+   },
+   {
+    "tag": "H2",
+    "text": "O que eu faço",
+    "px": 73.6,
+    "lines": 1,
+    "width": 597
+   },
+   {
+    "tag": "H3",
+    "text": "Software & Automação",
+    "px": 30.4,
+    "lines": 1,
+    "width": 476
+   },
+   {
+    "tag": "H3",
+    "text": "Web & Interfaces",
+    "px": 30.4,
+    "lines": 1,
+    "width": 476
+   },
+   {
+    "tag": "H3",
+    "text": "Acadêmico",
+    "px": 30.4,
+    "lines": 1,
+    "width": 477
+   },
+   {
+    "tag": "H2",
+    "text": "Outros projetos",
+    "px": 73.6,
+    "lines": 1,
+    "width": 597
+   },
+   {
+    "tag": "H2",
+    "text": "Quer conversar sobre uma vaga ou um proj",
+    "px": 67.2,
+    "lines": 2,
+    "width": 910
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 5546,
+  "firstScreen": {
+   "name": true,
+   "h1": true,
+   "contact": true,
+   "projects": true
+  },
+  "axe": null,
+  "console": []
+ },
+ "1920 sobre": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Gabriel Henrique.",
+    "px": 56,
+    "lines": 1,
+    "width": 1050
+   },
+   {
+    "tag": "H2",
+    "text": "Como este site funciona",
+    "px": 32,
+    "lines": 1,
+    "width": 750
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 1711,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": null,
+  "console": []
+ },
+ "1920 arquivo": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Todos os projetos.",
+    "px": 56,
+    "lines": 1,
+    "width": 1050
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 1577,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": null,
+  "console": []
+ },
+ "1920 area-software": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Software & Automação",
+    "px": 56,
+    "lines": 1,
+    "width": 1050
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 1173,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": null,
+  "console": []
+ },
+ "1920 area-web": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Web & Interfaces",
+    "px": 56,
+    "lines": 1,
+    "width": 1050
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 1173,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": null,
+  "console": []
+ },
+ "1920 area-academico": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Acadêmico",
+    "px": 56,
+    "lines": 1,
+    "width": 1050
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 1173,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": null,
+  "console": []
+ },
+ "1920 orcamento": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [
+   "span.briefing-module__Rpv_CW__srOnly \"asterisco\"",
+   "span.briefing-module__Rpv_CW__srOnly \"(obrigatório)\""
+  ],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Vamos entender o seu projeto.",
+    "px": 56,
+    "lines": 1,
+    "width": 1050
+   },
+   {
+    "tag": "H2",
+    "text": "Tipo de projeto",
+    "px": 40,
+    "lines": 1,
+    "width": 612
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 1312,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": null,
+  "console": []
+ },
+ "1920 caso-telegram": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Telegram Offers",
+    "px": 56,
+    "lines": 1,
+    "width": 1100
+   },
+   {
+    "tag": "H2",
+    "text": "O problema",
+    "px": 43.2,
+    "lines": 1,
+    "width": 960
+   },
+   {
+    "tag": "H2",
+    "text": "O que eu fiz",
+    "px": 43.2,
+    "lines": 1,
+    "width": 960
+   },
+   {
+    "tag": "H2",
+    "text": "Stack",
+    "px": 43.2,
+    "lines": 1,
+    "width": 960
+   },
+   {
+    "tag": "H2",
+    "text": "Resultado",
+    "px": 43.2,
+    "lines": 1,
+    "width": 960
+   },
+   {
+    "tag": "H2",
+    "text": "Projetos relacionados",
+    "px": 24,
+    "lines": 1,
+    "width": 1624
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 4985,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": null,
+  "console": []
+ },
+ "1920 caso-site": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "GABRIEL.SYS",
+    "px": 56,
+    "lines": 1,
+    "width": 1100
+   },
+   {
+    "tag": "H2",
+    "text": "O problema",
+    "px": 43.2,
+    "lines": 1,
+    "width": 960
+   },
+   {
+    "tag": "H2",
+    "text": "O que eu fiz",
+    "px": 43.2,
+    "lines": 1,
+    "width": 960
+   },
+   {
+    "tag": "H2",
+    "text": "Stack",
+    "px": 43.2,
+    "lines": 1,
+    "width": 960
+   },
+   {
+    "tag": "H2",
+    "text": "Resultado",
+    "px": 43.2,
+    "lines": 1,
+    "width": 960
+   },
+   {
+    "tag": "H2",
+    "text": "Projetos relacionados",
+    "px": 24,
+    "lines": 1,
+    "width": 1624
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 3793,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": null,
+  "console": []
+ },
+ "1920 caso-faculdade": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Faculdade BCC",
+    "px": 56,
+    "lines": 1,
+    "width": 1100
+   },
+   {
+    "tag": "H2",
+    "text": "Por que manter público",
+    "px": 43.2,
+    "lines": 1,
+    "width": 1624
+   },
+   {
+    "tag": "H2",
+    "text": "Projetos relacionados",
+    "px": 24,
+    "lines": 1,
+    "width": 1624
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 1682,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": null,
+  "console": []
+ },
+ "1920 caso-fedora": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Fedora pós-instalação",
+    "px": 56,
+    "lines": 1,
+    "width": 1100
+   },
+   {
+    "tag": "H2",
+    "text": "O problema",
+    "px": 43.2,
+    "lines": 1,
+    "width": 960
+   },
+   {
+    "tag": "H2",
+    "text": "O que eu fiz",
+    "px": 43.2,
+    "lines": 1,
+    "width": 960
+   },
+   {
+    "tag": "H2",
+    "text": "Stack",
+    "px": 43.2,
+    "lines": 1,
+    "width": 960
+   },
+   {
+    "tag": "H2",
+    "text": "Resultado",
+    "px": 43.2,
+    "lines": 1,
+    "width": 960
+   },
+   {
+    "tag": "H2",
+    "text": "Projetos relacionados",
+    "px": 24,
+    "lines": 1,
+    "width": 1624
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 4222,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": null,
+  "console": []
+ },
+ "1920 caso-academic": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Academic System",
+    "px": 56,
+    "lines": 1,
+    "width": 1100
+   },
+   {
+    "tag": "H2",
+    "text": "O problema",
+    "px": 43.2,
+    "lines": 1,
+    "width": 960
+   },
+   {
+    "tag": "H2",
+    "text": "O que eu fiz",
+    "px": 43.2,
+    "lines": 1,
+    "width": 960
+   },
+   {
+    "tag": "H3",
+    "text": "Sobre o fork — o que é meu",
+    "px": 22.4,
+    "lines": 1,
+    "width": 960
+   },
+   {
+    "tag": "H2",
+    "text": "Stack",
+    "px": 43.2,
+    "lines": 1,
+    "width": 960
+   },
+   {
+    "tag": "H2",
+    "text": "Resultado",
+    "px": 43.2,
+    "lines": 1,
+    "width": 960
+   },
+   {
+    "tag": "H2",
+    "text": "Projetos relacionados",
+    "px": 24,
+    "lines": 1,
+    "width": 1624
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 4291,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": null,
+  "console": []
+ },
+ "1920 caso-banco": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Banco de dados em C++",
+    "px": 56,
+    "lines": 1,
+    "width": 1100
+   },
+   {
+    "tag": "H2",
+    "text": "Projetos relacionados",
+    "px": 24,
+    "lines": 1,
+    "width": 1624
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 1524,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": null,
+  "console": []
+ },
+ "1920 404": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [
+   "span.sr-only \"Página não encontrada.\""
+  ],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Página não encontrada. bash: essa-pagina",
+    "px": 20,
+    "lines": 1,
+    "width": 638
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 1081,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": null,
+  "console": []
+ },
+ "1366 home": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Eu construo software que fica de pé sozi",
+    "px": 73.764,
+    "lines": 3,
+    "width": 593
+   },
+   {
+    "tag": "H2",
+    "text": "Eu gosto do que acontece por baixo da in",
+    "px": 35.516,
+    "lines": 2,
+    "width": 416
+   },
+   {
+    "tag": "H2",
+    "text": "Projetos em destaque",
+    "px": 54.64,
+    "lines": 2,
+    "width": 394
+   },
+   {
+    "tag": "H3",
+    "text": "Telegram Offers",
+    "px": 43.712,
+    "lines": 1,
+    "width": 455
+   },
+   {
+    "tag": "H3",
+    "text": "GABRIEL.SYS",
+    "px": 32.784,
+    "lines": 1,
+    "width": 293
+   },
+   {
+    "tag": "H3",
+    "text": "Academic System",
+    "px": 32.784,
+    "lines": 1,
+    "width": 293
+   },
+   {
+    "tag": "H3",
+    "text": "Fedora pós-instalação",
+    "px": 32.784,
+    "lines": 2,
+    "width": 293
+   },
+   {
+    "tag": "H2",
+    "text": "O que eu faço",
+    "px": 54.64,
+    "lines": 1,
+    "width": 406
+   },
+   {
+    "tag": "H3",
+    "text": "Software & Automação",
+    "px": 27.32,
+    "lines": 2,
+    "width": 306
+   },
+   {
+    "tag": "H3",
+    "text": "Web & Interfaces",
+    "px": 27.32,
+    "lines": 1,
+    "width": 306
+   },
+   {
+    "tag": "H3",
+    "text": "Acadêmico",
+    "px": 27.32,
+    "lines": 1,
+    "width": 307
+   },
+   {
+    "tag": "H2",
+    "text": "Outros projetos",
+    "px": 54.64,
+    "lines": 1,
+    "width": 406
+   },
+   {
+    "tag": "H2",
+    "text": "Quer conversar sobre uma vaga ou um proj",
+    "px": 60.104,
+    "lines": 3,
+    "width": 613
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 5107,
+  "firstScreen": {
+   "name": true,
+   "h1": true,
+   "contact": true,
+   "projects": true
+  },
+  "axe": null,
+  "console": []
+ },
+ "1366 sobre": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Gabriel Henrique.",
+    "px": 56,
+    "lines": 1,
+    "width": 1050
+   },
+   {
+    "tag": "H2",
+    "text": "Como este site funciona",
+    "px": 32,
+    "lines": 1,
+    "width": 674
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 1631,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": null,
+  "console": []
+ },
+ "1366 arquivo": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Todos os projetos.",
+    "px": 56,
+    "lines": 1,
+    "width": 1050
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 1587,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": null,
+  "console": []
+ },
+ "1366 area-software": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Software & Automação",
+    "px": 56,
+    "lines": 1,
+    "width": 1050
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 1027,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": null,
+  "console": []
+ },
+ "1366 area-web": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Web & Interfaces",
+    "px": 56,
+    "lines": 1,
+    "width": 1050
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 861,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": null,
+  "console": []
+ },
+ "1366 area-academico": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Acadêmico",
+    "px": 56,
+    "lines": 1,
+    "width": 1050
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 861,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": null,
+  "console": []
+ },
+ "1366 orcamento": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [
+   "span.briefing-module__Rpv_CW__srOnly \"asterisco\"",
+   "span.briefing-module__Rpv_CW__srOnly \"(obrigatório)\""
+  ],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Vamos entender o seu projeto.",
+    "px": 56,
+    "lines": 1,
+    "width": 1050
+   },
+   {
+    "tag": "H2",
+    "text": "Tipo de projeto",
+    "px": 40,
+    "lines": 1,
+    "width": 656
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 1280,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": null,
+  "console": []
+ },
+ "1366 caso-telegram": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Telegram Offers",
+    "px": 56,
+    "lines": 1,
+    "width": 1100
+   },
+   {
+    "tag": "H2",
+    "text": "O problema",
+    "px": 40.98,
+    "lines": 1,
+    "width": 1114
+   },
+   {
+    "tag": "H2",
+    "text": "O que eu fiz",
+    "px": 40.98,
+    "lines": 1,
+    "width": 1114
+   },
+   {
+    "tag": "H2",
+    "text": "Stack",
+    "px": 40.98,
+    "lines": 1,
+    "width": 1114
+   },
+   {
+    "tag": "H2",
+    "text": "Resultado",
+    "px": 40.98,
+    "lines": 1,
+    "width": 1114
+   },
+   {
+    "tag": "H2",
+    "text": "Projetos relacionados",
+    "px": 24,
+    "lines": 1,
+    "width": 1114
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 4909,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": null,
+  "console": []
+ },
+ "1366 caso-site": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "GABRIEL.SYS",
+    "px": 56,
+    "lines": 1,
+    "width": 1100
+   },
+   {
+    "tag": "H2",
+    "text": "O problema",
+    "px": 40.98,
+    "lines": 1,
+    "width": 1114
+   },
+   {
+    "tag": "H2",
+    "text": "O que eu fiz",
+    "px": 40.98,
+    "lines": 1,
+    "width": 1114
+   },
+   {
+    "tag": "H2",
+    "text": "Stack",
+    "px": 40.98,
+    "lines": 1,
+    "width": 1114
+   },
+   {
+    "tag": "H2",
+    "text": "Resultado",
+    "px": 40.98,
+    "lines": 1,
+    "width": 1114
+   },
+   {
+    "tag": "H2",
+    "text": "Projetos relacionados",
+    "px": 24,
+    "lines": 1,
+    "width": 1114
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 3717,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": null,
+  "console": []
+ },
+ "1366 caso-faculdade": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Faculdade BCC",
+    "px": 56,
+    "lines": 1,
+    "width": 1100
+   },
+   {
+    "tag": "H2",
+    "text": "Por que manter público",
+    "px": 40.98,
+    "lines": 1,
+    "width": 1114
+   },
+   {
+    "tag": "H2",
+    "text": "Projetos relacionados",
+    "px": 24,
+    "lines": 1,
+    "width": 1114
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 1635,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": null,
+  "console": []
+ },
+ "1366 caso-fedora": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Fedora pós-instalação",
+    "px": 56,
+    "lines": 1,
+    "width": 1100
+   },
+   {
+    "tag": "H2",
+    "text": "O problema",
+    "px": 40.98,
+    "lines": 1,
+    "width": 1114
+   },
+   {
+    "tag": "H2",
+    "text": "O que eu fiz",
+    "px": 40.98,
+    "lines": 1,
+    "width": 1114
+   },
+   {
+    "tag": "H2",
+    "text": "Stack",
+    "px": 40.98,
+    "lines": 1,
+    "width": 1114
+   },
+   {
+    "tag": "H2",
+    "text": "Resultado",
+    "px": 40.98,
+    "lines": 1,
+    "width": 1114
+   },
+   {
+    "tag": "H2",
+    "text": "Projetos relacionados",
+    "px": 24,
+    "lines": 1,
+    "width": 1114
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 4146,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": null,
+  "console": []
+ },
+ "1366 caso-academic": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Academic System",
+    "px": 56,
+    "lines": 1,
+    "width": 1100
+   },
+   {
+    "tag": "H2",
+    "text": "O problema",
+    "px": 40.98,
+    "lines": 1,
+    "width": 1114
+   },
+   {
+    "tag": "H2",
+    "text": "O que eu fiz",
+    "px": 40.98,
+    "lines": 1,
+    "width": 1114
+   },
+   {
+    "tag": "H3",
+    "text": "Sobre o fork — o que é meu",
+    "px": 22.4,
+    "lines": 1,
+    "width": 1049
+   },
+   {
+    "tag": "H2",
+    "text": "Stack",
+    "px": 40.98,
+    "lines": 1,
+    "width": 1114
+   },
+   {
+    "tag": "H2",
+    "text": "Resultado",
+    "px": 40.98,
+    "lines": 1,
+    "width": 1114
+   },
+   {
+    "tag": "H2",
+    "text": "Projetos relacionados",
+    "px": 24,
+    "lines": 1,
+    "width": 1114
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 4214,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": null,
+  "console": []
+ },
+ "1366 caso-banco": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Banco de dados em C++",
+    "px": 56,
+    "lines": 1,
+    "width": 1100
+   },
+   {
+    "tag": "H2",
+    "text": "Projetos relacionados",
+    "px": 24,
+    "lines": 1,
+    "width": 1114
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 1488,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": null,
+  "console": []
+ },
+ "1366 404": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [
+   "span.sr-only \"Página não encontrada.\""
+  ],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Página não encontrada. bash: essa-pagina",
+    "px": 20,
+    "lines": 1,
+    "width": 638
+   }
+  ],
+  "inversions": [],
+  "topbar": 72,
+  "pageHeight": 892,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": null,
+  "console": []
+ },
+ "390 home": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Eu construo software que fica de pé sozi",
+    "px": 40.95,
+    "lines": 3,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "Eu gosto do que acontece por baixo da in",
+    "px": 25.6,
+    "lines": 2,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "Projetos em destaque",
+    "px": 32,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H3",
+    "text": "Telegram Offers",
+    "px": 24,
+    "lines": 1,
+    "width": 296
+   },
+   {
+    "tag": "H3",
+    "text": "GABRIEL.SYS",
+    "px": 24,
+    "lines": 1,
+    "width": 296
+   },
+   {
+    "tag": "H3",
+    "text": "Academic System",
+    "px": 24,
+    "lines": 1,
+    "width": 296
+   },
+   {
+    "tag": "H3",
+    "text": "Fedora pós-instalação",
+    "px": 24,
+    "lines": 1,
+    "width": 296
+   },
+   {
+    "tag": "H2",
+    "text": "O que eu faço",
+    "px": 32,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H3",
+    "text": "Software & Automação",
+    "px": 22.4,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H3",
+    "text": "Web & Interfaces",
+    "px": 22.4,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H3",
+    "text": "Acadêmico",
+    "px": 22.4,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "Outros projetos",
+    "px": 32,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "Quer conversar sobre uma vaga ou um proj",
+    "px": 33.6,
+    "lines": 3,
+    "width": 342
+   }
+  ],
+  "inversions": [],
+  "topbar": 62,
+  "pageHeight": 7536,
+  "firstScreen": {
+   "name": true,
+   "h1": true,
+   "contact": true,
+   "projects": true
+  },
+  "axe": [],
+  "console": []
+ },
+ "390 sobre": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [
+   "img \"\" sai 145px"
+  ],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Gabriel Henrique.",
+    "px": 40,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "Como este site funciona",
+    "px": 32,
+    "lines": 2,
+    "width": 342
+   }
+  ],
+  "inversions": [],
+  "topbar": 62,
+  "pageHeight": 2519,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": [],
+  "console": []
+ },
+ "390 arquivo": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [
+   "button \"Web & Interfaces\" sai 64px",
+   "button \"Acadêmico\" sai 154px",
+   "button \"Concluído\" sai 67px"
+  ],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Todos os projetos.",
+    "px": 40,
+    "lines": 1,
+    "width": 342
+   }
+  ],
+  "inversions": [],
+  "topbar": 62,
+  "pageHeight": 2111,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": [],
+  "console": []
+ },
+ "390 area-software": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Software & Automação",
+    "px": 40,
+    "lines": 2,
+    "width": 342
+   }
+  ],
+  "inversions": [],
+  "topbar": 62,
+  "pageHeight": 1244,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": [],
+  "console": []
+ },
+ "390 area-web": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Web & Interfaces",
+    "px": 40,
+    "lines": 1,
+    "width": 342
+   }
+  ],
+  "inversions": [],
+  "topbar": 62,
+  "pageHeight": 1049,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": [],
+  "console": []
+ },
+ "390 area-academico": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Acadêmico",
+    "px": 40,
+    "lines": 1,
+    "width": 342
+   }
+  ],
+  "inversions": [],
+  "topbar": 62,
+  "pageHeight": 1049,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": [],
+  "console": []
+ },
+ "390 orcamento": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [
+   "span.briefing-module__Rpv_CW__srOnly \"asterisco\"",
+   "span.briefing-module__Rpv_CW__srOnly \"(obrigatório)\""
+  ],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Vamos entender o seu projeto.",
+    "px": 40,
+    "lines": 2,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "Tipo de projeto",
+    "px": 28,
+    "lines": 1,
+    "width": 342
+   }
+  ],
+  "inversions": [],
+  "topbar": 62,
+  "pageHeight": 1516,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": [],
+  "console": []
+ },
+ "390 caso-telegram": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Telegram Offers",
+    "px": 40,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "O problema",
+    "px": 28.8,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "O que eu fiz",
+    "px": 28.8,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "Stack",
+    "px": 28.8,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "Resultado",
+    "px": 28.8,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "Projetos relacionados",
+    "px": 24,
+    "lines": 1,
+    "width": 342
+   }
+  ],
+  "inversions": [],
+  "topbar": 62,
+  "pageHeight": 6028,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": [],
+  "console": []
+ },
+ "390 caso-site": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "GABRIEL.SYS",
+    "px": 40,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "O problema",
+    "px": 28.8,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "O que eu fiz",
+    "px": 28.8,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "Stack",
+    "px": 28.8,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "Resultado",
+    "px": 28.8,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "Projetos relacionados",
+    "px": 24,
+    "lines": 1,
+    "width": 342
+   }
+  ],
+  "inversions": [],
+  "topbar": 62,
+  "pageHeight": 4426,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": [],
+  "console": []
+ },
+ "390 caso-faculdade": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Faculdade BCC",
+    "px": 40,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "Por que manter público",
+    "px": 28.8,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "Projetos relacionados",
+    "px": 24,
+    "lines": 1,
+    "width": 342
+   }
+  ],
+  "inversions": [],
+  "topbar": 62,
+  "pageHeight": 2096,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": [],
+  "console": []
+ },
+ "390 caso-fedora": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Fedora pós-instalação",
+    "px": 40,
+    "lines": 2,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "O problema",
+    "px": 28.8,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "O que eu fiz",
+    "px": 28.8,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "Stack",
+    "px": 28.8,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "Resultado",
+    "px": 28.8,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "Projetos relacionados",
+    "px": 24,
+    "lines": 1,
+    "width": 342
+   }
+  ],
+  "inversions": [],
+  "topbar": 62,
+  "pageHeight": 4900,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": [],
+  "console": []
+ },
+ "390 caso-academic": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Academic System",
+    "px": 40,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "O problema",
+    "px": 28.8,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "O que eu fiz",
+    "px": 28.8,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H3",
+    "text": "Sobre o fork — o que é meu",
+    "px": 22.4,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "Stack",
+    "px": 28.8,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "Resultado",
+    "px": 28.8,
+    "lines": 1,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "Projetos relacionados",
+    "px": 24,
+    "lines": 1,
+    "width": 342
+   }
+  ],
+  "inversions": [],
+  "topbar": 62,
+  "pageHeight": 4934,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": [],
+  "console": []
+ },
+ "390 caso-banco": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Banco de dados em C++",
+    "px": 40,
+    "lines": 2,
+    "width": 342
+   },
+   {
+    "tag": "H2",
+    "text": "Projetos relacionados",
+    "px": 24,
+    "lines": 1,
+    "width": 342
+   }
+  ],
+  "inversions": [],
+  "topbar": 62,
+  "pageHeight": 2007,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": [],
+  "console": []
+ },
+ "390 404": {
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "clipped": [
+   "span.sr-only \"Página não encontrada.\""
+  ],
+  "overlaps": [],
+  "headings": [
+   {
+    "tag": "H1",
+    "text": "Página não encontrada. bash: essa-pagina",
+    "px": 15,
+    "lines": 2,
+    "width": 300
+   }
+  ],
+  "inversions": [],
+  "topbar": 62,
+  "pageHeight": 1031,
+  "firstScreen": {
+   "name": null,
+   "h1": true,
+   "contact": null,
+   "projects": null
+  },
+  "axe": [],
+  "console": []
+ }
+}
