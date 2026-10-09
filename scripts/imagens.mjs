@@ -5,7 +5,8 @@
 // A fonte ja vem ampliada (Real-ESRGAN, 3840 px): aqui so reduz e codifica.
 // O criterio de qualidade e nao ter bloco nem faixa no escuro com zoom de 100%;
 // as comparacoes ficam em docs/design/home-imagem/.
-// O sharp vem com o Next (dependencia opcional dele); nada foi instalado.
+// O sharp e dependencia declarada, na mesma versao que o Next 16.3.5 traz
+// como opcional (0.35.4): o script nao depende mais de um detalhe do Next.
 import fs from "node:fs";
 import path from "node:path";
 import sharp from "sharp";
