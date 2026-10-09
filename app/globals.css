@@ -662,7 +662,7 @@ html[data-topbar="hidden"] .filter-bar { transform: translateY(-72px); }
   .filter-search { flex: 1 1 100%; }
   .archive-status { padding: 22px 24px; }
   .archive-table { margin: 0 24px 76px; }
-  .archive-line { min-height: auto; grid-template-columns: 28px 1fr 20px; gap: 10px 12px; padding: 22px 0; }
+  .archive-line { min-height: auto; grid-template-columns: 28px minmax(0, 1fr) 20px; gap: 10px 12px; padding: 22px 0; }
   .archive-line-meta { grid-column: 2; grid-row: 2; display: flex; flex-wrap: wrap; gap: 8px 16px; }
   .back-link { margin: 18px 24px 0; }
   .article-header { padding: 20px 24px 40px; }
@@ -679,7 +679,7 @@ html[data-topbar="hidden"] .filter-bar { transform: translateY(-72px); }
 
 @media (max-width: 520px) {
   .filter-group button { white-space: nowrap; }
-  .archive-line { grid-template-columns: 22px 1fr; }
+  .archive-line { grid-template-columns: 22px minmax(0, 1fr); }
   .archive-line > svg { display: none; }
   .archive-line-title small { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
   .order-group button { white-space: nowrap; }
@@ -823,6 +823,10 @@ html[data-retro="on"] .bench-stage img { filter: grayscale(1) sepia(.6) hue-rota
 }
 .case-head { display: flex; flex-direction: column; gap: 14px; }
 .case-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; }
+/* Titulo e resumo vindos do conteudo quebram palavra sem espaco em vez de
+   vazar do cartao (pior caso, break-ui). */
+.case-card h3, .hero-panel strong, .archive-line-title, .case-end-next strong, .article-header h1, .page-intro h1 { overflow-wrap: anywhere; }
+.archive-line-title, .archive-line-meta { min-width: 0; }
 .case-card h3 { margin: 0; max-width: 20ch; font-size: clamp(1.6rem, 2.4vw, 2.3rem); line-height: 1.05; letter-spacing: -.03em; }
 .case-card h3 a { text-decoration: none; }
 /* O card inteiro leva ao estudo de caso; os links do rodape ficam por cima. */
@@ -835,7 +839,9 @@ html[data-retro="on"] .bench-stage img { filter: grayscale(1) sepia(.6) hue-rota
   .case-card[data-lead] .case-head { grid-column: 1; grid-row: 1 / span 2; }
   .case-card[data-lead] .case-stack { grid-column: 2; grid-row: 1; align-self: start; margin-top: 2px; }
   .case-card[data-lead] .case-footer { grid-column: 2; grid-row: 2; align-self: end; }
-  .case-card[data-lead] h3 { max-width: 16ch; font-size: clamp(2.4rem, 4vw, 3.8rem); }
+  /* Sempre abaixo do h2 da secao (clamp(2rem, 4vw, 4.6rem)): em 1366 e 1440 os
+     dois tinham o mesmo tamanho e a hierarquia achatava. */
+  .case-card[data-lead] h3 { max-width: 16ch; font-size: clamp(2rem, 3.2vw, 3.2rem); }
   .case-card[data-lead] .case-head > p { max-width: 54ch; font-size: 1.15rem; }
 }
 .case-stack { margin: 4px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; list-style: none; }
