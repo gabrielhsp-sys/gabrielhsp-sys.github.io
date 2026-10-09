@@ -14,13 +14,16 @@ A home com vídeo ficou arquivada na tag local `home-video-arquivo-2026-10`
 | `bancada-1920` | deitado, notebook e desktop comum | **192 KB** | **276 KB** |
 | `bancada-2560` | deitado, 1440p ou DPR alto | 280 KB | 407 KB |
 | `bancada-3840` | deitado, 4K | 485 KB | 696 KB |
-| `bancada-retrato-860/1290/1720` | celular em pé: recorte em volta do notebook | 88 / 152 / 226 KB | 127 / 222 / 327 KB |
+| `bancada-retrato-550/825/1100` | celular em pé: a faixa do notebook | 55 / 94 / 140 KB | 79 / 137 / 202 KB |
 
 Alvo da variante de 1920: ≤ 500 KB. Cumprido com folga nos dois formatos.
 
 O recorte em retrato existe porque, em pé, a imagem cobre pela altura: um celular de
 390 px com DPR 3 pediria a variante de 3840 px para mostrar só um terço dela. O
-recorte (x 1463–3183 da fonte) mantém o notebook e a bancada e pesa um quinto.
+recorte (x 1773–2873 da fonte, a largura do notebook com folga) é o que aparece
+num celular em pé. Um primeiro corte mais largo (1720 px) mandava pixels
+escondidos: no Lighthouse de celular, o LCP caiu de 3,30 s para 3,00 s com o
+corte estreito.
 
 ## Qualidade: sem bloco nem faixa no escuro
 
