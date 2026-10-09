@@ -1,0 +1,4 @@
+Variante 1920 px. Erro medio e maximo por canal (0-255) nos pixels com luma < 40, contra a referencia sem perda.
+
+avif: erro medio 0.68, maximo 17
+webp: erro medio 0.80, maximo 41
