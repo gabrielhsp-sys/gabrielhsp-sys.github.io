@@ -277,3 +277,29 @@ regras anteriores mudam por isso:
   está como proposta em `docs/design/revisao-2026-10/RELATORIO.md`.
 
 Detalhes e medidas: `docs/design/home-imagem/README.md`.
+
+## ADR-023 — fallback do "Sobre", e-mail no hero e ferramentas de medida (2026-10-09)
+
+Propostas P1, P2, P4 e P5 da revisão 2026-10, aprovadas pelo Gabriel; muda três
+pontos da ADR-022:
+
+- **Movimento ligado à rolagem.** Continua CSS (`animation-timeline`) onde há
+  suporte. Onde não há — o Firefox até a 157, que deixava as frases paradas e
+  acesas — `components/bench-scroll.tsx` faz a mesma conta em JS, sem
+  biblioteca (a ADR-006 segue valendo): ouvinte passivo, um
+  `requestAnimationFrame` por quadro, geometria medida só quando o tamanho
+  muda. Com movimento reduzido, nenhum dos dois liga.
+- **O `sharp` é dependência declarada**, `0.35.4`, a mesma que o Next 16.3.5
+  traz; `npm run imagens` não depende mais do opcional do Next.
+- **O cartão "Estudos de caso" sai do hero até 820 px.** Fica o índice no
+  desktop e no tablet, como a ADR-022 previa.
+
+E duas coisas novas: o e-mail fica à vista no hero, abaixo de "Falar comigo",
+com botão de copiar que seleciona o endereço quando não há área de
+transferência; e Playwright `1.63.0`, Lighthouse `13.5.0` e axe `4.13.0`
+viram devDependencies com versão fixada (gate `ecosystem-tool-adoption`, D-129
+do ecossistema), com `npm run e2e` em Chromium e Firefox sobre o `out/`. O
+WebKit do Playwright não roda no Fedora; o motor do Safari é conferido no
+WebKitGTK do sistema (`docs/design/revisao-2026-10/medidas/webkitgtk.py`).
+
+Detalhes e medidas: `docs/design/revisao-2026-10/RELATORIO.md` §8.
