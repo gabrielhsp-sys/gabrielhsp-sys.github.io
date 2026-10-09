@@ -1,0 +1,100 @@
+{
+ "chromium": {
+  "version": "153.0.8010.12",
+  "fallback": false,
+  "stops": {
+   "1-inicio": [
+    0.33,
+    0.25,
+    0.25,
+    0.25
+   ],
+   "2-meio": [
+    1,
+    0.99,
+    0.89,
+    0.63
+   ],
+   "3-fim": [
+    1,
+    1,
+    1,
+    1
+   ]
+  }
+ },
+ "firefox": {
+  "version": "155.0",
+  "fallback": true,
+  "stops": {
+   "1-inicio": [
+    0.33,
+    0.25,
+    0.25,
+    0.25
+   ],
+   "2-meio": [
+    1,
+    0.99,
+    0.89,
+    0.63
+   ],
+   "3-fim": [
+    1,
+    1,
+    1,
+    1
+   ]
+  }
+ },
+ "quadros-4x-css": {
+  "fallbackActive": false,
+  "scrolledPx": 2008,
+  "rafFrames": 96,
+  "rafP50": 16.7,
+  "rafP95": 16.8,
+  "rafMax": 16.8,
+  "rafOver20ms": 0,
+  "mainTasks": 441,
+  "mainTaskP95": 2.5,
+  "mainTaskMax": 8.5,
+  "mainTasksOver16ms": 0
+ },
+ "quadros-4x-fallback-js": {
+  "fallbackActive": true,
+  "scrolledPx": 2008,
+  "rafFrames": 96,
+  "rafP50": 16.7,
+  "rafP95": 16.8,
+  "rafMax": 16.8,
+  "rafOver20ms": 0,
+  "mainTasks": 437,
+  "mainTaskP95": 2.8,
+  "mainTaskMax": 7.8,
+  "mainTasksOver16ms": 0
+ },
+ "webkitgtk": {
+  "version": "WebKitGTK 2.54.1 (UA Safari 605.1.15, Version/60.5), janela 1600x961 no mutter headless",
+  "fallback": false,
+  "stops": {
+   "1-inicio": [
+    0.33,
+    0.25,
+    0.25,
+    0.25
+   ],
+   "2-meio": [
+    1,
+    0.99,
+    0.89,
+    0.62
+   ],
+   "3-fim": [
+    1,
+    1,
+    1,
+    1
+   ]
+  }
+ }
+}
