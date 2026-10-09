@@ -23,7 +23,7 @@ typography:
     fontFamily: "Bricolage Grotesque Variable, sans-serif"
     fontSize: "clamp(2.6rem, 5.4vw, 5.2rem)"
     fontWeight: 650
-    lineHeight: 0.96
+    lineHeight: 0.98
     letterSpacing: "-0.04em"
   page-title:
     fontFamily: "Bricolage Grotesque Variable, sans-serif"
@@ -197,6 +197,7 @@ O sistema é plano por padrão. Separação nasce de tom e bordas de 1px. Sombra
 - **Camada:** 0 30px 100px rgb(0 0 0 / .65) para busca modal.
 - **Terminal:** 0 30px 90px rgb(0 0 0 / .6) para a camada opcional.
 - **Dock:** 0 18px 45px rgb(0 0 0 / .4) para separar navegação móvel do conteúdo.
+- **Painel sobre imagem:** 0 24px 70px rgb(0 0 0 / .35) no cartão "Estudos de caso" do hero, o único plano operável em cima da fotografia da bancada.
 
 **The Flat Until Lifted Rule.** Um bloco que não muda o plano de interação não recebe sombra.
 

@@ -137,7 +137,7 @@ export default function Home() {
             <aside className="hero-panel" aria-label="Estudos de caso">
               <div className="hero-panel-head">
                 <span>estudos de caso</span>
-                {live > 0 && <span>{live} no ar agora</span>}
+                {live > 0 && <span>{live} no ar</span>}
               </div>
               <ol>
                 {featured.map((item) => (
