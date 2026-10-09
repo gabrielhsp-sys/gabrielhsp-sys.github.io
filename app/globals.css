@@ -766,6 +766,8 @@ html[data-retro="on"] .bench-stage img { filter: grayscale(1) sepia(.6) hue-rota
 /* Sobre a imagem, o nome usa o marfim suave: o quieto nao passa de 4,5:1 em
    cima da luz da luminaria. */
 .hero .hero-kicker { color: var(--paper-dim); }
+.hero-name { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+.hero-name strong { color: var(--paper); font-family: var(--display); font-size: 1.125rem; font-weight: 600; letter-spacing: -.01em; text-transform: none; }
 /* Disponibilidade e dado da linha de apresentacao, nao selo: o mesmo ponto
    verde, parado, do estado "No ar". */
 .hero-kicker { margin: 0 0 26px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; color: var(--paper-faint); font-family: var(--mono); font-size: var(--text-min); letter-spacing: .04em; text-transform: uppercase; }
@@ -947,6 +949,7 @@ html[data-retro="on"] .bench-stage img { filter: grayscale(1) sepia(.6) hue-rota
   .hero-panel li a:hover { background: var(--ink-3); }
   .hero-panel li a:hover strong { color: var(--amber); }
 }
+.hero-panel li a:active { background: var(--ink-3); }
 .hero-panel-foot { min-height: 44px; display: flex; align-items: center; padding: 0 18px; color: var(--paper-faint); font-family: var(--mono); font-size: var(--text-min); text-decoration: none; }
 @media (hover: hover) and (pointer: fine) { .hero-panel-foot:hover { color: var(--paper); text-decoration: underline; } }
 @media (prefers-reduced-transparency: reduce) { .hero-panel { background: var(--ink-2); } }
