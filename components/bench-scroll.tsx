@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { benchExitProgress, lineProgress, smoothstep } from "@/lib/scroll-reveal";
+import { benchExitProgress, lineProgress, reveal, smoothstep } from "@/lib/scroll-reveal";
 
 /* Fallback do "Sobre" ligado a rolagem, so onde o CSS nao alcanca: sem
    animation-timeline (Firefox ate a 157) as frases ficavam paradas e acesas.
@@ -28,9 +28,9 @@ export function BenchScroll() {
       return top;
     };
 
-    let view = { top: 0, bottom: 0 };
+    let view = { top: 0, bottom: 0, height: 0 };
     let benchBottom = 0;
-    let boxes: { top: number; height: number }[] = [];
+    let tops: number[] = [];
     let frame = 0;
 
     const measure = () => {
@@ -41,16 +41,16 @@ export function BenchScroll() {
       view = {
         top: inset(root.scrollPaddingTop),
         bottom: document.documentElement.clientHeight - inset(root.scrollPaddingBottom),
+        height: window.innerHeight,
       };
       benchBottom = documentTop(bench) + bench.offsetHeight;
-      boxes = lines.map((line) => ({ top: documentTop(line), height: line.offsetHeight }));
+      tops = lines.map(documentTop);
     };
     const paint = () => {
       frame = 0;
       const y = window.scrollY;
       lines.forEach((line, index) => {
-        const { top, height } = boxes[index];
-        line.style.setProperty("--reveal", smoothstep(lineProgress(y, view, top, height)).toFixed(3));
+        line.style.setProperty("--reveal", reveal(lineProgress(y, view, tops[index])).toFixed(3));
       });
       stage.style.setProperty("--fade", smoothstep(benchExitProgress(y, view, benchBottom)).toFixed(3));
     };

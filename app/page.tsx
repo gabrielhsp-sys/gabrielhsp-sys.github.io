@@ -7,6 +7,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import { ArchiveLine } from "@/components/archive-line";
 import { BenchScroll } from "@/components/bench-scroll";
+import { RevealDebug } from "@/components/reveal-debug";
 import { ContactSection } from "@/components/contact-actions";
 import { Status } from "@/components/content-ui";
 import { StructuredData } from "@/components/structured-data";
@@ -172,6 +173,7 @@ export default function Home() {
           </div>
         </section>
         <BenchScroll />
+        <RevealDebug />
       </div>
 
       {/* ── PROJETOS EM DESTAQUE ─────────────────────────────── */}

@@ -25,8 +25,10 @@
   --type-page-title: clamp(2.5rem, 4.5vw, 3.5rem); /* page-title — titulo de pagina interna */
   /* Movimento: uma curva de saida forte para tudo que entra ou responde. */
   --ease-out: cubic-bezier(.16, 1, .3, 1);
-  /* So para o movimento ligado a rolagem: smoothstep, parado nas duas pontas. */
+  /* So para o movimento ligado a rolagem. A imagem: smoothstep, parado nas
+     duas pontas. As frases: saem andando e pousam paradas (lib/scroll-reveal.ts). */
   --ease-scroll: cubic-bezier(.333, 0, .667, 1);
+  --ease-reveal: cubic-bezier(.333, .2, .667, 1);
   --press: 140ms;
 }
 
@@ -920,30 +922,39 @@ html[data-retro="on"] .bench-stage img { filter: grayscale(1) sepia(.6) hue-rota
 .bench-about-more { min-height: 44px; align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; color: var(--amber); font-family: var(--mono); font-size: var(--text-min); text-decoration: none; }
 @media (hover: hover) and (pointer: fine) { .bench-about-more:hover { text-decoration: underline; } }
 
-/* Movimento ligado a rolagem: cada frase comeca apagada, acende ao passar pela
-   tela e apaga de novo se a rolagem volta; a imagem apaga enquanto o fim do
-   "Sobre" sobe. Onde ha animation-timeline, roda no compositor, sem JS. Onde nao
-   ha (Firefox ate a 157), components/bench-scroll.tsx faz a mesma conta e marca
-   a bancada com data-scroll-fallback. Com movimento reduzido, nenhum dos dois
-   liga e tudo fica parado e aceso.
-   Curva: --ease-scroll, cubic-bezier(1/3, 0, 2/3, 1), e o smoothstep (3t² - 2t³) do fallback,
-   velocidade zero nas duas pontas, sem tranco ao comecar nem ao terminar.
-   Apagada a .25: no fundo do "Sobre" da ~1,8:1, ainda se le a frase (a .16
-   dava 1,5:1 e o texto sumia). */
+/* Movimento ligado a rolagem: cada frase comeca apagada e um pouco abaixo,
+   acende e sobe enquanto o topo dela vai de 85% a 50% da altura da tela, e
+   apaga de novo se a rolagem volta; a imagem apaga enquanto o fim do "Sobre"
+   sobe. Onde ha animation-timeline, roda no compositor, sem JS. Onde nao ha
+   (Firefox ate a 157), components/bench-scroll.tsx faz a mesma conta e marca a
+   bancada com data-scroll-fallback. Com movimento reduzido, nenhum dos dois
+   liga e tudo fica parado e aceso. Conferir ao vivo: /?debug=reveal.
+   Faixa: "cover 15vh" e o topo da frase a 85% da tela (15vh depois de entrar
+   pela base); "cover 50vh", a 50%. A faixa antiga (entry 0% a cover 38%)
+   acabava com a frase a ~60%, e na metade de baixo ela ja estava acesa.
+   Curvas: a imagem usa --ease-scroll (smoothstep); as frases, --ease-reveal,
+   que responde logo ao entrar na faixa e pousa sem quina (0,6t + 1,8t² - 1,4t³
+   no fallback).
+   Apagada a .2: no fundo do "Sobre" ainda se le a frase (a .16 o texto sumia). */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .bench { view-timeline: --bench block; }
     .bench-stage { animation: bench-out var(--ease-scroll) both; animation-timeline: --bench; animation-range: exit 0% exit 70%; }
-    .bench-about-lines p { animation: line-in var(--ease-scroll) both; animation-timeline: view(); animation-range: entry 0% cover 38%; }
+    .bench-about-lines p { animation: line-in var(--ease-reveal) both; animation-timeline: view(); animation-range: cover 15vh cover 50vh; }
   }
 }
 @keyframes bench-out { to { opacity: 0; } }
-@keyframes line-in { from { opacity: .25; transform: translateY(.5em); } to { opacity: 1; transform: none; } }
+@keyframes line-in { from { opacity: .2; transform: translateY(.6em); } to { opacity: 1; transform: none; } }
 .bench[data-scroll-fallback] .bench-about-lines p {
-  opacity: calc(.25 + .75 * var(--reveal, 1));
-  transform: translateY(calc(.5em * (1 - var(--reveal, 1))));
+  opacity: calc(.2 + .8 * var(--reveal, 1));
+  transform: translateY(calc(.6em * (1 - var(--reveal, 1))));
 }
 .bench[data-scroll-fallback] .bench-stage { opacity: calc(1 - var(--fade, 0)); }
+/* Diagnostico, so com ?debug=reveal (components/reveal-debug.tsx): o caminho
+   ativo, o progresso de cada frase e as duas bordas da faixa. */
+.reveal-debug { position: fixed; inset: 0; z-index: 9999; pointer-events: none; }
+.reveal-debug i { position: absolute; left: 0; right: 0; border-top: 1px dashed var(--amber); }
+.reveal-debug pre { position: absolute; top: calc(96px + env(safe-area-inset-top, 0px)); right: 12px; max-width: calc(100% - 24px); margin: 0; padding: 10px 12px; border: 1px solid var(--line); border-radius: 5px; background: rgb(12 11 10 / .92); color: var(--paper); font-family: var(--mono); font-size: 12px; line-height: 1.5; white-space: pre-wrap; }
 
 /* O painel e um indice dos estudos de caso, nao uma vitrine. */
 .hero-panel {

@@ -290,7 +290,10 @@ publicado, e o e-mail fica no "Contato".
   acesas — `components/bench-scroll.tsx` faz a mesma conta em JS, sem
   biblioteca (a ADR-006 segue valendo): ouvinte passivo, um
   `requestAnimationFrame` por quadro, geometria medida só quando o tamanho
-  muda. Com movimento reduzido, nenhum dos dois liga.
+  muda. Com movimento reduzido, nenhum dos dois liga. Na segunda rodada do
+  mesmo dia a faixa mudou: cada frase acende com o topo entre 85% e 50% da
+  tela (antes acabava a ~60%, e a metade de baixo já estava acesa), e
+  `/?debug=reveal` mostra o caminho e o progresso ao vivo.
 - **O `sharp` é dependência declarada**, `0.35.4`, a mesma que o Next 16.3.5
   traz; `npm run imagens` não depende mais do opcional do Next.
 - **O cartão "Estudos de caso" sai do hero no celular** (até 600 px em pé, ou
