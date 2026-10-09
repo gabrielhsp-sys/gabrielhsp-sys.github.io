@@ -409,6 +409,9 @@ não aparece no hero.
 
 ## 9. Segunda rodada de 2026-10-09 — o "Sobre" ainda parado no PC do Gabriel, e o P1 revertido
 
+> Superada pela §10: a seção inteira saiu da home, e com ela o reveal, o fallback e o
+> `?debug=reveal`. O que segue é o registro da investigação.
+
 Relato: no PC dele as frases de "Eu gosto do que acontece por baixo da interface" continuavam acesas
 o tempo todo, inclusive na metade de baixo da tela; e o e-mail com "copiar" no hero ficou estranho.
 Os testes da §8 passavam, então eles não reproduziam o caso dele. Tratado como bug observado
@@ -538,3 +541,88 @@ endereço é `localhost` ou `127.0.0.1` (por IP da rede o Next bloqueia).
 - O Gabriel não preencheu o que viu depois de `rm -rf .next` + Ctrl+Shift+R; o laço cobre as duas
   causas que dão esse sintoma, mas a confirmação no PC dele é com o painel acima.
 - Celular de verdade e Safari continuam sem teste (§7, §8).
+
+## 10. Terceira rodada de 2026-10-09 — o "Sobre" sai da home
+
+**Decisão do Gabriel (confirmada):** tirar da home a seção "Eu gosto do que acontece por baixo da
+interface." inteira; a imagem da bancada fica só atrás do hero e acaba num degradê curto; depois do
+hero vem direto "Projetos em destaque", como na main. O hero continua como nesta branch (imagem,
+nome em destaque, cartão "Estudos de caso" no desktop e no tablet, sem ele no celular, sem e-mail).
+Commit `7b5a1bd`; só local.
+
+### O que saiu
+
+- A seção `.bench-about` (`#sobre`, nenhum link apontava para ela) e o texto dela na home.
+- O reveal das frases (CSS com `animation-timeline`), o fallback em JS
+  (`components/bench-scroll.tsx`), o painel `?debug=reveal` (`components/reveal-debug.tsx`),
+  `lib/scroll-reveal.ts`, os tokens `--ease-scroll` e `--ease-reveal`, os estilos e os testes
+  (`tests/e2e/bench-scroll.spec.mjs`, `tests/scroll-reveal.test.mjs`).
+- O palco preso na tela (`.bench`, `.bench-track`, `.bench-stage` com `position: sticky` e
+  `100lvh`). Não há mais movimento ligado à rolagem na home.
+
+### O que ficou
+
+- **A imagem, só no hero:** `.hero-image` dentro do `<section class="hero">`, `position: absolute;
+  inset: 0`, da altura do hero, sem `fixed` nem `sticky`. Ao rolar, ela sobe com o hero.
+- **A saída:** um degradê de transparente para `--ink` na base, da altura do respiro de baixo do
+  hero (`--hero-fade`: `clamp(48px, 6vw, 96px)`; 64 px no celular), então nunca passa por cima de
+  texto. O véu do lado do texto foi para a mesma camada (`.hero-image::after`). Sem JS.
+- **A linha de 1 px da main** na base do hero (`border-bottom: 1px solid var(--line-soft)`): a
+  imagem termina nela.
+- **LCP:** o mesmo `<picture>` com `srcset` AVIF/WebP, `width`/`height` e `fetchpriority="high"`;
+  continua sem `<link rel=preload>` (decisão da ADR-022). Laboratório
+  ([`medidas/hero-vitais.json`](medidas/hero-vitais.json)): o LCP é o `img`, 176 ms em 1440 (era
+  180) e 160 ms em 390 (era 196), CLS 0, mesmos 192 KB / 140 KB de imagem.
+- **Contraste AA** ([`medidas/contraste-hero.txt`](medidas/contraste-hero.txt), `contraste.mjs` só
+  com o hero agora): nenhuma falha em 1440, 1920, 1366 e 390; menor folga 1,20× (dica do terminal em
+  1920, 5,38:1). Na rodada anterior era 1,22×: a caixa da imagem agora tem a altura do hero, não da
+  janela, e o recorte mudou um pouco.
+- `allowedDevOrigins: ["127.0.0.1"]`: não servia só ao reveal; sem ele o `next dev` aberto por
+  `127.0.0.1` não hidrata nada (boot, terminal, busca).
+- **O texto:** a página Sobre (`/about/`) não tem as frases da seção. Ela conta a mesma origem com
+  outras palavras ("Começou quebrando e consertando o Windows…", `app/about/page.tsx:51`), e o
+  terminal tem o `whoami` com "o registro do Windows". Nada foi acrescentado nem mexido lá.
+
+### Comparação com a main
+
+[`medidas/transicao.mjs`](medidas/transicao.mjs), Chromium, `out/` desta branch e da main (build num
+worktree descartável):
+
+| | altura do hero | fim do hero → título "Projetos em destaque" | último conteúdo do hero → título | imagens depois do hero | erros de console |
+|---|---|---|---|---|---|
+| 1440 main | 828 | **130** | 280 | 0 | 0 |
+| 1440 branch | 828 | **130** | 246 | 0 | 0 |
+| 390 main | 782 | **76** | 186 | 0 | 0 |
+| 390 branch | 782 | **76** | 247 | 0 | 0 |
+
+O espaço entre o hero e "Projetos em destaque" é o da main nas duas larguras. A distância a partir do
+último texto do hero muda porque o conteúdo do hero é outro (cartão, nome em destaque) e, até
+1000 px, ele começa no alto em vez de centrado; isso é do hero desta branch, que fica como está.
+
+Capturas lado a lado (main à esquerda): [1440 hero](capturas/sem-sobre/1440-1-hero.jpg),
+[1440 transição](capturas/sem-sobre/1440-2-transicao.jpg), [390 hero](capturas/sem-sobre/390-1-hero.jpg),
+[390 transição](capturas/sem-sobre/390-2-transicao.jpg).
+
+### Testes
+
+`tests/e2e/hero.spec.mjs`, em 1440×900 e 390×844, Chromium e Firefox: a camada da imagem é
+`absolute`, começa no topo do hero e acaba na linha de baixo dele, e some da tela ao rolar; não
+existe `#sobre`; o hero é seguido por `#projetos`, com o título a exatamente o `padding-top` da seção;
+nenhum elemento depois do hero tem imagem de fundo (`url(`) nem `img`/`picture`/`video`.
+
+### Verificação
+
+- `npm run lint` → exit 0, sem achados.
+- `npm test` → 14/14 (`# pass 14`, `# fail 0`; os 6 testes da matemática do reveal saíram com ela).
+- `npm run build` → exit 0, `export: 3 areas, 6 registros`.
+- `npx playwright test` → **22 passaram**, 0 falhas.
+
+### Como testar
+
+```bash
+rm -rf .next && npm run dev
+```
+
+Abrir `http://localhost:3000/` e Ctrl+Shift+R. A bancada aparece só atrás do hero e some num degradê
+curto antes da linha de baixo; logo depois vem "Projetos em destaque", sem imagem atrás dele nem de
+nada abaixo.
