@@ -278,6 +278,12 @@ regras anteriores mudam por isso:
 
 Detalhes e medidas: `docs/design/home-imagem/README.md`.
 
+**Revisto em 2026-10-09 (decisão do Gabriel):** o "Sobre" ("Eu gosto do que
+acontece por baixo da interface.") saiu da home, e a imagem fica só atrás do
+hero, do tamanho dele, terminando num degradê curto para o fundo do site. Depois
+do hero vem direto "Projetos em destaque", como na main. Não há mais movimento
+ligado à rolagem na home. O cartão "Estudos de caso" e o resto do hero seguem.
+
 ## ADR-023 — fallback do "Sobre" e ferramentas de medida (2026-10-09)
 
 Propostas P2, P4 e P5 da revisão 2026-10, aprovadas pelo Gabriel; muda três
@@ -285,15 +291,20 @@ pontos da ADR-022. A P1 (e-mail à vista no hero, com botão de copiar) entrou e
 foi revertida no mesmo dia, a pedido dele: o hero continua como no site
 publicado, e o e-mail fica no "Contato".
 
-- **Movimento ligado à rolagem.** Continua CSS (`animation-timeline`) onde há
+- **Movimento ligado à rolagem** (removido no mesmo dia, junto com o "Sobre"
+  da home, por decisão do Gabriel: ver a revisão da ADR-022). Era CSS
+  (`animation-timeline`) onde havia
   suporte. Onde não há — o Firefox até a 157, que deixava as frases paradas e
-  acesas — `components/bench-scroll.tsx` faz a mesma conta em JS, sem
+  acesas — `components/bench-scroll.tsx` fazia a mesma conta em JS, sem
   biblioteca (a ADR-006 segue valendo): ouvinte passivo, um
   `requestAnimationFrame` por quadro, geometria medida só quando o tamanho
   muda. Com movimento reduzido, nenhum dos dois liga. Na segunda rodada do
   mesmo dia a faixa mudou: cada frase acende com o topo entre 85% e 50% da
   tela (antes acabava a ~60%, e a metade de baixo já estava acesa), e
-  `/?debug=reveal` mostra o caminho e o progresso ao vivo.
+  `/?debug=reveal` mostrava o caminho e o progresso ao vivo. Saíram
+  `components/bench-scroll.tsx`, `components/reveal-debug.tsx`,
+  `lib/scroll-reveal.ts`, os estilos e os testes; ficou
+  `allowedDevOrigins: ["127.0.0.1"]`, que serve a todo o JS no `next dev`.
 - **O `sharp` é dependência declarada**, `0.35.4`, a mesma que o Next 16.3.5
   traz; `npm run imagens` não depende mais do opcional do Next.
 - **O cartão "Estudos de caso" sai do hero no celular** (até 600 px em pé, ou
