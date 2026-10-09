@@ -15,10 +15,11 @@ const OUT = "public/home";
 const MANIFEST = "lib/hero-image.json";
 const DOCS = "docs/design/home-imagem";
 const WIDTHS = [1280, 1920, 2560, 3840];
-// Retrato (celular em pe): recorte da fonte em volta do notebook, para nao
-// mandar 3840 px de largura a uma tela de 390 que so mostra um terco dela.
-const PORTRAIT = { left: 1463, top: 0, width: 1720, height: 2143 };
-const PORTRAIT_WIDTHS = [860, 1290, 1720];
+// Retrato (celular em pe): so a faixa do notebook (x 1805-2842 na fonte), com
+// folga. Em pe a imagem cobre pela altura e so essa faixa aparece; mandar a
+// cena inteira seria pagar por pixel escondido.
+const PORTRAIT = { left: 1773, top: 0, width: 1100, height: 2143 };
+const PORTRAIT_WIDTHS = [550, 825, 1100];
 // Qualidade escolhida pelas comparacoes (docs/design/home-imagem/README.md).
 const AVIF = { quality: 88, effort: 5, chromaSubsampling: "4:4:4" };
 const WEBP = { quality: 95, effort: 6, smartSubsample: true, preset: "photo" };

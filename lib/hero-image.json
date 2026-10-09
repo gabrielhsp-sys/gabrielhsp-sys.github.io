@@ -29,22 +29,22 @@
   ],
   "portrait": [
     {
-      "width": 860,
+      "width": 550,
       "height": 1072,
-      "avif": 90051,
-      "webp": 130050
+      "avif": 56208,
+      "webp": 81296
     },
     {
-      "width": 1290,
+      "width": 825,
       "height": 1607,
-      "avif": 155419,
-      "webp": 227168
+      "avif": 96505,
+      "webp": 140460
     },
     {
-      "width": 1720,
+      "width": 1100,
       "height": 2143,
-      "avif": 231213,
-      "webp": 335238
+      "avif": 143375,
+      "webp": 206640
     }
   ]
 }
