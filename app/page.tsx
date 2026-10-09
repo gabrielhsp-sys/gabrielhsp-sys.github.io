@@ -5,7 +5,6 @@ import {
   EnvelopeSimpleIcon as Envelope,
   TerminalWindowIcon as TerminalWindow,
 } from "@phosphor-icons/react/dist/ssr";
-import { preload } from "react-dom";
 import { ArchiveLine } from "@/components/archive-line";
 import { ContactSection } from "@/components/contact-actions";
 import { Status } from "@/components/content-ui";
@@ -50,9 +49,11 @@ const about = [
   "Isso virou curso e virou este arquivo — que guarda as versões e as decisões, não só o resultado final.",
 ];
 
-// Fundo da home (scripts/imagens.mjs): deitado, a cena inteira; em pe, o
-// recorte em volta do notebook. As duas `media` sao as mesmas do <picture> e
-// do preload, para o navegador nunca baixar as duas.
+// Fundo da home (scripts/imagens.mjs): deitado, a cena inteira; em pe, a
+// faixa do notebook. Sem <link rel=preload>: o Next pre-carrega a rota da home
+// a partir do link "Inicio" de toda pagina, e o preload ia junto, baixando a
+// imagem no arquivo e nos estudos de caso. O <img> com fetchpriority alta, no
+// HTML, ja e achado cedo pelo preload scanner.
 const srcset = (prefix: string, list: { width: number }[], ext: string) =>
   list.map(({ width }) => `/home/${prefix}-${width}.${ext} ${width}w`).join(", ");
 const wide = { media: "(orientation: landscape)", sizes: `max(100vw, ${(hero.width / hero.height * 100).toFixed(0)}vh)` };
@@ -61,8 +62,6 @@ const wide = { media: "(orientation: landscape)", sizes: `max(100vw, ${(hero.wid
 const tall = { media: "(orientation: portrait)", sizes: `max(100vw, ${(hero.portrait[0].width / hero.portrait[0].height * 100).toFixed(0)}vh)` };
 
 function BenchImage() {
-  preload(`/home/bancada-${hero.variants[1].width}.avif`, { as: "image", type: "image/avif", fetchPriority: "high", imageSrcSet: srcset("bancada", hero.variants, "avif"), imageSizes: wide.sizes, media: wide.media });
-  preload(`/home/bancada-retrato-${hero.portrait[0].width}.avif`, { as: "image", type: "image/avif", fetchPriority: "high", imageSrcSet: srcset("bancada-retrato", hero.portrait, "avif"), imageSizes: tall.sizes, media: tall.media });
   const fallback = hero.variants[1];
   return (
     // O trilho tem a altura da bancada; a imagem presa nele para de subir com
