@@ -1,0 +1,42 @@
+{
+ "1440 home": {
+  "fcp": 180,
+  "lcp": 180,
+  "lcpEl": "img.",
+  "cls": 0,
+  "tbt": 0,
+  "maxLong": 116,
+  "inp": 56,
+  "p95frame": 17,
+  "over34": 0,
+  "scrollLong": 0,
+  "kb": {
+   "html": 93.4,
+   "js": 165.7,
+   "css": 12.8,
+   "font": 70,
+   "image": 192.2,
+   "other": 57.1
+  }
+ },
+ "390 home": {
+  "fcp": 180,
+  "lcp": 180,
+  "lcpEl": "img.",
+  "cls": 0,
+  "tbt": 0,
+  "maxLong": 122,
+  "inp": 40,
+  "p95frame": 17,
+  "over34": 0,
+  "scrollLong": 0,
+  "kb": {
+   "html": 76.8,
+   "js": 165.7,
+   "css": 12.8,
+   "font": 70,
+   "image": 226.3,
+   "other": 37.8
+  }
+ }
+}

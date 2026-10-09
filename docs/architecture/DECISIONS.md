@@ -258,3 +258,63 @@ medidas em `docs/audits/2026-10-auditoria-geral/`. O que muda na arquitetura:
   diverge (mesmo padrão das preferências, ADR-012).
 - **Dados estruturados** (`Person`, `WebSite`, `ProfilePage`) só com o que
   `lib/site.ts` afirma.
+
+## ADR-022 — home com imagem da bancada (2026-10-08)
+
+Confirmado pelo Gabriel em 2026-10-08: a home com vídeo fica arquivada (tag
+local `home-video-arquivo-2026-10`) e a home ganha uma imagem parada de fundo,
+`assets-src/imagens/hero-bancada.png`, atrás do hero e do "Sobre". Duas
+regras anteriores mudam por isso:
+
+- **ADR-006.** Passa a haver uma segunda imagem gerada: `npm run imagens`
+  (`scripts/imagens.mjs`) codifica a bancada em AVIF e WebP para o srcset, em
+  `public/home/`, com o `sharp` que vem com o Next. Continua sem vídeo de fundo
+  e sem biblioteca de animação: o movimento ligado à rolagem é CSS.
+- **ADR-015.** O cartão "Estudos de caso" do hero lista de novo os destaques,
+  por pedido do Gabriel. Ele é índice (uma linha por estudo, sem resumo nem
+  stack), não um segundo card; a regra "nenhum projeto ganha card duas vezes"
+  continua valendo para cards e linhas de arquivo. Remover o cartão no celular
+  está como proposta em `docs/design/revisao-2026-10/RELATORIO.md`.
+
+Detalhes e medidas: `docs/design/home-imagem/README.md`.
+
+**Revisto em 2026-10-09 (decisão do Gabriel):** o "Sobre" ("Eu gosto do que
+acontece por baixo da interface.") saiu da home, e a imagem fica só atrás do
+hero, do tamanho dele, terminando num degradê curto para o fundo do site. Depois
+do hero vem direto "Projetos em destaque", como na main. Não há mais movimento
+ligado à rolagem na home. O cartão "Estudos de caso" e o resto do hero seguem.
+
+## ADR-023 — fallback do "Sobre" e ferramentas de medida (2026-10-09)
+
+Propostas P2, P4 e P5 da revisão 2026-10, aprovadas pelo Gabriel; muda três
+pontos da ADR-022. A P1 (e-mail à vista no hero, com botão de copiar) entrou e
+foi revertida no mesmo dia, a pedido dele: o hero continua como no site
+publicado, e o e-mail fica no "Contato".
+
+- **Movimento ligado à rolagem** (removido no mesmo dia, junto com o "Sobre"
+  da home, por decisão do Gabriel: ver a revisão da ADR-022). Era CSS
+  (`animation-timeline`) onde havia
+  suporte. Onde não há — o Firefox até a 157, que deixava as frases paradas e
+  acesas — `components/bench-scroll.tsx` fazia a mesma conta em JS, sem
+  biblioteca (a ADR-006 segue valendo): ouvinte passivo, um
+  `requestAnimationFrame` por quadro, geometria medida só quando o tamanho
+  muda. Com movimento reduzido, nenhum dos dois liga. Na segunda rodada do
+  mesmo dia a faixa mudou: cada frase acende com o topo entre 85% e 50% da
+  tela (antes acabava a ~60%, e a metade de baixo já estava acesa), e
+  `/?debug=reveal` mostrava o caminho e o progresso ao vivo. Saíram
+  `components/bench-scroll.tsx`, `components/reveal-debug.tsx`,
+  `lib/scroll-reveal.ts`, os estilos e os testes; ficou
+  `allowedDevOrigins: ["127.0.0.1"]`, que serve a todo o JS no `next dev`.
+- **O `sharp` é dependência declarada**, `0.35.4`, a mesma que o Next 16.3.5
+  traz; `npm run imagens` não depende mais do opcional do Next.
+- **O cartão "Estudos de caso" sai do hero no celular** (até 600 px em pé, ou
+  deitado com até 500 px de altura). Fica o índice no desktop e no tablet,
+  como a ADR-022 previa.
+
+E uma coisa nova: Playwright `1.63.0`, Lighthouse `13.5.0` e axe `4.13.0`
+viram devDependencies com versão fixada (gate `ecosystem-tool-adoption`, D-129
+do ecossistema), com `npm run e2e` em Chromium e Firefox sobre o `out/`. O
+WebKit do Playwright não roda no Fedora; o motor do Safari é conferido no
+WebKitGTK do sistema (`docs/design/revisao-2026-10/medidas/webkitgtk.py`).
+
+Detalhes e medidas: `docs/design/revisao-2026-10/RELATORIO.md` §8.

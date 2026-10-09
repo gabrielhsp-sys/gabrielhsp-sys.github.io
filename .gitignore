@@ -11,3 +11,5 @@ videos/*/assets/
 videos/*/renders/
 videos/*/snapshots/
 videos/*/.hyperframes/
+test-results/
+playwright-report/

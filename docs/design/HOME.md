@@ -25,17 +25,27 @@ seguida lê os estudos de caso — problema, o que ele fez, stack, resultado —
 com o primeiro do `featuredRank` liderando a seção numa linha inteira e os
 outros lado a lado, em cards sem numeração decorativa, descobre as três frentes de trabalho, e só então encontra os projetos que não
 viraram destaque, numa lista curta que leva ao arquivo completo e filtrável em
-página própria. Nenhum projeto aparece duas vezes. Sobre e contato fecham a página.
+página própria. Nenhum projeto ganha card duas vezes (o cartão do hero é índice).
+O contato fecha a página. Depois do hero vem direto "Projetos em destaque", como
+na main: o "Sobre" curto sobre a imagem saiu da home (decisão do Gabriel,
+2026-10-09); a história fica em `/about/`.
 
 ## FIRST VIEWPORT
 
-Um trilho de sistema persistente enquadra um hero de coluna única: uma linha de
-apresentação com a disponibilidade ("Disponível para estágio", ponto verde
-parado, sem selo), a frase de valor, um parágrafo que nomeia a stack real, e dois
-botões — falar comigo e ver os projetos. Abaixo deles, uma dica discreta do
-terminal, que é convite, não requisito, e some em tela de toque. Não há grade de
-cards, métrica inventada nem relógio: a barra superior mostra a data da revisão
-mais recente do conteúdo.
+Um trilho de sistema persistente enquadra o hero sobre a imagem da bancada
+(`docs/design/home-imagem/`): à esquerda, uma linha de apresentação com a
+disponibilidade ("Disponível para estágio", ponto verde parado, sem selo), a
+frase de valor, um parágrafo que nomeia a stack real, e dois botões — falar
+comigo e ver os projetos; à direita, o cartão "Estudos de caso", um índice de uma
+linha por estudo, com área, estado e período. Abaixo dos botões, uma dica
+discreta do terminal, que é convite, não requisito, e some em tela de toque. Não
+há métrica inventada nem relógio: a barra superior mostra a data da revisão mais
+recente do conteúdo.
+
+A imagem fica só atrás do hero, do tamanho dele, e termina num degradê curto
+para o fundo do site, sem efeito de rolagem. O resto da home é a página de
+sempre, opaca e sem imagem. A versão com vídeo ficou na tag local
+`home-video-arquivo-2026-10`.
 
 ## BOOT
 

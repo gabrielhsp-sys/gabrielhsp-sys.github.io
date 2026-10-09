@@ -1,0 +1,50 @@
+{
+  "width": 3840,
+  "height": 2143,
+  "variants": [
+    {
+      "width": 1280,
+      "height": 714,
+      "avif": 118438,
+      "webp": 163656
+    },
+    {
+      "width": 1920,
+      "height": 1072,
+      "avif": 196368,
+      "webp": 282792
+    },
+    {
+      "width": 2560,
+      "height": 1429,
+      "avif": 286438,
+      "webp": 416616
+    },
+    {
+      "width": 3840,
+      "height": 2143,
+      "avif": 496991,
+      "webp": 712618
+    }
+  ],
+  "portrait": [
+    {
+      "width": 550,
+      "height": 1072,
+      "avif": 56208,
+      "webp": 81296
+    },
+    {
+      "width": 825,
+      "height": 1607,
+      "avif": 96505,
+      "webp": 140460
+    },
+    {
+      "width": 1100,
+      "height": 2143,
+      "avif": 143375,
+      "webp": 206640
+    }
+  ]
+}

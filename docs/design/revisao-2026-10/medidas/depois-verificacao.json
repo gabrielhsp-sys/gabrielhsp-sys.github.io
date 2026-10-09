@@ -1,0 +1,34 @@
+{
+ "boot": {
+  "aparece": true,
+  "someSozinha": true,
+  "console": [],
+  "pulaComTecla": true
+ },
+ "reduced": {
+  "semBoot": true,
+  "frasesSemAnimacao": true,
+  "imagemSemAnimacao": true,
+  "barraSemTransicao": true
+ },
+ "personalidade": {
+  "buscaAbre": true,
+  "resultados": 1,
+  "buscaFecha": true,
+  "terminalAbre": true,
+  "linhasHelp": 15,
+  "snake": true,
+  "konamiRetro": "on",
+  "crt": true,
+  "somAntes": "true",
+  "somDepois": "false",
+  "webAudio": true,
+  "console": []
+ },
+ "semJS": {
+  "h1": true,
+  "frases": 4,
+  "imagem": true,
+  "projetos": 4
+ }
+}
