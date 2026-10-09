@@ -201,6 +201,47 @@ function SiteChrome({ updated, children }: ChromeProps) {
     [closeLayers, router],
   );
 
+  /* ───────── barra do topo sai da frente ao rolar para baixo ─────────
+     Rolando para baixo, a barra (72px, quase opaca) cortava pela metade o
+     titulo que passava por ela a cada entalhe da roda. Ela recolhe quando a
+     pessoa desce e volta no primeiro gesto para cima, perto do topo e quando
+     algo dentro dela recebe foco. So escreve um atributo: o movimento e CSS. */
+  const topbarRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const root = document.documentElement;
+    let last = window.scrollY;
+    let travel = 0;
+    let frame = 0;
+    const set = (hidden: boolean) => {
+      if (hidden && topbarRef.current?.contains(document.activeElement)) return;
+      if ((root.dataset.topbar === "hidden") !== hidden) root.dataset.topbar = hidden ? "hidden" : "shown";
+    };
+    const update = () => {
+      frame = 0;
+      const y = window.scrollY;
+      const delta = y - last;
+      last = y;
+      // Mesmo sentido acumula; mudar de sentido zera. Assim um tremor de
+      // poucos pixels no trackpad nao faz a barra piscar.
+      travel = Math.sign(delta) === Math.sign(travel) ? travel + delta : delta;
+      // So no topo a barra fica parada: passou da altura dela, ja pode sair.
+      if (y <= (topbarRef.current?.offsetHeight ?? 72)) set(false);
+      else if (travel > 24) set(true);
+      else if (travel < -12) set(false);
+    };
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(update); };
+    const onFocus = () => set(false);
+    const bar = topbarRef.current;
+    window.addEventListener("scroll", onScroll, { passive: true });
+    bar?.addEventListener("focusin", onFocus);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      bar?.removeEventListener("focusin", onFocus);
+      cancelAnimationFrame(frame);
+      delete root.dataset.topbar;
+    };
+  }, []);
+
   /* ───────── teclado global ───────── */
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -595,7 +636,7 @@ function SiteChrome({ updated, children }: ChromeProps) {
       </aside>
 
       <div className="site-column">
-        <header className="topbar">
+        <header className="topbar" ref={topbarRef}>
           {/* No desktop a marca e o monograma do trilho; o nome por extenso so
               aparece no celular, onde o trilho nao existe. */}
           <Link href="/" className="wordmark" translate="no">

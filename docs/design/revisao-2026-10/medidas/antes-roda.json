@@ -1,0 +1,213 @@
+{
+ "1440 home": {
+  "stops": 41,
+  "withCut": 9,
+  "pct": 22,
+  "titles": {
+   "Eu construo software que fica de pé sozi": 2,
+   "Projetos em destaque": 1,
+   "Telegram Offers": 1,
+   "Fedora pós-instalação": 1,
+   "O que eu faço": 1,
+   "Outros projetos": 1,
+   "Eu gosto do que acontece por baixo da in": 2
+  },
+  "step": 100,
+  "anchors": {
+   "#projetos": {
+    "barBottom": 72,
+    "headingTop": 218,
+    "gap": 146
+   },
+   "#contato": {
+    "barBottom": 72,
+    "headingTop": 373,
+    "gap": 301
+   }
+  }
+ },
+ "1440 sobre": {
+  "stops": 9,
+  "withCut": 1,
+  "pct": 11,
+  "titles": {
+   "Gabriel Henrique.": 1
+  },
+  "step": 100
+ },
+ "1440 arquivo": {
+  "stops": 9,
+  "withCut": 1,
+  "pct": 11,
+  "titles": {
+   "Todos os projetos.": 1
+  },
+  "step": 100
+ },
+ "1440 caso-telegram": {
+  "stops": 42,
+  "withCut": 2,
+  "pct": 5,
+  "titles": {
+   "O problema": 1,
+   "Resultado": 1
+  },
+  "step": 100
+ },
+ "1920 home": {
+  "stops": 39,
+  "withCut": 8,
+  "pct": 21,
+  "titles": {
+   "Eu construo software que fica de pé sozi": 2,
+   "Projetos em destaque": 1,
+   "GABRIEL.SYS": 1,
+   "Academic System": 1,
+   "Fedora pós-instalação": 1,
+   "Software & Automação": 1,
+   "Web & Interfaces": 1,
+   "Acadêmico": 1,
+   "Outros projetos": 1,
+   "Eu gosto do que acontece por baixo da in": 2
+  },
+  "step": 100,
+  "anchors": {
+   "#projetos": {
+    "barBottom": 72,
+    "headingTop": 228,
+    "gap": 156
+   },
+   "#contato": {
+    "barBottom": 72,
+    "headingTop": 603,
+    "gap": 531
+   }
+  }
+ },
+ "1920 sobre": {
+  "stops": 8,
+  "withCut": 0,
+  "pct": 0,
+  "titles": {},
+  "step": 100
+ },
+ "1920 arquivo": {
+  "stops": 6,
+  "withCut": 0,
+  "pct": 0,
+  "titles": {},
+  "step": 100
+ },
+ "1920 caso-telegram": {
+  "stops": 41,
+  "withCut": 2,
+  "pct": 5,
+  "titles": {
+   "O problema": 1,
+   "Resultado": 1
+  },
+  "step": 100
+ },
+ "1366 home": {
+  "stops": 41,
+  "withCut": 9,
+  "pct": 22,
+  "titles": {
+   "Eu construo software que fica de pé sozi": 2,
+   "Projetos em destaque": 1,
+   "Telegram Offers": 1,
+   "Fedora pós-instalação": 1,
+   "O que eu faço": 1,
+   "Outros projetos": 1,
+   "Eu gosto do que acontece por baixo da in": 2
+  },
+  "step": 100,
+  "anchors": {
+   "#projetos": {
+    "barBottom": 72,
+    "headingTop": 211,
+    "gap": 139
+   },
+   "#contato": {
+    "barBottom": 72,
+    "headingTop": 258,
+    "gap": 186
+   }
+  }
+ },
+ "1366 sobre": {
+  "stops": 10,
+  "withCut": 1,
+  "pct": 10,
+  "titles": {
+   "Gabriel Henrique.": 1
+  },
+  "step": 100
+ },
+ "1366 arquivo": {
+  "stops": 10,
+  "withCut": 1,
+  "pct": 10,
+  "titles": {
+   "Todos os projetos.": 1
+  },
+  "step": 100
+ },
+ "1366 caso-telegram": {
+  "stops": 43,
+  "withCut": 2,
+  "pct": 5,
+  "titles": {
+   "O problema": 1,
+   "O que eu fiz": 1
+  },
+  "step": 100
+ },
+ "390 home": {
+  "stops": 58,
+  "withCut": 3,
+  "pct": 5,
+  "titles": {
+   "Eu construo software que fica de pé sozi": 2,
+   "Eu gosto do que acontece por baixo da in": 1
+  },
+  "step": 100,
+  "anchors": {
+   "#projetos": {
+    "barBottom": 62,
+    "headingTop": 164,
+    "gap": 102
+   },
+   "#contato": {
+    "barBottom": 62,
+    "headingTop": 164,
+    "gap": 102
+   }
+  }
+ },
+ "390 sobre": {
+  "stops": 18,
+  "withCut": 1,
+  "pct": 6,
+  "titles": {
+   "Como este site funciona": 1
+  },
+  "step": 100
+ },
+ "390 arquivo": {
+  "stops": 15,
+  "withCut": 0,
+  "pct": 0,
+  "titles": {},
+  "step": 100
+ },
+ "390 caso-telegram": {
+  "stops": 53,
+  "withCut": 1,
+  "pct": 2,
+  "titles": {
+   "Telegram Offers": 1
+  },
+  "step": 100
+ }
+}

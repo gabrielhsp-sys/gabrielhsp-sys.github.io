@@ -1,0 +1,122 @@
+{
+ "1366 home longo": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [],
+  "inversions": []
+ },
+ "1366 home palavra": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [],
+  "inversions": []
+ },
+ "1366 home curto": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [],
+  "inversions": []
+ },
+ "1366 arquivo longo": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [],
+  "inversions": []
+ },
+ "1366 arquivo palavra": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [],
+  "inversions": []
+ },
+ "1366 arquivo curto": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [],
+  "inversions": []
+ },
+ "1366 caso longo": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [],
+  "inversions": []
+ },
+ "1366 caso palavra": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [],
+  "inversions": []
+ },
+ "1366 caso curto": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [],
+  "inversions": []
+ },
+ "390 home longo": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [],
+  "inversions": []
+ },
+ "390 home palavra": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [],
+  "inversions": []
+ },
+ "390 home curto": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [],
+  "inversions": []
+ },
+ "390 arquivo longo": {
+  "overflowX": 0,
+  "clipped": [
+   "button \"Web & Interfaces\" sai 64px",
+   "button \"Acadêmico\" sai 154px",
+   "button \"Concluído\" sai 67px"
+  ],
+  "overlaps": [],
+  "inversions": []
+ },
+ "390 arquivo palavra": {
+  "overflowX": 0,
+  "clipped": [
+   "button \"Web & Interfaces\" sai 64px",
+   "button \"Acadêmico\" sai 154px",
+   "button \"Concluído\" sai 67px"
+  ],
+  "overlaps": [],
+  "inversions": []
+ },
+ "390 arquivo curto": {
+  "overflowX": 0,
+  "clipped": [
+   "button \"Web & Interfaces\" sai 64px",
+   "button \"Acadêmico\" sai 154px",
+   "button \"Concluído\" sai 67px"
+  ],
+  "overlaps": [],
+  "inversions": []
+ },
+ "390 caso longo": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [],
+  "inversions": []
+ },
+ "390 caso palavra": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [],
+  "inversions": []
+ },
+ "390 caso curto": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [],
+  "inversions": []
+ }
+}

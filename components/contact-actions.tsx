@@ -22,13 +22,18 @@ export function CopyEmailButton({ label = "copiar e-mail" }: { label?: string })
   };
 
   return (
-    <button className="copy-email" type="button" onClick={copy}>
-      {/* A chave remonta o icone, para ele entrar com o fade de .copy-email-icon. */}
-      <span className="copy-email-icon" key={copied ? "ok" : "copy"} aria-hidden="true">
-        {copied ? <Check size={18} weight="bold" aria-hidden="true" /> : <Copy size={18} aria-hidden="true" />}
-      </span>
-      <span role="status">{copied ? "e-mail copiado" : label}</span>
-    </button>
+    <>
+      <button className="copy-email" type="button" onClick={copy}>
+        {/* A chave remonta o icone, para ele entrar com o fade de .copy-email-icon. */}
+        <span className="copy-email-icon" key={copied ? "ok" : "copy"} aria-hidden="true">
+          {copied ? <Check size={18} weight="bold" aria-hidden="true" /> : <Copy size={18} aria-hidden="true" />}
+        </span>
+        <span>{copied ? "e-mail copiado" : label}</span>
+      </button>
+      {/* O aviso fica fora do botao: dentro dele o conteudo e apresentacional
+          (ARIA) e o leitor de tela pode nao anunciar a troca do texto. */}
+      <span className="sr-only" role="status">{copied ? "e-mail copiado" : ""}</span>
+    </>
   );
 }
 

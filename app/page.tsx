@@ -10,6 +10,8 @@ import { ContactSection } from "@/components/contact-actions";
 import { Status } from "@/components/content-ui";
 import { StructuredData } from "@/components/structured-data";
 import { getAllContent, getFeaturedContent, getPublicAreas, toArchiveItem } from "@/lib/content";
+import hero from "@/lib/hero-image.json";
+import { formatPeriod } from "@/lib/period";
 import { areaLabels } from "@/lib/site";
 
 // O que aparece em "O que eu faco". Cada bloco aponta para projetos que
@@ -38,6 +40,36 @@ const craft = [
   },
 ];
 
+// Fundo da home (scripts/imagens.mjs): deitado, a cena inteira; em pe, a
+// faixa do notebook. Sem <link rel=preload>: o Next pre-carrega a rota da home
+// a partir do link "Inicio" de toda pagina, e o preload ia junto, baixando a
+// imagem no arquivo e nos estudos de caso. O <img> com fetchpriority alta, no
+// HTML, ja e achado cedo pelo preload scanner.
+const srcset = (prefix: string, list: { width: number }[], ext: string) =>
+  list.map(({ width }) => `/home/${prefix}-${width}.${ext} ${width}w`).join(", ");
+const wide = { media: "(orientation: landscape)", sizes: `max(100vw, ${(hero.width / hero.height * 100).toFixed(0)}vh)` };
+// Em pe a imagem cobre pela altura: a largura desenhada e a altura da tela
+// vezes a proporcao do recorte.
+const tall = { media: "(orientation: portrait)", sizes: `max(100vw, ${(hero.portrait[0].width / hero.portrait[0].height * 100).toFixed(0)}vh)` };
+
+function HeroImage() {
+  const fallback = hero.variants[1];
+  return (
+    // So atras do hero: a caixa tem a altura dele e acaba num degrade curto
+    // para o fundo do site. Nada de imagem nas secoes de baixo.
+    <div className="hero-image" aria-hidden="true">
+      <picture>
+        <source type="image/avif" media={tall.media} srcSet={srcset("bancada-retrato", hero.portrait, "avif")} sizes={tall.sizes} />
+        <source type="image/webp" media={tall.media} srcSet={srcset("bancada-retrato", hero.portrait, "webp")} sizes={tall.sizes} />
+        <source type="image/avif" srcSet={srcset("bancada", hero.variants, "avif")} sizes={wide.sizes} />
+        <source type="image/webp" srcSet={srcset("bancada", hero.variants, "webp")} sizes={wide.sizes} />
+        {/* Decorativa: o texto da pagina diz tudo; alt vazio e aria-hidden. */}
+        <img src={`/home/bancada-${fallback.width}.webp`} alt="" width={fallback.width} height={fallback.height} fetchPriority="high" decoding="async" />
+      </picture>
+    </div>
+  );
+}
+
 // "Quatro estudos de caso" vinha escrito a mao; a frase agora conta o conteudo.
 const numberWords = ["Nenhum", "Um", "Dois", "Três", "Quatro", "Cinco", "Seis", "Sete", "Oito", "Nove"];
 const countCases = (count: number) =>
@@ -48,17 +80,22 @@ export default function Home() {
   const areas = getPublicAreas();
   // Os destaques ja estao nos cards; o arquivo da home mostra so o resto.
   const others = getAllContent().filter((item) => !item.featured).map(toArchiveItem);
+  const live = featured.filter((item) => item.status === "live").length;
 
   return (
     <main id="conteudo">
       <StructuredData page="home" />
-      {/* ── HERO ─────────────────────────────────────────────── */}
+      {/* ── HERO: a bancada atras, so ate o fim dele ────────── */}
+      {/* Hero: tese a esquerda, indice dos estudos de caso a direita. */}
       <section className="hero" aria-labelledby="hero-heading">
+        <HeroImage />
         <div className="hero-copy">
           {/* Disponibilidade e dado, nao selo: mesmo ponto verde do estado "No ar". */}
           <p className="hero-kicker">
             <span className="hero-available"><i aria-hidden="true" /> Disponível para estágio</span>
-            <span>Gabriel Henrique · Ciência da Computação, UNIFAL-MG</span>
+            {/* O nome e a primeira pergunta de quem chega: le-se na fonte do texto,
+                nao em rotulo de 11px. Curso e faculdade seguem como dado. */}
+            <span className="hero-name"><strong>Gabriel Henrique</strong> Ciência da Computação · UNIFAL-MG</span>
           </p>
           <h1 id="hero-heading">
             Eu construo software que <em>fica de pé sozinho.</em>
@@ -81,6 +118,33 @@ export default function Home() {
             <span>Prefere linha de comando? Aperte</span> <kbd>`</kbd>
           </button>
         </div>
+
+        {/* O painel e um indice, nao uma vitrine: uma linha por estudo de caso. */}
+        {featured.length > 0 && (
+          <aside className="hero-panel" aria-label="Estudos de caso">
+            <div className="hero-panel-head">
+              <span>estudos de caso</span>
+              {live > 0 && <span>{live} no ar</span>}
+            </div>
+            <ol>
+              {featured.map((item) => (
+                <li key={item.id}>
+                  <Link href={item.href}>
+                    <span className="area-mark" data-area={item.area}>{areaLabels[item.area]}</span>
+                    <strong>{item.title}</strong>
+                    <Status value={item.status} />
+                    <span className="hero-period">{formatPeriod(item.startedAt, item.endedAt)}</span>
+                  </Link>
+                </li>
+              ))}
+            </ol>
+            {others.length > 0 && (
+              <a className="hero-panel-foot" href="#arquivo">
+                + {others.length} {others.length === 1 ? "outro projeto" : "outros projetos"} no arquivo
+              </a>
+            )}
+          </aside>
+        )}
       </section>
 
       {/* ── PROJETOS EM DESTAQUE ─────────────────────────────── */}
@@ -158,22 +222,6 @@ export default function Home() {
           </Link>
         </section>
       )}
-
-      {/* ── SOBRE ────────────────────────────────────────────── */}
-      <section className="about-teaser" id="sobre" aria-labelledby="about-teaser-heading">
-        <h2 id="about-teaser-heading">
-          Eu gosto do que acontece por baixo da interface.
-        </h2>
-        <p>
-          Comecei mexendo no registro do Windows para ganhar alguns quadros por segundo, quebrei o
-          sistema, consertei, e descobri que gostava mais de abrir a máquina do que de usar ela.
-          Isso virou curso e virou este arquivo — que guarda as versões e as decisões,
-          não só o resultado final.
-        </p>
-        <div className="about-teaser-actions">
-          <Link href="/about/">a história inteira <ArrowRight size={17} aria-hidden="true" /></Link>
-        </div>
-      </section>
 
       {/* ── CONTATO ──────────────────────────────────────────── */}
       <ContactSection />

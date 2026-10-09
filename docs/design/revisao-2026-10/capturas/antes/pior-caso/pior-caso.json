@@ -1,0 +1,174 @@
+{
+ "1366 home longo": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [],
+  "inversions": []
+ },
+ "1366 home palavra": {
+  "overflowX": 0,
+  "clipped": [
+   "span.area-mark \"Software & Automação\" sai 93px",
+   "strong \"Infraestruturaautomatizadadeimpl\" sai 93px",
+   "span.status \"No ar\" sai 199px",
+   "i \"\" sai 158px",
+   "span.hero-period \"DESDE AGO 2026\" sai 199px",
+   "span.area-mark \"Web & Interfaces\" sai 93px",
+   "span.hero-period \"DESDE JUN 2025\" sai 199px",
+   "span.status \"Concluído\" sai 182px",
+   "i \"\" sai 113px",
+   "span.hero-period \"JUN 2026\" sai 182px",
+   "span.hero-period \"AGO 2026\" sai 182px",
+   "a \"Infraestruturaautomatizadadeimpl\" sai 452px"
+  ],
+  "overlaps": [
+   "a \"Infraestruturaautomatizadadeimpl\" x li \"Python\" (58x5)",
+   "a \"Infraestruturaautomatizadadeimpl\" x li \"Telethon\" (71x5)",
+   "a \"Infraestruturaautomatizadadeimpl\" x li \"SQLite\" (58x5)",
+   "a \"Infraestruturaautomatizadadeimpl\" x li \"systemd\" (64x5)",
+   "a \"Infraestruturaautomatizadadeimpl\" x li \"automação\" (77x29)",
+   "a \"Infraestruturaautomatizadadeimpl\" x li \"Infraestruturaautomatizadade\" (203x29)",
+   "a \"Infraestruturaautomatizadadeimpl\" x li \"Infraestruturaautomatizadade\" (203x20)",
+   "a \"Infraestruturaautomatizadadeimpl\" x li.case-card \"Software & Automação ConcluídoIn\" (355x39)",
+   "a \"Infraestruturaautomatizadadeimpl\" x h3 \"Infraestruturaautomatizadadeimpl\" (293x34)",
+   "a \"Infraestruturaautomatizadadeimpl\" x a \"Infraestruturaautomatizadadeimpl\" (585x39)",
+   "a \"Infraestruturaautomatizadadeimpl\" x li.case-card \"Software & Automação ConcluídoIn\" (236x39)",
+   "a \"Infraestruturaautomatizadadeimpl\" x h3 \"Infraestruturaautomatizadadeimpl\" (205x34)"
+  ],
+  "inversions": []
+ },
+ "1366 home curto": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [],
+  "inversions": []
+ },
+ "1366 arquivo longo": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [],
+  "inversions": []
+ },
+ "1366 arquivo palavra": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [],
+  "inversions": []
+ },
+ "1366 arquivo curto": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [],
+  "inversions": []
+ },
+ "1366 caso longo": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [],
+  "inversions": []
+ },
+ "1366 caso palavra": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [
+   "strong \"Infraestruturaautomatizadadeimpl\" x a.button-solid \"Falar comigo\" (172x32)",
+   "strong \"Infraestruturaautomatizadadeimpl\" x button.copy-email \"copiar e-mail\" (143x28)"
+  ],
+  "inversions": []
+ },
+ "1366 caso curto": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [],
+  "inversions": []
+ },
+ "390 home longo": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [],
+  "inversions": []
+ },
+ "390 home palavra": {
+  "overflowX": 0,
+  "clipped": [
+   "a \"Infraestruturaautomatizadadeimpl\" sai 363px",
+   "span.archive-line-title \"Infraestruturaautomatizadadeimpl\" sai 314px",
+   "strong \"Infraestruturaautomatizadadeimpl\" sai 314px",
+   "small \"Sistema distribuído de orquestra\" sai 314px",
+   "span.archive-line-meta \"AcadêmicoEm desenvolvimentoDESDE\" sai 314px",
+   "span.archive-line-period \"DESDE 2025\" sai 314px",
+   "span.archive-line-meta \"AcadêmicoConcluído2025\" sai 314px",
+   "span.archive-line-period \"2025\" sai 314px"
+  ],
+  "overlaps": [],
+  "inversions": []
+ },
+ "390 home curto": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [],
+  "inversions": []
+ },
+ "390 arquivo longo": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [],
+  "inversions": []
+ },
+ "390 arquivo palavra": {
+  "overflowX": 0,
+  "clipped": [
+   "span.archive-line-title \"Infraestruturaautomatizadadeimpl\" sai 314px",
+   "strong \"Infraestruturaautomatizadadeimpl\" sai 314px",
+   "small \"Sistema distribuído de orquestra\" sai 314px",
+   "span.archive-line-meta \"Software & AutomaçãoNo arDESDE A\" sai 314px",
+   "span.archive-line-period \"DESDE AGO 2026\" sai 314px",
+   "span.archive-line-meta \"Web & InterfacesNo arDESDE JUN 2\" sai 314px",
+   "span.archive-line-period \"DESDE JUN 2025\" sai 314px",
+   "span.archive-line-meta \"AcadêmicoEm desenvolvimentoDESDE\" sai 314px",
+   "span.archive-line-period \"DESDE 2025\" sai 314px",
+   "span.archive-line-meta \"Software & AutomaçãoConcluídoAGO\" sai 314px",
+   "span.archive-line-period \"AGO 2026\" sai 314px",
+   "span.archive-line-meta \"Software & AutomaçãoConcluídoJUN\" sai 314px"
+  ],
+  "overlaps": [],
+  "inversions": []
+ },
+ "390 arquivo curto": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [],
+  "inversions": []
+ },
+ "390 caso longo": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [],
+  "inversions": []
+ },
+ "390 caso palavra": {
+  "overflowX": 0,
+  "clipped": [
+   "span.area-mark \"Software & Automação\" sai 192px",
+   "strong \"Infraestruturaautomatizadadeimpl\" sai 160px",
+   "svg \"\" sai 192px",
+   "path \"\" sai 188px",
+   "a.case-end-next \"próximo estudo de casoInfraestru\" sai 446px",
+   "span \"próximo estudo de caso\" sai 384px",
+   "strong \"Infraestruturaautomatizadadeimpl\" sai 384px",
+   "svg \"\" sai 424px",
+   "path \"\" sai 421px",
+   "div.case-end-contact \"Quer conversar sobre este projet\" sai 446px",
+   "p \"Quer conversar sobre este projet\" sai 424px",
+   "div \"Falar comigocopiar e-mail\" sai 424px"
+  ],
+  "overlaps": [],
+  "inversions": []
+ },
+ "390 caso curto": {
+  "overflowX": 0,
+  "clipped": [],
+  "overlaps": [],
+  "inversions": []
+ }
+}
