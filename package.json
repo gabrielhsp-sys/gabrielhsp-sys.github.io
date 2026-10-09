@@ -12,7 +12,8 @@
     "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test tests/*.test.mjs",
     "check": "npm run lint && npm run test && npm run build",
     "postbuild": "node scripts/verify-export.mjs",
-    "imagens": "node scripts/imagens.mjs"
+    "imagens": "node scripts/imagens.mjs",
+    "e2e": "playwright test"
   },
   "dependencies": {
     "@fontsource-variable/bricolage-grotesque": "^5.3.0",
@@ -26,12 +27,17 @@
     "zod": "^4.1.12"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.63.0",
     "@tailwindcss/postcss": "4.3.3",
     "@types/node": "^24.10.0",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
+    "axe-core": "4.13.0",
     "eslint": "^9.39.1",
     "eslint-config-next": "16.3.5",
+    "lighthouse": "13.5.0",
+    "playwright-core": "1.63.0",
     "tailwindcss": "4.3.3",
     "typescript": "^5.9.3"
   }

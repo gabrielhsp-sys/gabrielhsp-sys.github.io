@@ -1,11 +1,11 @@
 // Base comum dos scripts de medida da revisao 2026-10.
-// Playwright e axe vem do movimente-se-site (D-129, em aberto): so executados,
-// nada instalado neste repositorio.
+// Playwright e axe sao devDependencies do projeto desde a D-129 (2026-10-09);
+// antes vinham do movimente-se-site.
 import { createRequire } from "node:module";
 import fs from "node:fs";
 
-const require = createRequire("/home/gabriel/Dev/projects/personal/movimente-se-site/package.json");
-export const { chromium } = require("playwright");
+const require = createRequire(import.meta.url);
+export const { chromium, firefox } = require("playwright");
 export const axeSource = fs.readFileSync(require.resolve("axe-core/axe.min.js"), "utf8");
 
 export const routes = [

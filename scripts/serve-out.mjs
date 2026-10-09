@@ -1,7 +1,7 @@
 // Servidor estatico do out/ com gzip para texto (como o GitHub Pages faz com
 // HTML, JS, CSS, JSON e SVG). Binarios (imagem, video, .glb, fonte) vao como
 // estao: a conta de peso nao assume compressao que o Pages pode nao fazer.
-// Uso: node gz-server.mjs <pasta> <porta>
+// Uso: node scripts/serve-out.mjs <pasta> <porta> (o Playwright sobe ele sozinho)
 import fs from "node:fs";
 import http from "node:http";
 import path from "node:path";
@@ -32,4 +32,4 @@ http.createServer((req, res) => {
   }
   res.writeHead(200, { ...headers, "accept-ranges": "bytes", "content-length": data.length });
   res.end(req.method === "HEAD" ? undefined : data);
-}).listen(Number(port), () => console.log(`gz-server ${root} :${port}`));
+}).listen(Number(port), () => console.log(`serve-out ${root} :${port}`));
