@@ -5,6 +5,7 @@ desenhar: rode num compositor sem tela, por exemplo
   dbus-run-session -- mutter --headless --virtual-monitor 1600x1000 --wayland --no-x11 --wayland-display=wk-0 &
   WAYLAND_DISPLAY=wk-0 python3 -I webkitgtk.py URL PASSOS.json [largura altura]
 PASSOS: [{"js": "corpo de funcao async"}, {"shot": "arquivo.png"}, {"wait": ms}, {"reload": 1}]
+Um primeiro passo {"init": "codigo"} roda no inicio de cada documento, antes dos scripts da pagina.
 """
 import json
 import sys
@@ -33,6 +34,10 @@ def on_activate(app):
     win.set_child(view)
     win.present()
     queue = list(steps)
+    if queue and "init" in queue[0]:
+        script = WebKit.UserScript.new(queue.pop(0)["init"], WebKit.UserContentInjectedFrames.TOP_FRAME,
+                                       WebKit.UserScriptInjectionTime.START, None, None)
+        view.get_user_content_manager().add_script(script)
 
     def finish():
         print(json.dumps(results, ensure_ascii=False))

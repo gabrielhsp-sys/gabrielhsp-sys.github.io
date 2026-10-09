@@ -47,32 +47,6 @@
    ]
   }
  },
- "quadros-4x-css": {
-  "fallbackActive": false,
-  "scrolledPx": 2008,
-  "rafFrames": 96,
-  "rafP50": 16.7,
-  "rafP95": 16.8,
-  "rafMax": 16.8,
-  "rafOver20ms": 0,
-  "mainTasks": 441,
-  "mainTaskP95": 2.5,
-  "mainTaskMax": 8.5,
-  "mainTasksOver16ms": 0
- },
- "quadros-4x-fallback-js": {
-  "fallbackActive": true,
-  "scrolledPx": 2008,
-  "rafFrames": 96,
-  "rafP50": 16.7,
-  "rafP95": 16.8,
-  "rafMax": 16.8,
-  "rafOver20ms": 0,
-  "mainTasks": 437,
-  "mainTaskP95": 2.8,
-  "mainTaskMax": 7.8,
-  "mainTasksOver16ms": 0
- },
  "webkitgtk": {
   "version": "WebKitGTK 2.54.1 (UA Safari 605.1.15, Version/60.5), janela 1600x961 no mutter headless",
   "fallback": false,
@@ -95,6 +69,111 @@
     1,
     1
    ]
+  },
+  "fallbackForcado": {
+   "nota": "init: CSS.supports nega animation-timeline e animation:none nas frases/imagem; so o JS desenha",
+   "line": [
+    0.25,
+    0.28,
+    0.37,
+    0.64,
+    0.9,
+    1,
+    1
+   ],
+   "img": [
+    1,
+    0.94,
+    0.77,
+    0.43,
+    0.12,
+    0.01,
+    0
+   ]
   }
+ },
+ "firefox-sistema": {
+  "version": "Firefox 157.0 do Fedora (firefox-sistema.mjs, WebDriver BiDi)",
+  "supportsAnimationTimeline": false,
+  "reducedMotion": false,
+  "fallback": true,
+  "stops": {
+   "1-inicio": [
+    0.33,
+    0.25,
+    0.25,
+    0.25
+   ],
+   "2-meio": [
+    1,
+    0.99,
+    0.89,
+    0.63
+   ],
+   "3-fim": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "curva": {
+   "line": [
+    0.25,
+    0.29,
+    0.38,
+    0.65,
+    0.91,
+    1,
+    1
+   ],
+   "img": [
+    1,
+    0.93,
+    0.76,
+    0.42,
+    0.11,
+    0.01,
+    0
+   ]
+  }
+ },
+ "quadros-4x-css": {
+  "engine": "chromium 153.0.8010.12",
+  "fallbackActive": false,
+  "scrolledPx": 2008,
+  "rafFrames": 96,
+  "rafP50": 16.7,
+  "rafP95": 16.7,
+  "rafMax": 16.8,
+  "rafOver20ms": 0,
+  "mainTasks": 444,
+  "mainTaskP95": 2.4,
+  "mainTaskMax": 7.9,
+  "mainTasksOver16ms": 0
+ },
+ "quadros-4x-fallback-js": {
+  "engine": "chromium 153.0.8010.12",
+  "fallbackActive": true,
+  "scrolledPx": 2008,
+  "rafFrames": 96,
+  "rafP50": 16.7,
+  "rafP95": 16.8,
+  "rafMax": 16.8,
+  "rafOver20ms": 0,
+  "mainTasks": 435,
+  "mainTaskP95": 3.3,
+  "mainTaskMax": 8.1,
+  "mainTasksOver16ms": 0
+ },
+ "quadros-firefox-fallback": {
+  "engine": "firefox 155.0",
+  "fallbackActive": true,
+  "scrolledPx": 2008,
+  "rafFrames": 91,
+  "rafP50": 16.4,
+  "rafP95": 17.3,
+  "rafMax": 17.4,
+  "rafOver20ms": 0
  }
 }
