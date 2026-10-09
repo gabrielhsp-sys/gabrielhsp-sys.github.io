@@ -187,7 +187,11 @@ button, .button-solid, .button-ghost, .contact-primary, .rail-link, .mobile-dock
   border-bottom: 1px solid var(--line-soft);
   background: rgb(12 11 10 / .94);
   backdrop-filter: blur(12px);
+  /* Recolhe ao rolar para baixo (components/system-chrome.tsx): a mesma curva
+     de tudo que entra ou sai, e so transform, no compositor. */
+  transition: transform .28s var(--ease-out);
 }
+html[data-topbar="hidden"] .topbar { transform: translateY(-100%); }
 /* No desktop a marca e o monograma do trilho; o nome por extenso volta no
    celular, onde o trilho vira dock (ver o bloco de 820px). */
 .wordmark { display: none; min-height: 44px; align-items: center; font-family: var(--mono); font-size: 14px; font-weight: 600; letter-spacing: .08em; text-decoration: none; }
@@ -325,7 +329,10 @@ main { overflow-x: clip; }
   border-bottom: 1px solid var(--line-soft);
   background: rgb(21 19 17 / .96);
   backdrop-filter: blur(12px);
+  transition: transform .28s var(--ease-out);
 }
+/* Com a barra recolhida, os filtros sobem junto e encostam no topo. */
+html[data-topbar="hidden"] .filter-bar { transform: translateY(-72px); }
 .filter-search {
   flex: 0 1 320px;
   min-height: 46px;
