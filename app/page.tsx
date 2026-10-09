@@ -5,11 +5,14 @@ import {
   EnvelopeSimpleIcon as Envelope,
   TerminalWindowIcon as TerminalWindow,
 } from "@phosphor-icons/react/dist/ssr";
+import { preload } from "react-dom";
 import { ArchiveLine } from "@/components/archive-line";
 import { ContactSection } from "@/components/contact-actions";
 import { Status } from "@/components/content-ui";
 import { StructuredData } from "@/components/structured-data";
 import { getAllContent, getFeaturedContent, getPublicAreas, toArchiveItem } from "@/lib/content";
+import hero from "@/lib/hero-image.json";
+import { formatPeriod } from "@/lib/period";
 import { areaLabels } from "@/lib/site";
 
 // O que aparece em "O que eu faco". Cada bloco aponta para projetos que
@@ -38,6 +41,47 @@ const craft = [
   },
 ];
 
+// O "Sobre" da home, frase por frase: cada uma acende enquanto passa pela
+// tela, com a bancada atras. E o mesmo texto de sempre, so dividido.
+const about = [
+  "Comecei mexendo no registro do Windows para ganhar alguns quadros por segundo.",
+  "Quebrei o sistema, consertei,",
+  "e descobri que gostava mais de abrir a máquina do que de usar ela.",
+  "Isso virou curso e virou este arquivo — que guarda as versões e as decisões, não só o resultado final.",
+];
+
+// Fundo da home (scripts/imagens.mjs): deitado, a cena inteira; em pe, o
+// recorte em volta do notebook. As duas `media` sao as mesmas do <picture> e
+// do preload, para o navegador nunca baixar as duas.
+const srcset = (prefix: string, list: { width: number }[], ext: string) =>
+  list.map(({ width }) => `/home/${prefix}-${width}.${ext} ${width}w`).join(", ");
+const wide = { media: "(orientation: landscape)", sizes: `max(100vw, ${(hero.width / hero.height * 100).toFixed(0)}vh)` };
+// Em pe a imagem cobre pela altura: a largura desenhada e a altura da tela
+// vezes a proporcao do recorte.
+const tall = { media: "(orientation: portrait)", sizes: `max(100vw, ${(hero.portrait[0].width / hero.portrait[0].height * 100).toFixed(0)}vh)` };
+
+function BenchImage() {
+  preload(`/home/bancada-${hero.variants[1].width}.avif`, { as: "image", type: "image/avif", fetchPriority: "high", imageSrcSet: srcset("bancada", hero.variants, "avif"), imageSizes: wide.sizes, media: wide.media });
+  preload(`/home/bancada-retrato-${hero.portrait[0].width}.avif`, { as: "image", type: "image/avif", fetchPriority: "high", imageSrcSet: srcset("bancada-retrato", hero.portrait, "avif"), imageSizes: tall.sizes, media: tall.media });
+  const fallback = hero.variants[1];
+  return (
+    // O trilho tem a altura da bancada; a imagem presa nele para de subir com
+    // ele, entao nunca passa do fim do "Sobre".
+    <div className="bench-track" aria-hidden="true">
+      <div className="bench-stage">
+        <picture>
+          <source type="image/avif" media={tall.media} srcSet={srcset("bancada-retrato", hero.portrait, "avif")} sizes={tall.sizes} />
+          <source type="image/webp" media={tall.media} srcSet={srcset("bancada-retrato", hero.portrait, "webp")} sizes={tall.sizes} />
+          <source type="image/avif" srcSet={srcset("bancada", hero.variants, "avif")} sizes={wide.sizes} />
+          <source type="image/webp" srcSet={srcset("bancada", hero.variants, "webp")} sizes={wide.sizes} />
+          {/* Decorativa: o texto da pagina diz tudo; alt vazio e aria-hidden. */}
+          <img src={`/home/bancada-${fallback.width}.webp`} alt="" width={fallback.width} height={fallback.height} fetchPriority="high" decoding="async" />
+        </picture>
+      </div>
+    </div>
+  );
+}
+
 // "Quatro estudos de caso" vinha escrito a mao; a frase agora conta o conteudo.
 const numberWords = ["Nenhum", "Um", "Dois", "Três", "Quatro", "Cinco", "Seis", "Sete", "Oito", "Nove"];
 const countCases = (count: number) =>
@@ -48,40 +92,84 @@ export default function Home() {
   const areas = getPublicAreas();
   // Os destaques ja estao nos cards; o arquivo da home mostra so o resto.
   const others = getAllContent().filter((item) => !item.featured).map(toArchiveItem);
+  const live = featured.filter((item) => item.status === "live").length;
 
   return (
     <main id="conteudo">
       <StructuredData page="home" />
-      {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="hero" aria-labelledby="hero-heading">
-        <div className="hero-copy">
-          {/* Disponibilidade e dado, nao selo: mesmo ponto verde do estado "No ar". */}
-          <p className="hero-kicker">
-            <span className="hero-available"><i aria-hidden="true" /> Disponível para estágio</span>
-            <span>Gabriel Henrique · Ciência da Computação, UNIFAL-MG</span>
-          </p>
-          <h1 id="hero-heading">
-            Eu construo software que <em>fica de pé sozinho.</em>
-          </h1>
-          <p className="hero-lede">
-            Serviços em Python que rodam sem supervisão, sistemas em Java com arquitetura e teste,
-            interfaces web estáticas e acessíveis. Cada projeto aqui explica o problema que resolve
-            antes de listar a tecnologia.
-          </p>
-          <div className="hero-actions">
-            <a className="button-solid" href="#contato">
-              <Envelope size={19} aria-hidden="true" /> Falar comigo
-            </a>
-            <a className="button-ghost" href="#projetos">
-              Ver os projetos <ArrowRight size={17} aria-hidden="true" />
-            </a>
+      {/* ── BANCADA: a imagem fica presa atras do hero e do "Sobre" ── */}
+      <div className="bench">
+        <BenchImage />
+
+        {/* Hero: tese a esquerda, indice dos estudos de caso a direita. */}
+        <section className="hero" aria-labelledby="hero-heading">
+          <div className="hero-copy">
+            {/* Disponibilidade e dado, nao selo: mesmo ponto verde do estado "No ar". */}
+            <p className="hero-kicker">
+              <span className="hero-available"><i aria-hidden="true" /> Disponível para estágio</span>
+              <span>Gabriel Henrique · Ciência da Computação, UNIFAL-MG</span>
+            </p>
+            <h1 id="hero-heading">
+              Eu construo software que <em>fica de pé sozinho.</em>
+            </h1>
+            <p className="hero-lede">
+              Serviços em Python que rodam sem supervisão, sistemas em Java com arquitetura e teste,
+              interfaces web estáticas e acessíveis. Cada projeto aqui explica o problema que resolve
+              antes de listar a tecnologia.
+            </p>
+            <div className="hero-actions">
+              <a className="button-solid" href="#contato">
+                <Envelope size={19} aria-hidden="true" /> Falar comigo
+              </a>
+              <a className="button-ghost" href="#projetos">
+                Ver os projetos <ArrowRight size={17} aria-hidden="true" />
+              </a>
+            </div>
+            <button className="hero-hint" type="button" data-terminal-shortcut>
+              <TerminalWindow size={17} aria-hidden="true" />
+              <span>Prefere linha de comando? Aperte</span> <kbd>`</kbd>
+            </button>
           </div>
-          <button className="hero-hint" type="button" data-terminal-shortcut>
-            <TerminalWindow size={17} aria-hidden="true" />
-            <span>Prefere linha de comando? Aperte</span> <kbd>`</kbd>
-          </button>
-        </div>
-      </section>
+
+          {/* O painel e um indice, nao uma vitrine: uma linha por estudo de caso. */}
+          {featured.length > 0 && (
+            <aside className="hero-panel" aria-label="Estudos de caso">
+              <div className="hero-panel-head">
+                <span>estudos de caso</span>
+                {live > 0 && <span>{live} no ar agora</span>}
+              </div>
+              <ol>
+                {featured.map((item) => (
+                  <li key={item.id}>
+                    <Link href={item.href}>
+                      <span className="area-mark" data-area={item.area}>{areaLabels[item.area]}</span>
+                      <strong>{item.title}</strong>
+                      <Status value={item.status} />
+                      <span className="hero-period">{formatPeriod(item.startedAt, item.endedAt)}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ol>
+              {others.length > 0 && (
+                <a className="hero-panel-foot" href="#arquivo">
+                  + {others.length} {others.length === 1 ? "outro projeto" : "outros projetos"} no arquivo
+                </a>
+              )}
+            </aside>
+          )}
+        </section>
+
+        {/* Sobre: a bancada aparece inteira enquanto a historia acende. */}
+        <section className="bench-about" id="sobre" aria-labelledby="about-heading">
+          <div className="bench-about-frame">
+            <h2 id="about-heading">Eu gosto do que acontece por baixo da interface.</h2>
+            <div className="bench-about-lines">
+              {about.map((line) => <p key={line}>{line}</p>)}
+            </div>
+            <Link className="bench-about-more" href="/about/">a história inteira <ArrowRight size={17} aria-hidden="true" /></Link>
+          </div>
+        </section>
+      </div>
 
       {/* ── PROJETOS EM DESTAQUE ─────────────────────────────── */}
       <section className="featured-section" id="projetos" aria-labelledby="featured-heading">
@@ -158,22 +246,6 @@ export default function Home() {
           </Link>
         </section>
       )}
-
-      {/* ── SOBRE ────────────────────────────────────────────── */}
-      <section className="about-teaser" id="sobre" aria-labelledby="about-teaser-heading">
-        <h2 id="about-teaser-heading">
-          Eu gosto do que acontece por baixo da interface.
-        </h2>
-        <p>
-          Comecei mexendo no registro do Windows para ganhar alguns quadros por segundo, quebrei o
-          sistema, consertei, e descobri que gostava mais de abrir a máquina do que de usar ela.
-          Isso virou curso e virou este arquivo — que guarda as versões e as decisões,
-          não só o resultado final.
-        </p>
-        <div className="about-teaser-actions">
-          <Link href="/about/">a história inteira <ArrowRight size={17} aria-hidden="true" /></Link>
-        </div>
-      </section>
 
       {/* ── CONTATO ──────────────────────────────────────────── */}
       <ContactSection />
