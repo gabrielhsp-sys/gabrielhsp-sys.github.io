@@ -185,7 +185,7 @@ Uma curva só, `--ease-out: cubic-bezier(.16, 1, .3, 1)`, para tudo que entra ou
 - **Hover** só existe com ponteiro fino (`@media (hover: hover) and (pointer: fine)`): no toque, o tap não deixa estado preso.
 - **Atalho de teclado não ganha movimento:** a busca (Ctrl/⌘ K) abre sem animação.
 - **UI abaixo de 300ms:** terminal 240ms, toast 280ms na entrada e 200ms na saída, pelo mesmo caminho; a barra do topo recolhe e volta em 280ms, só com transform.
-- **Ligado à rolagem, sem JS:** na home, as frases do "Sobre" acendem ao passar pela tela e a imagem da bancada apaga com o fim da seção (`animation-timeline`, no compositor). Sem suporte, fica tudo parado e legível.
+- **Ligado à rolagem:** na home, cada frase do "Sobre" começa apagada (opacidade .25), acende ao passar pela tela e apaga de novo se a rolagem volta; a imagem da bancada apaga com o fim da seção. Onde há `animation-timeline`, é CSS no compositor; onde não há (Firefox até a 157), `components/bench-scroll.tsx` faz a mesma conta em JS, sem biblioteca e sem layout por quadro. É a única exceção à curva única: posição de rolagem não é tempo, então usa `--ease-scroll` (`cubic-bezier(1/3, 0, 2/3, 1)`, o smoothstep), parada nas duas pontas para não dar tranco no começo nem no fim da faixa.
 - `prefers-reduced-motion` zera transições e animações; `prefers-reduced-transparency` tira o blur das camadas.
 
 ## Elevation & Depth
