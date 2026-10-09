@@ -1,3 +1,8 @@
+// Contraste das frases do "Sobre" apagadas (2026-10-09, segunda rodada): poe
+// cada frase com o topo a 85% da tela, esconde o texto, fotografa o fundo da
+// caixa e calcula a cor da frase misturada ao fundo em .16, .2, .25 e 1.
+// Saida: contraste contra a mediana do fundo / contra o pixel mais claro (p98).
+// Uso (na raiz do repositorio, com o out/ servido em :4173): node docs/design/revisao-2026-10/medidas/apagado.mjs
 import { createRequire } from "node:module";
 const require = createRequire(process.cwd() + "/package.json");
 const { chromium } = require("@playwright/test"); const sharp = require("sharp");
