@@ -6,6 +6,7 @@ import {
   TerminalWindowIcon as TerminalWindow,
 } from "@phosphor-icons/react/dist/ssr";
 import { ArchiveLine } from "@/components/archive-line";
+import { BenchScroll } from "@/components/bench-scroll";
 import { ContactSection } from "@/components/contact-actions";
 import { Status } from "@/components/content-ui";
 import { StructuredData } from "@/components/structured-data";
@@ -170,6 +171,7 @@ export default function Home() {
             <Link className="bench-about-more" href="/about/">a história inteira <ArrowRight size={17} aria-hidden="true" /></Link>
           </div>
         </section>
+        <BenchScroll />
       </div>
 
       {/* ── PROJETOS EM DESTAQUE ─────────────────────────────── */}
