@@ -278,10 +278,12 @@ regras anteriores mudam por isso:
 
 Detalhes e medidas: `docs/design/home-imagem/README.md`.
 
-## ADR-023 — fallback do "Sobre", e-mail no hero e ferramentas de medida (2026-10-09)
+## ADR-023 — fallback do "Sobre" e ferramentas de medida (2026-10-09)
 
-Propostas P1, P2, P4 e P5 da revisão 2026-10, aprovadas pelo Gabriel; muda três
-pontos da ADR-022:
+Propostas P2, P4 e P5 da revisão 2026-10, aprovadas pelo Gabriel; muda três
+pontos da ADR-022. A P1 (e-mail à vista no hero, com botão de copiar) entrou e
+foi revertida no mesmo dia, a pedido dele: o hero continua como no site
+publicado, e o e-mail fica no "Contato".
 
 - **Movimento ligado à rolagem.** Continua CSS (`animation-timeline`) onde há
   suporte. Onde não há — o Firefox até a 157, que deixava as frases paradas e
@@ -295,9 +297,7 @@ pontos da ADR-022:
   deitado com até 500 px de altura). Fica o índice no desktop e no tablet,
   como a ADR-022 previa.
 
-E duas coisas novas: o e-mail fica à vista no hero, abaixo de "Falar comigo",
-com botão de copiar que seleciona o endereço quando não há área de
-transferência; e Playwright `1.63.0`, Lighthouse `13.5.0` e axe `4.13.0`
+E uma coisa nova: Playwright `1.63.0`, Lighthouse `13.5.0` e axe `4.13.0`
 viram devDependencies com versão fixada (gate `ecosystem-tool-adoption`, D-129
 do ecossistema), com `npm run e2e` em Chromium e Firefox sobre o `out/`. O
 WebKit do Playwright não roda no Fedora; o motor do Safari é conferido no

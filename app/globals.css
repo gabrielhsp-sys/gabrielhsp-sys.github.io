@@ -536,9 +536,8 @@ html[data-topbar="hidden"] .filter-bar { top: 0; }
 .case-end-contact:only-child { grid-column: 1 / -1; }
 .case-end-contact p { margin: 0; color: var(--paper); font-size: 1.15rem; }
 .case-end-contact div { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-/* O botao de copiar sobre fundo escuro: fim do estudo de caso e hero. */
-.case-end .copy-email, .hero-email .copy-email { border-color: var(--line); color: var(--paper-dim); }
-@media (hover: hover) and (pointer: fine) { .case-end .copy-email:hover, .hero-email .copy-email:hover { border-color: var(--paper-faint); color: var(--paper); } }
+.case-end .copy-email { border-color: var(--line); color: var(--paper-dim); }
+@media (hover: hover) and (pointer: fine) { .case-end .copy-email:hover { border-color: var(--paper-faint); color: var(--paper); } }
 
 .about-heading { padding-bottom: clamp(32px, 4vw, 52px); }
 .about-grid { display: grid; grid-template-columns: minmax(260px, .45fr) 1fr; gap: clamp(48px, 10vw, 160px); padding: clamp(48px, 6vw, 96px) clamp(28px, 6vw, 104px) clamp(72px, 9vw, 140px); }
@@ -800,10 +799,6 @@ html[data-retro="on"] .bench-stage img { filter: grayscale(1) sepia(.6) hue-rota
 @media (hover: hover) and (pointer: fine) { .button-solid:hover { background: #ffc35c; border-color: #ffc35c; } }
 .button-ghost { border-color: var(--line); background: transparent; color: var(--paper); }
 @media (hover: hover) and (pointer: fine) { .button-ghost:hover { border-color: var(--amber); color: var(--amber); } }
-/* O e-mail a vista, logo abaixo de "Falar comigo": um clique seleciona o
-   endereco inteiro, e o botao copia (ou seleciona, sem area de transferencia). */
-.hero-email { margin: 18px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; }
-.hero-email-address { color: var(--paper); font-family: var(--mono); font-size: 15px; overflow-wrap: anywhere; user-select: all; }
 .hero-hint {
   min-height: 44px;
   margin-top: 26px;
