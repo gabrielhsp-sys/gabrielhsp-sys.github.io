@@ -8,7 +8,8 @@ Ela tinha 441 quadros re-encodados sem commit; estão guardados em `git stash` c
 Tudo foi medido no export de produção (`npm run build` + `out/` servido com gzip por
 [`scripts/serve-out.mjs`](../../../scripts/serve-out.mjs), antes `medidas/gz-server.mjs`), nunca no `next dev`. "Antes" é a `main`;
 "depois" é o `HEAD` desta branch. Os scripts estão em [`medidas/`](medidas/) e rodam de novo
-com Playwright, Lighthouse e axe executados de `movimente-se-site/node_modules` (D-129, em aberto).
+com Playwright, Lighthouse e axe executados de `movimente-se-site/node_modules` (D-129, então em aberto;
+desde a §8 eles são devDependencies daqui).
 
 ## 1. Etapa 1 — a home com imagem
 
@@ -262,3 +263,145 @@ Não implementadas: mudam a estrutura da página ou o sistema. Mockups injetados
   find-animation-opportunities, web-quality-audit, ui-ux-pro-max — os critérios delas que cabiam
   (movimento, contraste, CWV) foram medidos pelos scripts acima.
 - `assets-src/ref/` e `assets-src/videos/` estavam fora do Git e continuam assim; não são desta rodada.
+
+## 8. Rodada de 2026-10-09 — o "Sobre" que não animava e as propostas aprovadas
+
+Trabalho feito sem o Gabriel, na mesma branch, só com commits locais (sem push, merge ou deploy).
+
+### Causa do texto parado (Tarefa 1)
+
+**O Firefox não tem `animation-timeline`, e o efeito inteiro estava dentro de
+`@supports (animation-timeline: view())`.** Sem suporte, o navegador ignorava o bloco e as frases
+ficavam no estado base: paradas e 100% acesas. Era o comportamento previsto na §7 ("Firefox não tem
+`animation-timeline`"), não um defeito do CSS.
+
+| Hipótese | Teste | Resultado |
+|---|---|---|
+| (a) sem suporte no navegador | `CSS.supports("animation-timeline: view()")` no Firefox 157 do Fedora (perfil temporário) | **falso** — confirmada |
+| (b) movimento reduzido ligado | `gsettings get org.gnome.desktop.interface enable-animations` → `true`; `prefers-reduced-motion: reduce` falso no Firefox 157, no Chromium 153 e no WebKitGTK 2.54; nenhuma pref de movimento no `prefs.js` do perfil | refutada |
+| (c) outra causa no CSS/JS | mesma página no Chromium 153 e no WebKitGTK 2.54: as frases acendiam (0,26 → 1,00) e a imagem apagava | refutada |
+
+Laço: `tests/e2e/bench-scroll.spec.mjs` no Firefox. Sem o fix, 2 dos 3 testes falham; com o fix,
+passam (conferido revertendo o componente e reconstruindo).
+
+**No PC do Gabriel o movimento reduzido não está ligado**, então ele verá o efeito. Se um dia ligar
+"Reduzir animação" no GNOME (Configurações › Acessibilidade), o Firefox passa a pedir
+`prefers-reduced-motion: reduce` e as frases ficam acesas e paradas — de propósito.
+
+### Correção
+
+- **CSS onde há suporte**, sem mudança de mecanismo (Chromium, Safari/WebKit).
+- **Fallback em JS onde não há** (`components/bench-scroll.tsx` + `lib/scroll-reveal.ts`): mede a
+  geometria uma vez (de novo só com `ResizeObserver` ou `resize`), ouve a rolagem com listener
+  passivo, só enquanto a bancada está a uma tela de distância (`IntersectionObserver`), coalesce
+  num `requestAnimationFrame` e escreve duas variáveis CSS que viram `opacity` e `transform`.
+  Nenhuma leitura de layout por quadro. Faixas iguais às do CSS, inclusive o `scroll-padding` do
+  `html` que o `view-timeline-inset: auto` desconta (sem isso a imagem apagava ~35 px fora de passo).
+- **Estado apagado: .25** (era .16). No fundo do "Sobre" dá ~1,8:1 contra ~8:1 aceso: o efeito
+  aparece e a frase ainda se lê. A .16 dava 1,5:1 e o texto sumia.
+- **Curva:** `--ease-scroll`, `cubic-bezier(1/3, 0, 2/3, 1)`, que é exatamente o smoothstep
+  `3t² − 2t³` do fallback. Velocidade zero nas duas pontas: sem tranco ao começar nem ao terminar de
+  acender (apple-design: rolagem é manipulação direta — 1:1, reversível, sem tempo próprio).
+  Registrada no DESIGN.md como a única exceção à curva única.
+- Rolando de volta, a frase apaga de novo: o estado só depende da posição.
+
+### Evidência (Tarefa 1)
+
+Opacidade das quatro frases nas três paradas (`medidas/rolagem.json`; capturas em
+[`capturas/rolagem/`](capturas/rolagem/)):
+
+| Motor | Caminho | Início | Meio | Fim |
+|---|---|---|---|---|
+| Chromium 153 (Playwright) | CSS | .33 .25 .25 .25 | 1 .99 .89 .63 | 1 1 1 1 |
+| Firefox 155 (Playwright) | JS | .33 .25 .25 .25 | 1 .99 .89 .63 | 1 1 1 1 |
+| **Firefox 157 do Fedora** (BiDi, `firefox-sistema.mjs`) | JS | .33 .25 .25 .25 | 1 .99 .89 .63 | 1 1 1 1 |
+| WebKitGTK 2.54.1 (`webkitgtk.py`) | CSS | .33 .25 .25 .25 | 1 .99 .89 .62 | 1 1 1 1 |
+
+A curva da primeira frase (topo a 100 → 50% da tela) e da imagem (fim da bancada a 100 → 30%)
+coincide nos quatro com diferença máxima de 0,01, inclusive no WebKitGTK com o caminho JS forçado
+(`animation-timeline` negado e animações CSS desligadas).
+
+Quadros, rolando a bancada inteira com a roda (2.008 px):
+
+| Cenário | Intervalo de rAF (p50 / máx) | Quadros > 20 ms | Maior tarefa da main thread | Tarefas > 16 ms |
+|---|---|---|---|---|
+| Chromium, CPU 4×, CSS | 16,7 / 16,8 ms | 0 | 7,9 ms | 0 |
+| Chromium, CPU 4×, só o JS | 16,7 / 16,8 ms | 0 | 8,1 ms | 0 |
+| Firefox 155, JS (sem controle de CPU no Firefox) | 16,4 / 17,4 ms | 0 | — | — |
+
+O intervalo de rAF é o período da tela (60 Hz); o que mede o custo do quadro é a tarefa da main
+thread, que não passou de 8,1 ms com a CPU 4× mais lenta.
+
+### Tarefa 2
+
+| Item | O que mudou | Commit |
+|---|---|---|
+| P1 | E-mail à vista abaixo de "Falar comigo", selecionável com um clique, botão "copiar". Sem área de transferência, o botão **seleciona** o endereço e avisa "e-mail selecionado, é só copiar". O aviso fica num `role="status"` irmão do botão (dentro do botão o conteúdo é apresentacional e o leitor de tela pode não anunciar). Os outros usos do botão mantêm o `mailto` | `1df4308`, `4dcbcc7` |
+| P2 | O cartão "Estudos de caso" sai do hero no celular: até 600 px em pé, ou deitado com até 500 px de altura. O tablet (820×1180 testado) mantém o índice | `a261239`, `4dcbcc7` |
+| P5 | `sharp` `0.35.4` em `dependencies`, versão exata, a mesma que o Next 16.3.5 traz; `npm run imagens` gera arquivos idênticos | `e1745b2` |
+| P3 | Só o plano: [`P3-PLANO.md`](P3-PLANO.md) (24 tamanhos de texto → 4 degraus, raios 3/5/8, 10 cores) | `0519a2c` |
+| P4 | Gate de `ecosystem-tool-adoption` (abaixo) e devDependencies fixadas | `ee002ea`, `cdc26d8` |
+
+Capturas: [hero 1440](capturas/hero-email/hero-1440.jpg), [hero 390](capturas/hero-email/hero-390.jpg),
+[390 rolando, sem o cartão](capturas/hero-email/hero-390-pagina.jpg).
+
+**P4 — resultado dos gates** (ficha no ecossistema: `docs/pilots/2026-10-09-playwright-lighthouse-axe.md`):
+
+| Pacote | Versão | Resultado |
+|---|---|---|
+| `@playwright/test` + `playwright-core` | 1.63.0 | **aprovado (A)**; a 1.64.0 saiu há 2 dias e foi recusada pela idade |
+| `lighthouse` | 13.5.0 | **aprovado (A)**; sempre com `--no-enable-error-reporting` (telemetria já desligada no `configstore`) |
+| `axe-core`, `@axe-core/playwright` | 4.13.0 | **aprovado (A)**; a 4.14.0 tinha 4 dias |
+
+Nenhum reprovado. Os sete gates passaram: publicadores oficiais, Apache-2.0/MPL-2.0, nenhum script
+de instalação nos 119 pacotes, rollback testado. Navegadores instalados sem sudo: Firefox 155 roda;
+**o WebKit do Playwright não roda no Fedora 44** (pede ICU 74, libjpeg 8 e libjxl 0.8 do Ubuntu).
+Por isso o WebKit foi conferido no WebKitGTK do sistema, com um compositor sem tela
+(`mutter --headless`), já que a sessão bloqueou no meio do trabalho.
+
+Novo: `npm run e2e` (depois de `npm run build`) roda 24 testes em Chromium e Firefox sobre o `out/`:
+o "Sobre" acendendo e apagando, a imagem saindo, movimento reduzido, o e-mail e o botão de copiar
+(com e sem área de transferência), o celular sem o cartão, o tablet com ele, e axe em quatro rotas.
+
+### Verificação final
+
+- `npm run lint` → exit 0, sem achados; `npm test` → 18/18; `npm run build` → exit 0
+  (`export: 3 areas, 6 registros`); `npx playwright test` → 23 passaram, 1 pulado (a permissão de
+  área de transferência só existe no Chromium do Playwright).
+- `medidas/capturas.mjs` (14 rotas × 1440 e 390, Chromium): axe 0 violações, console sem erro; os
+  únicos avisos de layout são os esperados da §2. Firefox 155: as mesmas 28 páginas roladas até o
+  fim, 0 erros de console.
+- Lighthouse 13.5 da home (mediana de 3): desktop 100, celular 94, TBT 26 ms (era 32 ms).
+- Revisão em dois eixos (pocock-code-review), corrigido: DESIGN.md ainda dizia "sem JS" e "uma
+  curva só"; o aviso de copiado dentro do botão; o corte do celular em 820 px escondia o cartão no
+  tablet; `lib.mjs` importava `playwright` sem declarar; `@axe-core/playwright` declarado sem uso
+  (agora roda em `tests/e2e/a11y.spec.mjs`). A ADR-023 não foi pedida, mas registra o que mudou na
+  ADR-022. Ficaram como julgamento, sem mudança: o teste de regex em `tests/scroll-reveal.test.mjs`
+  (é o único guarda que roda no CI) e duplicações pequenas nos scripts de medida.
+
+### Pendente para o Gabriel
+
+1. **`review-animations` não rodou:** a skill só aceita invocação dele (`/review-animations` na
+   home). A curva e o ritmo seguiram apple-design.
+2. **Safari de verdade (macOS/iOS): needs-verification.** O motor foi conferido no WebKitGTK 2.54,
+   que já tem `animation-timeline`; Safari anterior ao 26 cairia no fallback JS, que só foi
+   exercitado no WebKit com o CSS desligado à força.
+3. **e2e no CI:** o deploy roda `npm run check` (lint, test, build). Incluir `npm run e2e` exige
+   instalar os navegadores no workflow (`npx playwright install --with-deps chromium firefox`):
+   decisão dele, não feita.
+4. **P3:** as três escolhas no fim de [`P3-PLANO.md`](P3-PLANO.md).
+5. `~/.cache/ms-playwright/webkit-2359` não serve neste Fedora; pode ser apagado.
+6. Celular de verdade continua sem teste (§7).
+
+### Como testar
+
+```bash
+npm run dev
+```
+
+Abrir `http://localhost:3000`, **Ctrl+Shift+R** (recarregar sem cache) e rolar devagar até "Eu gosto
+do que acontece por baixo da interface.": cada frase entra apagada pela base da tela e acende até a
+metade; rolando de volta, apaga. No fim do "Sobre" a imagem some. No hero, o e-mail está abaixo de
+"Falar comigo"; no celular (ou com a janela estreita, abaixo de 600 px) o cartão "Estudos de caso"
+não aparece no hero.
+
