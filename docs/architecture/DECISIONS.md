@@ -291,8 +291,9 @@ pontos da ADR-022:
   muda. Com movimento reduzido, nenhum dos dois liga.
 - **O `sharp` é dependência declarada**, `0.35.4`, a mesma que o Next 16.3.5
   traz; `npm run imagens` não depende mais do opcional do Next.
-- **O cartão "Estudos de caso" sai do hero até 820 px.** Fica o índice no
-  desktop e no tablet, como a ADR-022 previa.
+- **O cartão "Estudos de caso" sai do hero no celular** (até 600 px em pé, ou
+  deitado com até 500 px de altura). Fica o índice no desktop e no tablet,
+  como a ADR-022 previa.
 
 E duas coisas novas: o e-mail fica à vista no hero, abaixo de "Falar comigo",
 com botão de copiar que seleciona o endereço quando não há área de

@@ -42,13 +42,18 @@ export function CopyEmailButton({ label = "copiar e-mail", selectId }: { label?:
 
   const text = state === "copied" ? "e-mail copiado" : state === "selected" ? "e-mail selecionado, é só copiar" : label;
   return (
-    <button className="copy-email" type="button" onClick={copy}>
-      {/* A chave remonta o icone, para ele entrar com o fade de .copy-email-icon. */}
-      <span className="copy-email-icon" key={state === "idle" ? "copy" : "ok"} aria-hidden="true">
-        {state === "idle" ? <Copy size={18} aria-hidden="true" /> : <Check size={18} weight="bold" aria-hidden="true" />}
-      </span>
-      <span role="status">{text}</span>
-    </button>
+    <>
+      <button className="copy-email" type="button" onClick={copy}>
+        {/* A chave remonta o icone, para ele entrar com o fade de .copy-email-icon. */}
+        <span className="copy-email-icon" key={state === "idle" ? "copy" : "ok"} aria-hidden="true">
+          {state === "idle" ? <Copy size={18} aria-hidden="true" /> : <Check size={18} weight="bold" aria-hidden="true" />}
+        </span>
+        <span>{text}</span>
+      </button>
+      {/* O aviso fica fora do botao: dentro dele o conteudo e apresentacional
+          (ARIA) e o leitor de tela pode nao anunciar a troca do texto. */}
+      <span className="sr-only" role="status">{state === "idle" ? "" : text}</span>
+    </>
   );
 }
 

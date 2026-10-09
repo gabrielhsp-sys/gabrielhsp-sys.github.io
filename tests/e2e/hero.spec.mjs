@@ -20,7 +20,8 @@ test("without a clipboard the copy button selects the address", async ({ page })
   await page.goto("/");
   const copy = page.locator(".hero-email .copy-email");
   await copy.click();
-  await expect(copy.getByRole("status")).toHaveText("e-mail selecionado, é só copiar");
+  await expect(copy).toHaveText("e-mail selecionado, é só copiar");
+  await expect(page.locator(".hero-email").getByRole("status")).toHaveText("e-mail selecionado, é só copiar");
   expect(await page.evaluate(() => String(window.getSelection()))).toBe(email);
 });
 
@@ -31,7 +32,7 @@ test.describe("with clipboard access", () => {
     await page.goto("/");
     const copy = page.locator(".hero-email .copy-email");
     await copy.click();
-    await expect(copy.getByRole("status")).toHaveText("e-mail copiado");
+    await expect(page.locator(".hero-email").getByRole("status")).toHaveText("e-mail copiado");
     expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(email);
   });
 });
@@ -43,5 +44,14 @@ test.describe("on a phone", () => {
     await expect(page.locator(".hero-panel")).toBeHidden();
     await expect(page.locator(".hero-email-address")).toBeVisible();
     await expect(page.locator("#projetos .case-card").first()).toBeAttached();
+  });
+});
+
+// O tablet em pe mantem o indice; so o celular o perde.
+test.describe("on a tablet", () => {
+  test.use({ viewport: { width: 820, height: 1180 } });
+  test("the case study index stays in the hero", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator(".hero-panel")).toBeVisible();
   });
 });
