@@ -258,3 +258,22 @@ medidas em `docs/audits/2026-10-auditoria-geral/`. O que muda na arquitetura:
   diverge (mesmo padrão das preferências, ADR-012).
 - **Dados estruturados** (`Person`, `WebSite`, `ProfilePage`) só com o que
   `lib/site.ts` afirma.
+
+## ADR-022 — home com imagem da bancada (2026-10-08)
+
+Confirmado pelo Gabriel em 2026-10-08: a home com vídeo fica arquivada (tag
+local `home-video-arquivo-2026-10`) e a home ganha uma imagem parada de fundo,
+`assets-src/imagens/hero-bancada.png`, atrás do hero e do "Sobre". Duas
+regras anteriores mudam por isso:
+
+- **ADR-006.** Passa a haver uma segunda imagem gerada: `npm run imagens`
+  (`scripts/imagens.mjs`) codifica a bancada em AVIF e WebP para o srcset, em
+  `public/home/`, com o `sharp` que vem com o Next. Continua sem vídeo de fundo
+  e sem biblioteca de animação: o movimento ligado à rolagem é CSS.
+- **ADR-015.** O cartão "Estudos de caso" do hero lista de novo os destaques,
+  por pedido do Gabriel. Ele é índice (uma linha por estudo, sem resumo nem
+  stack), não um segundo card; a regra "nenhum projeto ganha card duas vezes"
+  continua valendo para cards e linhas de arquivo. Remover o cartão no celular
+  está como proposta em `docs/design/revisao-2026-10/RELATORIO.md`.
+
+Detalhes e medidas: `docs/design/home-imagem/README.md`.
