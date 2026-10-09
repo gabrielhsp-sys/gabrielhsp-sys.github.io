@@ -175,6 +175,9 @@ export function PersonalityProvider({ children }: { children: React.ReactNode })
      o contexto nasce no primeiro gesto e o som comeca a valer dali. */
   useEffect(() => {
     const wake = () => {
+      // Tecla modificadora sozinha (o Ctrl do Ctrl+K) e Esc nao contam como
+      // gesto: criar o contexto ali so gera aviso no console e ele nasce mudo.
+      if (navigator.userActivation && !navigator.userActivation.isActive) return;
       if (!ctxRef.current) {
         const Ctor = window.AudioContext
           ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
