@@ -329,10 +329,12 @@ main { overflow-x: clip; }
   border-bottom: 1px solid var(--line-soft);
   background: rgb(21 19 17 / .96);
   backdrop-filter: blur(12px);
-  transition: transform .28s var(--ease-out);
+  transition: top .28s var(--ease-out);
 }
-/* Com a barra recolhida, os filtros sobem junto e encostam no topo. */
-html[data-topbar="hidden"] .filter-bar { transform: translateY(-72px); }
+/* Com a barra recolhida, os filtros grudam no topo. Muda o `top` do sticky, e
+   nao um transform: enquanto os filtros ainda estao no fluxo, nada se mexe.
+   Abaixo de 820px eles nao sao fixos e a regra nao tem efeito. */
+html[data-topbar="hidden"] .filter-bar { top: 0; }
 .filter-search {
   flex: 0 1 320px;
   min-height: 46px;
@@ -346,7 +348,7 @@ html[data-topbar="hidden"] .filter-bar { transform: translateY(-72px); }
   background: var(--ink);
 }
 /* O campo nao desenha anel proprio: o conteiner leva o anel global de foco. */
-.filter-search:focus-within { border-color: var(--amber); outline: 2px solid var(--amber); outline-offset: 2px; }
+.filter-search:focus-within { border-color: var(--amber); outline: 2px solid var(--amber); outline-offset: 4px; }
 .filter-search label { display: flex; align-items: center; gap: 8px; color: var(--paper-dim); font-family: var(--mono); font-size: var(--text-min); text-transform: uppercase; white-space: nowrap; }
 .filter-search input { min-width: 0; align-self: stretch; border: 0; outline: 0; background: transparent; color: var(--paper); font-size: .95rem; caret-color: var(--amber); }
 .filter-search input::placeholder { color: var(--paper-faint); }
