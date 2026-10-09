@@ -253,7 +253,8 @@ Não implementadas: mudam a estrutura da página ou o sistema. Mockups injetados
 ## 7. Lacunas
 
 - Nada foi testado em celular de verdade: sensação de toque, barra do navegador e teclado precisam
-  do aparelho (`npm run dev -- -H 0.0.0.0` e abrir pelo IP).
+  do aparelho (`npm run dev -- -H 0.0.0.0` e abrir pelo IP; desde a §9 o IP precisa estar em
+  `allowedDevOrigins`, senão o Next 16 não hidrata a página — ou use o build servido).
 - Firefox não tem `animation-timeline`: lá as frases aparecem acesas e a imagem não apaga (some
   com o fim do trilho). Não conferido no Firefox nem no Safari.
 - Lighthouse local, sem a compressão e a CDN do GitHub Pages: serve para comparar, não para prever
@@ -336,14 +337,14 @@ thread, que não passou de 8,1 ms com a CPU 4× mais lenta.
 
 | Item | O que mudou | Commit |
 |---|---|---|
-| P1 | E-mail à vista abaixo de "Falar comigo", selecionável com um clique, botão "copiar". Sem área de transferência, o botão **seleciona** o endereço e avisa "e-mail selecionado, é só copiar". O aviso fica num `role="status"` irmão do botão (dentro do botão o conteúdo é apresentacional e o leitor de tela pode não anunciar). Os outros usos do botão mantêm o `mailto` | `1df4308`, `4dcbcc7` |
+| P1 | ~~E-mail à vista abaixo de "Falar comigo", com botão "copiar"~~ — **revertido** na segunda rodada (§9), a pedido do Gabriel. Ficou só o `role="status"` fora do botão de copiar, que vale para o fim dos estudos de caso e o "Contato" | `1df4308`, `4dcbcc7`, revertido em `6270503` |
 | P2 | O cartão "Estudos de caso" sai do hero no celular: até 600 px em pé, ou deitado com até 500 px de altura. O tablet (820×1180 testado) mantém o índice | `a261239`, `4dcbcc7` |
 | P5 | `sharp` `0.35.4` em `dependencies`, versão exata, a mesma que o Next 16.3.5 traz; `npm run imagens` gera arquivos idênticos | `e1745b2` |
 | P3 | Só o plano: [`P3-PLANO.md`](P3-PLANO.md) (24 tamanhos de texto → 4 degraus, raios 3/5/8, 10 cores) | `0519a2c` |
 | P4 | Gate de `ecosystem-tool-adoption` (abaixo) e devDependencies fixadas | `ee002ea`, `cdc26d8` |
 
-Capturas: [hero 1440](capturas/hero-email/hero-1440.jpg), [hero 390](capturas/hero-email/hero-390.jpg),
-[390 rolando, sem o cartão](capturas/hero-email/hero-390-pagina.jpg).
+Capturas (refeitas sem o e-mail na §9): [hero 1440 ao lado da main](capturas/hero/main-vs-branch-1440.jpg),
+[hero 390 ao lado da main](capturas/hero/main-vs-branch-390.jpg), [390 rolando, sem o cartão](capturas/hero/hero-390-pagina.jpg).
 
 **P4 — resultado dos gates** (ficha no ecossistema: `docs/pilots/2026-10-09-playwright-lighthouse-axe.md`):
 
@@ -361,7 +362,7 @@ Por isso o WebKit foi conferido no WebKitGTK do sistema, com um compositor sem t
 
 Novo: `npm run e2e` (depois de `npm run build`) roda 24 testes em Chromium e Firefox sobre o `out/`:
 o "Sobre" acendendo e apagando, a imagem saindo, movimento reduzido, o e-mail e o botão de copiar
-(com e sem área de transferência), o celular sem o cartão, o tablet com ele, e axe em quatro rotas.
+(com e sem área de transferência; saíram com o P1, §9), o celular sem o cartão, o tablet com ele, e axe em quatro rotas.
 
 ### Verificação final
 
@@ -401,7 +402,139 @@ npm run dev
 
 Abrir `http://localhost:3000`, **Ctrl+Shift+R** (recarregar sem cache) e rolar devagar até "Eu gosto
 do que acontece por baixo da interface.": cada frase entra apagada pela base da tela e acende até a
-metade; rolando de volta, apaga. No fim do "Sobre" a imagem some. No hero, o e-mail está abaixo de
-"Falar comigo"; no celular (ou com a janela estreita, abaixo de 600 px) o cartão "Estudos de caso"
+metade; rolando de volta, apaga. No fim do "Sobre" a imagem some. ~~No hero, o e-mail está abaixo de
+"Falar comigo"~~ (revertido, §9); no celular (ou com a janela estreita, abaixo de 600 px) o cartão "Estudos de caso"
 não aparece no hero.
 
+
+## 9. Segunda rodada de 2026-10-09 — o "Sobre" ainda parado no PC do Gabriel, e o P1 revertido
+
+Relato: no PC dele as frases de "Eu gosto do que acontece por baixo da interface" continuavam acesas
+o tempo todo, inclusive na metade de baixo da tela; e o e-mail com "copiar" no hero ficou estranho.
+Os testes da §8 passavam, então eles não reproduziam o caso dele. Tratado como bug observado
+(pocock-diagnosing-bugs). Só commits locais; sem push, merge ou deploy.
+
+### Laço
+
+`ff-loop.mjs` (descartável, fora do repositório): o **Firefox 157 do Fedora com interface**, perfil
+temporário, sessão nova (o boot roda), rolagem pela **roda do mouse** (`input.performActions`), e a
+cada passo a posição e a opacidade de cada frase. Vermelho = nenhuma frase visível entre 70% e 95%
+da tela está abaixo de 0,6 de opacidade.
+
+| Cenário | Caminho | Resultado |
+|---|---|---|
+| `next dev`, aberto por `http://127.0.0.1:3100` | **nenhum** (`data-scroll-fallback` ausente, sem `--reveal`) | **vermelho**: tudo aceso e parado |
+| `next dev`, aberto por `http://localhost:3100` | JS | as frases entram a .25, mas a frase a 70% da tela já está a .91 |
+| idem, com o Dark Reader e o uBlock do perfil dele instalados | JS | igual: as extensões não interferem |
+| build de produção (`out/`) | JS | igual ao `localhost` |
+
+### Hipóteses
+
+| # | Hipótese e previsão | Resultado |
+|---|---|---|
+| 1 | O fallback não monta → `data-scroll-fallback` ausente | **confirmada só pelo 127.0.0.1**: o Next 16 bloqueia recursos de dev de outra origem (`Blocked cross-origin request to Next.js dev resource /_next/hmr from "127.0.0.1"`), a página não hidrata e nenhum JS roda. Por `localhost` e no `out/` o fallback monta |
+| 2 | A faixa termina cedo demais → frase a 70% da tela já acesa | **confirmada**: a faixa ia de `entry 0%` a `cover 38%`, ou seja, terminava com o topo da frase a ~60% da tela. A 85% a frase já estava a .50; a 70%, a .91. Só os ~15% de baixo da tela mostravam o efeito, e a roda (120 px por clique, com rolagem suave) atravessa isso em 3 cliques |
+| 3 | A animação de entrada (boot) atrapalha a medição → os testes antigos pulavam o boot | refutada: com e sem boot, o mesmo resultado |
+| 4 | Extensão (Dark Reader), CSS com `!important`, `transition` ou estado final por cima | refutada: com as extensões dele o fallback escreve `--reveal` e a opacidade computada acompanha; no CSS do site nenhuma regra mexe na opacidade dessas frases |
+| 5 | Service worker ou cache servindo versão antiga | refutada: nenhum service worker do site; o perfil dele não tem registro para `localhost` (`serviceworker.txt`) |
+
+Os testes da §8 não pegaram porque só olhavam a **primeira** frase em dois pontos extremos (97% e
+40% da tela), por `scrollTo`, com o boot pulado.
+
+### Causa real e correção
+
+1. **A faixa.** Mesmo com o fallback funcionando, cada frase terminava de acender a ~60% da altura da
+   tela: toda frase na metade de baixo estava acesa. Agora a frase acende enquanto o topo dela vai de
+   **85% a 50%** da altura da tela (`animation-range: cover 15vh cover 50vh`; a mesma faixa em
+   `lib/scroll-reveal.ts`), e apaga de volta ao rolar para cima.
+2. **O dev por 127.0.0.1.** `next.config.ts` ganhou `allowedDevOrigins: ["127.0.0.1"]` (só vale no
+   `next dev`). Por um IP da rede (celular), o bloqueio continua: para testar no celular, use o build
+   (`npm run build && node scripts/serve-out.mjs out 4173`) ou acrescente o IP nessa lista.
+3. **Mais evidente.** Começa a **.2** de opacidade e **.6em abaixo** (antes .25 e .5em). Contraste
+   da frase apagada contra a mediana do fundo ([`medidas/apagado.mjs`](medidas/apagado.mjs)): .16 →
+   1,41:1 (o texto sumia), **.2 → 1,60:1**, .25 → 1,88:1; acesa, ~15:1.
+4. **Curva** (apple-design + review-animations). `--ease-reveal`, `cubic-bezier(1/3, .2, 2/3, 1)`;
+   no fallback, `0,6t + 1,8t² − 1,4t³`. O smoothstep anterior começava em ease-in (aos 20% da faixa,
+   só 10% do caminho), e ease-in em UI atrasa justo o momento que se olha (review-animations). A nova
+   sai com velocidade 0,6, então a frase responde assim que entra na faixa, e pousa com velocidade
+   zero a 50%, sem quina. Como só depende da posição, a volta percorre o mesmo caminho ao contrário
+   (apple-design: manipulação direta 1:1, reversível, simétrica). A imagem da bancada segue no
+   smoothstep (`--ease-scroll`).
+5. **`?debug=reveal`** (`components/reveal-debug.tsx`): painel no canto com o caminho ativo (CSS, JS,
+   reduzido ou "nenhum: o fallback JS não ligou"), dev/produção e o tamanho da janela, e por frase a
+   posição na tela, o progresso `t` e a opacidade que o navegador aplicou, a cada quadro. Duas linhas
+   tracejadas marcam 85% e 50%. Sem o parâmetro não existe nada no DOM. Se o painel nem aparece, o
+   JS da página não rodou.
+
+### Evidência
+
+Opacidade aplicada, primeira e última frase, topo em cada fração da tela (`out/`, 1440×900):
+
+| Fração da tela | .95 | .85 | .80 | .75 | .70 | .65 | .60 | .55 | .50 |
+|---|---|---|---|---|---|---|---|---|---|
+| esperado | .20 | .20 | .295 | .429 | .582 | .736 | .869 | .964 | 1 |
+| Chromium (CSS) | .20 | .20 | .295 | .429 | .583 | .736 | .870 | .964 | 1 |
+| Firefox (JS) | .20 | .20 | .294 | .429 | .582 | .735 | .870 | .964 | 1 |
+
+A última frase dá os mesmos números (±0,001) nos dois motores.
+
+Firefox 157 do sistema, com interface, roda do mouse, depois da correção (`localhost`, `127.0.0.1`
+e `out/` dão a mesma tabela; o painel diz `caminho: JS (fallback)`):
+
+```
+rolagem  frase 1      frase 2      frase 3      frase 4      (topo na tela : opacidade)
+ 600     0.84:0.24    0.96:0.20    1.02:0.20    1.10:0.20
+ 720     0.70:0.60    0.83:0.26    0.88:0.20    0.97:0.20
+ 840     0.56:0.95    0.69:0.64    0.74:0.48    0.83:0.26
+ 960     0.43:1.00    0.55:0.97    0.60:0.87    0.69:0.63
+```
+
+Capturas ([`capturas/faixa/`](capturas/faixa/), [`medidas/faixa.mjs`](medidas/faixa.mjs), navegadores
+do sistema com interface): Firefox 157 [entrando](capturas/faixa/firefox157-1-entrando.jpg) (de cima
+para baixo .95 · .64 · .49 · .26), [mais adiante](capturas/faixa/firefox157-2-adiante.jpg) (todas 1),
+[com o painel](capturas/faixa/firefox157-1-entrando-debug.jpg); Chromium 154
+[entrando](capturas/faixa/chromium-1-entrando.jpg), [mais adiante](capturas/faixa/chromium-2-adiante.jpg),
+[com o painel](capturas/faixa/chromium-1-entrando-debug.jpg).
+
+**Regressão** (`tests/e2e/bench-scroll.spec.mjs`): todas as frases, não só a primeira, a .2 com
+deslocamento a 85%, entre .35 e .8 a 70%, acesas a 50% e apagadas de novo ao voltar; e um teste
+com a **roda do mouse** em que a frase de baixo (72–84% da tela) tem de estar ao menos 0,3 mais
+apagada que a de cima. Contra o build anterior: **4 falhas** (as duas, no Chromium e no Firefox;
+`Expected: < 0.25, Received: 0.504695` a 85%; `Received: 0.7795` com a roda). Com a correção: passam.
+Mais um teste do painel: não existe sem o parâmetro; com ele, diz CSS no Chromium e JS no Firefox, e a
+opacidade mostrada é a aplicada.
+
+### P1 revertido
+
+`6270503`: sai o `HeroEmail`, os estilos `.hero-email*`, o caminho "selecionar o endereço" do
+`CopyEmailButton`, os testes e as capturas do e-mail no hero; a ADR-023 registra a reversão. Fica o
+`role="status"` fora do botão de copiar (correção de acessibilidade que vale para os outros usos),
+o P2 e o P5. O hero vai de "Falar comigo" direto para a dica do terminal, a 26 px, como na `main`:
+[1440 lado a lado](capturas/hero/main-vs-branch-1440.jpg), [390 lado a lado](capturas/hero/main-vs-branch-390.jpg).
+As outras diferenças nessas capturas (imagem da bancada, índice de estudos de caso, nome em
+destaque) são da ADR-022 e não mudaram.
+
+### Verificação
+
+- `npm run lint` → exit 0, sem achados.
+- `npm test` → 20/20 (`# pass 20`, `# fail 0`).
+- `npm run build` → exit 0, `export: 3 areas, 6 registros`.
+- `npx playwright test` → **24 passaram**, 0 falhas (Chromium e Firefox, sobre o `out/`).
+
+### Como testar
+
+```bash
+rm -rf .next && npm run dev
+```
+
+Ctrl+Shift+R e abrir **`http://localhost:3000/?debug=reveal`**. Rolar devagar até "Eu gosto do que
+acontece por baixo da interface.": o painel deve dizer `caminho: JS (fallback)` no Firefox (`CSS` no
+Chrome), e cada frase sobe e acende entre as duas linhas tracejadas (85% e 50%); rolando de volta,
+apaga. Sem `?debug=reveal`, nada de painel. Se o painel não aparecer, o JS não rodou: confira se o
+endereço é `localhost` ou `127.0.0.1` (por IP da rede o Next bloqueia).
+
+### Pendente
+
+- O Gabriel não preencheu o que viu depois de `rm -rf .next` + Ctrl+Shift+R; o laço cobre as duas
+  causas que dão esse sintoma, mas a confirmação no PC dele é com o painel acima.
+- Celular de verdade e Safari continuam sem teste (§7, §8).
