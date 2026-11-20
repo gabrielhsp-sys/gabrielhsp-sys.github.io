@@ -82,3 +82,10 @@ test("--producao reads the secret only from its file and refuses a file others c
   assert.equal(aberto.stdout, "");
   assert.match(aberto.stderr, /chmod 600/);
 });
+
+test("shows the bucket folder, so two nicknames that differ only by hyphens are visibly the same client", () => {
+  const r = rodar(casa(), ["ana-b", "--producao"]);
+  assert.equal(r.status, 0, r.stderr);
+  assert.match(r.stdout, /Pasta no bucket: anab\//);
+  assert.match(r.stdout, /\bana-b-[a-z2-9]{4}-[a-z2-9]{4}\b/);
+});

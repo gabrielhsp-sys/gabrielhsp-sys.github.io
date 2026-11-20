@@ -22,14 +22,18 @@ const ddmm = (dia: number) => {
   return `${String(d.getUTCDate()).padStart(2, "0")}/${String(d.getUTCMonth() + 1).padStart(2, "0")}`;
 };
 
-const hmac = async (chave: ArrayBuffer | Uint8Array<ArrayBuffer>, texto: string) => {
-  const k = await crypto.subtle.importKey("raw", chave, { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
-  return new Uint8Array(await crypto.subtle.sign("HMAC", k, enc.encode(texto)));
-};
+const ROTULO = "gabrielsys:material:codigo:v1"; // separação de domínio do token do link
 
-async function derivar(segredo: string, compacto: string, dia: number): Promise<string> {
-  const subchave = await hmac(enc.encode(segredo), "gabrielsys:material:codigo:v1");
-  const mac = await hmac(subchave, `${compacto}:${dia}`);
+const importar = (bytes: Uint8Array<ArrayBuffer>) =>
+  crypto.subtle.importKey("raw", bytes, { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+
+/** Subchave do código: HMAC(MATERIAL_SECRET, rótulo). Importada uma vez por chamada (custo de CPU). */
+const chaveDoCodigo = async (segredo: string) =>
+  importar(new Uint8Array(await crypto.subtle.sign("HMAC", await importar(enc.encode(segredo)), enc.encode(ROTULO))));
+
+/** 8 símbolos base 31 dos primeiros 64 bits de HMAC(subchave, "<apelido compacto>:<dia>"). */
+async function derivar(chave: CryptoKey, compacto: string, dia: number): Promise<string> {
+  const mac = new Uint8Array(await crypto.subtle.sign("HMAC", chave, enc.encode(`${compacto}:${dia}`)));
   let n = 0n;
   for (const b of mac.slice(0, 8)) n = (n << 8n) | BigInt(b);
   let s = "";
@@ -66,7 +70,7 @@ export async function gerarCodigo(segredo: string, apelido: string, { agora, dia
   if (!Number.isSafeInteger(agora)) throw new Error("agora inválido");
   const cliente = apelido.replace(/-/g, "");
   const expiraDia = diaSaoPaulo(agora) + dias;
-  const mac = await derivar(segredo, cliente, expiraDia);
+  const mac = await derivar(await chaveDoCodigo(segredo), cliente, expiraDia);
   return {
     codigo: `${apelido}-${mac.slice(0, 4)}-${mac.slice(4)}`,
     cliente,
@@ -96,9 +100,10 @@ export async function verificarCodigo(segredo: string, texto: string, agora: num
   const recebido = enc.encode(mac);
   // O vencimento não vai no código: testa todos os dias possíveis, sempre todos, sem sair cedo.
   const hoje = diaSaoPaulo(agora);
+  const chave = await chaveDoCodigo(segredo);
   let achou = false;
   for (let dia = hoje; dia <= hoje + DIAS_MAXIMO; dia += 1) {
-    achou = iguaisTempoConstante(enc.encode(await derivar(segredo, apelido, dia)), recebido) || achou;
+    achou = iguaisTempoConstante(enc.encode(await derivar(chave, apelido, dia)), recebido) || achou;
   }
   return achou ? { cliente: apelido } : null;
 }

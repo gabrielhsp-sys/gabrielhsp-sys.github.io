@@ -25,10 +25,12 @@ if (!apelido || !CLIENTE.test(apelido)) sair("informe o apelido em minúsculas, 
 if (!/^\d{1,3}$/.test(textoDias ?? "") || Number(textoDias) < 1 || Number(textoDias) > DIAS_MAXIMO) sair(`--dias entre 1 e ${DIAS_MAXIMO}`);
 
 const segredo = lerSegredo({ producao, minimo: LIMITES.segredoMinimo, sair });
-const { codigo, validoAte } = await gerarCodigo(segredo, apelido, { agora: Math.floor(Date.now() / 1000), dias: Number(textoDias) });
+const { codigo, cliente, validoAte } = await gerarCodigo(segredo, apelido, { agora: Math.floor(Date.now() / 1000), dias: Number(textoDias) });
 
 console.log(`Código: ${codigo}`);
 console.log(`Vale até ${validoAte} (${textoDias} dias)${producao ? "" : "  [segredo LOCAL: só vale na prévia]"}`);
+// A identidade do código é o apelido sem hífens: "ana-b" e "anab" são o mesmo cliente.
+console.log(`Pasta no bucket: ${cliente}/  (apelidos que só diferem por hífen são o mesmo cliente)`);
 console.log("");
 console.log("Mensagem para o WhatsApp (copie daqui para baixo):");
 console.log("");
