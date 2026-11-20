@@ -13,6 +13,7 @@
     "check": "npm run lint && npm run test && npm run build",
     "postbuild": "node scripts/verify-export.mjs",
     "imagens": "node scripts/imagens.mjs",
+    "marca": "node scripts/marca.mjs",
     "e2e": "playwright test"
   },
   "dependencies": {

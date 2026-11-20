@@ -4,7 +4,7 @@ import matter from "gray-matter";
 import { ImageResponse } from "next/og.js";
 // Os dois modulos nao importam nada: o Node le o TypeScript direto.
 import { formatPeriod } from "../lib/period.ts";
-import { areaLabels, statusLabels } from "../lib/site.ts";
+import { areaLabels, SITE_URL, statusLabels } from "../lib/site.ts";
 
 /* Cartoes de compartilhamento (1200 x 630), desenhados com o sistema visual do
    site: um para o site (public/og.png) e um por projeto (public/og/<id>.png).
@@ -21,7 +21,7 @@ const amber = "#f0ab3c";
 const mint = "#72c9a7";
 const areaColor = { software: amber, web: "#e76b91", academico: "#a291c6" };
 const statusColor = { building: amber, live: mint, done: "#78a9d4", archived: "#a291c6" };
-const host = "gabrielhsp-sys.github.io";
+const host = new URL(SITE_URL).host;
 
 // satori conta um array vazio de filhos como varios nos: nenhum filho vira
 // undefined, um filho vira o proprio filho, mais de um vira o array.
@@ -100,23 +100,23 @@ const card = (body) =>
     h("div", { style: { flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "64px 72px 52px" } }, ...body),
   );
 
-const siteCard = card([
+// Cartao do site (decisao 8 de 2026-11-19): o logo de assets-src/marca, nos
+// derivados versionados de public/marca (scripts/marca.mjs), e a frase do inicio.
+const logo = `data:image/png;base64,${read("public/marca/logo-vertical.png").toString("base64")}`;
+const siteCard = h(
+  "div",
+  { style: { width: "100%", height: "100%", display: "flex", alignItems: "center", gap: 56, padding: "0 72px", background: ink, color: paper, fontFamily: "Bricolage" } },
+  h("img", { src: logo, width: 416, height: 185, style: { flexShrink: 0 } }),
   h(
     "div",
-    { style: { display: "flex", flexDirection: "column" } },
-    h("div", { style: { display: "flex", alignItems: "center", gap: 14 } },
-      h("div", { style: { width: 10, height: 10, borderRadius: 10, background: mint } }),
-      mono("DISPONÍVEL PARA ESTÁGIO", { color: mint, fontWeight: 600, whiteSpace: "nowrap" }),
-      mono("/  GABRIEL HENRIQUE · UNIFAL-MG", { whiteSpace: "nowrap" })),
-    h("div", { style: { display: "flex", flexDirection: "column", marginTop: 40, fontSize: 88, fontWeight: 700, lineHeight: 1, letterSpacing: "-0.035em" } },
-      h("span", {}, "Eu construo software"),
-      // Ambar e acao no sistema (ADR-018): a tese fica toda em marfim.
-      h("span", {}, "que fica de pé sozinho.")),
-    h("div", { style: { display: "flex", marginTop: 34, maxWidth: 900, fontSize: 30, lineHeight: 1.35, color: paperDim } },
-      "Serviços em Python, sistemas em Java com arquitetura e teste, interfaces web estáticas e acessíveis."),
+    { style: { width: 560, display: "flex", flexDirection: "column", gap: 28 } },
+    h("div", { style: { display: "flex", fontSize: 54, fontWeight: 700, lineHeight: 1.05, letterSpacing: "-0.03em" } },
+      "Sites, aplicativos e robôs para o seu negócio."),
+    h("div", { style: { display: "flex", fontSize: 26, lineHeight: 1.35, color: paperDim } },
+      "Sob encomenda. Areado-MG, atendo online em todo o Brasil."),
+    mono(host, { color: amber, fontSize: 22 }),
   ),
-  footer("PORTFÓLIO · PROJETOS E ESTUDOS DE CASO"),
-]);
+);
 
 const projectCard = (item) => {
   const title = item.title;
