@@ -11,7 +11,10 @@ export type CapturaNome = keyof typeof capturas;
 type Info = { rota: string; tipo: string; alt: string; width: number; height: number; variantes: number[] };
 const info = (nome: CapturaNome) => capturas[nome] as Info;
 
-export function Captura({ nome, sizes, prioridade = false, alt }: { nome: CapturaNome; sizes: string; prioridade?: boolean; alt?: string }) {
+/** `prioridade`: na primeira dobra e candidata a LCP (eager + fetchpriority high).
+    `cedo`: na primeira dobra do desktop, sem prioridade de rede (eager). Sem os
+    dois: lazy. */
+export function Captura({ nome, sizes, prioridade = false, cedo = false, alt }: { nome: CapturaNome; sizes: string; prioridade?: boolean; cedo?: boolean; alt?: string }) {
   const c = info(nome);
   const srcSet = (ext: string) => c.variantes.map((w) => `/capturas/${nome}-${w}.${ext} ${w}w`).join(", ");
   const maior = c.variantes[c.variantes.length - 1];
@@ -19,13 +22,12 @@ export function Captura({ nome, sizes, prioridade = false, alt }: { nome: Captur
     <picture className="f-shot">
       <source type="image/avif" srcSet={srcSet("avif")} sizes={sizes} />
       <source type="image/webp" srcSet={srcSet("webp")} sizes={sizes} />
-      {/* eslint-disable-next-line @next/next/no-img-element -- export estatico, sem otimizador; o srcset vem do pipeline */}
       <img
         src={`/capturas/${nome}-${maior}.webp`}
         alt={alt ?? c.alt}
         width={maior}
         height={Math.round((c.height * maior) / c.width)}
-        loading={prioridade ? "eager" : "lazy"}
+        loading={prioridade || cedo ? "eager" : "lazy"}
         fetchPriority={prioridade ? "high" : undefined}
         decoding="async"
       />

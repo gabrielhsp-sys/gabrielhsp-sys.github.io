@@ -26,6 +26,10 @@ export type Servico = {
   exemplo: { rotulo: string; href: string };
   /** Valor da primeira pergunta do /orcamento/ que este serviço preenche. */
   orcamento: string;
+  /** Imagem do cartão (components/cliente-ui.tsx, ServicoImagem): print em
+      moldura (nome em lib/capturas.json) ou a ilustração de aplicativo, porque o
+      Carona 70 não tem print. */
+  imagem: { moldura: "navegador" | "celular" | "conversa"; captura: string } | { moldura: "ilustracao" };
 };
 
 export const servicos: Servico[] = [
@@ -49,6 +53,7 @@ export const servicos: Servico[] = [
     ],
     exemplo: { rotulo: "Ver sites de exemplo", href: "/exemplos/sites/" },
     orcamento: "site",
+    imagem: { moldura: "navegador", captura: "site-beleza-desktop" },
   },
   {
     slug: "aplicativos",
@@ -70,6 +75,7 @@ export const servicos: Servico[] = [
     ],
     exemplo: { rotulo: "Ver o aplicativo de exemplo", href: "/exemplos/aplicativos/" },
     orcamento: "aplicativo",
+    imagem: { moldura: "ilustracao" },
   },
   {
     slug: "bots",
@@ -91,6 +97,7 @@ export const servicos: Servico[] = [
     ],
     exemplo: { rotulo: "Ver o bot funcionando", href: "/exemplos/bots/" },
     orcamento: "robo",
+    imagem: { moldura: "conversa", captura: "bot-conversa" },
   },
   {
     slug: "automacoes",
@@ -112,6 +119,7 @@ export const servicos: Servico[] = [
     ],
     exemplo: { rotulo: "Ver a demonstração", href: "/exemplos/automacoes/" },
     orcamento: "automacao",
+    imagem: { moldura: "celular", captura: "automacao" },
   },
   {
     slug: "sistemas",
@@ -133,6 +141,7 @@ export const servicos: Servico[] = [
     ],
     exemplo: { rotulo: "Ver a demonstração", href: "/exemplos/sistemas/" },
     orcamento: "sistema",
+    imagem: { moldura: "celular", captura: "sistema" },
   },
 ];
 

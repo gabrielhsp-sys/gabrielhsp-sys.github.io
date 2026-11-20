@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeftIcon as ArrowLeft, ArrowRightIcon as ArrowRight, CheckIcon as Check } from "@phosphor-icons/react/dist/ssr";
-import { Ctas } from "@/components/cliente-ui";
+import { Ctas, ServicoImagem } from "@/components/cliente-ui";
 import { whatsappSobre } from "@/lib/contato-links";
 import { pageMetadata } from "@/lib/metadata";
 import { servicoPorSlug, servicos } from "@/lib/servicos";
@@ -26,14 +26,17 @@ export default async function ServicoPage({ params }: Props) {
   return (
     <main id="conteudo" className="c-page">
       <Link className="c-back" href="/servicos/"><ArrowLeft size={18} aria-hidden="true" /> Todos os serviços</Link>
-      <header className="c-hero c-hero-compact">
-        <h1>{s.titulo}</h1>
-        <p className="c-lede">{s.resolve}</p>
-        <Ctas
-          orcamento={`/orcamento/?precisa=${s.orcamento}&origem=servicos-${s.slug}`}
-          whatsapp={whatsappSobre(s.um)}
-          label={`Pedir orçamento de ${s.um.replace(/^uma? /, "")}`}
-        />
+      <header className="c-hero c-hero-compact c-hero-split">
+        <div className="c-hero-text">
+          <h1>{s.titulo}</h1>
+          <p className="c-lede">{s.resolve}</p>
+          <Ctas
+            orcamento={`/orcamento/?precisa=${s.orcamento}&origem=servicos-${s.slug}`}
+            whatsapp={whatsappSobre(s.um)}
+            label={`Pedir orçamento de ${s.um.replace(/^uma? /, "")}`}
+          />
+        </div>
+        <ServicoImagem servico={s} sizes="(min-width: 1100px) 420px, 92vw" prioridade />
       </header>
       <section className="c-section" aria-labelledby="ajuda-titulo">
         <h2 id="ajuda-titulo">Onde isso ajuda</h2>

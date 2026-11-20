@@ -110,7 +110,7 @@ test.describe("examples", () => {
 
   test("the seven demo sites are listed and open from /exemplos/sites/", async ({ page }) => {
     await page.goto("/exemplos/sites/");
-    const links = page.locator(".c-demo-list a");
+    const links = page.locator(".c-exemplos a");
     await expect(links).toHaveCount(7);
     await links.first().click();
     await expect(page).toHaveURL(/\/exemplos\/sites\/alimentacao\/$/);

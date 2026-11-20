@@ -154,17 +154,20 @@ html:has([data-chrome="cliente"]) { scroll-padding-top: 88px; scroll-padding-bot
 .c-chips a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border: 1px solid var(--line); border-radius: 999px; color: var(--paper); text-decoration: none; }
 @media (hover: hover) and (pointer: fine) { .c-chips a:hover { border-color: var(--amber); color: var(--amber); } }
 
-.c-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 16px; margin: 0; padding: 0; list-style: none; counter-reset: passo; }
-.c-steps li { display: flex; flex-direction: column; gap: 6px; padding: 20px; border: 1px solid var(--line-soft); border-radius: 12px; background: var(--ink-2); counter-increment: passo; }
-.c-steps li::before { content: counter(passo); color: var(--amber); font-family: var(--mono); font-size: 1rem; font-weight: 600; }
+/* Passos numerados (rodada visual 2026-11-20): numero num no ambar sobre um fio,
+   icone e uma linha. Celular: o fio vira vertical, a esquerda. */
+.c-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin: 0; padding: 0; list-style: none; counter-reset: passo; }
+.c-steps li { position: relative; display: flex; flex-direction: column; gap: 6px; padding-top: 64px; counter-increment: passo; }
+.c-steps li::before { content: counter(passo); position: absolute; top: 0; left: 0; display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--amber-fill-border); border-radius: 10px; background: var(--amber-fill); color: var(--on-amber); font: 700 1.15rem/1 var(--mono); }
+.c-steps li:not(:last-child)::after { content: ""; position: absolute; top: 21px; left: 56px; right: -12px; height: 2px; background: var(--line-soft); }
+.c-step-icon { color: var(--amber); }
 .c-steps strong { font-size: 1.15rem; line-height: 1.3; }
-.c-steps span { color: var(--paper-dim); }
-
-.c-service-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: 16px; padding-bottom: clamp(40px, 6vw, 72px); }
-.c-service-card { display: flex; flex-direction: column; padding: 24px; border: 1px solid var(--line-soft); border-radius: 12px; background: var(--ink-2); }
-.c-service-card h2 { margin: 0 0 10px; font-size: 1.5rem; }
-.c-service-card p { margin: 0; color: var(--paper-dim); }
-.c-service-card .c-more { margin-top: auto; padding-top: 16px; }
+.c-steps span { color: var(--paper-dim); font-size: 1rem; }
+@media (max-width: 760px) {
+  .c-steps { grid-template-columns: 1fr; gap: 0; }
+  .c-steps li { padding: 0 0 28px 64px; }
+  .c-steps li:not(:last-child)::after { top: 52px; bottom: 6px; left: 21px; right: auto; width: 2px; height: auto; }
+}
 
 .c-list { margin: 0; padding-left: 1.2em; color: var(--paper-dim); }
 .c-list li + li { margin-top: 10px; }
@@ -182,12 +185,104 @@ html:has([data-chrome="cliente"]) { scroll-padding-top: 88px; scroll-padding-bot
 .c-faq summary { display: flex; align-items: center; min-height: 56px; padding: 0 20px; font-weight: 650; cursor: pointer; }
 .c-faq p { margin: 0; padding: 0 20px 20px; color: var(--paper-dim); }
 
-.c-demo-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 16px; margin: 0 0 clamp(40px, 6vw, 72px); padding: 0; list-style: none; }
-.c-demo-list a { display: flex; flex-direction: column; gap: 8px; height: 100%; padding: 22px; border: 1px solid var(--line-soft); border-radius: 12px; background: var(--ink-2); color: var(--paper-dim); text-decoration: none; }
-.c-demo-list strong { color: var(--paper); font-size: 1.25rem; }
-.c-demo-ramo { color: var(--amber); font-family: var(--mono); font-size: .875rem; font-weight: 600; }
-.c-demo-open { display: inline-flex; align-items: center; gap: 6px; margin-top: auto; padding-top: 8px; color: var(--paper); font-weight: 600; }
-@media (hover: hover) and (pointer: fine) { .c-demo-list a:hover { border-color: var(--amber); } }
+/* ── rodada visual 2026-11-20: imagem primeiro, texto curto ── */
+.c-hero-split { display: grid; gap: clamp(36px, 5vw, 64px); align-items: center; padding-top: clamp(32px, 6vw, 80px); }
+@media (min-width: 1000px) {
+  .c-hero-split { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .c-hero-split h1 { font-size: clamp(2.6rem, 4.2vw, 3.7rem); }
+}
+.c-hero-text { min-width: 0; }
+.c-hero-split > .c-visual { height: clamp(300px, 34vw, 420px); border-radius: 16px; }
+
+/* Vitrine do inicio: site no navegador, site no celular e conversa do bot. */
+.c-vitrine { position: relative; min-width: 0; margin: 0; padding-bottom: clamp(70px, 9vw, 110px); }
+.c-vitrine-notebook { width: 90%; margin-left: auto; }
+.c-vitrine-celular { position: absolute; right: -2%; bottom: clamp(70px, 9vw, 110px); width: 27%; transform: translateY(42%); }
+.c-vitrine-bot { position: absolute; left: 0; bottom: clamp(70px, 9vw, 110px); width: 25%; transform: translateY(30%); }
+.c-vitrine figcaption { position: absolute; right: 30%; bottom: 0; left: 28%; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; color: var(--paper-dim); font-size: .9375rem; line-height: 1.4; }
+.c-vitrine figcaption .c-badge { margin: 0; }
+@media (max-width: 999px) {
+  .c-vitrine { max-width: 40rem; padding-bottom: 0; }
+  .c-vitrine-notebook { width: 84%; margin: 0 auto 0 0; }
+  .c-vitrine-celular { right: 0; bottom: 64px; width: 30%; transform: none; }
+  .c-vitrine-bot { display: none; }
+  .c-vitrine figcaption { position: static; margin-top: 76px; }
+}
+
+.c-section-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin-bottom: 16px; }
+.c-section-head h2 { margin: 0 !important; }
+.c-section-head .c-badge { margin: 0; }
+
+/* Area de imagem dos cartoes: fundo de encaixe e o aparelho cortado embaixo. */
+.c-visual { position: relative; display: flex; align-items: flex-start; justify-content: center; height: 210px; overflow: hidden; padding-top: 22px; border-radius: 12px; background: var(--ink-3); }
+.c-visual .f-navegador { width: 88%; flex: none; }
+.c-visual .f-celular { width: min(48%, 190px); flex: none; }
+.c-visual[data-moldura="texto"] { flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 20px; color: var(--amber); text-align: center; }
+.c-visual[data-moldura="texto"] span { color: var(--paper-dim); font-size: .9375rem; }
+.c-visual[data-moldura="video"] { align-items: center; padding: 0; background: #0c0b0a; }
+.c-visual[data-moldura="video"] img { width: 100%; height: 100%; object-fit: contain; }
+
+.c-service-grid, .c-exemplos { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); gap: 16px; margin: 0; padding: 0; list-style: none; }
+.c-exemplos { padding-bottom: clamp(40px, 6vw, 72px); }
+.c-service-tile, .c-exemplos a { display: flex; flex-direction: column; gap: 6px; height: 100%; padding: 10px 10px 18px; border: 1px solid var(--line-soft); border-radius: 16px; background: var(--ink-2); color: var(--paper-dim); font-size: 1rem; text-decoration: none; transition: border-color var(--press) ease, transform var(--press) ease; }
+.c-service-tile .c-visual, .c-exemplos .c-visual { margin-bottom: 10px; }
+.c-service-tile strong, .c-exemplos strong { padding: 0 8px; color: var(--paper); font-size: 1.25rem; line-height: 1.25; }
+.c-service-tile > span, .c-exemplo-mostra { padding: 0 8px; }
+.c-tile-arrow { flex: none; color: var(--amber); transition: transform var(--press) ease; }
+.c-service-tile strong { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.c-exemplos .c-badge { margin: 0 8px 4px; }
+.c-exemplo-abrir { display: inline-flex; align-items: center; gap: 6px; margin: auto 8px 0; padding-top: 8px; color: var(--amber); font-weight: 650; }
+.c-service-tile:active, .c-exemplos a:active { transform: scale(.99); }
+@media (hover: hover) and (pointer: fine) {
+  .c-service-tile:hover, .c-exemplos a:hover { border-color: var(--amber); }
+  .c-service-tile:hover strong, .c-exemplos a:hover strong { color: var(--amber); }
+  .c-service-tile:hover .c-tile-arrow { transform: translateX(3px); }
+}
+
+/* Filtro de /exemplos/: selecao neutra (ADR-018), nao ambar. */
+.c-filtro { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 6px; }
+.c-filtro button { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--paper-dim); font: inherit; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform var(--press) ease; }
+.c-filtro button span { color: var(--paper-faint); font-family: var(--mono); font-size: .875rem; }
+.c-filtro button[aria-pressed="true"] { border-color: var(--paper); background: var(--ink-3); color: var(--paper); }
+.c-filtro button:active { transform: scale(.97); }
+@media (hover: hover) and (pointer: fine) { .c-filtro button:hover { color: var(--paper); background: var(--ink-2); } }
+.c-filtro-total { margin: 0 0 16px; color: var(--paper-dim); font-size: 1rem; }
+@media (max-width: 520px) {
+  .c-filtro { flex-wrap: nowrap; overflow-x: auto; margin-inline: calc(-1 * clamp(16px, 5vw, 56px)); padding: 2px clamp(16px, 5vw, 56px) 6px; scrollbar-width: none; }
+  .c-filtro button { flex: none; }
+}
+
+/* Os 7 sites no celular, lado a lado; no celular, uma faixa que rola de lado. */
+.c-phone-strip { position: relative; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 14px; margin: 8px 0 0; padding: 0; list-style: none; }
+.c-phone-strip a { display: flex; flex-direction: column; gap: 10px; color: var(--paper); font-size: 1rem; font-weight: 600; text-decoration: none; }
+.c-phone-strip a > span:not(.sr-only) { min-height: 28px; line-height: 1.3; }
+.c-phone-strip a > span svg { display: inline; margin-left: 4px; vertical-align: -2px; }
+.c-phone-strip .f-celular { padding: 5px; border-radius: 22px; transition: transform .2s var(--ease-out); }
+.c-phone-strip .f-celular-tela { border-radius: 17px; }
+.c-phone-strip .f-celular-tela::before { height: 10px; top: 6px; }
+@media (hover: hover) and (pointer: fine) { .c-phone-strip a:hover .f-celular { transform: translateY(-4px); } .c-phone-strip a:hover > span { color: var(--amber); } }
+@media (max-width: 900px) {
+  .c-phone-strip { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: min(40vw, 170px); overflow-x: auto; margin-inline: calc(-1 * clamp(16px, 5vw, 56px)); padding: 4px clamp(16px, 5vw, 56px) 12px; scroll-snap-type: x mandatory; scroll-padding-inline: clamp(16px, 5vw, 56px); }
+  .c-phone-strip li { position: relative; scroll-snap-align: start; }
+}
+
+/* Servicos: um por linha, imagem e texto alternando de lado. */
+.c-feature-list { display: grid; gap: clamp(28px, 5vw, 64px); padding-bottom: clamp(40px, 6vw, 72px); }
+.c-feature { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(20px, 4vw, 56px); align-items: center; }
+.c-feature[data-lado="direita"] > .c-visual { order: 2; }
+.c-feature > .c-visual { height: clamp(260px, 30vw, 360px); border-radius: 16px; }
+.c-feature > .c-visual .f-celular { width: min(40%, 210px); }
+.c-feature-text h2 { margin: 0 0 8px; font-weight: 700; font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.15; letter-spacing: -.02em; }
+.c-feature-text p { max-width: 40ch; margin: 0 0 18px; color: var(--paper-dim); }
+.c-feature-links { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 20px; }
+.c-feature-links .c-more { margin-top: 0; }
+@media (max-width: 820px) {
+  .c-feature { grid-template-columns: 1fr; }
+  .c-feature[data-lado] > .c-visual { order: 0; height: 240px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .c-service-tile, .c-exemplos a, .c-phone-strip .f-celular, .c-filtro button, .c-theme-toggle { transition: none; }
+}
 
 /* ── rodape ── */
 .c-footer {

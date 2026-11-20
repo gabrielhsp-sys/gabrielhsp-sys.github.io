@@ -14,23 +14,23 @@ export const metadata: Metadata = pageMetadata({
 const faq = [
   {
     q: "Quanto custa?",
-    a: "Depende do tamanho do que você precisa. Por isso eu não coloco preço no site: você me conta o que quer e eu te mando o valor e o prazo antes de você decidir qualquer coisa.",
+    a: "Depende do que você precisa. Por isso não tem preço no site: você me conta o que quer e eu mando o valor e o prazo antes de você decidir.",
   },
   {
     q: "Preciso entender de tecnologia?",
-    a: "Não. Você me explica como o seu negócio funciona, do seu jeito. A parte técnica é comigo.",
+    a: "Não. Você me explica como o seu negócio funciona; a parte técnica é comigo.",
   },
   {
     q: "Você atende fora de Areado?",
-    a: "Sim. Converso por WhatsApp e mando tudo pela internet, então atendo em qualquer cidade do Brasil.",
+    a: "Sim. Converso pelo WhatsApp e entrego pela internet, em qualquer cidade do Brasil.",
   },
   {
     q: "Como eu mando fotos, logo e textos?",
-    a: "Depois que você aprovar o orçamento, eu te mando um link só seu para enviar o material. Também dá para mandar pelo WhatsApp.",
+    a: "Com o orçamento aprovado, eu mando um link só seu para enviar o material. Pelo WhatsApp também dá.",
   },
   {
     q: "E se eu quiser mudar alguma coisa depois?",
-    a: "A gente combina isso no orçamento. Antes de ir ao ar, você confere tudo e pede os ajustes.",
+    a: "A gente combina no orçamento. Antes de ir ao ar, você confere tudo e pede os ajustes.",
   },
 ];
 
@@ -39,7 +39,7 @@ export default function ComoFuncionaPage() {
     <main id="conteudo" className="c-page">
       <header className="c-hero c-hero-compact">
         <h1>Como funciona.</h1>
-        <p className="c-lede">Você fala direto comigo, do primeiro contato à entrega. {ATENDIMENTO.resposta}</p>
+        <p className="c-lede">Você fala direto comigo, do pedido à entrega. {ATENDIMENTO.resposta}</p>
       </header>
       <section className="c-section" aria-labelledby="passos-titulo">
         <h2 id="passos-titulo">Do pedido à entrega</h2>

@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeftIcon as ArrowLeft, ArrowUpRightIcon as ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
+import { ArrowLeftIcon as ArrowLeft } from "@phosphor-icons/react/dist/ssr";
 import { Ctas } from "@/components/cliente-ui";
-import { demoHref, demosSites, ramoLabel } from "@/lib/exemplos";
+import { ExemplosGrade } from "@/components/exemplos-grade";
+import { exemplos } from "@/lib/exemplos";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = pageMetadata({
@@ -12,7 +13,7 @@ export const metadata: Metadata = pageMetadata({
 });
 
 // Os demos sao paginas Astro do mesmo build (exemplos-sites/), fora do
-// roteador do Next: <a> comum, nao <Link>.
+// roteador do Next: <a> comum, nao <Link> (ExemplosGrade cuida disso).
 export default function SitesExemploPage() {
   return (
     <main id="conteudo" className="c-page">
@@ -20,22 +21,11 @@ export default function SitesExemploPage() {
       <header className="c-hero c-hero-compact">
         <h1>Sites de exemplo, um para cada ramo.</h1>
         <p className="c-lede">
-          Os negócios são inventados; o site funciona de verdade. O seu fica igual, com o seu nome, as suas
-          fotos e o seu WhatsApp.
+          Os negócios são inventados e os sites funcionam de verdade. O seu fica igual, com o seu nome, as
+          suas fotos e o seu WhatsApp.
         </p>
       </header>
-      <ul className="c-demo-list">
-        {demosSites.map((d) => (
-          <li key={d.id}>
-            <a href={demoHref(d.id)}>
-              <span className="c-demo-ramo">{ramoLabel(d.id)}</span>
-              <strong>{d.negocio}</strong>
-              <span>{d.mostra}</span>
-              <span className="c-demo-open">Abrir o exemplo <ArrowUpRight size={18} aria-hidden="true" /></span>
-            </a>
-          </li>
-        ))}
-      </ul>
+      <ExemplosGrade exemplos={exemplos.filter((e) => e.tipo === "sites")} filtro={false} />
       <section className="c-section c-final" aria-labelledby="final-titulo">
         <h2 id="final-titulo">Quer um assim?</h2>
         <Ctas orcamento="/orcamento/?precisa=site&origem=exemplos-sites" label="Pedir orçamento de site" />

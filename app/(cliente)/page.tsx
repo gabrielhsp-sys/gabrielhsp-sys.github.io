@@ -1,37 +1,53 @@
 import Link from "next/link";
-import { ArrowRightIcon as ArrowRight } from "@phosphor-icons/react/dist/ssr";
-import { Ctas, Steps } from "@/components/cliente-ui";
+import { ArrowRightIcon as ArrowRight, ArrowUpRightIcon as ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
+import { Ctas, MolduraCaptura, ServicoImagem, Steps } from "@/components/cliente-ui";
+import { Captura, Celular, type CapturaNome } from "@/components/molduras";
 import { StructuredData } from "@/components/structured-data";
 import { ATENDIMENTO } from "@/lib/contato";
 import { demoHref, demosSites, ramos } from "@/lib/exemplos";
 import { servicos } from "@/lib/servicos";
 
-// Inicio para quem chega pelo Instagram (decisoes de 2026-11-19): o que eu
-// faco, para quem, e como pedir, sem jargao. O texto vem do PLANO.md, secao 3.
+// Inicio para quem chega pelo Instagram. Rodada visual 2026-11-20: o trabalho
+// aparece em prints (molduras em CSS) e o texto so nomeia o que a imagem mostra.
 export default function Inicio() {
   return (
     <main id="conteudo" className="c-page">
       <StructuredData page="home" />
-      <section className="c-hero" aria-labelledby="inicio-titulo">
-        <h1 id="inicio-titulo">Sites, aplicativos e bots para o seu negócio.</h1>
-        <p className="c-lede">
-          Eu sou o Gabriel. Faço sob encomenda o que o seu negócio precisa: um site que leva o cliente
-          direto para o seu WhatsApp, um aplicativo, um bot no Telegram ou uma tarefa repetitiva que
-          passa a se fazer sozinha.
-        </p>
-        <Ctas orcamento="/orcamento/?origem=inicio" />
-        <p className="c-note">{ATENDIMENTO.frase} {ATENDIMENTO.resposta}</p>
+      <section className="c-hero c-hero-split" aria-labelledby="inicio-titulo">
+        <div className="c-hero-text">
+          <h1 id="inicio-titulo">Sites, aplicativos e bots para o seu negócio.</h1>
+          <p className="c-lede">Eu sou o Gabriel. Faço sob encomenda, do jeito que o seu negócio funciona.</p>
+          <Ctas orcamento="/orcamento/?origem=inicio" />
+          <p className="c-note">{ATENDIMENTO.frase} {ATENDIMENTO.resposta}</p>
+        </div>
+        {/* Composicao de prints reais: um site de exemplo no notebook, outro no
+            celular e a conversa do bot. Rotulo "Demonstracao" na legenda. */}
+        <figure className="c-vitrine">
+          <div className="c-vitrine-notebook">
+            <MolduraCaptura moldura="navegador" captura="site-loja-desktop" sizes="(min-width: 1100px) 560px, 92vw" prioridade />
+          </div>
+          <div className="c-vitrine-celular">
+            <MolduraCaptura moldura="celular" captura="site-alimentacao-celular" sizes="(min-width: 1100px) 190px, 38vw" prioridade />
+          </div>
+          <div className="c-vitrine-bot">
+            <MolduraCaptura moldura="conversa" captura="bot-conversa" sizes="(min-width: 1100px) 170px, 34vw" prioridade />
+          </div>
+          <figcaption>
+            <span className="c-badge" data-kind="demo">Demonstração</span>
+            Sites e bot de exemplo, com negócios inventados.
+          </figcaption>
+        </figure>
       </section>
 
       <section className="c-section" aria-labelledby="faco-titulo">
         <h2 id="faco-titulo">O que eu faço</h2>
-        <ul className="c-service-list">
-          {servicos.map((s) => (
+        <ul className="c-service-grid">
+          {servicos.map((s, i) => (
             <li key={s.slug}>
-              <Link href={`/servicos/${s.slug}/`}>
-                <strong>{s.nome}</strong>
+              <Link href={`/servicos/${s.slug}/`} className="c-service-tile">
+                <ServicoImagem servico={s} sizes="(min-width: 1100px) 340px, (min-width: 640px) 45vw, 92vw" cedo={i < 3} />
+                <strong>{s.nome} <ArrowRight className="c-tile-arrow" size={20} aria-hidden="true" /></strong>
                 <span>{s.resumo}</span>
-                <ArrowRight size={20} aria-hidden="true" />
               </Link>
             </li>
           ))}
@@ -39,15 +55,28 @@ export default function Inicio() {
       </section>
 
       <section className="c-section" aria-labelledby="veja-titulo">
-        <h2 id="veja-titulo">Veja antes de pedir</h2>
-        <p>
-          Fiz sites de exemplo para sete tipos de negócio. Os negócios são inventados; o site funciona
-          de verdade. Abra o do seu ramo e mexa à vontade.
-        </p>
-        <ul className="c-chips">
+        <div className="c-section-head">
+          <h2 id="veja-titulo">Veja antes de pedir</h2>
+          <p className="c-badge" data-kind="demo">Demonstração</p>
+        </div>
+        <p>Um site de exemplo para cada ramo, com negócio inventado. Toque e mexa à vontade.</p>
+        <ul className="c-phone-strip">
           {demosSites.map((d) => (
             <li key={d.id}>
-              <a href={demoHref(d.id)}>{ramos.find((r) => r.id === d.id)?.exemplo}</a>
+              <a href={demoHref(d.id)}>
+                <Celular>
+                  <Captura
+                    nome={`site-${d.id}-celular` as CapturaNome}
+                    sizes="(min-width: 1100px) 140px, 40vw"
+                    alt=""
+                  />
+                </Celular>
+                <span>
+                  {ramos.find((r) => r.id === d.id)?.exemplo}
+                  <ArrowUpRight size={16} aria-hidden="true" />
+                </span>
+                <span className="sr-only">: abrir o site de exemplo {d.negocio}</span>
+              </a>
             </li>
           ))}
         </ul>
@@ -60,15 +89,15 @@ export default function Inicio() {
         <h2 id="como-titulo">Como funciona</h2>
         <Steps />
         <Link className="c-more" href="/como-funciona/">
-          Ver os detalhes <ArrowRight size={18} aria-hidden="true" />
+          Perguntas comuns <ArrowRight size={18} aria-hidden="true" />
         </Link>
       </section>
 
       <section className="c-section" aria-labelledby="quem-titulo">
         <h2 id="quem-titulo">Quem faz</h2>
         <p>
-          Gabriel Henrique, estudante de Ciência da Computação na UNIFAL-MG. {ATENDIMENTO.frase} Você
-          fala direto comigo, do primeiro contato à entrega.
+          Gabriel Henrique, estudante de Ciência da Computação na UNIFAL-MG. Você fala direto comigo, do
+          primeiro contato à entrega.
         </p>
         <Link className="c-more" href="/sobre/">
           Quem sou eu <ArrowRight size={18} aria-hidden="true" />
