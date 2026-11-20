@@ -1,0 +1,28 @@
+---
+// Botão de contato: sempre abre o WhatsApp do Gabriel com o texto do demo.
+// O rótulo do botão vem dos dados do nicho; o texto da mensagem, de src/data/contato.ts.
+import { linkDemo } from '../lib/whatsapp.ts';
+import Icone from './Icone.astro';
+
+interface Props {
+  rotuloDemo: string;
+  texto: string;
+  variante?: 'cheio' | 'contorno';
+  largo?: boolean;
+  class?: string;
+  /** Marca o botão principal da página (o verificador e as auditorias contam este). */
+  principal?: boolean;
+}
+const { rotuloDemo, texto, variante = 'cheio', largo = false, class: classe, principal = false } = Astro.props;
+---
+<a
+  class:list={['botao', variante === 'contorno' && 'botao--contorno', largo && 'botao--largo', classe]}
+  href={linkDemo(rotuloDemo)}
+  target="_blank"
+  rel="noopener"
+  data-wa
+  data-principal={principal ? '' : undefined}
+>
+  <Icone nome="whatsapp-logo" />
+  <span>{texto}</span>
+</a>

@@ -1,0 +1,344 @@
+{
+  "alimentacao/hero": {
+    "alt": "Hambúrguer com alface e tomate em pão de brioche",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 1.2034
+  },
+  "alimentacao/duplo": {
+    "alt": "Hambúrguer duplo com queijo derretido",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 1.4055
+  },
+  "alimentacao/classico": {
+    "alt": "Cheeseburger com alface, tomate e cebola sobre tábua escura",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 1.5026
+  },
+  "alimentacao/fritas": {
+    "alt": "Cesta de batatas fritas sobre mesa de madeira",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 1.25
+  },
+  "alimentacao/milkshake": {
+    "alt": "Milkshake de morango em copo de vidro",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 1.4993
+  },
+  "beleza/hero": {
+    "alt": "Cliente recebendo tratamento facial em maca",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 0.6667
+  },
+  "beleza/unhas": {
+    "alt": "Manicure sendo feita em mesa de salão",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 1.5004
+  },
+  "beleza/maos": {
+    "alt": "Mão com unhas rosa-claro sobre tecido branco",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 0.6268
+  },
+  "beleza/produto": {
+    "alt": "Frasco âmbar com conta-gotas sobre pedestal de madeira",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 0.6667
+  },
+  "beleza/massagem": {
+    "alt": "Mãos fazendo massagem no antebraço",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 0.6667
+  },
+  "cabeleireiro/hero": {
+    "alt": "Cadeira de barbeiro de couro preto junto a parede de tijolos",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 1.506
+  },
+  "cabeleireiro/tesoura": {
+    "alt": "Barbeiro cortando cabelo com tesoura",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 0.8
+  },
+  "cabeleireiro/barba": {
+    "alt": "Barbeiro aparando barba com tesoura",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 0.6667
+  },
+  "cabeleireiro/ferramentas": {
+    "alt": "Máquinas de corte, tesoura e pente sobre ardósia",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 1.5004
+  },
+  "cabeleireiro/degrade": {
+    "alt": "Cliente cortando o cabelo na barbearia",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 1.5004
+  },
+  "cabeleireiro/maquina": {
+    "alt": "Barbeiro aparando a barba do cliente, em preto e branco",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 0.6642
+  },
+  "saude/hero": {
+    "alt": "Corredor claro com quadros de plantas e poltrona de espera",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 0.6667
+  },
+  "saude/consultorio": {
+    "alt": "Sala de atendimento com equipamentos",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 1.5004
+  },
+  "saude/estetoscopio": {
+    "alt": "Estetoscópio e medidor de pressão sobre tecido branco",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 0.6649
+  },
+  "saude/sala": {
+    "alt": "Sala com mesa, cadeiras e relógio",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 0.6667
+  },
+  "fitness/hero": {
+    "alt": "Aluna levantando barra com anilhas na academia",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 0.6669
+  },
+  "fitness/musculacao": {
+    "alt": "Área de musculação com máquinas e pesos",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 1.4993
+  },
+  "fitness/kettlebell": {
+    "alt": "Fileira de kettlebells pretos e vermelhos",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 1.4993
+  },
+  "fitness/funcional": {
+    "alt": "Treino com cordas navais",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 1.497
+  },
+  "fitness/cardio": {
+    "alt": "Esteiras e bicicletas ergométricas",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 1.023
+  },
+  "fitness/barra": {
+    "alt": "Barra olímpica com anilhas no chão da academia",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 0.6667
+  },
+  "loja/hero": {
+    "alt": "Prateleiras com produtos e lâmpada pendurada",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 1.4399
+  },
+  "loja/queijo": {
+    "alt": "Queijos empilhados",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 1.506
+  },
+  "loja/mel": {
+    "alt": "Potes de mel sobre mesa de madeira",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 0.6667
+  },
+  "loja/doce": {
+    "alt": "Potes de doce caseiro sobre mesa de madeira",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 1.3333
+  },
+  "loja/cafe": {
+    "alt": "Grãos de café em saca",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 1.5004
+  },
+  "loja/pao": {
+    "alt": "Pão caseiro sobre tecido de juta",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 0.6667
+  },
+  "loja/compotas": {
+    "alt": "Prateleira com potes de compota",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 1.4981
+  },
+  "servicos/hero": {
+    "alt": "Mecânico trabalhando no motor de um carro na oficina",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 1.5004
+  },
+  "servicos/motor": {
+    "alt": "Mecânico mexendo no motor",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 0.6667
+  },
+  "servicos/pneu": {
+    "alt": "Troca de pneu na oficina",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 1.5004
+  },
+  "servicos/chave": {
+    "alt": "Mãos com graxa usando chave no motor",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 1.3333
+  },
+  "servicos/pneus": {
+    "alt": "Pilha de pneus com roda de liga leve",
+    "larguras": [
+      480,
+      960,
+      1440
+    ],
+    "proporcao": 0.668
+  }
+}

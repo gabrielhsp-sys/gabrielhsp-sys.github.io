@@ -1,0 +1,147 @@
+---
+// Página do nicho ALIMENTAÇÃO (identidade: letreiro de lanchonete, amarelo-mostarda e
+// vermelho-ketchup; Lilita One + Karla). Todo texto vem de `dados` (src/data/...).
+import '@fontsource/lilita-one/latin-400.css';
+import '@fontsource/karla/latin-400.css';
+import '@fontsource/karla/latin-700.css';
+import Base from '../../layouts/Base.astro';
+import Foto from '../Foto.astro';
+import BotaoWhats from '../BotaoWhats.astro';
+import Cardapio from '../Cardapio.astro';
+import Carrinho from '../Carrinho.astro';
+import Depoimentos from '../Depoimentos.astro';
+import Rodape from '../Rodape.astro';
+import Icone from '../Icone.astro';
+import type { DadosAlimentacao } from '../../data/tipos.ts';
+import { formatarPreco } from '../../lib/mensagens.ts';
+import { imagemOg, tituloPagina } from '../../lib/paginas.ts';
+
+interface Props { dados: DadosAlimentacao; caminho: string }
+const { dados, caminho } = Astro.props;
+const d = dados;
+---
+<Base
+  titulo={tituloPagina(d)}
+  descricao={d.negocio.descricao}
+  caminho={caminho}
+  imagemOg={imagemOg(d.hero.foto)}
+  imagemAlt={d.negocio.resumo}
+  nomeSite={d.negocio.resumo}
+  tema="tema-brasa"
+  corTema="#F7C948"
+  rotuloDemo={d.rotulo}
+>
+  <main id="conteudo">
+    <section class="hero">
+      <div class="hero__texto">
+        <h1 class="hero__titulo">{d.hero.titulo}</h1>
+        <p class="hero__lead">{d.hero.texto}</p>
+        <div class="hero__acoes">
+          <BotaoWhats rotuloDemo={d.rotulo} texto={d.botaoPrincipal} principal />
+          <a class="hero__link" href="#cardapio">Ver cardápio</a>
+        </div>
+      </div>
+      <div class="hero__foto">
+        <Foto chave={d.hero.foto} sizes="(min-width: 56rem) 50vw, 90vw" prioridade />
+      </div>
+    </section>
+
+    <ul role="list" class="faixa-info wrap">
+      <li><Icone nome="clock" /> {d.horario[0].dias}, {d.horario[0].horas}</li>
+      <li><Icone nome="map-pin" /> {d.endereco.bairro}, {d.endereco.cidade}</li>
+      <li><Icone nome="shopping-bag" /> Entrega em {d.delivery.tempo}</li>
+    </ul>
+
+    <section class="menu" id="cardapio" aria-labelledby="menu-titulo">
+      <div class="wrap menu__topo">
+        <h2 id="menu-titulo">{d.pedido.titulo}</h2>
+        <p>{d.pedido.texto}</p>
+      </div>
+      <Cardapio categorias={d.cardapio} />
+    </section>
+
+    <section class="entrega" aria-labelledby="entrega-titulo">
+      <div class="wrap entrega__grade">
+        <div>
+          <h2 id="entrega-titulo">{d.delivery.titulo}</h2>
+          <p class="entrega__texto">{d.delivery.texto}</p>
+        </div>
+        <dl class="entrega__dados">
+          <div><dt>Taxa de entrega</dt><dd>{formatarPreco(d.delivery.taxa)}</dd></div>
+          <div><dt>Tempo</dt><dd>{d.delivery.tempo}</dd></div>
+          <div><dt>Onde entregamos</dt><dd>{d.delivery.bairros.join(', ')}</dd></div>
+          <div><dt>Retirada</dt><dd>{d.delivery.retirada}</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <Depoimentos lista={d.depoimentos} />
+  </main>
+
+  <Rodape dados={d} />
+
+  <Carrinho
+    negocio={d.negocio.nome}
+    rotuloDemo={d.rotulo}
+    botaoTexto={d.botaoPrincipal}
+    taxaEntrega={d.delivery.taxa}
+    pagamento={d.pedido.pagamento}
+    retirada={d.delivery.retirada}
+    dicaObs={d.pedido.dicaObs}
+  />
+</Base>
+
+<style is:global>
+  .tema-brasa {
+    --bg: #F7C948; --surface: #FFF6DA; --ink: #2A140D; --muted: #5A3A22;
+    --primary: #A61F17; --on-primary: #FFF6DA; --preco: #A61F17;
+    --font-titulo: 'Lilita One', 'Arial Rounded MT Bold', system-ui, sans-serif;
+    --font-texto: 'Karla', system-ui, sans-serif;
+    --raio-cartao: 18px; --raio-botao: 999px; --h2: clamp(2rem, 7vw, 3rem);
+    --nav-bg: #F7C948; --chip-borda: #2A140D; --chip-ativo-bg: #2A140D; --chip-ativo-ink: #F7C948;
+    --carrinho-bg: #2A140D; --carrinho-ink: #F7C948;
+    --rodape-bg: #2A140D; --rodape-ink: #FFF6DA;
+    --selo-bg: #A61F17; --selo-ink: #FFF6DA;
+    --foco: #2A140D;
+  }
+  .tema-brasa .cardapio__item .card-muted, .tema-brasa .cardapio__desc { color: #6B4A33; }
+</style>
+
+<style>
+  .hero {
+    display: grid; gap: 1.5rem; padding-top: clamp(1.5rem, 5vw, 4rem);
+    overflow: hidden;
+  }
+  .hero__texto { padding-inline: var(--gutter); }
+  .hero__titulo {
+    font-family: var(--font-titulo); font-weight: 400; color: var(--primary);
+    font-size: clamp(3.4rem, 17vw, 8.5rem); line-height: .9; letter-spacing: -.01em;
+    text-shadow: 3px 3px 0 var(--ink);
+  }
+  .hero__lead { margin-top: 1rem; font-size: 1.15rem; max-width: 34ch; }
+  .hero__acoes { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.25rem; margin-top: 1.5rem; }
+  .hero__link { display: inline-flex; align-items: center; min-height: 2.75rem; font-weight: 700; text-underline-offset: 4px; }
+  .hero__foto { justify-self: end; width: min(92%, 40rem); margin-right: -6%; }
+  .hero__foto :global(img) { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 999px 0 0 999px; border: 6px solid var(--ink); border-right: 0; }
+  @media (min-width: 56rem) {
+    .hero { grid-template-columns: 1.05fr 1fr; align-items: center; padding-left: max(var(--gutter), (100vw - var(--largura)) / 2); }
+    .hero__texto { padding-inline: 0; }
+    .hero__foto { width: 100%; margin-right: 0; }
+  }
+
+  .faixa-info { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; margin-block: 2rem 0; font-weight: 700; }
+  .faixa-info li { display: flex; align-items: center; gap: .4rem; }
+
+  .menu { padding-block: 3rem 2rem; }
+  .menu__topo h2 { font-family: var(--font-titulo); font-weight: 400; font-size: var(--h2); line-height: 1; }
+  .menu__topo p { margin-top: .5rem; max-width: 46ch; }
+
+  .entrega { background: var(--ink); color: var(--surface); padding-block: 3.5rem; margin-top: 2rem; }
+  .entrega__grade { display: grid; gap: 2rem; }
+  .entrega h2 { font-family: var(--font-titulo); font-weight: 400; font-size: var(--h2); line-height: 1; color: var(--bg); }
+  .entrega__texto { margin-top: .75rem; max-width: 40ch; }
+  .entrega__dados { display: grid; gap: 1rem; }
+  .entrega__dados dt { font-size: .9rem; color: var(--bg); font-weight: 700; }
+  .entrega__dados dd { font-size: 1.1rem; }
+  @media (min-width: 48rem) { .entrega__grade { grid-template-columns: 1fr 1fr; } .entrega__dados { grid-template-columns: 1fr 1fr; } }
+</style>

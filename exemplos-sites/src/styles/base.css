@@ -1,0 +1,89 @@
+/* Base comum a todas as páginas. Cada nicho define os tokens (--bg, --ink, --primary…) e as
+   fontes no próprio arquivo; aqui só há estrutura, acessibilidade e os componentes genéricos. */
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-padding-top: calc(var(--faixa-h) + 3.5rem); }
+body {
+  margin: 0;
+  min-width: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-texto, system-ui, sans-serif);
+  font-size: 1rem;
+  line-height: 1.55;
+  padding-top: var(--faixa-h);
+  -webkit-tap-highlight-color: transparent;
+  overflow-wrap: break-word;
+}
+:root { --faixa-h: 2.75rem; --gutter: clamp(1rem, 4vw, 2.5rem); --largura: 72rem; }
+img, svg, picture, iframe { display: block; max-width: 100%; }
+img { height: auto; }
+h1, h2, h3, h4, p, ul, ol, figure, dl, dd { margin: 0; }
+ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
+a { color: inherit; }
+button, input, select, textarea { font: inherit; color: inherit; }
+/* D-126: campo de formulário com 16 px no toque (evita o zoom do iOS). */
+input, select, textarea { font-size: max(16px, 1rem); }
+:focus-visible { outline: 3px solid var(--foco, var(--primary)); outline-offset: 3px; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.pular {
+  position: absolute; left: 1rem; top: -4rem; z-index: 60;
+  background: var(--ink); color: var(--bg); padding: .5rem 1rem;
+}
+.pular:focus { top: calc(var(--faixa-h) + .5rem); }
+
+.wrap { width: min(100% - 2 * var(--gutter), var(--largura)); margin-inline: auto; }
+
+/* Ícones */
+.icone { width: 1.25em; height: 1.25em; flex: none; }
+
+/* Botão de WhatsApp e botões genéricos (cores e raio vêm do nicho). */
+.botao {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  min-height: 3rem; padding: .75rem 1.5rem;
+  border: 2px solid transparent; border-radius: var(--raio-botao, 999px);
+  background: var(--primary); color: var(--on-primary);
+  font-family: var(--font-botao, inherit); font-weight: var(--peso-botao, 700); font-size: 1rem;
+  text-decoration: none; text-align: center; line-height: 1.2; cursor: pointer;
+  transition: transform .15s ease, background-color .15s ease, box-shadow .15s ease;
+  touch-action: manipulation; user-select: none; -webkit-user-select: none;
+}
+.botao:active { transform: translateY(1px) scale(.98); }
+.botao--contorno { background: transparent; color: var(--ink); border-color: currentColor; }
+.botao--largo { width: 100%; }
+@media (hover: hover) and (pointer: fine) {
+  .botao:hover { filter: brightness(1.08); }
+}
+
+/* Chip (escolha única) usado em agenda, filtros e abas. */
+.chip {
+  display: inline-flex; align-items: center; min-height: 2.75rem; padding: .5rem 1rem;
+  border: 1.5px solid var(--chip-borda, currentColor); border-radius: var(--raio-chip, 999px);
+  background: transparent; color: inherit; cursor: pointer; white-space: nowrap;
+  touch-action: manipulation;
+}
+.chip[aria-pressed='true'], .chip[aria-selected='true'] {
+  background: var(--chip-ativo-bg, var(--primary)); color: var(--chip-ativo-ink, var(--on-primary));
+  border-color: var(--chip-ativo-bg, var(--primary));
+}
+.trilho { display: flex; gap: .5rem; overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; padding-block: .25rem; }
+.trilho::-webkit-scrollbar { display: none; }
+
+/* Selo "exemplo" para depoimentos e dados fictícios. */
+.selo-exemplo {
+  display: inline-block; font-size: .75rem; font-weight: 700; letter-spacing: .02em;
+  padding: .1rem .5rem; border-radius: 999px;
+  background: var(--selo-bg, var(--ink)); color: var(--selo-ink, var(--bg));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important; animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important; scroll-behavior: auto !important;
+  }
+}
+
+[hidden] { display: none !important; }

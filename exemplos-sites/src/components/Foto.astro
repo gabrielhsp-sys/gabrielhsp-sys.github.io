@@ -1,0 +1,36 @@
+---
+// Foto responsiva: <picture> com AVIF e WebP nas larguras geradas por `npm run imagens`.
+// Largura/altura reservam o espaço (sem salto de layout). Abaixo da dobra: loading="lazy".
+import imagens from '../data/imagens.json';
+
+interface Props {
+  chave: string;
+  /** Atributo sizes, ex.: "(min-width: 60rem) 50vw, 100vw". */
+  sizes?: string;
+  /** true só para a foto principal do hero (primeira dobra). */
+  prioridade?: boolean;
+  alt?: string;
+  class?: string;
+}
+
+const { chave, sizes = '100vw', prioridade = false, alt, class: classe } = Astro.props;
+const info = (imagens as Record<string, { alt: string; larguras: number[]; proporcao: number }>)[chave];
+if (!info) throw new Error(`Foto sem entrada em src/data/imagens.json: ${chave}`);
+const src = (w: number, ext: string) => `/img/${chave}-${w}.${ext}`;
+const srcset = (ext: string) => info.larguras.map((w) => `${src(w, ext)} ${w}w`).join(', ');
+const base = info.larguras.includes(960) ? 960 : info.larguras[info.larguras.length - 1];
+const altura = Math.round(base / info.proporcao);
+---
+<picture class={classe}>
+  <source type="image/avif" srcset={srcset('avif')} sizes={sizes} />
+  <source type="image/webp" srcset={srcset('webp')} sizes={sizes} />
+  <img
+    src={src(base, 'webp')}
+    width={base}
+    height={altura}
+    alt={alt ?? info.alt}
+    loading={prioridade ? 'eager' : 'lazy'}
+    decoding={prioridade ? 'sync' : 'async'}
+    fetchpriority={prioridade ? 'high' : 'auto'}
+  />
+</picture>

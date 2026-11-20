@@ -1,0 +1,66 @@
+---
+// Grade de aulas em abas por dia (padrão tablist com setas do teclado). Abre no dia de hoje.
+import type { Aula } from '../data/tipos.ts';
+
+interface Props { dias: { dia: string; aulas: Aula[] }[]; rotuloLotando?: string }
+const { dias, rotuloLotando = 'Quase lotada' } = Astro.props;
+---
+<div class="grade" data-grade>
+  <div class="trilho grade__abas" role="tablist" aria-label="Dia da semana">
+    {dias.map((d, i) => (
+      <button type="button" class="chip" role="tab" id={`aba-${i}`} aria-controls={`painel-${i}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>{d.dia}</button>
+    ))}
+  </div>
+  {dias.map((d, i) => (
+    <div class="grade__painel" role="tabpanel" id={`painel-${i}`} aria-labelledby={`aba-${i}`} hidden={i !== 0} tabindex="0">
+      <ul role="list">
+        {d.aulas.map((a) => (
+          <li class="grade__aula">
+            <span class="grade__hora">{a.hora}</span>
+            <span class="grade__mod">{a.modalidade}</span>
+            <span class="grade__prof">{a.professor}</span>
+            {a.lotando && <span class="grade__selo">{rotuloLotando}</span>}
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-grade]').forEach((raiz) => {
+    const abas = [...raiz.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const ativar = (i: number, foco = false) => {
+      abas.forEach((a, n) => {
+        a.setAttribute('aria-selected', String(n === i));
+        a.tabIndex = n === i ? 0 : -1;
+        raiz.querySelector<HTMLElement>(`#${a.getAttribute('aria-controls')}`)!.hidden = n !== i;
+      });
+      if (foco) abas[i].focus();
+      const trilho = abas[i].parentElement!;
+      trilho.scrollLeft = abas[i].offsetLeft - trilho.offsetLeft - 8;
+    };
+    abas.forEach((a, i) => a.addEventListener('click', () => ativar(i)));
+    raiz.querySelector('[role="tablist"]')!.addEventListener('keydown', (e) => {
+      const k = (e as KeyboardEvent).key;
+      const atual = abas.findIndex((a) => a.getAttribute('aria-selected') === 'true');
+      if (k === 'ArrowRight') ativar((atual + 1) % abas.length, true);
+      if (k === 'ArrowLeft') ativar((atual - 1 + abas.length) % abas.length, true);
+    });
+    // Abre no dia de hoje (segunda = 0). Domingo cai na segunda.
+    const hoje = (new Date().getDay() + 6) % 7;
+    ativar(hoje < abas.length ? hoje : 0);
+  });
+</script>
+
+<style>
+  .grade__abas { margin-bottom: 1rem; }
+  .grade__aula {
+    display: grid; grid-template-columns: 4.25rem 1fr; grid-template-areas: 'h m' 'h p' 'h s';
+    gap: 0 .9rem; padding-block: .9rem; border-bottom: 1px solid var(--linha, rgb(127 127 127 / .3));
+  }
+  .grade__hora { grid-area: h; font-family: var(--font-titulo); font-size: 1.6rem; line-height: 1; font-variant-numeric: tabular-nums; }
+  .grade__mod { grid-area: m; font-weight: 700; font-size: 1.1rem; }
+  .grade__prof { grid-area: p; color: var(--muted); }
+  .grade__selo { grid-area: s; justify-self: start; margin-top: .3rem; padding: .1rem .55rem; font-size: .8rem; font-weight: 700; background: var(--selo-bg, var(--ink)); color: var(--selo-ink, var(--bg)); border-radius: var(--raio-chip, 999px); }
+</style>

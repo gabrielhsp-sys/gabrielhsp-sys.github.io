@@ -1,0 +1,47 @@
+---
+// Faixa fixa e discreta no topo de todo demo: avisa que é demonstração e leva ao WhatsApp
+// do Gabriel (ação principal, em verde) e ao portfólio (link neutro ao lado). Cores neutras
+// próprias, para não brigar com a identidade do nicho. Endereços e textos: src/data/contato.ts.
+// Altura = --faixa-h (44 px): cada link ocupa a altura toda e chega ao alvo de toque de 44 px.
+import { FAIXA_DEMO, PORTFOLIO_GABRIEL } from '../data/contato.ts';
+import { linkDemo } from '../lib/whatsapp.ts';
+
+interface Props { rotulo: string }
+const { rotulo } = Astro.props;
+---
+<aside class="faixa-demo" aria-label="Aviso de demonstração">
+  <a class="faixa-demo__whats" href={linkDemo(rotulo)} target="_blank" rel="noopener" data-wa data-faixa="whatsapp">
+    <span class="faixa-demo__texto faixa-demo__texto--longo">{FAIXA_DEMO.texto}</span>
+    <span class="faixa-demo__texto faixa-demo__texto--curto">{FAIXA_DEMO.textoCurto}</span>
+    <span class="faixa-demo__cta">{FAIXA_DEMO.rotuloLink}</span>
+  </a>
+  <a class="faixa-demo__portfolio" href={PORTFOLIO_GABRIEL} target="_blank" rel="noopener" data-faixa="portfolio">{FAIXA_DEMO.rotuloPortfolio}</a>
+</aside>
+
+<style>
+  .faixa-demo {
+    position: fixed; inset: 0 0 auto 0; z-index: 50;
+    height: var(--faixa-h);
+    display: flex; align-items: center; justify-content: center; gap: .75rem;
+    padding-inline: 1rem;
+    background: #1d1d1b; color: #f2f1ec;
+    font: 500 .78rem/1.1 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  }
+  .faixa-demo a {
+    display: flex; align-items: center; justify-content: center; gap: .75rem; min-width: 0;
+    height: 100%; color: inherit; text-decoration: none;
+  }
+  .faixa-demo__texto { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .faixa-demo__texto--curto { display: none; }
+  .faixa-demo__cta { flex: none; color: #9fe0b4; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+  .faixa-demo a.faixa-demo__portfolio {
+    flex: none; min-width: 44px; padding-left: .75rem; border-left: 1px solid #4a4944;
+    text-decoration: underline; text-underline-offset: 3px; text-decoration-color: #8a8984;
+  }
+  @media (max-width: 25rem) {
+    .faixa-demo { padding-inline: .75rem; }
+    .faixa-demo__cta, .faixa-demo__texto--longo { display: none; }
+    .faixa-demo__texto--curto { display: inline; }
+  }
+  .faixa-demo a:focus-visible { outline: 2px solid #9fe0b4; outline-offset: -2px; }
+</style>

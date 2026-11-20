@@ -1,0 +1,12 @@
+---
+// Ícone Phosphor (MIT, ver src/icons/LEIA-ME.md) embutido no HTML, decorativo por padrão.
+const arquivos = import.meta.glob<string>('../icons/*.svg', { query: '?raw', import: 'default', eager: true });
+
+interface Props { nome: string; class?: string; rotulo?: string }
+const { nome, class: classe, rotulo } = Astro.props;
+const svg = arquivos[`../icons/${nome}.svg`];
+if (!svg) throw new Error(`Ícone inexistente em src/icons: ${nome}`);
+const atributos = rotulo ? `role="img" aria-label="${rotulo}"` : 'aria-hidden="true" focusable="false"';
+const html = svg.replace('<svg ', `<svg class="icone ${classe ?? ''}" ${atributos} `);
+---
+<Fragment set:html={html} />

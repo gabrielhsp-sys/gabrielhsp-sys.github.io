@@ -1,0 +1,27 @@
+---
+// Rota de lead: /l/<slug> lê src/data/leads/<slug>.ts (mesmo formato de um nicho + nichoBase)
+// e usa o layout do nicho-base. Fora da home e de qualquer menu; noindex como todas as páginas.
+import type { GetStaticPaths } from 'astro';
+import type { Lead } from '../../data/tipos.ts';
+import Alimentacao from '../../components/nichos/Alimentacao.astro';
+import Beleza from '../../components/nichos/Beleza.astro';
+import Cabeleireiro from '../../components/nichos/Cabeleireiro.astro';
+import Saude from '../../components/nichos/Saude.astro';
+import Fitness from '../../components/nichos/Fitness.astro';
+import Loja from '../../components/nichos/Loja.astro';
+import Servicos from '../../components/nichos/Servicos.astro';
+
+export const getStaticPaths = (() => {
+  const arquivos = import.meta.glob<{ default: Lead }>('../../data/leads/*.ts', { eager: true });
+  return Object.entries(arquivos).map(([caminho, mod]) => ({
+    params: { slug: caminho.split('/').pop()!.replace(/\.ts$/, '') },
+    props: { lead: mod.default },
+  }));
+}) satisfies GetStaticPaths;
+
+const { lead } = Astro.props as { lead: Lead };
+const caminho = `/l/${Astro.params.slug}`;
+const PAGINAS = { alimentacao: Alimentacao, beleza: Beleza, cabeleireiro: Cabeleireiro, saude: Saude, fitness: Fitness, loja: Loja, servicos: Servicos };
+const Pagina = PAGINAS[lead.nichoBase] as any;
+---
+<Pagina dados={lead} caminho={caminho} />

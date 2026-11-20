@@ -1,0 +1,26 @@
+---
+// Prévia em forma de balão de WhatsApp: mostra a mensagem que o site de verdade mandaria ao
+// negócio. O script de quem usa (carrinho, agenda, orçamento) preenche [data-previa-texto].
+interface Props { negocio: string; vazio: string; id: string }
+const { negocio, vazio, id } = Astro.props;
+---
+<div class="previa" id={id}>
+  <p class="previa__rotulo">Assim chega no WhatsApp de {negocio}:</p>
+  <div class="previa__balao" aria-live="polite">
+    <p class="previa__texto" data-previa-texto data-vazio={vazio}>{vazio}</p>
+  </div>
+  <p class="previa__nota">Neste demo, o botão abre uma conversa com o Gabriel. No site pronto, a mensagem vai direto para o negócio.</p>
+</div>
+
+<style>
+  .previa { display: grid; gap: .5rem; }
+  .previa__rotulo { font-size: .9rem; font-weight: 600; }
+  .previa__balao {
+    position: relative; justify-self: end; max-width: 100%;
+    background: #d9fdd3; color: #111b21; border-radius: .75rem .75rem .2rem .75rem;
+    padding: .75rem 1rem; box-shadow: 0 1px 1px rgb(11 20 26 / .13);
+  }
+  .previa__texto { white-space: pre-line; font: 400 .95rem/1.45 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+  .previa__texto[data-estado='vazio'] { color: #54656f; font-style: italic; }
+  .previa__nota { font-size: .85rem; color: var(--muted); }
+</style>

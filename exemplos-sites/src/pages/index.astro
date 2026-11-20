@@ -1,0 +1,89 @@
+---
+// Home: vitrine dos 7 demos, com cartão na cor de cada nicho. Não lista os leads (/l/...).
+import '@fontsource/bricolage-grotesque/latin-600.css';
+import '@fontsource/bricolage-grotesque/latin-800.css';
+import Base from '../layouts/Base.astro';
+import Foto from '../components/Foto.astro';
+import BotaoWhats from '../components/BotaoWhats.astro';
+import { NICHOS, ORDEM } from '../data/nichos/index.ts';
+import { HOME, CORES } from '../data/home.ts';
+---
+<Base
+  titulo={HOME.titulo}
+  descricao={HOME.descricao}
+  caminho="/"
+  imagemOg="/img/og/alimentacao.jpg"
+  imagemAlt={HOME.titulo}
+  nomeSite={HOME.titulo}
+  tema="tema-home"
+  corTema="#F7F5F0"
+>
+  <main id="conteudo" class="wrap">
+    <section class="topo">
+      <h1>{HOME.titulo}</h1>
+      <p>{HOME.texto}</p>
+      <BotaoWhats rotuloDemo={HOME.rotuloWhats} texto={HOME.botao} principal />
+    </section>
+
+    <ul role="list" class="cartoes">
+      {ORDEM.map((id) => {
+        const d = NICHOS[id];
+        const c = CORES[id];
+        return (
+          <li class="cartao" style={`--c-fundo: ${c.fundo}; --c-tinta: ${c.tinta}; --c-destaque: ${c.destaque}`}>
+            <a href={`/${id}`}>
+              <div class="cartao__foto"><Foto chave={d.hero.foto} sizes="(min-width: 64rem) 30vw, (min-width: 40rem) 45vw, 100vw" /></div>
+              <div class="cartao__texto">
+                <span class="cartao__nicho">{d.rotulo}</span>
+                <span class="cartao__nome">{d.negocio.resumo}</span>
+                <span class="cartao__botao">{HOME.verDemo}</span>
+              </div>
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+
+    <section class="como">
+      <h2>{HOME.comoFunciona.titulo}</h2>
+      <ol role="list">{HOME.comoFunciona.passos.map((p, i) => <li><span>{i + 1}</span>{p}</li>)}</ol>
+      <BotaoWhats rotuloDemo={HOME.rotuloWhats} texto={HOME.botao} />
+      <p class="aviso">{HOME.aviso}</p>
+    </section>
+  </main>
+</Base>
+
+<style is:global>
+  .tema-home {
+    --bg: #F7F5F0; --surface: #FFFFFF; --ink: #141414; --muted: #5E5A52;
+    --primary: #1D6B45; --on-primary: #FFFFFF;
+    --font-titulo: 'Bricolage Grotesque', system-ui, sans-serif; --font-texto: 'Bricolage Grotesque', system-ui, sans-serif;
+  }
+</style>
+
+<style>
+  .topo { padding-block: 3rem 2.5rem; display: grid; gap: 1.25rem; justify-items: start; }
+  h1 { font-weight: 800; font-size: clamp(2.5rem, 9vw, 5rem); line-height: .95; letter-spacing: -.03em; max-width: 14ch; }
+  .topo p { font-size: 1.15rem; color: var(--muted); max-width: 44ch; }
+
+  .cartoes { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+  /* 7 cartões: o primeiro ocupa duas colunas (2 colunas: 1 + 3 linhas de 2; 4 colunas: 3 + 4). */
+  @media (min-width: 40rem) { .cartoes { grid-template-columns: repeat(2, 1fr); } .cartao:first-child { grid-column: span 2; } }
+  @media (min-width: 64rem) { .cartoes { grid-template-columns: repeat(4, 1fr); } }
+  .cartao:first-child .cartao__foto :global(img) { aspect-ratio: auto; height: 100%; max-height: 16rem; }
+  .cartao a { display: grid; height: 100%; text-decoration: none; background: var(--c-fundo); color: var(--c-tinta); border-radius: 18px; overflow: hidden; transition: transform .2s ease; }
+  .cartao__foto :global(img) { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+  .cartao__texto { display: grid; gap: .3rem; padding: 1rem 1.25rem 1.25rem; }
+  .cartao__nicho { font-size: .9rem; font-weight: 600; color: var(--c-destaque); }
+  .cartao__nome { font-size: 1.4rem; font-weight: 800; line-height: 1.1; }
+  .cartao__botao { justify-self: start; margin-top: .5rem; padding: .4rem .8rem; border: 1.5px solid currentColor; border-radius: 999px; font-size: .9rem; font-weight: 600; }
+  .cartao a:active { transform: scale(.985); }
+  @media (hover: hover) and (pointer: fine) { .cartao a:hover { transform: translateY(-3px); } }
+
+  .como { display: grid; gap: 1.25rem; justify-items: start; padding-block: 4rem; }
+  .como h2 { font-weight: 800; font-size: clamp(2rem, 6vw, 3rem); letter-spacing: -.02em; }
+  .como ol { display: grid; gap: .9rem; }
+  .como li { display: flex; align-items: center; gap: .9rem; font-size: 1.1rem; }
+  .como li span { display: grid; place-items: center; flex: none; width: 2.25rem; height: 2.25rem; border-radius: 50%; background: var(--ink); color: var(--bg); font-weight: 800; }
+  .aviso { color: var(--muted); font-size: .9rem; }
+</style>

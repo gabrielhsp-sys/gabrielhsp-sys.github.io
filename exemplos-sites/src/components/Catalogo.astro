@@ -1,0 +1,73 @@
+---
+// Catálogo com filtro por categoria (chips; sem JavaScript, mostra tudo) e controle de
+// quantidade que alimenta o Carrinho. Produto em oferta leva a "fita".
+import type { Produto } from '../data/tipos.ts';
+import Foto from './Foto.astro';
+import { formatarPreco } from '../lib/mensagens.ts';
+
+interface Props { categorias: string[]; produtos: Produto[]; rotuloOferta?: string }
+const { categorias, produtos, rotuloOferta = 'Oferta' } = Astro.props;
+---
+<div class="catalogo" data-catalogo>
+  <div class="trilho catalogo__filtro" role="group" aria-label="Filtrar por categoria">
+    <button type="button" class="chip" aria-pressed="true" data-filtro="">Todos</button>
+    {categorias.map((c) => <button type="button" class="chip" aria-pressed="false" data-filtro={c}>{c}</button>)}
+  </div>
+  <p class="sr-only" aria-live="polite" data-contagem></p>
+
+  <ul role="list" class="catalogo__grade">
+    {produtos.map((p) => (
+      <li class="produto" data-item data-categoria={p.categoria}>
+        <div class="produto__foto">
+          <Foto chave={p.foto} sizes="(min-width: 60rem) 22vw, 50vw" alt="" />
+          {p.oferta && <span class="produto__fita">{rotuloOferta}</span>}
+        </div>
+        <h3 class="produto__nome">{p.nome}</h3>
+        <p class="produto__unidade">{p.unidade}</p>
+        <div class="produto__rodape">
+          <p class="produto__preco">{formatarPreco(p.preco)}</p>
+          <div class="qtd">
+            <button type="button" class="qtd__botao" data-sub data-id={p.id} data-nome={p.nome} data-preco={p.preco} aria-label={`Menos um: ${p.nome}`}>−</button>
+            <span class="qtd__n" data-qtd-de={p.id} aria-live="polite">0</span>
+            <button type="button" class="qtd__botao" data-add data-id={p.id} data-nome={p.nome} data-preco={p.preco} aria-label={`Adicionar ${p.nome}`}>+</button>
+          </div>
+        </div>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-catalogo]').forEach((raiz) => {
+    const botoes = [...raiz.querySelectorAll<HTMLButtonElement>('[data-filtro]')];
+    const itens = [...raiz.querySelectorAll<HTMLElement>('[data-categoria]')];
+    const contagem = raiz.querySelector<HTMLElement>('[data-contagem]')!;
+    raiz.addEventListener('click', (e) => {
+      const b = (e.target as Element).closest<HTMLButtonElement>('[data-filtro]');
+      if (!b) return;
+      const cat = b.dataset.filtro ?? '';
+      botoes.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      let n = 0;
+      itens.forEach((i) => {
+        const mostra = !cat || i.dataset.categoria === cat;
+        i.hidden = !mostra;
+        if (mostra) n++;
+      });
+      contagem.textContent = `${n} produtos`;
+    });
+  });
+</script>
+
+<style>
+  .catalogo__filtro { margin-bottom: 1.25rem; }
+  .catalogo__grade { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem .75rem; }
+  @media (min-width: 48rem) { .catalogo__grade { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .produto { display: flex; flex-direction: column; gap: .3rem; min-width: 0; }
+  .produto__foto { position: relative; }
+  .produto__foto :global(img) { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: var(--raio-cartao, 0); }
+  .produto__fita { position: absolute; top: .6rem; left: -.25rem; padding: .15rem .6rem; font-size: .8rem; font-weight: 700; background: var(--fita, var(--primary)); color: var(--fita-ink, var(--on-primary)); }
+  .produto__nome { font-size: 1.05rem; line-height: 1.2; margin-top: .35rem; }
+  .produto__unidade { color: var(--muted); font-size: .88rem; }
+  .produto__rodape { margin-top: auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .4rem; padding-top: .3rem; }
+  .produto__preco { font-weight: 700; font-variant-numeric: tabular-nums; color: var(--preco, var(--ink)); }
+</style>

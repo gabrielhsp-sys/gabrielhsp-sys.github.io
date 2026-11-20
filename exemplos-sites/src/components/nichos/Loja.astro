@@ -1,0 +1,151 @@
+---
+// Página do nicho LOJA (identidade: armazém de interior; sálvia, verde-garrafa, tomate e fita
+// mostarda; Young Serif + Instrument Sans; etiqueta de preço). Todo texto vem de `dados`.
+import '@fontsource/young-serif/latin-400.css';
+import '@fontsource/instrument-sans/latin-400.css';
+import '@fontsource/instrument-sans/latin-600.css';
+import Base from '../../layouts/Base.astro';
+import Foto from '../Foto.astro';
+import Catalogo from '../Catalogo.astro';
+import Carrinho from '../Carrinho.astro';
+import Depoimentos from '../Depoimentos.astro';
+import Rodape from '../Rodape.astro';
+import Icone from '../Icone.astro';
+import type { DadosLoja } from '../../data/tipos.ts';
+import { formatarPreco } from '../../lib/mensagens.ts';
+import { imagemOg, tituloPagina } from '../../lib/paginas.ts';
+
+interface Props { dados: DadosLoja; caminho: string }
+const { dados: d, caminho } = Astro.props;
+---
+<Base
+  titulo={tituloPagina(d)}
+  descricao={d.negocio.descricao}
+  caminho={caminho}
+  imagemOg={imagemOg(d.hero.foto)}
+  imagemAlt={d.negocio.resumo}
+  nomeSite={d.negocio.resumo}
+  tema="tema-emporio"
+  corTema="#1F4D3A"
+  rotuloDemo={d.rotulo}
+>
+  <main id="conteudo">
+    <section class="hero wrap">
+      <div class="hero__texto">
+        <p class="marca">{d.negocio.nome}</p>
+        <h1>{d.hero.titulo}</h1>
+        <p class="hero__lead">{d.hero.texto}</p>
+        <a class="botao" href="#catalogo"><Icone nome="shopping-bag" /> {d.catalogo.titulo}</a>
+      </div>
+      <div class="hero__foto"><Foto chave={d.hero.foto} sizes="(min-width: 56rem) 55vw, 100vw" prioridade /></div>
+    </section>
+
+    <section class="vitrine wrap" id="catalogo" aria-labelledby="cat-t">
+      <h2 id="cat-t" class="titulo">{d.catalogo.titulo}</h2>
+      <Catalogo categorias={d.catalogo.categorias} produtos={d.catalogo.produtos} />
+    </section>
+
+    <section class="pagar wrap" aria-label={`${d.pix.titulo}. ${d.entrega.titulo}`}>
+      <div class="pix" data-pix>
+        <h2 class="titulo-p">{d.pix.titulo}</h2>
+        <p class="pix__rotulo">Chave Pix ({d.pix.recebedor})</p>
+        <div class="pix__linha">
+          <code class="pix__chave" data-chave>{d.pix.chave}</code>
+          <button type="button" class="pix__copiar" data-copiar><Icone nome="copy" /> <span data-copiar-texto>Copiar</span></button>
+        </div>
+        <p class="pix__aviso"><span class="selo-exemplo">Exemplo</span> {d.pix.aviso}</p>
+      </div>
+      <div class="entrega">
+        <h2 class="titulo-p">{d.entrega.titulo}</h2>
+        <dl>
+          <div><dt>Retirada</dt><dd>{d.entrega.retirada}</dd></div>
+          <div><dt>Entrega</dt><dd>{formatarPreco(d.entrega.taxa)}, {d.entrega.bairros.join(', ').toLowerCase()}</dd></div>
+          <div><dt>Prazo</dt><dd>{d.entrega.prazo}</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <Depoimentos lista={d.depoimentos} titulo="Freguesia" />
+  </main>
+
+  <Rodape dados={d} />
+
+  <Carrinho
+    negocio={d.negocio.nome}
+    rotuloDemo={d.rotulo}
+    botaoTexto={d.botaoPrincipal}
+    taxaEntrega={d.entrega.taxa}
+    pagamento={d.entrega.pagamento}
+    retirada={d.entrega.retirada}
+    dicaObs={d.entrega.dicaObs}
+    titulo="Sua sacola"
+    principal
+  >
+    <p slot="extra" class="carrinho-pix"><Icone nome="check" /> Pix: <code>{d.pix.chave}</code></p>
+  </Carrinho>
+</Base>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-pix]').forEach((raiz) => {
+    const botao = raiz.querySelector<HTMLButtonElement>('[data-copiar]')!;
+    const texto = raiz.querySelector<HTMLElement>('[data-copiar-texto]')!;
+    botao.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(raiz.querySelector('[data-chave]')!.textContent ?? '');
+        texto.textContent = 'Copiada';
+      } catch {
+        texto.textContent = 'Selecione e copie';
+      }
+      setTimeout(() => (texto.textContent = 'Copiar'), 2500);
+    });
+  });
+</script>
+
+<style is:global>
+  .tema-emporio {
+    --bg: #EEF1E6; --surface: #FFFFFF; --ink: #1B2A20; --muted: #56625A;
+    --primary: #1F4D3A; --on-primary: #F4F6EE; --tomate: #B8321F; --fita: #E7B53C; --fita-ink: #1B2A20;
+    --preco: #B8321F;
+    --font-titulo: 'Young Serif', Georgia, serif; --font-texto: 'Instrument Sans', system-ui, sans-serif;
+    --raio-botao: 10px; --raio-chip: 999px; --raio-cartao: 10px; --raio-campo: 8px; --peso-botao: 600;
+    --h2: clamp(2rem, 6vw, 2.8rem);
+    --chip-borda: #9aa69c; --chip-ativo-bg: #1F4D3A; --chip-ativo-ink: #F4F6EE;
+    --carrinho-bg: #1F4D3A; --carrinho-ink: #F4F6EE;
+    --rodape-bg: #1F4D3A; --rodape-ink: #F4F6EE;
+    --selo-bg: #E7B53C; --selo-ink: #1B2A20;
+  }
+  .tema-emporio .rodape .botao { background: #E7B53C; color: #1B2A20; }
+  .tema-emporio .produto__preco {
+    justify-self: start; padding: .1rem .55rem; border: 1.5px dashed var(--tomate); border-radius: 4px; background: #fff;
+  }
+  .tema-emporio .carrinho-pix { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; font-size: .92rem; }
+  .tema-emporio .carrinho-pix code { overflow-wrap: anywhere; }
+</style>
+
+<style>
+  .titulo { font-family: var(--font-titulo); font-weight: 400; font-size: var(--h2); line-height: 1.05; margin-bottom: 1.25rem; }
+  .titulo-p { font-family: var(--font-titulo); font-weight: 400; font-size: 1.7rem; line-height: 1.1; margin-bottom: 1rem; }
+
+  .hero { display: grid; gap: 1.75rem; padding-block: 2rem 3rem; }
+  .marca { font-weight: 600; color: var(--primary); margin-bottom: .5rem; }
+  .hero h1 { font-family: var(--font-titulo); font-weight: 400; font-size: clamp(2.6rem, 10vw, 4.4rem); line-height: 1; max-width: 12ch; }
+  .hero__lead { margin-block: 1rem 1.5rem; font-size: 1.1rem; max-width: 38ch; color: var(--muted); }
+  .hero__foto :global(img) { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: var(--raio-cartao); }
+  @media (min-width: 56rem) { .hero { grid-template-columns: 1fr 1.25fr; align-items: center; } }
+
+  .vitrine { padding-block: 2rem 3.5rem; }
+
+  .pagar { display: grid; gap: 1.25rem; padding-bottom: 3.5rem; }
+  @media (min-width: 56rem) { .pagar { grid-template-columns: 1fr 1fr; } }
+  .pix, .entrega { padding: 1.5rem; border-radius: var(--raio-cartao); }
+  .pix { background: var(--primary); color: var(--on-primary); }
+  .pix__rotulo { font-size: .9rem; opacity: .9; }
+  .pix__linha { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .75rem; margin-block: .4rem 1rem; }
+  .pix__chave { font-size: 1rem; overflow-wrap: anywhere; background: rgb(255 255 255 / .1); padding: .4rem .6rem; border-radius: 6px; min-width: 0; }
+  .pix__copiar { display: inline-flex; align-items: center; gap: .4rem; min-height: 2.75rem; padding: .5rem 1rem; border: 1.5px solid currentColor; border-radius: var(--raio-botao); background: transparent; color: inherit; cursor: pointer; font-weight: 600; }
+  .pix__aviso { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; font-size: .92rem; }
+  .entrega { background: var(--surface); border: 1.5px dashed #9aa69c; }
+  .entrega dl { display: grid; gap: .9rem; }
+  .entrega dt { font-weight: 600; }
+  .entrega dd { color: var(--muted); }
+</style>

@@ -1,0 +1,163 @@
+---
+// Página do nicho FITNESS (identidade: quadra pintada; cobalto, amarelo-bola; Barlow Condensed
+// itálico + Barlow). Único movimento orquestrado do projeto: entrada do título em GSAP, uma vez,
+// desligada com prefers-reduced-motion. Todo texto vem de `dados`.
+import '@fontsource/barlow-condensed/latin-800-italic.css';
+import '@fontsource/barlow/latin-400.css';
+import '@fontsource/barlow/latin-600.css';
+import Base from '../../layouts/Base.astro';
+import Foto from '../Foto.astro';
+import BotaoWhats from '../BotaoWhats.astro';
+import GradeAulas from '../GradeAulas.astro';
+import Depoimentos from '../Depoimentos.astro';
+import Rodape from '../Rodape.astro';
+import type { DadosFitness } from '../../data/tipos.ts';
+import { formatarPreco } from '../../lib/mensagens.ts';
+import { imagemOg, tituloPagina } from '../../lib/paginas.ts';
+
+interface Props { dados: DadosFitness; caminho: string }
+const { dados: d, caminho } = Astro.props;
+const reais = (c: number) => formatarPreco(c).replace(',00', '');
+// O título quebra em linhas de até duas palavras para a entrada linha a linha.
+const palavras = d.hero.titulo.split(' ');
+const linhas: string[] = [];
+for (let i = 0; i < palavras.length; i += 2) linhas.push(palavras.slice(i, i + 2).join(' '));
+---
+<Base
+  titulo={tituloPagina(d)}
+  descricao={d.negocio.descricao}
+  caminho={caminho}
+  imagemOg={imagemOg(d.hero.foto)}
+  imagemAlt={d.negocio.resumo}
+  nomeSite={d.negocio.resumo}
+  tema="tema-arena"
+  corTema="#2638D9"
+  rotuloDemo={d.rotulo}
+>
+  <main id="conteudo">
+    <section class="hero">
+      <div class="hero__bloco">
+        <p class="marca">{d.negocio.nome}</p>
+        <h1 aria-label={d.hero.titulo}>
+          {linhas.map((l) => <span class="hero__linha" aria-hidden="true"><span>{l}</span></span>)}
+        </h1>
+        <p class="hero__lead">{d.hero.texto}</p>
+        <BotaoWhats rotuloDemo={d.rotulo} texto={d.botaoPrincipal} principal class="botao--bola" />
+      </div>
+      <div class="hero__foto"><Foto chave={d.hero.foto} sizes="(min-width: 56rem) 45vw, 100vw" prioridade /></div>
+    </section>
+
+    <section class="exp wrap" aria-labelledby="exp-t">
+      <h2 id="exp-t" class="titulo">{d.experimental.titulo}</h2>
+      <p class="exp__texto">{d.experimental.texto}</p>
+      <ol role="list" class="exp__passos">
+        {d.experimental.passos.map((p, i) => <li><span>{i + 1}</span>{p}</li>)}
+      </ol>
+    </section>
+
+    <section class="aulas wrap" aria-labelledby="grade-t">
+      <h2 id="grade-t" class="titulo">{d.grade.titulo}</h2>
+      <GradeAulas dias={d.grade.dias} />
+    </section>
+
+    <section class="estrutura" aria-labelledby="est-t">
+      <h2 id="est-t" class="titulo wrap">{d.estrutura.titulo}</h2>
+      <ul role="list" class="estrutura__trilho" tabindex="0" aria-label={d.estrutura.titulo}>
+        {d.estrutura.itens.map((e) => (
+          <li><figure><Foto chave={e.foto} sizes="(min-width: 56rem) 30vw, 80vw" /><figcaption>{e.legenda}</figcaption></figure></li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="planos wrap" aria-labelledby="planos-t">
+      <h2 id="planos-t" class="titulo">{d.planos.titulo}</h2>
+      <ul role="list" class="planos__lista">
+        {d.planos.lista.map((p) => (
+          <li class:list={['plano', p.destaque && 'plano--destaque']}>
+            <p class="plano__nome">{p.nome}</p>
+            <p class="plano__preco">{reais(p.preco)}<span>{p.periodo}</span></p>
+            <ul role="list" class="plano__inclui">{p.inclui.map((i) => <li>{i}</li>)}</ul>
+          </li>
+        ))}
+      </ul>
+      <BotaoWhats rotuloDemo={d.rotulo} texto={d.botaoPrincipal} />
+    </section>
+
+    <Depoimentos lista={d.depoimentos} titulo="Quem treina aqui" />
+  </main>
+
+  <Rodape dados={d} />
+</Base>
+
+<script>
+  import { gsap } from 'gsap';
+  // Entrada do título linha a linha: a única animação automática do projeto.
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    gsap.from('.hero__linha > span', { yPercent: 105, duration: 0.7, ease: 'power3.out', stagger: 0.1, delay: 0.05 });
+    gsap.from('.hero__foto', { clipPath: 'polygon(100% 0, 100% 0, 100% 100%, 100% 100%)', duration: 0.9, ease: 'power3.inOut' });
+  }
+</script>
+
+<style is:global>
+  .tema-arena {
+    --bg: #EEF0F5; --surface: #FFFFFF; --ink: #0C1233; --muted: #4A5170;
+    --primary: #2638D9; --on-primary: #FFFFFF; --bola: #E8FF59;
+    --font-titulo: 'Barlow Condensed', 'Arial Narrow', sans-serif; --font-texto: 'Barlow', system-ui, sans-serif;
+    --raio-botao: 6px; --raio-chip: 6px; --raio-cartao: 6px; --peso-botao: 600;
+    --h2: clamp(2.4rem, 9vw, 4rem);
+    --chip-borda: #0C1233; --chip-ativo-bg: #2638D9; --chip-ativo-ink: #FFFFFF;
+    --selo-bg: #E8FF59; --selo-ink: #0C1233;
+    --rodape-bg: #0C1233; --rodape-ink: #EEF0F5;
+  }
+  .tema-arena .botao--bola { background: var(--bola); color: var(--ink); }
+  .tema-arena .rodape .botao { background: var(--bola); color: var(--ink); }
+  .tema-arena .depoimentos__titulo, .tema-arena .rodape__nome, .tema-arena .grade__hora { font-style: italic; font-weight: 800; text-transform: uppercase; }
+</style>
+
+<style>
+  .titulo { font-family: var(--font-titulo); font-style: italic; font-weight: 800; text-transform: uppercase; font-size: var(--h2); line-height: .92; margin-bottom: 1.25rem; }
+
+  .hero { display: grid; background: var(--primary); color: #fff; }
+  .hero__bloco { padding: 2.25rem var(--gutter) 3rem; display: grid; justify-items: start; gap: 1rem; }
+  .marca { font-weight: 600; color: var(--bola); }
+  .hero h1 { font-family: var(--font-titulo); font-style: italic; font-weight: 800; text-transform: uppercase; font-size: clamp(3.4rem, 17vw, 7rem); line-height: .86; }
+  .hero__linha { display: block; overflow: hidden; padding-right: .1em; }
+  .hero__linha > span { display: inline-block; }
+  .hero__linha:last-child > span { color: var(--bola); }
+  .hero__lead { max-width: 30ch; font-size: 1.1rem; margin-bottom: .5rem; }
+  .hero__foto { clip-path: polygon(0 12%, 100% 0, 100% 100%, 0 100%); }
+  .hero__foto :global(img) { width: 100%; height: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+  @media (min-width: 56rem) {
+    .hero { grid-template-columns: 1.1fr 1fr; min-height: min(80svh, 44rem); }
+    .hero__bloco { align-content: center; padding-left: max(var(--gutter), (100vw - var(--largura)) / 2); }
+    .hero__foto { clip-path: polygon(18% 0, 100% 0, 100% 100%, 0 100%); }
+    .hero__foto :global(img) { aspect-ratio: auto; }
+  }
+
+  .exp { padding-block: 3.5rem 2rem; }
+  .exp__texto { max-width: 46ch; font-size: 1.1rem; }
+  .exp__passos { display: grid; gap: .75rem; margin-top: 1.5rem; }
+  .exp__passos li { display: flex; align-items: center; gap: .9rem; font-weight: 600; font-size: 1.1rem; }
+  .exp__passos span { display: grid; place-items: center; flex: none; width: 2.5rem; height: 2.5rem; background: var(--bola); color: var(--ink); font-family: var(--font-titulo); font-style: italic; font-weight: 800; font-size: 1.4rem; border-radius: var(--raio-chip); }
+  @media (min-width: 56rem) { .exp__passos { grid-template-columns: repeat(3, auto); justify-content: start; gap: 2.5rem; } }
+
+  .aulas { padding-block: 2.5rem 3.5rem; }
+
+  .estrutura { background: var(--ink); color: var(--bg); padding-block: 3.5rem; }
+  .estrutura__trilho { display: grid; grid-auto-flow: column; grid-auto-columns: min(78%, 22rem); gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; padding-inline: var(--gutter); scroll-padding-inline: var(--gutter); overscroll-behavior-x: contain; }
+  .estrutura__trilho li { scroll-snap-align: start; }
+  .estrutura figure :global(img) { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--raio-cartao); }
+  .estrutura figcaption { margin-top: .5rem; font-weight: 600; }
+
+  .planos { padding-block: 3.5rem; }
+  .planos__lista { display: grid; gap: .75rem; margin-bottom: 1.75rem; }
+  .plano { display: grid; grid-template-columns: 1fr auto; grid-template-areas: 'n p' 'i i'; gap: .5rem 1rem; padding: 1.25rem; background: var(--surface); border-radius: var(--raio-cartao); }
+  .plano--destaque { background: var(--primary); color: #fff; }
+  .plano__nome { grid-area: n; font-family: var(--font-titulo); font-style: italic; font-weight: 800; font-size: 2rem; text-transform: uppercase; line-height: 1; }
+  .plano__preco { grid-area: p; text-align: right; font-family: var(--font-titulo); font-style: italic; font-weight: 800; font-size: 2.2rem; line-height: 1; }
+  .plano__preco span { display: block; font-family: var(--font-texto); font-style: normal; font-weight: 400; font-size: .82rem; }
+  .plano__inclui { grid-area: i; display: flex; flex-wrap: wrap; gap: .25rem 1.25rem; }
+  .plano__inclui li::before { content: '+ '; font-weight: 700; color: var(--primary); }
+  .plano--destaque .plano__inclui li::before { color: var(--bola); }
+  @media (min-width: 56rem) { .plano { grid-template-columns: 12rem 1fr auto; grid-template-areas: 'n i p'; align-items: center; } }
+</style>

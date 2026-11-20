@@ -1,0 +1,73 @@
+---
+// Agendamento guiado em quatro escolhas (serviço, profissional, dia, período). Não é agenda
+// real: monta a mensagem para o negócio confirmar o horário pelo WhatsApp. Ouve o evento
+// agenda:servico (TabelaServicos) para já vir com o serviço escolhido.
+import type { AgendaConfig } from '../data/tipos.ts';
+import PreviaWhats from './PreviaWhats.astro';
+import BotaoWhats from './BotaoWhats.astro';
+
+interface Props {
+  config: AgendaConfig;
+  servicos: string[];
+  negocio: string;
+  rotuloDemo: string;
+  botaoTexto: string;
+  id?: string;
+  /** Nome do passo do profissional, ex.: "Com quem" ou "Barbeiro". */
+  rotuloProfissional?: string;
+}
+const { config, servicos, negocio, rotuloDemo, botaoTexto, id = 'agenda', rotuloProfissional = 'Com quem' } = Astro.props;
+const passos = [
+  { chave: 'servico', nome: 'Serviço', opcoes: servicos },
+  { chave: 'profissional', nome: rotuloProfissional, opcoes: config.profissionais },
+  { chave: 'dia', nome: 'Dia', opcoes: config.dias },
+  { chave: 'periodo', nome: 'Período', opcoes: config.periodos },
+];
+---
+<section class="agenda" id={id} aria-labelledby={`${id}-titulo`} data-agenda data-negocio={negocio}>
+  <h2 id={`${id}-titulo`} class="agenda__titulo">{config.titulo}</h2>
+  <p class="agenda__texto">{config.texto}</p>
+  <ol role="list" class="agenda__passos">
+    {passos.map((p, n) => (
+      <li class="agenda__passo">
+        <p class="agenda__passo-nome" id={`${id}-${p.chave}`}><span class="agenda__num">{n + 1}</span> {p.nome}</p>
+        <div class="agenda__opcoes" role="group" aria-labelledby={`${id}-${p.chave}`}>
+          {p.opcoes.map((o) => <button type="button" class="chip" aria-pressed="false" data-campo={p.chave} data-valor={o}>{o}</button>)}
+        </div>
+      </li>
+    ))}
+  </ol>
+  <PreviaWhats negocio={negocio} id={`${id}-previa`} vazio="Escolha o serviço para ver a mensagem." />
+  <BotaoWhats rotuloDemo={rotuloDemo} texto={botaoTexto} largo />
+</section>
+
+<script>
+  import { mensagemAgenda } from '../lib/mensagens.ts';
+  import { atualizarPrevia } from '../lib/previa.ts';
+
+  document.querySelectorAll<HTMLElement>('[data-agenda]').forEach((raiz) => {
+    const escolha: Record<string, string> = {};
+    const negocio = raiz.dataset.negocio ?? '';
+    const marcar = (campo: string, valor: string) => {
+      escolha[campo] = valor;
+      raiz.querySelectorAll<HTMLButtonElement>(`[data-campo="${campo}"]`).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.valor === valor)));
+      atualizarPrevia(raiz, mensagemAgenda({ negocio, ...escolha }));
+    };
+    raiz.addEventListener('click', (e) => {
+      const b = (e.target as Element).closest<HTMLButtonElement>('[data-campo]');
+      if (b) marcar(b.dataset.campo!, b.dataset.valor!);
+    });
+    document.addEventListener('agenda:servico', (e) => marcar('servico', (e as CustomEvent<string>).detail));
+    atualizarPrevia(raiz, '');
+  });
+</script>
+
+<style>
+  .agenda { display: grid; gap: 1.25rem; }
+  .agenda__titulo { font-family: var(--font-titulo); font-size: var(--h2, 2rem); line-height: 1.1; }
+  .agenda__texto { color: var(--muted); max-width: 45ch; }
+  .agenda__passos { display: grid; gap: 1.25rem; margin: 0; }
+  .agenda__passo-nome { display: flex; align-items: center; gap: .6rem; font-weight: 700; margin-bottom: .5rem; }
+  .agenda__num { display: grid; place-items: center; width: 1.75rem; height: 1.75rem; border-radius: var(--raio-chip, 999px); background: var(--ink); color: var(--bg); font-size: .9rem; font-variant-numeric: tabular-nums; }
+  .agenda__opcoes { display: flex; flex-wrap: wrap; gap: .5rem; }
+</style>

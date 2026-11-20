@@ -1,0 +1,64 @@
+---
+// Cardápio por categoria: navegação de categorias grudada no topo (links de âncora, funciona
+// sem JavaScript) e itens com preço e controle de quantidade que alimentam o Carrinho.
+import type { ItemCardapio } from '../data/tipos.ts';
+import Foto from './Foto.astro';
+import { formatarPreco } from '../lib/mensagens.ts';
+
+interface Props {
+  categorias: { id: string; nome: string; itens: ItemCardapio[] }[];
+}
+const { categorias } = Astro.props;
+---
+<div class="cardapio">
+  <nav class="cardapio__nav" aria-label="Categorias do cardápio">
+    <div class="trilho wrap">
+      {categorias.map((c) => <a class="chip" href={`#cat-${c.id}`}>{c.nome}</a>)}
+    </div>
+  </nav>
+
+  {categorias.map((c) => (
+    <section class="cardapio__cat wrap" id={`cat-${c.id}`} aria-labelledby={`cat-${c.id}-t`}>
+      <h3 id={`cat-${c.id}-t`} class="cardapio__cat-titulo">{c.nome}</h3>
+      <ul role="list" class="cardapio__itens">
+        {c.itens.map((i) => (
+          <li class="cardapio__item" data-item>
+            {i.foto && <div class="cardapio__foto"><Foto chave={i.foto} sizes="6rem" alt="" /></div>}
+            <div class="cardapio__texto">
+              <h4 class="cardapio__nome">{i.nome}</h4>
+              <p class="cardapio__desc">{i.descricao}</p>
+            </div>
+            <p class="cardapio__preco">{formatarPreco(i.preco)}</p>
+            <div class="qtd">
+              <button type="button" class="qtd__botao" data-sub data-id={i.id} data-nome={i.nome} data-preco={i.preco} aria-label={`Menos um: ${i.nome}`}>−</button>
+              <span class="qtd__n" data-qtd-de={i.id} aria-live="polite">0</span>
+              <button type="button" class="qtd__botao" data-add data-id={i.id} data-nome={i.nome} data-preco={i.preco} aria-label={`Adicionar ${i.nome}`}>+</button>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</div>
+
+<style>
+  .cardapio__nav { position: sticky; top: var(--faixa-h); z-index: 20; background: var(--nav-bg, var(--bg)); padding-block: .5rem; }
+  .cardapio__nav .chip { text-decoration: none; font-weight: 700; }
+  .cardapio__cat { padding-top: 1.75rem; }
+  .cardapio__cat-titulo { font-family: var(--font-titulo); font-size: 1.6rem; line-height: 1.1; margin-bottom: .75rem; }
+  .cardapio__itens { display: grid; gap: .75rem; }
+  @media (min-width: 56rem) { .cardapio__itens { grid-template-columns: 1fr 1fr; } }
+  .cardapio__item {
+    display: grid; grid-template-columns: auto 1fr auto; grid-template-areas: 'f t t' 'f p q'; align-items: start; gap: .5rem .9rem;
+    padding: .9rem; border-radius: var(--raio-cartao, 0); background: var(--surface);
+  }
+  .cardapio__item:not(:has(.cardapio__foto)) { grid-template-columns: 1fr auto; grid-template-areas: 't t' 'p q'; }
+  .cardapio__foto { grid-area: f; width: 5.5rem; }
+  .cardapio__foto :global(img) { width: 5.5rem; height: 5.5rem; object-fit: cover; border-radius: calc(var(--raio-cartao, 0px) * .7); }
+  .cardapio__texto { grid-area: t; min-width: 0; }
+  .cardapio__nome { font-size: 1.1rem; line-height: 1.2; }
+  .cardapio__desc { color: var(--muted); font-size: .92rem; margin-top: .2rem; }
+  .cardapio__preco { grid-area: p; align-self: center; font-weight: 700; font-size: 1.1rem; color: var(--preco, var(--primary)); font-variant-numeric: tabular-nums; }
+  .cardapio__item .qtd { grid-area: q; justify-self: end; }
+  .cardapio__foto { align-self: center; }
+</style>

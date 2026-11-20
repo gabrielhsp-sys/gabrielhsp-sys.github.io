@@ -1,0 +1,235 @@
+---
+// Carrinho/pedido: barra fixa no rodapé (aparece quando há item) que abre um painel com os
+// itens, entrega ou retirada, pagamento, observação e a prévia da mensagem do pedido.
+// Os botões de adicionar/remover ficam em qualquer lugar da página (Cardapio, Catalogo) com
+// data-add / data-sub + data-id, data-nome, data-preco. Um carrinho por página.
+// Slot "extra": conteúdo a mais no painel (ex.: bloco do Pix na loja).
+import PreviaWhats from './PreviaWhats.astro';
+import BotaoWhats from './BotaoWhats.astro';
+import Icone from './Icone.astro';
+import { formatarPreco } from '../lib/mensagens.ts';
+
+interface Props {
+  negocio: string;
+  rotuloDemo: string;
+  botaoTexto: string;
+  taxaEntrega: number;
+  pagamento: string[];
+  /** Texto curto da retirada, ex.: "No balcão, pronto em cerca de 20 minutos". */
+  retirada: string;
+  titulo?: string;
+  /** Exemplo de observação mostrado no campo (vem dos dados do nicho). */
+  dicaObs?: string;
+  /** Marca o botão do carrinho como o botão principal da página (ex.: loja). */
+  principal?: boolean;
+}
+const { negocio, rotuloDemo, botaoTexto, taxaEntrega, pagamento, retirada, titulo = 'Seu pedido', dicaObs = '', principal = false } = Astro.props;
+---
+<div class="carrinho" data-carrinho data-negocio={negocio} data-taxa={taxaEntrega}>
+  <button class="carrinho__barra" type="button" aria-expanded="false" aria-controls="carrinho-painel" data-abrir hidden>
+    <Icone nome="shopping-bag" />
+    <span class="carrinho__qtd" data-qtd-total>0 itens</span>
+    <span class="carrinho__total" data-total>{formatarPreco(0)}</span>
+    <span class="carrinho__ver">Ver pedido</span>
+  </button>
+
+  <dialog class="carrinho__painel" id="carrinho-painel" aria-labelledby="carrinho-titulo">
+    <header class="carrinho__topo">
+      <h2 id="carrinho-titulo" tabindex="-1">{titulo}</h2>
+      <button class="carrinho__fechar" type="button" data-fechar aria-label="Fechar pedido"><Icone nome="x" /></button>
+    </header>
+
+    <ul role="list" class="carrinho__linhas" data-linhas></ul>
+
+    <fieldset class="carrinho__grupo">
+      <legend>Como você quer receber?</legend>
+      <label><input type="radio" name="modo" value="entrega" checked /> Entrega ({formatarPreco(taxaEntrega)})</label>
+      <label><input type="radio" name="modo" value="retirada" /> Retirada: {retirada}</label>
+    </fieldset>
+
+    <div class="carrinho__grupo">
+      <label for="carrinho-pagamento">Pagamento</label>
+      <select id="carrinho-pagamento" data-pagamento>
+        {pagamento.map((p) => <option>{p}</option>)}
+      </select>
+    </div>
+
+    <div class="carrinho__grupo">
+      <label for="carrinho-obs">Observação (opcional)</label>
+      <textarea id="carrinho-obs" rows="2" data-obs placeholder={dicaObs}></textarea>
+    </div>
+
+    <slot name="extra" />
+
+    <p class="carrinho__soma">Total <strong data-total>{formatarPreco(0)}</strong></p>
+    <PreviaWhats negocio={negocio} id="carrinho-previa" vazio="Adicione um item para ver a mensagem." />
+    <BotaoWhats rotuloDemo={rotuloDemo} texto={botaoTexto} largo principal={principal} />
+  </dialog>
+</div>
+
+<script>
+  import { formatarPreco, mensagemPedido, totalPedido } from '../lib/mensagens.ts';
+  import { atualizarPrevia } from '../lib/previa.ts';
+
+  const raiz = document.querySelector<HTMLElement>('[data-carrinho]');
+  if (raiz) {
+    const negocio = raiz.dataset.negocio ?? '';
+    const taxa = Number(raiz.dataset.taxa ?? 0);
+    const itens = new Map<string, { nome: string; preco: number; qtd: number }>();
+    const barra = raiz.querySelector<HTMLButtonElement>('[data-abrir]')!;
+    // <dialog> nativo: showModal() prende o foco, deixa o fundo inerte e fecha com Esc.
+    const painel = raiz.querySelector<HTMLDialogElement>('.carrinho__painel')!;
+    const lista = raiz.querySelector<HTMLUListElement>('[data-linhas]')!;
+    const pagamento = raiz.querySelector<HTMLSelectElement>('[data-pagamento]')!;
+    const obs = raiz.querySelector<HTMLTextAreaElement>('[data-obs]')!;
+
+    const modo = () => (raiz.querySelector<HTMLInputElement>('input[name="modo"]:checked')?.value === 'retirada' ? 'retirada' : 'entrega');
+    const linhas = () => [...itens.values()].filter((i) => i.qtd > 0);
+
+    function botaoQtd(tipo: 'add' | 'sub', id: string, i: { nome: string; preco: number }) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'qtd__botao';
+      b.dataset[tipo] = '';
+      b.dataset.id = id;
+      b.dataset.nome = i.nome;
+      b.dataset.preco = String(i.preco);
+      b.setAttribute('aria-label', `${tipo === 'add' ? 'Mais um' : 'Menos um'}: ${i.nome}`);
+      b.textContent = tipo === 'add' ? '+' : '−';
+      return b;
+    }
+
+    function render() {
+      const ls = linhas();
+      const qtd = ls.reduce((s, l) => s + l.qtd, 0);
+      const total = totalPedido({ linhas: ls, modo: modo(), taxaEntrega: taxa });
+      raiz.querySelectorAll('[data-qtd-total]').forEach((el) => (el.textContent = `${qtd} ${qtd === 1 ? 'item' : 'itens'}`));
+      raiz.querySelectorAll('[data-total]').forEach((el) => (el.textContent = formatarPreco(total)));
+      barra.hidden = qtd === 0;
+      if (qtd === 0) fechar();
+      document.querySelectorAll<HTMLElement>('[data-qtd-de]').forEach((el) => {
+        const n = itens.get(el.dataset.qtdDe ?? '')?.qtd ?? 0;
+        el.textContent = String(n);
+        el.closest('[data-item]')?.toggleAttribute('data-no-pedido', n > 0);
+      });
+      lista.replaceChildren(
+        ...[...itens.entries()].filter(([, i]) => i.qtd > 0).map(([id, i]) => {
+          const li = document.createElement('li');
+          const nome = document.createElement('span');
+          nome.textContent = `${i.nome}`;
+          const valor = document.createElement('span');
+          valor.textContent = formatarPreco(i.qtd * i.preco);
+          const qtdBox = document.createElement('span');
+          qtdBox.className = 'qtd';
+          const n = document.createElement('span');
+          n.textContent = String(i.qtd);
+          n.className = 'qtd__n';
+          qtdBox.append(botaoQtd('sub', id, i), n, botaoQtd('add', id, i));
+          li.append(nome, qtdBox, valor);
+          return li;
+        }),
+      );
+      atualizarPrevia(raiz, mensagemPedido({ negocio, linhas: ls, modo: modo(), taxaEntrega: taxa, pagamento: pagamento.value, observacao: obs.value }));
+    }
+
+    function abrir() {
+      painel.showModal();
+      barra.setAttribute('aria-expanded', 'true');
+      document.documentElement.style.overflow = 'hidden';
+      raiz.querySelector<HTMLElement>('#carrinho-titulo')?.focus();
+    }
+    function fechar() {
+      if (painel.open) painel.close();
+    }
+    painel.addEventListener('close', () => {
+      barra.setAttribute('aria-expanded', 'false');
+      document.documentElement.style.overflow = '';
+      if (!barra.hidden) barra.focus();
+    });
+    // Toque fora do painel (no fundo escurecido) fecha.
+    painel.addEventListener('click', (e) => { if (e.target === painel) fechar(); });
+
+    document.addEventListener('click', (e) => {
+      const alvo = e.target as Element;
+      const b = alvo.closest<HTMLElement>('[data-add], [data-sub]');
+      if (b) {
+        const id = b.dataset.id!;
+        const atual = itens.get(id) ?? { nome: b.dataset.nome!, preco: Number(b.dataset.preco), qtd: 0 };
+        atual.qtd = Math.max(0, atual.qtd + (b.hasAttribute('data-add') ? 1 : -1));
+        itens.set(id, atual);
+        render();
+        return;
+      }
+      if (alvo.closest('[data-abrir]')) abrir();
+      else if (alvo.closest('[data-fechar]')) fechar();
+    });
+    raiz.addEventListener('change', render);
+    obs.addEventListener('input', render);
+    render();
+  }
+</script>
+
+<style>
+  .carrinho__barra {
+    position: fixed; z-index: 40; left: 50%; transform: translateX(-50%);
+    bottom: calc(.75rem + env(safe-area-inset-bottom));
+    width: min(100% - 1.5rem, 34rem);
+    display: grid; grid-template-columns: auto 1fr auto; grid-template-areas: 'i q t' 'i v v';
+    align-items: center; gap: 0 .75rem; padding: .75rem 1.1rem; text-align: left;
+    border: 0; border-radius: var(--raio-cartao, 1rem); cursor: pointer;
+    background: var(--carrinho-bg, var(--ink)); color: var(--carrinho-ink, var(--bg));
+    box-shadow: 0 10px 30px rgb(0 0 0 / .25);
+    animation: subir .25s ease-out;
+  }
+  .carrinho__barra .icone { grid-area: i; width: 1.6rem; height: 1.6rem; }
+  .carrinho__qtd { grid-area: q; font-weight: 700; }
+  .carrinho__total { grid-area: t; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .carrinho__ver { grid-area: v; font-size: .85rem; opacity: .85; }
+  @keyframes subir { from { transform: translate(-50%, 120%); } }
+
+  .carrinho__painel {
+    position: fixed; inset: auto 0 0 0; margin: auto auto 0; border: 0;
+    width: min(100%, 36rem); max-width: 100%; max-height: min(88dvh, 52rem); overflow-y: auto; overscroll-behavior: contain;
+    gap: 1.1rem;
+    padding: 1.25rem 1.25rem calc(1.25rem + env(safe-area-inset-bottom));
+    background: var(--surface); color: var(--ink);
+    border-radius: var(--raio-cartao, 1rem) var(--raio-cartao, 1rem) 0 0;
+    box-shadow: 0 -10px 40px rgb(0 0 0 / .3);
+  }
+  .carrinho__painel[open] { display: grid; animation: subir-painel .22s ease-out; }
+  .carrinho__painel::backdrop { background: rgb(0 0 0 / .45); }
+  @keyframes subir-painel { from { transform: translateY(40px); opacity: 0; } }
+  .carrinho__topo { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+  .carrinho__topo h2 { font-family: var(--font-titulo); font-size: 1.6rem; line-height: 1.1; outline: none; }
+  .carrinho__fechar { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border: 0; border-radius: 999px; background: transparent; cursor: pointer; }
+  .carrinho__fechar .icone { width: 1.5rem; height: 1.5rem; }
+  .carrinho__linhas { display: grid; gap: .5rem; }
+  .carrinho__linhas :global(li) { display: grid; grid-template-columns: 1fr auto; grid-template-areas: 'n v' 'q q'; gap: .25rem .75rem; align-items: center; padding-bottom: .5rem; border-bottom: 1px solid var(--linha, rgb(127 127 127 / .3)); }
+  .carrinho__linhas :global(li > span:first-child) { grid-area: n; font-weight: 600; }
+  .carrinho__linhas :global(li > span:last-child) { grid-area: v; font-variant-numeric: tabular-nums; }
+  .carrinho__linhas :global(.qtd) { grid-area: q; }
+  .carrinho__grupo { display: grid; gap: .4rem; border: 0; padding: 0; margin: 0; }
+  .carrinho__grupo legend, .carrinho__grupo > label { font-weight: 600; padding: 0; margin-bottom: .2rem; }
+  .carrinho__grupo label:has(input) { display: flex; align-items: center; gap: .6rem; min-height: 2.75rem; }
+  .carrinho__grupo input[type='radio'] { width: 1.25rem; height: 1.25rem; accent-color: var(--primary); }
+  .carrinho__grupo select, .carrinho__grupo textarea {
+    width: 100%; min-height: 2.75rem; padding: .6rem .75rem;
+    border: 1.5px solid var(--linha-forte, var(--muted)); border-radius: var(--raio-campo, .5rem);
+    background: var(--surface); color: var(--ink);
+  }
+  .carrinho__soma { display: flex; justify-content: space-between; font-size: 1.15rem; }
+  .carrinho__soma strong { font-variant-numeric: tabular-nums; }
+
+  /* Controle de quantidade (também usado por Cardapio e Catalogo). */
+  :global(.qtd) { display: inline-flex; align-items: center; gap: .25rem; }
+  :global(.qtd__botao) {
+    display: grid; place-items: center; width: 2.75rem; height: 2.75rem; padding: 0;
+    border: 1.5px solid currentColor; border-radius: var(--raio-botao, 999px);
+    background: transparent; color: inherit; font-size: 1.35rem; line-height: 1; cursor: pointer;
+    touch-action: manipulation;
+  }
+  :global(.qtd__botao[data-add]) { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
+  :global(.qtd__n) { min-width: 1.5ch; text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; }
+  :global([data-item]:not([data-no-pedido]) .qtd__botao[data-sub]),
+  :global([data-item]:not([data-no-pedido]) .qtd__n) { display: none; }
+</style>

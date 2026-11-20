@@ -1,0 +1,45 @@
+---
+// Layout de todas as páginas: <head> com o cartão de compartilhamento (D-125) e noindex,
+// link de pular para o conteúdo e, nos demos, a faixa fixa "Site de demonstração".
+import '../styles/base.css';
+import { montarMetadata } from '../lib/metadata.ts';
+import FaixaDemo from '../components/FaixaDemo.astro';
+
+interface Props {
+  titulo: string;
+  descricao: string;
+  caminho: string;
+  imagemOg: string;
+  imagemAlt: string;
+  nomeSite: string;
+  /** Classe do tema do nicho no <body> (ex.: "tema-brasa"). */
+  tema: string;
+  /** Cor da barra do navegador no celular. */
+  corTema: string;
+  /** Rótulo do demo para o texto do WhatsApp da faixa. Sem ele, a faixa não aparece (home). */
+  rotuloDemo?: string;
+}
+
+const { titulo, descricao, caminho, imagemOg, imagemAlt, nomeSite, tema, corTema, rotuloDemo } = Astro.props;
+// Ícone da aba: círculo na cor do nicho, sem arquivo (nada a creditar em public/).
+const favicon = `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><circle cx="16" cy="16" r="15" fill="${corTema}"/></svg>`)}`;
+const meta = montarMetadata({ titulo, descricao, caminho, imagem: imagemOg, imagemAlt, site: Astro.site ?? Astro.url, nomeSite });
+---
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{meta.title}</title>
+    {meta.metas.map((m) => (m.property ? <meta property={m.property} content={m.content} /> : <meta name={m.name} content={m.content} />))}
+    <link rel="canonical" href={meta.canonical} />
+    <meta name="theme-color" content={corTema} />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="icon" href={favicon} />
+    <slot name="head" />
+  </head>
+  <body class={tema} style={rotuloDemo ? undefined : '--faixa-h: 0px'}>
+    <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+    {rotuloDemo && <FaixaDemo rotulo={rotuloDemo} />}
+    <slot />
+  </body>
+</html>

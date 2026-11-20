@@ -1,0 +1,60 @@
+---
+// Tabela de serviços por categoria: nome, duração e valor numa linha pontilhada, como lista de
+// preços. "Escolher" leva o serviço para a Agenda da mesma página (evento agenda:servico).
+import type { ServicoTabela } from '../data/tipos.ts';
+import { formatarPreco } from '../lib/mensagens.ts';
+
+interface Props { grupos: { categoria: string; itens: ServicoTabela[] }[]; alvoAgenda?: string }
+const { grupos, alvoAgenda = 'agenda' } = Astro.props;
+---
+<div class="tabela">
+  {grupos.map((g) => (
+    <section class="tabela__grupo" aria-label={g.categoria}>
+      <h3 class="tabela__categoria">{g.categoria}</h3>
+      <table>
+        <caption class="sr-only">{g.categoria}: serviço, duração e valor</caption>
+        <thead class="sr-only"><tr><th scope="col">Serviço</th><th scope="col">Duração</th><th scope="col">Valor</th><th scope="col">Agendar</th></tr></thead>
+        <tbody>
+          {g.itens.map((s) => (
+            <tr>
+              <th scope="row">
+                <span class="tabela__nome">{s.nome}</span>
+                {s.descricao && <span class="tabela__desc">{s.descricao}</span>}
+              </th>
+              <td class="tabela__dur">{s.duracaoMin} min</td>
+              <td class="tabela__preco">{formatarPreco(s.preco)}</td>
+              <td class="tabela__acao">
+                <a class="tabela__escolher" href={`#${alvoAgenda}`} data-escolher-servico={s.nome}>Escolher<span class="sr-only"> {s.nome}</span></a>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
+  ))}
+</div>
+
+<script>
+  document.addEventListener('click', (e) => {
+    const a = (e.target as Element).closest<HTMLElement>('[data-escolher-servico]');
+    if (a) document.dispatchEvent(new CustomEvent('agenda:servico', { detail: a.dataset.escolherServico }));
+  });
+</script>
+
+<style>
+  .tabela { display: grid; gap: 2rem; }
+  .tabela__categoria { font-family: var(--font-titulo); font-size: 1.5rem; font-weight: 600; margin-bottom: .5rem; }
+  table { width: 100%; border-collapse: collapse; }
+  tr { display: grid; grid-template-columns: 1fr auto; grid-template-areas: 'n p' 'd a'; gap: .15rem 1rem; padding-block: .85rem; border-bottom: 1px dotted var(--muted); }
+  th { grid-area: n; text-align: left; font-weight: 500; }
+  .tabela__nome { display: block; font-size: 1.08rem; }
+  .tabela__desc { display: block; color: var(--muted); font-size: .9rem; font-weight: 400; }
+  .tabela__dur { grid-area: d; color: var(--muted); font-size: .92rem; }
+  .tabela__preco { grid-area: p; text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .tabela__acao { grid-area: a; text-align: right; }
+  .tabela__escolher { display: inline-flex; align-items: center; min-height: 2.75rem; font-weight: 600; color: var(--primary); text-underline-offset: 3px; }
+  @media (min-width: 48rem) {
+    tr { grid-template-columns: 1fr 6rem 7rem 6rem; grid-template-areas: 'n d p a'; align-items: baseline; }
+    .tabela__dur { text-align: right; }
+  }
+</style>

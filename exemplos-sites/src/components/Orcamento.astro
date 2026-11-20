@@ -1,0 +1,109 @@
+---
+// Formulário de orçamento que vira mensagem. Nada é enviado a servidor: o formulário não tem
+// action e o envio é bloqueado; a prévia se monta enquanto a pessoa preenche.
+import PreviaWhats from './PreviaWhats.astro';
+import BotaoWhats from './BotaoWhats.astro';
+
+interface Props {
+  titulo: string;
+  texto: string;
+  servicos: string[];
+  quando: string[];
+  negocio: string;
+  rotuloDemo: string;
+  botaoTexto: string;
+  id?: string;
+}
+const { titulo, texto, servicos, quando, negocio, rotuloDemo, botaoTexto, id = 'orcamento' } = Astro.props;
+---
+<section class="orcamento" id={id} aria-labelledby={`${id}-titulo`} data-orcamento data-negocio={negocio}>
+  <h2 id={`${id}-titulo`} class="orcamento__titulo">{titulo}</h2>
+  <p class="orcamento__texto">{texto}</p>
+  <form class="orcamento__form" novalidate>
+    <ol role="list" class="orcamento__passos">
+      <li>
+        <label for={`${id}-servico`}><span class="orcamento__num">1</span> Serviço</label>
+        <select id={`${id}-servico`} name="servico">
+          <option value="">Escolha um serviço</option>
+          {servicos.map((s) => <option>{s}</option>)}
+        </select>
+      </li>
+      <li class="orcamento__dupla">
+        <div>
+          <label for={`${id}-carro`}><span class="orcamento__num">2</span> Carro</label>
+          <input id={`${id}-carro`} name="carro" type="text" autocomplete="off" placeholder="Modelo" />
+        </div>
+        <div>
+          <label for={`${id}-ano`}>Ano</label>
+          <input id={`${id}-ano`} name="ano" type="text" inputmode="numeric" maxlength="4" placeholder="Ano" />
+        </div>
+      </li>
+      <li>
+        <label for={`${id}-problema`}><span class="orcamento__num">3</span> O que está acontecendo?</label>
+        <textarea id={`${id}-problema`} name="problema" rows="3"></textarea>
+      </li>
+      <li>
+        <p id={`${id}-quando`} class="orcamento__rotulo"><span class="orcamento__num">4</span> Quando</p>
+        <div class="orcamento__chips" role="group" aria-labelledby={`${id}-quando`}>
+          {quando.map((q) => <button type="button" class="chip" aria-pressed="false" data-quando={q}>{q}</button>)}
+        </div>
+      </li>
+    </ol>
+  </form>
+  <PreviaWhats negocio={negocio} id={`${id}-previa`} vazio="Escolha o serviço para ver a mensagem." />
+  <BotaoWhats rotuloDemo={rotuloDemo} texto={botaoTexto} largo />
+</section>
+
+<script>
+  import { mensagemOrcamento } from '../lib/mensagens.ts';
+  import { atualizarPrevia } from '../lib/previa.ts';
+
+  document.querySelectorAll<HTMLElement>('[data-orcamento]').forEach((raiz) => {
+    const form = raiz.querySelector('form')!;
+    let quando = '';
+    const atualizar = () => {
+      const d = new FormData(form);
+      atualizarPrevia(raiz, mensagemOrcamento({
+        negocio: raiz.dataset.negocio ?? '',
+        servico: String(d.get('servico') ?? ''),
+        carro: String(d.get('carro') ?? ''),
+        ano: String(d.get('ano') ?? ''),
+        problema: String(d.get('problema') ?? ''),
+        quando,
+      }));
+    };
+    form.addEventListener('submit', (e) => e.preventDefault());
+    form.addEventListener('input', atualizar);
+    form.addEventListener('change', atualizar);
+    raiz.addEventListener('click', (e) => {
+      const b = (e.target as Element).closest<HTMLButtonElement>('[data-quando]');
+      if (!b) return;
+      quando = b.dataset.quando!;
+      raiz.querySelectorAll('[data-quando]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      atualizar();
+    });
+    document.addEventListener('orcamento:servico', (e) => {
+      const sel = form.querySelector<HTMLSelectElement>('select[name="servico"]')!;
+      sel.value = (e as CustomEvent<string>).detail;
+      atualizar();
+    });
+    atualizar();
+  });
+</script>
+
+<style>
+  .orcamento { display: grid; gap: 1.25rem; }
+  .orcamento__titulo { font-family: var(--font-titulo); font-size: var(--h2, 2rem); line-height: 1.1; }
+  .orcamento__texto { color: var(--muted); }
+  .orcamento__passos { display: grid; gap: 1.1rem; margin: 0; }
+  .orcamento__passos label, .orcamento__rotulo { display: flex; align-items: center; gap: .5rem; font-weight: 700; margin-bottom: .4rem; }
+  .orcamento__dupla { display: grid; grid-template-columns: minmax(0, 1fr) 6.5rem; gap: .75rem; align-items: end; }
+  .orcamento select, .orcamento input, .orcamento textarea {
+    width: 100%; min-height: 3rem; padding: .65rem .8rem;
+    border: 1.5px solid var(--campo-borda, var(--muted)); border-radius: var(--raio-campo, .25rem);
+    background: var(--surface); color: var(--ink);
+  }
+  .orcamento ::placeholder { color: var(--muted); opacity: 1; }
+  .orcamento__num { display: grid; place-items: center; width: 1.6rem; height: 1.6rem; background: var(--ink); color: var(--bg); font-size: .85rem; border-radius: var(--raio-chip, 999px); }
+  .orcamento__chips { display: flex; flex-wrap: wrap; gap: .5rem; }
+</style>

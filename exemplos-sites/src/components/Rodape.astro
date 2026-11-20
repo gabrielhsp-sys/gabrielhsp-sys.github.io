@@ -1,0 +1,102 @@
+---
+// Rodapé comum: horário, endereço com mapa (OpenStreetMap, sem chave de API, carregado só perto
+// da tela) e redes. Os perfis são fictícios: aparecem como texto, sem link, para não cair em
+// perfil real. A aparência vem dos tokens do nicho e de `:global(.tema-x) .rodape …`.
+import type { Comum } from '../data/tipos.ts';
+import Icone from './Icone.astro';
+import BotaoWhats from './BotaoWhats.astro';
+
+interface Props { dados: Comum }
+const { dados } = Astro.props;
+const { lat, lon } = dados.mapa;
+const d = 0.006;
+const mapa = `https://www.openstreetmap.org/export/embed.html?bbox=${lon - d},${lat - d * 0.7},${lon + d},${lat + d * 0.7}&layer=mapnik&marker=${lat},${lon}`;
+const endereco = `${dados.endereco.bairro}, ${dados.endereco.cidade} - ${dados.endereco.uf}`;
+const rotas = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=17/${lat}/${lon}`;
+const icones: Record<string, string> = { Instagram: 'instagram-logo', Facebook: 'facebook-logo', TikTok: 'tiktok-logo' };
+---
+<footer class="rodape">
+  <div class="rodape__grade wrap">
+    <div class="rodape__marca">
+      <p class="rodape__nome">{dados.negocio.nome}</p>
+      <BotaoWhats rotuloDemo={dados.rotulo} texto={dados.botaoPrincipal} />
+    </div>
+
+    <section aria-labelledby="rod-horario">
+      <h2 id="rod-horario" class="rodape__titulo"><Icone nome="clock" /> Horário</h2>
+      <dl class="rodape__horario">
+        {dados.horario.map((h) => (<div><dt>{h.dias}</dt><dd>{h.horas}</dd></div>))}
+      </dl>
+    </section>
+
+    <section aria-labelledby="rod-endereco">
+      <h2 id="rod-endereco" class="rodape__titulo"><Icone nome="map-pin" /> Endereço</h2>
+      <p>{endereco}</p>
+      <p class="rodape__ref">{dados.endereco.referencia}</p>
+      <p class="rodape__ref">Endereço fictício de demonstração.</p>
+    </section>
+
+    <section aria-labelledby="rod-redes">
+      <h2 id="rod-redes" class="rodape__titulo">Redes</h2>
+      <ul role="list" class="rodape__redes">
+        {dados.redes.map((r) => (
+          <li><Icone nome={icones[r.rede]} /> <span>{r.usuario}</span></li>
+        ))}
+      </ul>
+      <p class="rodape__ref">Perfis de exemplo.</p>
+    </section>
+
+    <div class="rodape__mapa">
+      <iframe
+        title={`Mapa: ${endereco}`}
+        data-src={mapa}
+        loading="lazy"
+        width="600"
+        height="300"
+      ></iframe>
+      <div class="rodape__mapa-pe">
+        <a href={rotas} target="_blank" rel="noopener">Abrir o mapa</a>
+        <p class="rodape__osm">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a></p>
+      </div>
+    </div>
+  </div>
+  <p class="rodape__creditos wrap">Fotos: Unsplash. Mapa: © colaboradores do OpenStreetMap.</p>
+</footer>
+
+<script>
+  // O mapa é de terceiro (OpenStreetMap) e pesa: só carrega quando o rodapé aparece na tela,
+  // para não entrar na primeira carga do celular.
+  const mapas = document.querySelectorAll<HTMLIFrameElement>('iframe[data-src]');
+  const io = new IntersectionObserver((entradas) => {
+    for (const e of entradas) {
+      if (!e.isIntersecting) continue;
+      const f = e.target as HTMLIFrameElement;
+      f.src = f.dataset.src!;
+      io.unobserve(f);
+    }
+  });
+  mapas.forEach((m) => io.observe(m));
+</script>
+<noscript><style>.rodape__mapa iframe { display: none; }</style></noscript>
+
+<style>
+  .rodape { padding-block: 3.5rem calc(2rem + env(safe-area-inset-bottom)); background: var(--rodape-bg, var(--ink)); color: var(--rodape-ink, var(--bg)); }
+  .rodape__grade { display: grid; gap: 2rem; grid-template-columns: 1fr; }
+  @media (min-width: 48rem) {
+    .rodape__grade { grid-template-columns: 1.2fr 1fr 1fr 1fr; }
+    .rodape__mapa { grid-column: 1 / -1; }
+  }
+  .rodape__nome { font-family: var(--font-titulo); font-size: 1.75rem; line-height: 1.1; margin-bottom: 1rem; }
+  .rodape__titulo { display: flex; align-items: center; gap: .4rem; font-size: 1rem; margin-bottom: .5rem; }
+  .rodape__horario div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 1rem; padding-block: .2rem; }
+  .rodape__horario dd { font-variant-numeric: tabular-nums; }
+  .rodape__ref { opacity: .8; font-size: .9rem; }
+  .rodape__redes li { display: flex; align-items: center; gap: .4rem; }
+  .rodape__mapa iframe { width: 100%; height: 15rem; border: 0; border-radius: var(--raio-cartao, 0); background: rgb(127 127 127 / .2); }
+  .rodape__mapa a { display: inline-flex; align-items: center; min-height: 2.75rem; margin-top: .25rem; }
+  /* Crédito do OSM junto do mapa (política de tiles: atribuição visível, embaixo à direita). */
+  .rodape__mapa-pe { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0 1rem; }
+  .rodape__osm { font-size: .85rem; }
+  .rodape__osm a { margin-top: 0; text-decoration: underline; }
+  .rodape__creditos { margin-top: 2rem; font-size: .8rem; opacity: .75; }
+</style>

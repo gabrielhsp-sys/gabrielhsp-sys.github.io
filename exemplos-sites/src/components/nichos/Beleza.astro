@@ -1,0 +1,154 @@
+---
+// Página do nicho BELEZA (identidade: calma, branco-lilás e cor da íris; Cormorant + Jost;
+// foto em arco). Todo texto vem de `dados`.
+import '@fontsource/cormorant/latin-500.css';
+import '@fontsource/cormorant/latin-500-italic.css';
+import '@fontsource/jost/latin-400.css';
+import '@fontsource/jost/latin-500.css';
+import Base from '../../layouts/Base.astro';
+import Foto from '../Foto.astro';
+import BotaoWhats from '../BotaoWhats.astro';
+import TabelaServicos from '../TabelaServicos.astro';
+import Agenda from '../Agenda.astro';
+import Depoimentos from '../Depoimentos.astro';
+import Rodape from '../Rodape.astro';
+import type { DadosBeleza } from '../../data/tipos.ts';
+import { imagemOg, tituloPagina } from '../../lib/paginas.ts';
+
+interface Props { dados: DadosBeleza; caminho: string }
+const { dados: d, caminho } = Astro.props;
+const servicos = d.servicos.flatMap((g) => g.itens.map((i) => i.nome));
+const iniciais = (nome: string) => nome.split(' ').map((p) => p[0]).slice(0, 2).join('');
+---
+<Base
+  titulo={tituloPagina(d)}
+  descricao={d.negocio.descricao}
+  caminho={caminho}
+  imagemOg={imagemOg(d.hero.foto)}
+  imagemAlt={d.negocio.resumo}
+  nomeSite={d.negocio.resumo}
+  tema="tema-iris"
+  corTema="#F3F1F5"
+  rotuloDemo={d.rotulo}
+>
+  <header class="topo wrap">
+    <p class="marca">{d.negocio.nome}</p>
+    <a class="topo__link" href="#agenda">{d.botaoPrincipal}</a>
+  </header>
+
+  <main id="conteudo">
+    <section class="hero wrap">
+      <div class="hero__texto">
+        <h1>{d.hero.titulo}</h1>
+        <p class="hero__lead">{d.hero.texto}</p>
+        <BotaoWhats rotuloDemo={d.rotulo} texto={d.botaoPrincipal} principal />
+      </div>
+      <div class="hero__arco">
+        <Foto chave={d.hero.foto} sizes="(min-width: 56rem) 40vw, 80vw" prioridade />
+      </div>
+    </section>
+
+    <section class="servicos wrap" aria-labelledby="serv-titulo">
+      <div class="servicos__tabela">
+        <h2 id="serv-titulo" class="titulo-secao">Serviços e valores</h2>
+        <TabelaServicos grupos={d.servicos} />
+      </div>
+      <div class="servicos__agenda">
+        <Agenda config={d.agenda} servicos={servicos} negocio={d.negocio.nome} rotuloDemo={d.rotulo} botaoTexto={d.botaoPrincipal} />
+      </div>
+    </section>
+
+    <section class="galeria wrap" aria-labelledby="gal-titulo">
+      <h2 id="gal-titulo" class="titulo-secao">{d.galeria.titulo}</h2>
+      <div class="galeria__mosaico" style={`--n: ${d.galeria.fotos.length}`}>
+        {d.galeria.fotos.map((f) => (
+          <div class="galeria__item"><Foto chave={f} sizes="(min-width: 56rem) 33vw, 50vw" /></div>
+        ))}
+      </div>
+    </section>
+
+    <section class="equipe wrap" aria-labelledby="eq-titulo">
+      <h2 id="eq-titulo" class="titulo-secao">{d.profissionais.titulo}</h2>
+      <ul role="list" class="equipe__lista">
+        {d.profissionais.lista.map((p) => (
+          <li>
+            <span class="equipe__mono" aria-hidden="true">{iniciais(p.nome)}</span>
+            <div>
+              <p class="equipe__nome">{p.nome}</p>
+              <p class="equipe__funcao">{p.funcao}</p>
+              <p class="equipe__detalhe">{p.detalhe}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <Depoimentos lista={d.depoimentos} titulo="O que dizem" />
+  </main>
+
+  <Rodape dados={d} />
+</Base>
+
+<style is:global>
+  .tema-iris {
+    --bg: #F3F1F5; --surface: #FFFFFF; --ink: #2A2230; --muted: #625869;
+    --primary: #5B3B8C; --on-primary: #FFFFFF; --sage: #9DB3A2; --lilas: #E4DCEE;
+    --font-titulo: 'Cormorant', Georgia, serif;
+    --font-texto: 'Jost', system-ui, sans-serif;
+    --peso-botao: 500; --raio-botao: 2px; --raio-chip: 2px; --raio-cartao: 2px; --raio-campo: 2px;
+    --h2: clamp(2.2rem, 6vw, 3.2rem);
+    --chip-borda: #CFC6D9; --chip-ativo-bg: #5B3B8C; --chip-ativo-ink: #FFFFFF;
+    --rodape-bg: #2A2230; --rodape-ink: #F3F1F5;
+    --selo-bg: #E4DCEE; --selo-ink: #2A2230;
+  }
+  .tema-iris .rodape .botao { background: #F3F1F5; color: #2A2230; }
+  .tema-iris .agenda__titulo, .tema-iris .depoimentos__titulo { font-weight: 500; }
+</style>
+
+<style>
+  .topo { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding-block: 1rem; }
+  .marca { font-family: var(--font-titulo); font-style: italic; font-size: 1.6rem; font-weight: 500; }
+  .topo__link { display: inline-flex; align-items: center; min-height: 2.75rem; font-size: .95rem; text-underline-offset: 4px; color: var(--primary); }
+
+  .hero { display: grid; gap: 2rem; padding-block: 1rem 4rem; }
+  .hero h1 { font-family: var(--font-titulo); font-weight: 500; font-size: clamp(2.6rem, 9vw, 4.6rem); line-height: 1.02; letter-spacing: -.01em; max-width: 13ch; }
+  .hero__lead { margin-block: 1.25rem 1.75rem; font-size: 1.1rem; color: var(--muted); max-width: 36ch; }
+  .hero__arco { justify-self: start; width: min(100% - 1.5rem, 26rem); position: relative; }
+  .hero__arco::before { content: ''; position: absolute; inset: 1.25rem -1.25rem -1.25rem 1.25rem; border: 1px solid var(--sage); border-radius: 999px 999px 0 0; }
+  .hero__arco :global(img) { position: relative; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 999px 999px 0 0; }
+  @media (min-width: 56rem) {
+    .hero { grid-template-columns: 1.2fr 1fr; align-items: end; padding-top: 2rem; }
+    .hero__texto { padding-bottom: 3rem; }
+  }
+
+  .titulo-secao { font-family: var(--font-titulo); font-weight: 500; font-size: var(--h2); line-height: 1.05; margin-bottom: 1.5rem; }
+
+  .servicos { display: grid; gap: 3rem; padding-block: 3rem; }
+  .servicos__agenda { background: var(--surface); padding: 1.5rem; border-top: 3px solid var(--primary); }
+  @media (min-width: 64rem) {
+    .servicos { grid-template-columns: 1.25fr 1fr; align-items: start; }
+    .servicos__agenda { position: sticky; top: calc(var(--faixa-h) + 1.5rem); }
+  }
+
+  .galeria { padding-block: 3rem; }
+  .galeria__mosaico { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+  .galeria__item :global(img) { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4 / 5; }
+  .galeria__item:nth-child(3n + 1) :global(img) { aspect-ratio: 4 / 6; }
+  @media (min-width: 56rem) {
+    .galeria__mosaico { grid-template-columns: 1.3fr 1fr 1fr; grid-auto-flow: dense; }
+    .galeria__item:first-child { grid-row: span 2; }
+    .galeria__item:first-child :global(img) { aspect-ratio: auto; }
+    /* 4 fotos: a última ocupa as duas colunas de baixo, para não sobrar célula vazia. */
+    .galeria__item:nth-child(4):last-child { grid-column: span 2; }
+    .galeria__item:nth-child(4):last-child :global(img) { aspect-ratio: 2 / 1; }
+  }
+
+  .equipe { padding-block: 3rem; }
+  .equipe__lista { display: grid; gap: 1.5rem; }
+  .equipe__lista li { display: flex; gap: 1rem; align-items: center; }
+  @media (min-width: 56rem) { .equipe__lista { grid-template-columns: repeat(3, 1fr); } }
+  .equipe__mono { display: grid; place-items: center; flex: none; width: 4.5rem; height: 4.5rem; border-radius: 50%; background: var(--lilas); font-family: var(--font-titulo); font-style: italic; font-size: 1.7rem; }
+  .equipe__nome { font-weight: 500; font-size: 1.1rem; }
+  .equipe__funcao { color: var(--primary); }
+  .equipe__detalhe { color: var(--muted); font-size: .92rem; }
+</style>
