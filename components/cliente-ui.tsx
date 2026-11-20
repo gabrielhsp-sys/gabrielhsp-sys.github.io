@@ -7,9 +7,8 @@ import {
   ImageSquareIcon as ImageSquare,
   WhatsappLogoIcon as WhatsappLogo,
 } from "@phosphor-icons/react/dist/ssr";
-import { Captura, Celular, IlustracaoAplicativo, Navegador, type CapturaNome } from "@/components/molduras";
+import { Celular, IlustracaoAplicativo, MolduraCaptura } from "@/components/molduras";
 import { whatsappContato } from "@/lib/contato-links";
-import { site } from "@/lib/site";
 import type { Servico } from "@/lib/servicos";
 
 /* Pecas das paginas de cliente. CTA unico e repetido: "Pedir orcamento"
@@ -55,34 +54,26 @@ export function Steps() {
   );
 }
 
-const endereco = (rota: string) => `${new URL(site.url).host}${rota}`;
-
-/** Print em moldura, pelo tipo de moldura. `sizes` acompanha a largura do lugar. */
-export function MolduraCaptura({ moldura, captura, sizes, prioridade = false, cedo = false, aPartirDe }: { moldura: "navegador" | "celular" | "conversa"; captura: string; sizes: string; prioridade?: boolean; cedo?: boolean; aPartirDe?: number }) {
-  const nome = captura as CapturaNome;
-  const img = <Captura nome={nome} sizes={sizes} prioridade={prioridade} cedo={cedo} aPartirDe={aPartirDe} />;
-  if (moldura === "navegador") {
-    const rota = nome.startsWith("site-") ? `/exemplos/sites/${nome.split("-")[1]}/` : "/";
-    return <Navegador endereco={endereco(rota)}>{img}</Navegador>;
-  }
-  return <Celular tom={moldura === "conversa" ? "conversa" : undefined}>{img}</Celular>;
-}
-
 /** Largura exibida do PRINT (nao do cartao), por moldura: no navegador o print
     ocupa quase a area toda; no celular, so o aparelho. Sem isso o celular de
     100 px baixava a variante de 660. */
 export type SizesPorMoldura = { navegador: string; celular: string };
 
 /** Imagem do cartao de um servico: print em moldura ou a ilustracao de aplicativo. */
-export function ServicoImagem({ servico, sizes: porMoldura, prioridade = false, cedo = false }: { servico: Servico; sizes: SizesPorMoldura; prioridade?: boolean; cedo?: boolean }) {
+export function ServicoImagem({ servico, sizes: porMoldura, prioridade = false }: { servico: Servico; sizes: SizesPorMoldura; prioridade?: boolean }) {
   const img = servico.imagem;
   const sizes = img.moldura === "navegador" ? porMoldura.navegador : porMoldura.celular;
+  // Toda demo e rotulada (regra de 2026-11-19): os prints dos cartoes de servico
+  // sao de demonstracoes; a ilustracao diz que e ilustracao.
   return (
     <div className="c-visual" data-moldura={img.moldura}>
+      <span className="c-visual-selo" data-kind={img.moldura === "ilustracao" ? "ilustracao" : "demo"}>
+        {img.moldura === "ilustracao" ? "Ilustração" : "Demonstração"}
+      </span>
       {img.moldura === "ilustracao" ? (
         <Celular><IlustracaoAplicativo /></Celular>
       ) : (
-        <MolduraCaptura moldura={img.moldura} captura={img.captura} sizes={sizes} prioridade={prioridade} cedo={cedo} />
+        <MolduraCaptura moldura={img.moldura} captura={img.captura} sizes={sizes} prioridade={prioridade} />
       )}
     </div>
   );

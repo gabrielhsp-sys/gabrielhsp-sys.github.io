@@ -19,8 +19,7 @@ export default function ExemplosPage() {
         <h1>Veja antes de pedir.</h1>
         <p className="c-lede">Projetos reais e demonstrações, marcados em cada um. Abra e mexa à vontade.</p>
       </header>
-      {/* Com o filtro em cima, as duas primeiras linhas (3 colunas) cruzam a dobra do desktop. */}
-      <ExemplosGrade exemplos={exemplos} cedo={6} />
+      <ExemplosGrade exemplos={exemplos} />
       <section className="c-section c-final" aria-labelledby="final-titulo">
         <h2 id="final-titulo">Gostou de algum?</h2>
         <Ctas orcamento="/orcamento/?origem=exemplos" />

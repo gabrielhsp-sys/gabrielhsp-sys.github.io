@@ -358,3 +358,20 @@ arquivo, envio e cliente. Segredo só em `.dev.vars` (local) e no secret do Page
 `docs/design/unificacao-2026-11/SEGURANCA-MATERIAL.md`; `wrangler` 4.157.0 só para a prévia local
 (`docs/design/unificacao-2026-11/WRANGLER.md`).
 
+
+## ADR-027 — tema claro por padrão e o trabalho em prints (2026-11-20)
+
+Pedido do Gabriel de 2026-11-20 (branch `visual-2026-11`; no ecossistema, D-226 e a proposta D-227).
+
+- **Tema:** as páginas de cliente, o `/orcamento/` e o `/material/` abrem no claro, independente do
+  sistema; o escuro fica num seletor salvo em `localStorage` (`gsys:tema`). Um script inline no
+  `<head>` (`lib/tema.ts`) põe `data-theme` no `<html>` antes do primeiro pintar e escreve o
+  `<meta name="theme-color">` fora do React (o `viewport` do Next declara só `colorScheme: "light
+  dark"`). A área do recrutador e o modo retrô continuam com as paletas próprias (D-227, proposta).
+  Contraste AA nos dois temas, conferido por `tests/contraste.test.mjs` e pelo axe.
+- **Imagens geradas:** além da bancada (ADR-022), o build publica prints do próprio trabalho
+  (`scripts/capturas.mjs` → `assets-src/capturas/` → `npm run imagens` → `public/capturas/` +
+  `lib/capturas.json`, com a rota de origem e o alt de cada um) e o logo para fundo claro
+  (`scripts/marca-claro.mjs`, mesmo desenho, só o nome em tinta). `tests/capturas.test.mjs` e
+  `scripts/verificar-saida.mjs` recusam imagem sem origem neste site.
+- **Molduras em CSS** (`components/molduras.tsx`): nenhum mockup de terceiro.

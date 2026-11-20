@@ -121,7 +121,8 @@ html:has([data-chrome="cliente"]) { scroll-padding-top: 88px; scroll-padding-bot
 @media (hover: hover) and (pointer: fine) { .c-theme-toggle:hover { background: var(--ink-3); color: var(--paper); } }
 .c-theme-toggle-label { display: inline-flex; align-items: center; gap: 10px; width: 100%; height: auto; min-height: 52px; padding: 0 8px; color: var(--paper); font-size: 1.125rem; font-weight: 400; justify-content: flex-start; }
 .c-theme-toggle-label::after { content: ""; flex: none; width: 40px; height: 24px; margin-left: auto; border: 1px solid var(--line); border-radius: 999px; background: radial-gradient(circle at 11px 50%, var(--paper-dim) 7px, transparent 7.5px); }
-.c-theme-toggle-label[aria-pressed="true"]::after { border-color: var(--amber); background: radial-gradient(circle at 28px 50%, var(--amber) 7px, transparent 7.5px); }
+/* Ligado e selecao, nao acao: chave neutra (ADR-018). */
+.c-theme-toggle-label[aria-pressed="true"]::after { border-color: var(--paper); background: radial-gradient(circle at 28px 50%, var(--paper) 7px, transparent 7.5px), var(--ink-3); }
 .c-header-tools .sound-toggle { color: var(--paper-dim); }
 .c-cta-short { display: none; }
 
@@ -155,13 +156,14 @@ html:has([data-chrome="cliente"]) { scroll-padding-top: 88px; scroll-padding-bot
 .c-chips a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border: 1px solid var(--line); border-radius: 999px; color: var(--paper); text-decoration: none; }
 @media (hover: hover) and (pointer: fine) { .c-chips a:hover { border-color: var(--amber); color: var(--amber); } }
 
-/* Passos numerados (rodada visual 2026-11-20): numero num no ambar sobre um fio,
-   icone e uma linha. Celular: o fio vira vertical, a esquerda. */
+/* Passos numerados (rodada visual 2026-11-20): numero num no NEUTRO sobre um fio
+   (ambar e acao, ADR-018: o numero nao e botao), icone e uma linha. Celular: o
+   fio vira vertical, a esquerda. */
 .c-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin: 0; padding: 0; list-style: none; counter-reset: passo; }
 .c-steps li { position: relative; display: flex; flex-direction: column; gap: 6px; padding-top: 64px; counter-increment: passo; }
-.c-steps li::before { content: counter(passo); position: absolute; top: 0; left: 0; display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--amber-fill-border); border-radius: 10px; background: var(--amber-fill); color: var(--on-amber); font: 700 1.15rem/1 var(--mono); }
+.c-steps li::before { content: counter(passo); position: absolute; top: 0; left: 0; display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--line); border-radius: 8px; background: var(--ink-2); color: var(--paper); font: 700 1.15rem/1 var(--mono); }
 .c-steps li:not(:last-child)::after { content: ""; position: absolute; top: 21px; left: 56px; right: -12px; height: 2px; background: var(--line-soft); }
-.c-step-icon { color: var(--amber); }
+.c-step-icon { color: var(--paper-dim); }
 .c-steps strong { font-size: 1.15rem; line-height: 1.3; }
 .c-steps span { color: var(--paper-dim); font-size: 1rem; }
 @media (max-width: 760px) {
@@ -216,9 +218,13 @@ html:has([data-chrome="cliente"]) { scroll-padding-top: 88px; scroll-padding-bot
 
 /* Area de imagem dos cartoes: fundo de encaixe e o aparelho cortado embaixo. */
 .c-visual { position: relative; display: flex; align-items: flex-start; justify-content: center; height: 210px; overflow: hidden; padding-top: 22px; border-radius: 12px; background: var(--ink-3); }
+/* Selo sobre a imagem do cartao de servico: "Demonstracao" (print de demo) ou
+   "Ilustracao" (desenho em SVG). Neutro como os outros selos (ADR-018). */
+.c-visual-selo { position: absolute; z-index: 2; top: 10px; left: 10px; padding: 2px 8px; border: 1px dashed var(--line); border-radius: 8px; background: var(--ink-2); color: var(--paper); font-family: var(--mono); font-size: .75rem; font-weight: 600; line-height: 1.5; }
+.c-visual-selo[data-kind="ilustracao"] { border-style: solid; }
 .c-visual .f-navegador { width: 88%; flex: none; }
 .c-visual .f-celular { width: min(48%, 190px); flex: none; }
-.c-visual[data-moldura="texto"] { flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 20px; color: var(--amber); text-align: center; }
+.c-visual[data-moldura="texto"] { flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 20px; color: var(--paper-dim); text-align: center; }
 .c-visual[data-moldura="texto"] span { color: var(--paper-dim); font-size: .9375rem; }
 .c-visual[data-moldura="video"] { align-items: center; padding: 0; background: #0c0b0a; }
 .c-visual[data-moldura="video"] img { width: 100%; height: 100%; object-fit: contain; }

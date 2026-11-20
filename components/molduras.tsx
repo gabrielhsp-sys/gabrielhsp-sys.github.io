@@ -1,4 +1,5 @@
 import capturas from "@/lib/capturas.json";
+import { site } from "@/lib/site";
 
 /* Prints do trabalho do Gabriel em molduras desenhadas em CSS (rodada visual
    2026-11-20). Nenhum mockup de terceiro: notebook, celular e navegador sao
@@ -15,11 +16,12 @@ const info = (nome: CapturaNome) => capturas[nome] as Info;
 // para a imagem escondida pelo CSS nessa largura nao ser baixada.
 const VAZIO = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 
-/** `prioridade`: na primeira dobra e candidata a LCP (eager + fetchpriority high).
-    `cedo`: na primeira dobra do desktop, sem prioridade de rede (eager). Sem os
-    dois: lazy. `aPartirDe`: largura minima da janela em que a imagem aparece (o
-    CSS a esconde abaixo dela); abaixo, nada e baixado. */
-export function Captura({ nome, sizes, prioridade = false, cedo = false, aPartirDe, alt }: { nome: CapturaNome; sizes: string; prioridade?: boolean; cedo?: boolean; aPartirDe?: number; alt?: string }) {
+/** `prioridade`: a imagem candidata a LCP da pagina (eager + fetchpriority high),
+    uma por pagina, na primeira dobra. Toda outra imagem e lazy: fora da dobra ela
+    nao baixa, e na dobra o navegador carrega lazy na hora. `aPartirDe`: largura
+    minima da janela em que a imagem aparece (o CSS a esconde abaixo dela); abaixo,
+    nada e baixado. */
+export function Captura({ nome, sizes, prioridade = false, aPartirDe, alt }: { nome: CapturaNome; sizes: string; prioridade?: boolean; aPartirDe?: number; alt?: string }) {
   const c = info(nome);
   const srcSet = (ext: string) => c.variantes.map((w) => `/capturas/${nome}-${w}.${ext} ${w}w`).join(", ");
   const maior = c.variantes[c.variantes.length - 1];
@@ -33,7 +35,7 @@ export function Captura({ nome, sizes, prioridade = false, cedo = false, aPartir
         alt={alt ?? c.alt}
         width={maior}
         height={Math.round((c.height * maior) / c.width)}
-        loading={prioridade || cedo ? "eager" : "lazy"}
+        loading={prioridade ? "eager" : "lazy"}
         fetchPriority={prioridade ? "high" : undefined}
         decoding="async"
       />
@@ -83,7 +85,7 @@ export function IlustracaoAplicativo() {
       {[0, 1, 2, 3, 4].map((i) => (
         <g key={i} transform={`translate(24 ${150 + i * 104})`}>
           <rect width="342" height="88" rx="14" fill="var(--ink)" stroke="var(--line-soft)" strokeWidth="2" />
-          <rect x="18" y="20" width="64" height="48" rx="10" fill={i === 1 ? "var(--amber-fill)" : "var(--ink-3)"} />
+          <rect x="18" y="20" width="64" height="48" rx="10" fill={i === 1 ? "var(--line)" : "var(--ink-3)"} />
           <rect x="100" y="26" width={150 - i * 12} height="14" rx="5" fill="var(--paper)" />
           <rect x="100" y="50" width={110 + i * 10} height="12" rx="5" fill="var(--paper-faint)" />
           <circle cx="314" cy="44" r="12" fill="none" stroke={i < 2 ? "var(--mint)" : "var(--line)"} strokeWidth="3" />
@@ -95,4 +97,14 @@ export function IlustracaoAplicativo() {
   );
 }
 
-export const capturaRota = (nome: CapturaNome) => info(nome).rota;
+export type Moldura = "navegador" | "notebook" | "celular" | "conversa";
+
+/** Print em moldura. O endereco da barra do navegador e a rota de origem do
+    print (lib/capturas.json) no dominio do site (`SITE_URL`, ADR-025). */
+export function MolduraCaptura({ moldura, captura, sizes, prioridade = false, aPartirDe }: { moldura: Moldura; captura: string; sizes: string; prioridade?: boolean; aPartirDe?: number }) {
+  const nome = captura as CapturaNome;
+  const img = <Captura nome={nome} sizes={sizes} prioridade={prioridade} aPartirDe={aPartirDe} />;
+  if (moldura === "navegador") return <Navegador endereco={`${new URL(site.url).host}${info(nome).rota}`}>{img}</Navegador>;
+  if (moldura === "notebook") return <Notebook>{img}</Notebook>;
+  return <Celular tom={moldura === "conversa" ? "conversa" : undefined}>{img}</Celular>;
+}

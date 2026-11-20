@@ -3,10 +3,10 @@ import { expect, test } from "@playwright/test";
 // Paginas de cliente mais visuais (rodada visual 2026-11-20; VERIFICACAO.md P1–P4 e I2).
 const carregada = (img) => img.evaluate((el) => el.complete && el.naturalWidth > 0);
 
-test("the home hero shows real captures in a browser and a phone frame (P1)", async ({ page }) => {
+test("the home hero shows real captures in a notebook and a phone frame (P1)", async ({ page }) => {
   await page.goto("/");
   const vitrine = page.locator(".c-hero .c-vitrine");
-  await expect(vitrine.locator(".f-navegador img")).toHaveCount(1);
+  await expect(vitrine.locator(".f-notebook img")).toHaveCount(1);
   await expect(vitrine.locator(".f-celular img").first()).toBeVisible();
   for (const img of await vitrine.locator("img:visible").all()) {
     await expect.poll(() => carregada(img)).toBe(true);
@@ -74,8 +74,9 @@ test("how it works: four numbered steps, each short (P4)", async ({ page }) => {
   }
 });
 
-// I2: toda imagem do conteudo tem alt, largura e altura (sem salto de layout);
-// na primeira dobra ela nao e lazy; abaixo da dobra do desktop, e lazy.
+// I2: toda imagem do conteudo tem alt, largura e altura (sem salto de layout) e
+// e lazy fora da primeira dobra, em 1440 E em 390. A unica eager e a candidata a
+// LCP (fetchpriority=high), que fica dentro da primeira dobra.
 const rotas = ["/", "/servicos/", "/servicos/sites/", "/servicos/aplicativos/", "/exemplos/", "/exemplos/sites/", "/como-funciona/"];
 for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
   for (const rota of rotas) {
@@ -89,17 +90,21 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 
           width: el.getAttribute("width"),
           height: el.getAttribute("height"),
           loading: el.getAttribute("loading"),
+          prioridade: el.getAttribute("fetchpriority") === "high",
           visivel: el.getClientRects().length > 0,
           topo: el.getBoundingClientRect().top + window.scrollY,
         })),
       );
+      expect(imgs.filter((img) => img.prioridade).length, "no maximo uma imagem com prioridade").toBeLessThanOrEqual(1);
       for (const img of imgs) {
         expect(img.alt, `${img.src} sem alt`).not.toBeNull();
         expect(Number(img.width) > 0 && Number(img.height) > 0, `${img.src} sem width/height`).toBe(true);
-        if (!img.visivel) continue;
-        const naDobra = img.topo < viewport.height;
-        if (naDobra) expect(img.loading, `${img.src} na primeira dobra e lazy`).not.toBe("lazy");
-        else if (viewport.width === 1440) expect(img.loading, `${img.src} abaixo da dobra sem lazy`).toBe("lazy");
+        if (img.prioridade) {
+          expect(img.loading, `${img.src} com prioridade e lazy`).not.toBe("lazy");
+          expect(img.topo, `${img.src} com prioridade fora da primeira dobra`).toBeLessThan(viewport.height);
+        } else if (img.visivel && img.topo >= viewport.height) {
+          expect(img.loading, `${img.src} abaixo da dobra sem lazy`).toBe("lazy");
+        }
       }
     });
   }

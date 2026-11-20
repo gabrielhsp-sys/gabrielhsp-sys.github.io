@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ArrowRightIcon as ArrowRight, ArrowUpRightIcon as ArrowUpRight, CarProfileIcon as CarProfile } from "@phosphor-icons/react";
 import { useSyncExternalStore } from "react";
-import { Captura, Celular, Navegador, type CapturaNome } from "@/components/molduras";
+import { MolduraCaptura } from "@/components/molduras";
 import { tiposExemplo, type Exemplo, type TipoExemplo } from "@/lib/exemplos";
 
 /* Grade de /exemplos/ com filtro por tipo (rodada visual 2026-11-20). Sem JS,
@@ -33,9 +33,7 @@ function escolher(tipo: TipoExemplo | null) {
   window.dispatchEvent(new Event(evento));
 }
 
-const host = "gabrielsys.com.br";
-
-function Imagem({ exemplo, cedo, prioridade }: { exemplo: Exemplo; cedo: boolean; prioridade: boolean }) {
+function Imagem({ exemplo, prioridade }: { exemplo: Exemplo; prioridade: boolean }) {
   const img = exemplo.imagem;
   if (img.moldura === "texto") {
     return (
@@ -50,26 +48,20 @@ function Imagem({ exemplo, cedo, prioridade }: { exemplo: Exemplo; cedo: boolean
     return (
       <div className="c-visual" data-moldura="video">
         {/* eslint-disable-next-line @next/next/no-img-element -- export estatico, sem otimizador */}
-        <img src={img.src} alt={img.alt} width={img.width} height={img.height} loading={cedo ? "eager" : "lazy"} decoding="async" />
+        <img src={img.src} alt={img.alt} width={img.width} height={img.height} loading={prioridade ? "eager" : "lazy"} decoding="async" />
       </div>
     );
   }
   // Largura do print, nao do cartao: no navegador ~88% do cartao; no celular, o aparelho (ate 190 px).
   const sizes = img.moldura === "navegador" ? "(min-width: 1100px) 300px, (min-width: 640px) 40vw, 82vw" : "170px";
-  const shot = <Captura nome={img.captura as CapturaNome} sizes={sizes} cedo={cedo} prioridade={prioridade} />;
   return (
     <div className="c-visual" data-moldura={img.moldura}>
-      {img.moldura === "navegador" ? (
-        <Navegador endereco={`${host}${exemplo.href}`}>{shot}</Navegador>
-      ) : (
-        <Celular tom={img.moldura === "conversa" ? "conversa" : undefined}>{shot}</Celular>
-      )}
+      <MolduraCaptura moldura={img.moldura} captura={img.captura} sizes={sizes} prioridade={prioridade} />
     </div>
   );
 }
 
-/** `cedo`: quantos cartoes, do comeco, cruzam a primeira dobra do desktop e nao sao lazy. */
-export function ExemplosGrade({ exemplos, filtro = true, cedo = 3 }: { exemplos: Exemplo[]; filtro?: boolean; cedo?: number }) {
+export function ExemplosGrade({ exemplos, filtro = true }: { exemplos: Exemplo[]; filtro?: boolean }) {
   const tipo = useSyncExternalStore(subscribe, snapshot, serverSnapshot);
   const visiveis = exemplos.filter((e) => !tipo || e.tipo === tipo).length;
   const contagem = (id: TipoExemplo | null) => exemplos.filter((e) => !id || e.tipo === id).length;
@@ -94,7 +86,7 @@ export function ExemplosGrade({ exemplos, filtro = true, cedo = 3 }: { exemplos:
           const conteudo = (
             <>
               {/* O primeiro print e o LCP no celular: so ele tem prioridade de rede. */}
-              <Imagem exemplo={e} cedo={i < cedo} prioridade={i === 0} />
+              <Imagem exemplo={e} prioridade={i === 0} />
               <span className="c-badge" data-kind={e.natureza}>{e.natureza === "real" ? "Projeto real" : "Demonstração"}</span>
               <strong>{e.titulo}</strong>
               <span className="c-exemplo-mostra">{e.mostra}</span>

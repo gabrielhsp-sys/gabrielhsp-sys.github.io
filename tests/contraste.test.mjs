@@ -47,8 +47,8 @@ const ratio = (a, b) => {
 const pares = [
   ["--paper", "--ink", 4.5], ["--paper", "--ink-2", 4.5], ["--paper", "--ink-3", 4.5],
   ["--paper-dim", "--ink", 4.5], ["--paper-dim", "--ink-2", 4.5], ["--paper-dim", "--ink-3", 4.5],
-  ["--paper-faint", "--ink", 4.5], ["--paper-faint", "--ink-2", 4.5],
-  ["--amber", "--ink", 4.5], ["--amber", "--ink-2", 4.5],
+  ["--paper-faint", "--ink", 4.5], ["--paper-faint", "--ink-2", 4.5], ["--paper-faint", "--ink-3", 4.5],
+  ["--amber", "--ink", 4.5], ["--amber", "--ink-2", 4.5], ["--amber", "--ink-3", 4.5],
   ["--on-amber", "--amber-fill", 4.5], ["--on-amber", "--amber-fill-hover", 4.5],
   ["--mint", "--ink-2", 4.5], ["--error-text", "--ink", 4.5], ["--error-text", "--ink-2", 4.5],
   ["--paper", "--c-footer-bg", 4.5], ["--paper-dim", "--c-footer-bg", 4.5],

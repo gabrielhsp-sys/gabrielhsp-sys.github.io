@@ -278,13 +278,15 @@ terminal, busca ou animação de entrada (essas camadas ficam em `/sobre/` e `/p
   pergunta frequente, demonstração), 999 px na pílula (chip de ramo, botão fixo de WhatsApp).
 - **Cores de função, fora da paleta e registradas:** `#1f7a4d` é o verde do WhatsApp (botão fixo e
   "Enviar pelo WhatsApp", texto branco 5,3:1), `#18663f` o hover dele; o erro usa o `#f09c8d` já
-  registrado; o rodapé usa `#0a0908`, o mesmo preto do trilho; a conversa simulada do robô usa as
+  registrado; o rodapé usa `#0a0908`, o mesmo preto do trilho; a conversa simulada do bot usa as
   cores do Telegram (`#0f1a22`, `#213547`, `#2b5278`, texto `#eef4f8`), só dentro da demonstração.
 - **Selos "Projeto real" e "Demonstração":** neutros (marfim, borda `hardware-line`), porque âmbar é
   ação e menta é o estado "No ar" (ADR-018); a demonstração tem borda tracejada.
 - **Marca:** `public/marca/` (derivada de `assets-src/marca/logo.png` por `npm run marca`); no
-  cabeçalho, o logo horizontal com 32 px de altura (22 px no celular, só o símbolo abaixo de 360 px);
-  favicon = só o símbolo.
+  cabeçalho, o logo horizontal com 32 px de altura no desktop. No celular (até 860 px) a linha do
+  cabeçalho não quebra: o logo encolhe até 180 px de largura (148 px abaixo de 520 px) e, com 100 px
+  ou menos de espaço (320 px de tela, ou fonte do sistema aumentada), vira só o símbolo (consulta de
+  container). Favicon = só o símbolo.
 - **Tema claro e escuro (2026-11-20):** o claro é o padrão na primeira visita, independente do
   sistema; o escuro fica a um toque (ícone de lua no cabeçalho no desktop, "Tema escuro" com chave
   dentro do Menu no celular). A escolha fica em `localStorage` (`gsys:tema`); um script inline no
@@ -303,7 +305,13 @@ terminal, busca ou animação de entrada (essas camadas ficam em `/sobre/` e `/p
   com o aparelho cortado embaixo. Toda imagem tem alt, largura e altura; o que está na primeira dobra
   do desktop carrega cedo, o resto é lazy. Só o próprio trabalho: os 7 demos, as demonstrações e o
   bot; o Carona 70, sem print com dados de exemplo, aparece em texto, e o serviço "Aplicativos" usa
-  uma ilustração em SVG.
+  uma ilustração em SVG, com o selo "Ilustração". Cores das molduras, fixas nos dois temas (é o
+  aparelho, não a página): corpo `#201d19` (escuro) / `#2a2621` (claro), aro `#39342d` / `#4b453c`,
+  pontos da barra `#6b6459`, campo do endereço `#3a352f` com texto `#d9d1bf`, base do notebook
+  `#4b453c`→`#2a2621` e encaixe `#1a1714`; o quadro do vídeo do Telegram Offers fica sobre o preto
+  quente `#0c0b0a`. Raios das molduras: 12 px na janela; celular 30/23 px, 22/17 px na faixa dos sete
+  sites e 18/14 px no cartão compacto do celular (a mesma moldura reduzida). O número dos passos é
+  um nó neutro de 44 px com raio de controle (8 px), não um botão: âmbar continua sendo só ação.
 - **WhatsApp fixo:** canto inferior direito, com texto "WhatsApp"; sai da frente quando um campo
   recebe foco; não existe no `/orcamento/`, onde vira o link "Prefiro conversar direto no WhatsApp".
 

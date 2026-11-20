@@ -94,9 +94,41 @@ translation: width/height em toda <img>, eager + fetchpriority só no hero, colo
 license_checked: não se aplica (diretrizes).
 ```
 
-**Lacuna:** a busca por mais um prestador de serviço local com prints de trabalho em moldura não
-devolveu nenhum site real verificável (só páginas de marketplace). Em vez de inventar uma
-referência, ficam as duas de mecanismo e a de fluxo acima.
+Prestadores de serviço locais (acrescentados depois da revisão de Spec, que apontou que as fichas
+acima não eram de prestador local):
+
+```yaml
+reference: https://alvaron.com.br/ (desenvolvedor web freelancer, Brasil)
+type: visual + fluxo
+lido: 2026-11-20, pelo HTML
+use: >
+  Portfólio em cartões com o print da página (paisagem) e uma linha só: o tipo de site e a cidade.
+  O print carrega o trabalho; o texto é etiqueta.
+avoid: >
+  Slider de banners na home, "Estabelecido desde 2012", prazos e porcentagens em destaque, dado de
+  mercado ("80% dos consumidores…") como argumento, seção de depoimento.
+translation: >
+  Na grade de /exemplos/, o texto embaixo do print dos sites ficou só com o ramo; a cidade não entra
+  porque os negócios dos demos são inventados.
+license_checked: não se aplica: só o princípio; nada copiado.
+```
+
+```yaml
+reference: https://goappyds.com/desenvolvedor-web-freelancer/ (estúdio de apps, sites e sistemas)
+type: fluxo
+lido: 2026-11-20, pelo HTML
+use: >
+  "Como funciona" em quatro passos numerados, cada um com um título curto e quase nada de
+  descrição; botão de orçamento repetido e WhatsApp com mensagem pronta no fim. Cartão de caso com
+  "Quero um projeto semelhante".
+avoid: >
+  Avaliações "verificadas" e contagens; carrossel "deslize para ver mais"; tags de tecnologia nos
+  cartões (o público do Gabriel não lê stack).
+translation: >
+  Os quatro passos do GABRIEL.SYS ficaram com até 14 palavras cada (teste P4). O "projeto
+  semelhante" já existe como "Pedir orçamento de site/bot…" nas páginas de exemplo.
+license_checked: não se aplica: só o princípio; nada copiado.
+```
 
 ## O que será diferente das referências
 

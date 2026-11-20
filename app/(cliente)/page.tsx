@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRightIcon as ArrowRight, ArrowUpRightIcon as ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
-import { Ctas, MolduraCaptura, ServicoImagem, Steps } from "@/components/cliente-ui";
-import { Captura, Celular, type CapturaNome } from "@/components/molduras";
+import { Ctas, ServicoImagem, Steps } from "@/components/cliente-ui";
+import { Captura, Celular, MolduraCaptura, type CapturaNome } from "@/components/molduras";
 import { StructuredData } from "@/components/structured-data";
 import { ATENDIMENTO } from "@/lib/contato";
 import { demoHref, demosSites, ramos } from "@/lib/exemplos";
@@ -20,19 +20,19 @@ export default function Inicio() {
           <Ctas orcamento="/orcamento/?origem=inicio" />
           <p className="c-note">{ATENDIMENTO.frase} {ATENDIMENTO.resposta}</p>
         </div>
-        {/* So o print do navegador tem prioridade de rede: e o LCP no celular.
+        {/* So o print do notebook tem prioridade de rede: e o LCP no celular.
             Composicao de prints reais: um site de exemplo no notebook, outro no
             celular e a conversa do bot. Rotulo "Demonstracao" na legenda. */}
         <figure className="c-vitrine">
           <div className="c-vitrine-notebook">
-            <MolduraCaptura moldura="navegador" captura="site-loja-desktop" sizes="(min-width: 1100px) 520px, 84vw" prioridade />
+            <MolduraCaptura moldura="notebook" captura="site-loja-desktop" sizes="(min-width: 1100px) 520px, 84vw" prioridade />
           </div>
           <div className="c-vitrine-celular">
-            <MolduraCaptura moldura="celular" captura="site-alimentacao-celular" sizes="(min-width: 1100px) 190px, 30vw" cedo />
+            <MolduraCaptura moldura="celular" captura="site-alimentacao-celular" sizes="(min-width: 1100px) 190px, 30vw" />
           </div>
           <div className="c-vitrine-bot">
             {/* Abaixo de 1000 px a conversa sai da composicao (cliente.css): nem baixa. */}
-            <MolduraCaptura moldura="conversa" captura="bot-conversa" sizes="170px" cedo aPartirDe={1000} />
+            <MolduraCaptura moldura="conversa" captura="bot-conversa" sizes="170px" aPartirDe={1000} />
           </div>
           <figcaption>
             <span className="c-badge" data-kind="demo">Demonstração</span>
@@ -44,10 +44,10 @@ export default function Inicio() {
       <section className="c-section" aria-labelledby="faco-titulo">
         <h2 id="faco-titulo">O que eu faço</h2>
         <ul className="c-service-grid">
-          {servicos.map((s, i) => (
+          {servicos.map((s) => (
             <li key={s.slug}>
               <Link href={`/servicos/${s.slug}/`} className="c-service-tile">
-                <ServicoImagem servico={s} sizes={{ navegador: "(max-width: 520px) 140px, 320px", celular: "(max-width: 520px) 110px, 190px" }} cedo={i < 3} />
+                <ServicoImagem servico={s} sizes={{ navegador: "(max-width: 520px) 140px, 320px", celular: "(max-width: 520px) 110px, 190px" }} />
                 <strong>{s.nome} <ArrowRight className="c-tile-arrow" size={20} aria-hidden="true" /></strong>
                 <span>{s.resumo}</span>
               </Link>
