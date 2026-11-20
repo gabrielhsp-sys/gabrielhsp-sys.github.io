@@ -4,7 +4,7 @@
 //   respostas      JSON com as respostas de texto
 //   <campo>        arquivos, só nos campos de CAMPOS_ARQUIVO
 // Grava no R2 privado (binding MATERIAL_BUCKET) sob o prefixo do cliente, num
-// "envio" novo a cada POST. Não há rota de leitura nem de listagem.
+// "envio" novo a cada POST, e devolve o prefixo do envio (recibo). Não há rota de leitura nem de listagem.
 import { CLIENTE, LIMITES, tipoPermitido } from "../../../lib/material.ts";
 import { ATRASO_RECUSA_MS, type Contexto, type Dependencias, PADRAO, autorizar, origemValida, resposta, usoDoCliente } from "../../../lib/material-function.ts";
 
@@ -101,7 +101,9 @@ export const criarEnviar = (deps: Dependencias = PADRAO) => async ({ request, en
   await env.MATERIAL_BUCKET.put(`${envio}/respostas.json`, JSON.stringify({ cliente, recebidoEm: new Date().toISOString(), respostas, arquivos: prontos.map((p) => p.chave) }, null, 2), {
     httpMetadata: { contentType: "application/json; charset=utf-8" },
   });
-  return resposta(201, { ok: true, arquivos: prontos.length });
+  // `envio` é o recibo: o prefixo deste envio no bucket. Não abre nada (não há rota de leitura);
+  // serve para o Gabriel achar e, num teste, apagar exatamente o que foi gravado.
+  return resposta(201, { ok: true, arquivos: prontos.length, envio });
 };
 
 export const onRequestPost = criarEnviar();

@@ -146,6 +146,9 @@ test("enviar: with the right code the PNG and the answers land under the client'
   assert.ok(chaves.some((k) => /^ana\/[^/]+\/logo-1\.png$/.test(k)), chaves.join(", "));
   assert.ok(chaves.some((k) => /^ana\/[^/]+\/respostas\.json$/.test(k)), chaves.join(", "));
   assert.equal(r.headers.get("cache-control"), "no-store");
+  const { envio } = await r.json();
+  assert.match(envio ?? "", /^ana\/[^/]+$/, "o 201 devolve o envio como recibo");
+  assert.ok(chaves.every((k) => k.startsWith(`${envio}/`)), "todas as chaves do envio ficam sob o recibo");
 });
 
 test("enviar: a wrong, foreign, revoked or expired code gets 403 after the fixed wait and writes nothing", async () => {
