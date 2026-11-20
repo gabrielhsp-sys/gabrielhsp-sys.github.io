@@ -8,7 +8,12 @@ export default defineConfig({
   testDir: "tests/e2e",
   fullyParallel: true,
   reporter: "list",
-  use: { baseURL: "http://127.0.0.1:4173" },
+  // PW_CHROMIUM_PATH: um Chromium ja presente na maquina, quando o do cache do
+  // Playwright for de outra versao (nada e baixado por este arquivo).
+  use: {
+    baseURL: "http://127.0.0.1:4173",
+    launchOptions: process.env.PW_CHROMIUM_PATH ? { executablePath: process.env.PW_CHROMIUM_PATH } : {},
+  },
   webServer: {
     command: "node scripts/serve-out.mjs out 4173",
     url: "http://127.0.0.1:4173/",

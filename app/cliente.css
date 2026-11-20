@@ -201,3 +201,59 @@ html[data-typing="true"] .c-whats-fixo { opacity: 0; transform: translateY(140%)
 @media (prefers-reduced-motion: reduce) {
   .c-whats-fixo, .c-cta, .c-button { transition: none; }
 }
+
+/* ── /orcamento/ ── */
+.o-form { max-width: 44rem; }
+.o-progress { display: grid; gap: 8px; margin: 0 0 8px; color: var(--paper-dim); font-family: var(--mono); font-size: .9375rem; font-weight: 600; }
+.o-progress-bar { display: block; height: 6px; overflow: hidden; border-radius: 3px; background: var(--ink-3); }
+.o-progress-bar i { display: block; height: 100%; background: var(--amber); transition: width .3s var(--ease-out); }
+.o-back { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin: 4px 0; padding: 0; border: 0; background: none; color: var(--amber); font-weight: 600; cursor: pointer; }
+.o-step { margin-top: 12px; }
+.o-title { margin: 8px 0 12px; font-weight: 700; font-size: clamp(1.6rem, 3.2vw, 2.2rem); line-height: 1.15; }
+.o-title:focus { outline: none; }
+.o-title:focus-visible { outline: 2px solid var(--amber); outline-offset: 6px; }
+.o-hint { margin: 0 0 14px; color: var(--paper-dim); font-size: 1rem; }
+.o-hint a, .o-direct a { color: var(--amber); }
+.o-field { margin: 0 0 28px; padding: 0; border: 0; min-width: 0; }
+.o-field:focus { outline: none; }
+.o-field legend, .o-field > label { display: block; margin: 0 0 10px; padding: 0; font-size: 1.15rem; font-weight: 650; }
+.o-optional { color: var(--paper-dim); font-weight: 400; }
+.o-field input[type="text"], .o-field textarea {
+  width: 100%;
+  min-height: 52px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--ink-2);
+  color: var(--paper);
+  font: inherit;
+  font-size: 1.0625rem;
+}
+.o-field textarea { resize: vertical; }
+.o-field input:focus-visible, .o-field textarea:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; border-color: var(--amber); }
+.o-field[data-invalid] input[type="text"], .o-field[data-invalid] textarea { border-color: var(--red); }
+.o-error { margin: 0 0 10px; color: #f5a090; font-weight: 600; }
+.o-options { display: grid; gap: 10px; }
+.o-option { position: relative; display: grid; grid-template-columns: 24px 1fr; align-items: start; gap: 14px; min-height: 56px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--ink-2); cursor: pointer; }
+.o-option input { width: 22px; height: 22px; margin: 2px 0 0; accent-color: var(--amber); }
+.o-option strong { display: block; font-weight: 600; }
+.o-option small { display: block; color: var(--paper-dim); font-size: .975rem; }
+.o-option:has(input:checked) { border-color: var(--amber); background: rgb(240 171 60 / .08); }
+.o-option:has(input:focus-visible) { outline: 2px solid var(--amber); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { .o-option:hover { border-color: var(--paper-faint); } }
+.o-field[data-invalid] .o-option { border-color: var(--red); }
+.o-next { margin-top: 4px; }
+.o-error-summary { margin: 12px 0 20px; padding: 16px 20px; border: 2px solid var(--red); border-radius: 10px; background: rgb(240 120 99 / .08); }
+.o-error-summary:focus { outline: 2px solid var(--amber); outline-offset: 3px; }
+.o-error-summary h2 { margin: 0 0 8px; font-size: 1.2rem; }
+.o-error-summary ul { margin: 0; padding-left: 1.2em; }
+.o-error-summary a { color: #f5a090; font-weight: 600; }
+.o-message { margin: 0 0 18px; padding: 18px; overflow-x: auto; border: 1px solid var(--line-soft); border-radius: 10px; background: var(--ink-2); color: var(--paper); font-family: var(--mono); font-size: .95rem; line-height: 1.55; white-space: pre-wrap; word-break: break-word; }
+.o-change { display: grid; gap: 4px; margin: 0 0 8px; padding: 0; list-style: none; }
+.o-change li { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 48px; border-bottom: 1px solid var(--line-faint); color: var(--paper-dim); }
+.o-change button { min-height: 44px; padding: 0 12px; border: 1px solid var(--line); border-radius: 8px; background: transparent; color: var(--paper); font-weight: 600; cursor: pointer; }
+.o-send { background: #1f7a4d; border-color: #1f7a4d; color: #fff; }
+@media (hover: hover) and (pointer: fine) { .o-send:hover { background: #18663f; border-color: #18663f; } }
+.o-direct { margin: 32px 0 0; padding-top: 20px; border-top: 1px solid var(--line-soft); }
+.o-direct a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-weight: 600; }
+@media (prefers-reduced-motion: reduce) { .o-progress-bar i { transition: none; } }

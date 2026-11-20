@@ -1,42 +1,45 @@
 import type { Metadata } from "next";
+import { WHATSAPP_EXIBICAO } from "@/lib/contato";
+import { whatsappContato } from "@/lib/contato-links";
 import { site } from "@/lib/site";
-import { BriefingForm } from "./briefing-form";
+import { OrcamentoForm } from "./orcamento-form";
 
-/* Pagina so para quem recebe o link: fora do menu, da busca global e do
-   sitemap, e sem indexacao. A busca le content/public e o sitemap lista rotas
-   por nome, entao basta nao cadastra-la em nenhum dos dois. */
+/* Formulario de orcamento: fora do sitemap e da busca, sem indexacao (o link
+   circula no Instagram e no WhatsApp). A primeira pergunta e "O que voce
+   precisa?" e a resposta termina no WhatsApp Business com a mensagem pronta. */
 export const metadata: Metadata = {
-  title: "Briefing de projeto",
-  description: "Perguntas para entender o seu projeto: site, automação, sistema ou outra ideia com tecnologia.",
+  title: "Pedir orçamento",
+  description: "Algumas perguntas rápidas sobre o que você precisa. No fim, a mensagem sai pronta no meu WhatsApp.",
   alternates: { canonical: "/orcamento/" },
   robots: { index: false, follow: false, googleBot: { index: false, follow: false } },
-  // O link circula no WhatsApp: a previa precisa da imagem, e o openGraph da
-  // pagina substitui o do layout inteiro, sem mesclar.
+  // O openGraph da pagina substitui o do layout inteiro, sem mesclar.
   openGraph: {
     type: "website",
     locale: "pt_BR",
     url: "/orcamento/",
     siteName: site.name,
+    title: `Pedir orçamento — ${site.name}`,
     images: [{ url: "/og.png", width: 1200, height: 630, alt: site.name }],
   },
 };
 
-export default function BriefingPage() {
+export default function OrcamentoPage() {
   return (
-    <main id="conteudo" className="inner-page">
-      <header className="page-intro">
-        <h1>Vamos entender o seu projeto.</h1>
-        <p>
-          Serve para site, automação, sistema ou qualquer ideia que envolva tecnologia. Leva uns 10 minutos.
-          Não sabe responder alguma coisa? “Não sei” é uma resposta válida.
+    <main id="conteudo" className="c-page o-page">
+      <header className="c-hero c-hero-compact">
+        <h1>Pedir orçamento.</h1>
+        <p className="c-lede">
+          Umas perguntas rápidas, uns 2 minutos. No fim, a mensagem sai pronta no meu WhatsApp e eu respondo
+          em até 24 horas. Não sabe responder alguma coisa? Escolha “Não sei” ou deixe para a conversa.
         </p>
       </header>
       <noscript>
-        <p className="page-intro">
-          Este formulário precisa de JavaScript ligado. Se preferir, escreva para {site.email}.
+        <p className="o-hint">
+          Este formulário precisa de JavaScript. Se preferir, fale direto no WhatsApp {WHATSAPP_EXIBICAO}:{" "}
+          <a href={whatsappContato}>abrir conversa</a>.
         </p>
       </noscript>
-      <BriefingForm />
+      <OrcamentoForm />
     </main>
   );
 }
