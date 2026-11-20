@@ -327,7 +327,7 @@ html[data-typing="true"] .c-whats-fixo { opacity: 0; transform: translateY(140%)
 
 /* Celular (pedido de 2026-11-20): logo, "Orcamento" e "Menu" SEMPRE na mesma
    linha, de 320 a 414 px e com a fonte do sistema maior. A linha nao quebra; quem
-   cede espaco e o logo, que encolhe e, abaixo de 120 px de espaco, vira so o
+   cede espaco e o logo, que encolhe e, com 100 px ou menos de espaco, vira so o
    simbolo (consulta de container: vale tambem para fonte aumentada no Android).
    O Menu abre como painel embaixo do cabecalho, sem empurrar a linha. */
 @media (max-width: 860px) {
@@ -372,7 +372,7 @@ html[data-typing="true"] .c-whats-fixo { opacity: 0; transform: translateY(140%)
 
 /* Pouco espaco para o logo (320 px, ou fonte grande): fica so o simbolo da marca
    (o nome segue no rodape e no nome acessivel do link). */
-@container (max-width: 119px) {
+@container (max-width: 100px) {
   .c-brand .c-brand-full { display: none !important; }
   .c-brand .c-brand-symbol { display: block; width: auto; height: 26px; }
 }
@@ -499,3 +499,19 @@ html[data-typing="true"] .c-whats-fixo { opacity: 0; transform: translateY(140%)
 .f-celular[data-tom="conversa"] .f-celular-tela { padding-top: 34px; background: #0f1a22; }
 .f-celular[data-tom="conversa"] .f-shot img { object-fit: contain; object-position: top center; }
 .f-ilustracao { display: block; width: 100%; height: 100%; }
+
+/* Celular: os cinco servicos do inicio em linhas compactas, imagem ao lado do
+   texto. Em coluna, cada cartao tinha ~340 px e a lista passava de 1.700 px. */
+@media (max-width: 520px) {
+  .c-service-tile { display: grid; grid-template-columns: minmax(0, 40%) minmax(0, 1fr); grid-template-rows: auto 1fr; align-items: start; gap: 4px 14px; padding: 8px; }
+  .c-service-tile .c-visual { grid-row: 1 / span 2; height: 150px; margin: 0; padding-top: 12px; }
+  .c-service-tile .c-visual .f-celular { width: 72%; padding: 4px; border-radius: 18px; }
+  .c-service-tile .c-visual .f-celular-tela { border-radius: 14px; }
+  .c-service-tile .c-visual .f-celular-tela::before { top: 5px; height: 8px; }
+  .c-service-tile .c-visual .f-navegador { width: 94%; }
+  .c-service-tile .c-visual .f-navegador-barra { height: 18px; gap: 4px; padding: 0 6px; }
+  .c-service-tile .c-visual .f-navegador-barra i { width: 6px; height: 6px; }
+  .c-service-tile .c-visual .f-navegador-barra span { display: none; }
+  .c-service-tile strong { padding: 6px 0 0; font-size: 1.15rem; }
+  .c-service-tile > span { padding: 0; font-size: .975rem; }
+}
