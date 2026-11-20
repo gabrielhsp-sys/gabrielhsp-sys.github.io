@@ -1,19 +1,25 @@
+// URL pública do site: a ÚNICA fonte. Next (metadata, sitemap, feed), demos Astro
+// (exemplos-sites/astro.config.mjs) e o gerador de links do /material/ leem daqui.
+// Este módulo não importa nada: o Node o lê direto nos scripts e testes.
+// PENDENTE DE COMPRA: o domínio gabrielsys.com.br ainda não foi registrado
+// (decisão 9 do prompt de 2026-11-19). Até a compra, nenhum link absoluto deste
+// domínio funciona fora da prévia local.
+export const SITE_URL = "https://gabrielsys.com.br";
+
 export const site = {
   name: "GABRIEL.SYS",
   owner: "Gabriel Henrique",
-  title: "Gabriel Henrique — software, automação e interfaces",
+  title: "GABRIEL.SYS — sites, aplicativos e robôs para o seu negócio",
   description:
-    "Gabriel Henrique constrói serviços que rodam sozinhos, sistemas com arquitetura e teste, e interfaces web rápidas. Projetos, estudos de caso e contato.",
-  url: "https://gabrielhsp-sys.github.io",
+    "Sites, aplicativos, robôs no Telegram, automações e sistemas sob encomenda para o seu negócio. Areado-MG, atendo online em todo o Brasil.",
+  url: SITE_URL,
   github: "https://github.com/gabrielhsp-sys",
   linkedin: "https://www.linkedin.com/in/gabrielhsp-dev/",
   email: "gabrielhspereira36@gmail.com",
 } as const;
 
-// Destino das respostas do briefing em /orcamento, so em digitos (formato do
-// wa.me). Fica fora de `site` porque nao e contato publico do portfolio, que
-// continua sendo so o e-mail: nenhuma pagina alem do briefing o mostra.
-export const briefingWhatsapp = "5535998840168";
+// O WhatsApp de cliente mora em lib/contato.ts (so o Business). O e-mail acima
+// e o contato da area do recrutador.
 
 // As areas usam a lingua de quem contrata. O prefixo em mono e decoracao ao
 // lado do nome legivel, nunca o rotulo principal.

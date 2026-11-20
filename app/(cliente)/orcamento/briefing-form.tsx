@@ -11,7 +11,8 @@ import {
 } from "@phosphor-icons/react";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { usePersonality } from "@/components/personality";
-import { briefingWhatsapp, site } from "@/lib/site";
+import { WHATSAPP as briefingWhatsapp } from "@/lib/contato";
+import { site } from "@/lib/site";
 import styles from "./briefing.module.css";
 import {
   type Answers,

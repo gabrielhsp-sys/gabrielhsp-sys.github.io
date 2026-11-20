@@ -1,47 +1,43 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRightIcon as ArrowRight } from "@phosphor-icons/react/dist/ssr";
-import { SearchShortcut } from "@/components/shortcut-key";
+import { ClientChrome } from "@/components/client-chrome";
 
-// O Next ja marca esta rota como noindex; aqui so o titulo da aba.
+// O Next ja marca esta rota como noindex; aqui so o titulo da aba. O 404 e de
+// todo o site: usa o chrome de cliente, com o WhatsApp fixo.
 export const metadata: Metadata = {
-  title: "command not found",
+  title: "Página não encontrada",
 };
 
 const suggestions = [
-  { href: "/", label: "início", hint: "quem eu sou e o que eu faço" },
-  { href: "/archive/", label: "projetos", hint: "a lista completa, filtrável" },
-  { href: "/about/", label: "sobre", hint: "a história mais longa" },
-  { href: "/#contato", label: "contato", hint: "e-mail, GitHub e LinkedIn" },
+  { href: "/", label: "Início", hint: "o que eu faço e como pedir" },
+  { href: "/servicos/", label: "Serviços", hint: "sites, aplicativos, robôs, automações e sistemas" },
+  { href: "/exemplos/", label: "Exemplos", hint: "veja antes de pedir" },
+  { href: "/orcamento/", label: "Pedir orçamento", hint: "algumas perguntas e a mensagem pronta no WhatsApp" },
+  { href: "/sobre/", label: "Sobre e projetos", hint: "para recrutadores" },
 ];
 
 export default function NotFound() {
   return (
-    <main id="conteudo" className="not-found">
-      <div className="not-found-screen">
-        <p className="not-found-line">
-          <b>guest@gabriel.sys:~$</b> cd essa-pagina
-        </p>
-        {/* O titulo da pagina: a piada fica na tela, o fato vai junto para o leitor de tela. */}
-        <h1 className="not-found-error"><span className="sr-only">Página não encontrada. </span>bash: essa-pagina: command not found</h1>
-        <p className="not-found-hint">
-          A rota pode ter mudado de nome ou nunca ter sido publicada. Estes caminhos existem:
-        </p>
-        <ul className="not-found-list">
+    <ClientChrome>
+      <main id="conteudo" className="c-page">
+        <header className="c-hero c-hero-compact">
+          <p className="c-kicker" aria-hidden="true">erro 404</p>
+          <h1>Esta página não existe.</h1>
+          <p className="c-lede">O endereço pode ter mudado. Estes caminhos existem:</p>
+        </header>
+        <ul className="c-service-list">
           {suggestions.map((item) => (
             <li key={item.href}>
               <Link href={item.href}>
-                <code>{item.label}</code>
+                <strong>{item.label}</strong>
                 <span>{item.hint}</span>
-                <ArrowRight size={16} aria-hidden="true" />
+                <ArrowRight size={20} aria-hidden="true" />
               </Link>
             </li>
           ))}
         </ul>
-        <p className="not-found-tip">
-          Dica: aperte <kbd>`</kbd> em qualquer página para abrir o terminal, ou <SearchShortcut /> para buscar.
-        </p>
-      </div>
-    </main>
+      </main>
+    </ClientChrome>
   );
 }

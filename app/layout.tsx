@@ -1,10 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import "./cliente.css";
 import { display, mono } from "./fonts";
 import { PersonalityProvider } from "@/components/personality";
-import { SystemChrome } from "@/components/system-chrome";
-import { getLatestUpdate } from "@/lib/content";
-import { formatDate } from "@/lib/format";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -20,13 +18,13 @@ export const metadata: Metadata = {
     siteName: site.name,
     title: site.title,
     description: site.description,
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: `${site.name} — projetos` }],
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: `${site.name}: sites, aplicativos e robôs para o seu negócio` }],
   },
   twitter: {
     card: "summary_large_image",
     title: site.title,
     description: site.description,
-    images: [{ url: "/og.png", alt: `${site.name} — projetos` }],
+    images: [{ url: "/og.png", alt: `${site.name}: sites, aplicativos e robôs para o seu negócio` }],
   },
 };
 
@@ -39,8 +37,6 @@ export const viewport: Viewport = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  // O estado da barra superior e um fato do conteudo, nao um relogio.
-  const updated = getLatestUpdate();
   return (
     // Extensoes que reescrevem a pagina antes da hidratacao (Dark Reader e
     // companhia) injetam atributos no <html>. O aviso e delas, nao do site;
@@ -49,9 +45,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <a className="skip-link" href="#conteudo">Pular para o conteúdo</a>
         <PersonalityProvider>
-          <SystemChrome updated={{ iso: updated.toISOString().slice(0, 10), label: formatDate(updated) }}>
-            {children}
-          </SystemChrome>
+          {/* Cada grupo de rotas traz o seu chrome: (cliente), (recrutador), (nu). */}
+          {children}
         </PersonalityProvider>
       </body>
     </html>

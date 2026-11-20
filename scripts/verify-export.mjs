@@ -13,25 +13,26 @@ const items = fs
 
 // Uma area so existe no site exportado se carregar pelo menos um registro.
 const used = new Set(items.map((item) => item.area));
-// Só diretórios são áreas; /area/icon.svg é o favicon do segmento.
-const exported = fs.existsSync(path.join(out, "area"))
+// Só diretórios são áreas; /projetos/area/icon.svg é o favicon do segmento.
+const areaDir = path.join(out, "projetos", "area");
+const exported = fs.existsSync(areaDir)
   ? fs
-      .readdirSync(path.join(out, "area"), { withFileTypes: true })
+      .readdirSync(areaDir, { withFileTypes: true })
       .filter((entry) => entry.isDirectory())
       .map((entry) => entry.name)
   : [];
 
 for (const slug of exported) {
-  if (!used.has(slug)) errors.push(`/area/${slug} nao tem registro publico`);
+  if (!used.has(slug)) errors.push(`/projetos/area/${slug} nao tem registro publico`);
 }
 for (const area of used) {
-  if (!exported.includes(area)) errors.push(`/area/${area} faltando`);
+  if (!exported.includes(area)) errors.push(`/projetos/area/${area} faltando`);
 }
 
 // Nada privado ou nao publicado pode ter virado pagina.
 for (const item of items) {
   if (item.visibility !== "public") errors.push(`${item.id}: visibility diferente de public`);
-  if (!fs.existsSync(path.join(out, "projects", item.id, "index.html"))) {
+  if (!fs.existsSync(path.join(out, "projetos", item.id, "index.html"))) {
     errors.push(`${item.id}: pagina ausente na exportacao`);
   }
 }
@@ -41,13 +42,14 @@ for (const item of items) {
 // sem imagem (auditoria 2026-10, achado 1). Projeto usa o proprio cartao.
 const pageOf = (route) => fs.readFileSync(path.join(out, route, "index.html"), "utf8");
 const ogImage = (html) => html.match(/<meta property="og:image" content="([^"]+)"/)?.[1];
-for (const route of ["", "archive", "about", ...[...used].map((area) => `area/${area}`)]) {
+const clientRoutes = ["", "servicos", "servicos/sites", "exemplos", "exemplos/sites", "como-funciona"];
+for (const route of [...clientRoutes, "projetos", "sobre", ...[...used].map((area) => `projetos/area/${area}`)]) {
   const image = ogImage(pageOf(route));
   if (!image) errors.push(`/${route}: og:image ausente`);
   else if (!fs.existsSync(path.join(out, new URL(image).pathname))) errors.push(`/${route}: ${image} nao foi exportada`);
 }
 for (const item of items) {
-  const html = pageOf(path.join("projects", item.id));
+  const html = pageOf(path.join("projetos", item.id));
   const image = ogImage(html);
   if (!image?.endsWith(`/og/${item.id}.png`)) errors.push(`${item.id}: og:image nao e o cartao do projeto`);
   else if (!fs.existsSync(path.join(out, "og", `${item.id}.png`))) errors.push(`${item.id}: cartao og ausente`);
@@ -59,7 +61,7 @@ for (const item of items) {
 // Indice do estudo de caso: todo link "nesta pagina" aponta para um <h2> que
 // existe com aquele id no HTML exportado (os dois saem de lib/headings.ts).
 for (const item of items) {
-  const html = pageOf(path.join("projects", item.id));
+  const html = pageOf(path.join("projetos", item.id));
   const toc = html.match(/<nav class="page-toc"[\s\S]*?<\/nav>/)?.[0];
   if (!toc) continue;
   for (const [, id] of toc.matchAll(/href="#([^"]+)"/g)) {
@@ -78,18 +80,18 @@ for (const item of items) {
   // O player e montado so no cliente (components/case-video-lazy.tsx); no HTML
   // fica o espaco reservado. Os atributos do <video> sao conferidos em
   // tests/case-video.test.mjs, direto no codigo do componente.
-  if (!pageOf(path.join("projects", item.id)).includes("case-video-placeholder")) errors.push(`${item.id}: espaco do video ausente`);
+  if (!pageOf(path.join("projetos", item.id)).includes("case-video-placeholder")) errors.push(`${item.id}: espaco do video ausente`);
 }
 
-// A home mostra os destaques em cards; a secao #arquivo lista so o que nao e
-// destaque, para nenhum projeto aparecer duas vezes (auditoria visual, item 4).
-const home = fs.readFileSync(path.join(out, "index.html"), "utf8");
+// /sobre/ (a antiga home do portfolio) mostra os destaques em cards; a secao
+// #arquivo lista so o que nao e destaque (auditoria visual, item 4).
+const home = fs.readFileSync(path.join(out, "sobre", "index.html"), "utf8");
 const archiveSection = home.match(/<section[^>]*id="arquivo"[^>]*>[\s\S]*?<\/section>/);
 if (!archiveSection) {
   if (items.some((item) => !item.featured)) errors.push("home: secao #arquivo ausente");
 } else {
   const listed = new Set(
-    [...archiveSection[0].matchAll(/href="\/projects\/([^/"]+)\/?"/g)].map((match) => match[1]),
+    [...archiveSection[0].matchAll(/href="\/projetos\/([^/"]+)\/?"/g)].map((match) => match[1]),
   );
   for (const item of items) {
     if (item.featured && listed.has(item.id)) errors.push(`home #arquivo: ${item.id} repete um destaque`);
@@ -97,14 +99,20 @@ if (!archiveSection) {
   }
 }
 
-// /orcamento circula so por link: sem indexacao, fora do sitemap e da busca, e
-// sem o menu do site, que tirava a pessoa do formulario sem volta.
+// /orcamento: sem indexacao, fora do sitemap e da busca. Tem o cabecalho de
+// cliente (caminho de volta, PLANO achado 10), nunca o trilho, a busca ou o
+// terminal da area do recrutador (decisao 8 de 2026-11-19).
 const briefing = fs.readFileSync(path.join(out, "orcamento", "index.html"), "utf8");
 if (!/<meta name="robots" content="noindex, nofollow"/.test(briefing)) errors.push("/orcamento: noindex ausente");
-for (const [label, marker] of [["trilho", 'class="system-rail"'], ["dock", 'class="mobile-dock"'], ["busca", 'class="search-trigger"'], ["rodape", 'class="site-footer"']]) {
-  if (briefing.includes(marker)) errors.push(`/orcamento: ${label} do site presente`);
+const recruiterMarkers = [["trilho", 'class="system-rail"'], ["dock", 'class="mobile-dock"'], ["busca", 'class="search-trigger"'], ["rodape tecnico", 'class="site-footer"']];
+for (const route of [...clientRoutes, "orcamento"]) {
+  const html = pageOf(route);
+  for (const [label, marker] of recruiterMarkers) {
+    if (html.includes(marker)) errors.push(`/${route}: ${label} da area do recrutador presente`);
+  }
+  if (!html.includes('class="c-header"')) errors.push(`/${route}: cabecalho de cliente ausente`);
 }
-if (!home.includes('class="system-rail"')) errors.push("home: trilho do site ausente");
+if (!home.includes('class="system-rail"')) errors.push("/sobre: trilho da area do recrutador ausente");
 for (const file of ["sitemap.xml", "search-index.json"]) {
   if (fs.readFileSync(path.join(out, file), "utf8").includes("orcamento")) errors.push(`${file}: lista /orcamento`);
 }
