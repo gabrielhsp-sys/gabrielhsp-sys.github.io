@@ -1,5 +1,8 @@
 import { expect, test } from "@playwright/test";
 
+// Desde 2026-11-19 o hero tecnico e a abertura de /sobre/ (area do recrutador);
+// a home "/" e o site de servico. As regras deste arquivo seguem valendo ali.
+
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => sessionStorage.setItem("gsys:booted", "1"));
 });
@@ -7,7 +10,7 @@ test.beforeEach(async ({ page }) => {
 // P1 revertido (2026-10-09): o hero volta a ser como no site publicado, sem o
 // e-mail entre os botoes e a dica do terminal. O e-mail fica no "Contato".
 test("the hero goes from the actions straight to the terminal hint", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/sobre/");
   const next = await page.locator(".hero-actions").evaluate((el) => el.nextElementSibling?.className);
   expect(next).toBe("hero-hint");
   await expect(page.locator(".hero").getByText("gabrielhspereira36@gmail.com")).toHaveCount(0);
@@ -16,7 +19,7 @@ test("the hero goes from the actions straight to the terminal hint", async ({ pa
 test.describe("on a phone", () => {
   test.use({ viewport: { width: 390, height: 844 } });
   test("the case study index leaves the hero", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/sobre/");
     await expect(page.locator(".hero-panel")).toBeHidden();
     await expect(page.locator(".hero-actions .button-solid")).toBeVisible();
     await expect(page.locator("#projetos .case-card").first()).toBeAttached();
@@ -27,7 +30,7 @@ test.describe("on a phone", () => {
 test.describe("on a tablet", () => {
   test.use({ viewport: { width: 820, height: 1180 } });
   test("the case study index stays in the hero", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/sobre/");
     await expect(page.locator(".hero-panel")).toBeVisible();
   });
 });
@@ -40,7 +43,7 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 
     test.use({ viewport });
 
     test("the bench image stays inside the hero", async ({ page }) => {
-      await page.goto("/");
+      await page.goto("/sobre/");
       const box = await page.evaluate(() => {
         const section = document.querySelector(".hero");
         const hero = section.getBoundingClientRect();
@@ -57,13 +60,16 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 
     });
 
     test("projects come right after the hero, with no background image below it", async ({ page }) => {
-      await page.goto("/");
+      await page.goto("/sobre/");
       await expect(page.locator("#sobre, .bench-about")).toHaveCount(0);
       const facts = await page.evaluate(() => {
         const hero = document.querySelector(".hero");
         const featured = document.querySelector("#projetos");
         const heading = featured.querySelector("h2").getBoundingClientRect().top;
-        const below = [...document.querySelectorAll("body *")].filter((el) => hero.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING && !hero.contains(el));
+        // A antiga pagina "Sobre" (com a foto) virou a secao #quem-sou de /sobre/
+        // em 2026-11-19: a foto e conteudo dela, nao fundo da pagina.
+        const about = document.querySelector("#quem-sou");
+        const below = [...document.querySelectorAll("body *")].filter((el) => hero.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING && !hero.contains(el) && !about?.contains(el));
         return {
           next: hero.nextElementSibling?.id,
           gap: heading - hero.getBoundingClientRect().bottom,
