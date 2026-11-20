@@ -1,7 +1,7 @@
-# Redirecionamentos dos endereços antigos (NÃO publicados)
+# Redirecionamentos dos endereços antigos
 
-Nada nesta pasta foi publicado. São os arquivos prontos para o Gabriel usar **depois** que o site
-novo estiver no ar em `gabrielsys.com.br` (domínio ainda não comprado). Regerar, se o domínio ou o
+Estado em 2026-11-20: o site novo está no ar em `gabrielsys.com.br`; `github-pages/` é o que o
+workflow `.github/workflows/deploy.yml` publica em `gabrielhsp-sys.github.io` (seção 1). Regerar, se o domínio ou o
 mapa mudar: `node docs/design/unificacao-2026-11/redirecionamentos/gerar.mjs` (lê `SITE_URL` de
 `lib/site.ts`).
 

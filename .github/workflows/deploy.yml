@@ -21,16 +21,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # O site mora no Cloudflare Pages (gabrielsys.com.br, desde 2026-11-20). Este
+      # GitHub Pages publica só as páginas que levam os endereços antigos de
+      # gabrielhsp-sys.github.io ao endereço novo, nunca o site
+      # (docs/design/unificacao-2026-11/redirecionamentos/README.md).
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
           node-version: 24
-          cache: npm
-      - run: npm ci
-      - run: npm run check
+      # As páginas versionadas precisam bater com o gerador (SITE_URL e content/public).
+      - run: node docs/design/unificacao-2026-11/redirecionamentos/gerar.mjs
+      - run: git diff --exit-code -- docs/design/unificacao-2026-11/redirecionamentos/
       - uses: actions/upload-pages-artifact@v5
         with:
-          path: out
+          path: docs/design/unificacao-2026-11/redirecionamentos/github-pages
 
   deploy:
     if: github.event_name != 'pull_request'

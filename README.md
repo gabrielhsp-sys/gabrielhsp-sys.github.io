@@ -11,7 +11,7 @@ Esta é a terceira versão. A v1 era uma página só, com boot, terminal e easte
 - Tailwind CSS 4 + CSS autoral.
 - Markdown/MDX validado com Zod.
 - Phosphor Icons.
-- GitHub Pages via Actions.
+- Cloudflare Pages (site e Function do `/material/`, com R2); GitHub Pages só redireciona os endereços antigos.
 
 ## Rodar localmente
 
@@ -136,4 +136,10 @@ Exceções, que a MIT deste repositório não cobre:
 
 ## Publicação
 
-O workflow `.github/workflows/deploy.yml` executa `npm ci`, `npm run check` e envia somente `out/` ao GitHub Pages quando há push na `main`.
+O site é publicado no Cloudflare Pages (projeto `gabrielsys`, domínio `gabrielsys.com.br`) por upload
+direto do wrangler desta máquina, sem integração Git: rode o gate (`npm run check`, e2e e
+`npm run test:cloudflare`) e depois `npx wrangler pages deploy out --project-name gabrielsys --branch main`.
+
+O workflow `.github/workflows/deploy.yml` não publica o site: em push na `main`, envia ao GitHub Pages
+só as páginas de `docs/design/unificacao-2026-11/redirecionamentos/github-pages/`, que levam
+`gabrielhsp-sys.github.io` ao endereço novo.
