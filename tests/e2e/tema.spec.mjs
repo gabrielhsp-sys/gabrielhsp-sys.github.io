@@ -75,10 +75,14 @@ test.describe("on a phone", () => {
 
 test("the logo shown matches the theme (T7)", async ({ page }) => {
   await page.goto("/");
-  const visivel = () => page.locator(".c-header .c-brand img:visible").first().getAttribute("src");
-  expect(await visivel()).toBe("/marca/logo-horizontal-claro.png");
+  // Exatamente UM logo visivel por tema, no cabecalho e no rodape (o outro nao
+  // pode ocupar espaco nem aparecer apagado por baixo).
+  const visiveis = (onde) => page.locator(`${onde} img:visible`).evaluateAll((els) => els.map((el) => el.getAttribute("src")));
+  expect(await visiveis(".c-header .c-brand")).toEqual(["/marca/logo-horizontal-claro.png"]);
+  expect(await visiveis(".c-footer-main")).toEqual(["/marca/logo-horizontal-claro.png"]);
   await page.locator(".c-header").getByRole("button", { name: "Tema escuro" }).click();
-  expect(await visivel()).toBe("/marca/logo-horizontal.png");
+  expect(await visiveis(".c-header .c-brand")).toEqual(["/marca/logo-horizontal.png"]);
+  expect(await visiveis(".c-footer-main")).toEqual(["/marca/logo-horizontal.png"]);
 });
 
 test("the recruiter area stays dark even with the light theme chosen", async ({ page }) => {

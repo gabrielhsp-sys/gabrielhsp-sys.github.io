@@ -11,15 +11,21 @@ export type CapturaNome = keyof typeof capturas;
 type Info = { rota: string; tipo: string; alt: string; width: number; height: number; variantes: number[] };
 const info = (nome: CapturaNome) => capturas[nome] as Info;
 
+// GIF transparente de 1 px: a fonte que o <picture> escolhe abaixo de `aPartirDe`,
+// para a imagem escondida pelo CSS nessa largura nao ser baixada.
+const VAZIO = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+
 /** `prioridade`: na primeira dobra e candidata a LCP (eager + fetchpriority high).
     `cedo`: na primeira dobra do desktop, sem prioridade de rede (eager). Sem os
-    dois: lazy. */
-export function Captura({ nome, sizes, prioridade = false, cedo = false, alt }: { nome: CapturaNome; sizes: string; prioridade?: boolean; cedo?: boolean; alt?: string }) {
+    dois: lazy. `aPartirDe`: largura minima da janela em que a imagem aparece (o
+    CSS a esconde abaixo dela); abaixo, nada e baixado. */
+export function Captura({ nome, sizes, prioridade = false, cedo = false, aPartirDe, alt }: { nome: CapturaNome; sizes: string; prioridade?: boolean; cedo?: boolean; aPartirDe?: number; alt?: string }) {
   const c = info(nome);
   const srcSet = (ext: string) => c.variantes.map((w) => `/capturas/${nome}-${w}.${ext} ${w}w`).join(", ");
   const maior = c.variantes[c.variantes.length - 1];
   return (
     <picture className="f-shot">
+      {aPartirDe && <source media={`(max-width: ${aPartirDe - 1}px)`} srcSet={VAZIO} />}
       <source type="image/avif" srcSet={srcSet("avif")} sizes={sizes} />
       <source type="image/webp" srcSet={srcSet("webp")} sizes={sizes} />
       <img
@@ -41,7 +47,7 @@ export function Navegador({ endereco, children }: { endereco: string; children: 
     <div className="f-navegador">
       <div className="f-navegador-barra" aria-hidden="true">
         <i /><i /><i />
-        <span>{endereco}</span>
+        <span translate="no">{endereco}</span>
       </div>
       <div className="f-navegador-tela">{children}</div>
     </div>

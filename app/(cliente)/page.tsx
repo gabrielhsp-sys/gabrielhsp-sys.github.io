@@ -20,17 +20,19 @@ export default function Inicio() {
           <Ctas orcamento="/orcamento/?origem=inicio" />
           <p className="c-note">{ATENDIMENTO.frase} {ATENDIMENTO.resposta}</p>
         </div>
-        {/* Composicao de prints reais: um site de exemplo no notebook, outro no
+        {/* So o print do navegador tem prioridade de rede: e o LCP no celular.
+            Composicao de prints reais: um site de exemplo no notebook, outro no
             celular e a conversa do bot. Rotulo "Demonstracao" na legenda. */}
         <figure className="c-vitrine">
           <div className="c-vitrine-notebook">
-            <MolduraCaptura moldura="navegador" captura="site-loja-desktop" sizes="(min-width: 1100px) 560px, 92vw" prioridade />
+            <MolduraCaptura moldura="navegador" captura="site-loja-desktop" sizes="(min-width: 1100px) 520px, 84vw" prioridade />
           </div>
           <div className="c-vitrine-celular">
-            <MolduraCaptura moldura="celular" captura="site-alimentacao-celular" sizes="(min-width: 1100px) 190px, 38vw" prioridade />
+            <MolduraCaptura moldura="celular" captura="site-alimentacao-celular" sizes="(min-width: 1100px) 190px, 30vw" cedo />
           </div>
           <div className="c-vitrine-bot">
-            <MolduraCaptura moldura="conversa" captura="bot-conversa" sizes="(min-width: 1100px) 170px, 34vw" prioridade />
+            {/* Abaixo de 1000 px a conversa sai da composicao (cliente.css): nem baixa. */}
+            <MolduraCaptura moldura="conversa" captura="bot-conversa" sizes="170px" cedo aPartirDe={1000} />
           </div>
           <figcaption>
             <span className="c-badge" data-kind="demo">Demonstração</span>
@@ -45,7 +47,7 @@ export default function Inicio() {
           {servicos.map((s, i) => (
             <li key={s.slug}>
               <Link href={`/servicos/${s.slug}/`} className="c-service-tile">
-                <ServicoImagem servico={s} sizes="(min-width: 1100px) 340px, (min-width: 640px) 45vw, 92vw" cedo={i < 3} />
+                <ServicoImagem servico={s} sizes={{ navegador: "(max-width: 520px) 140px, 320px", celular: "(max-width: 520px) 110px, 190px" }} cedo={i < 3} />
                 <strong>{s.nome} <ArrowRight className="c-tile-arrow" size={20} aria-hidden="true" /></strong>
                 <span>{s.resumo}</span>
               </Link>

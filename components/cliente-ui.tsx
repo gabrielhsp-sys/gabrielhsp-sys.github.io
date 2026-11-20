@@ -58,9 +58,9 @@ export function Steps() {
 const endereco = (rota: string) => `${new URL(site.url).host}${rota}`;
 
 /** Print em moldura, pelo tipo de moldura. `sizes` acompanha a largura do lugar. */
-export function MolduraCaptura({ moldura, captura, sizes, prioridade = false, cedo = false }: { moldura: "navegador" | "celular" | "conversa"; captura: string; sizes: string; prioridade?: boolean; cedo?: boolean }) {
+export function MolduraCaptura({ moldura, captura, sizes, prioridade = false, cedo = false, aPartirDe }: { moldura: "navegador" | "celular" | "conversa"; captura: string; sizes: string; prioridade?: boolean; cedo?: boolean; aPartirDe?: number }) {
   const nome = captura as CapturaNome;
-  const img = <Captura nome={nome} sizes={sizes} prioridade={prioridade} cedo={cedo} />;
+  const img = <Captura nome={nome} sizes={sizes} prioridade={prioridade} cedo={cedo} aPartirDe={aPartirDe} />;
   if (moldura === "navegador") {
     const rota = nome.startsWith("site-") ? `/exemplos/sites/${nome.split("-")[1]}/` : "/";
     return <Navegador endereco={endereco(rota)}>{img}</Navegador>;
@@ -68,9 +68,15 @@ export function MolduraCaptura({ moldura, captura, sizes, prioridade = false, ce
   return <Celular tom={moldura === "conversa" ? "conversa" : undefined}>{img}</Celular>;
 }
 
+/** Largura exibida do PRINT (nao do cartao), por moldura: no navegador o print
+    ocupa quase a area toda; no celular, so o aparelho. Sem isso o celular de
+    100 px baixava a variante de 660. */
+export type SizesPorMoldura = { navegador: string; celular: string };
+
 /** Imagem do cartao de um servico: print em moldura ou a ilustracao de aplicativo. */
-export function ServicoImagem({ servico, sizes, prioridade = false, cedo = false }: { servico: Servico; sizes: string; prioridade?: boolean; cedo?: boolean }) {
+export function ServicoImagem({ servico, sizes: porMoldura, prioridade = false, cedo = false }: { servico: Servico; sizes: SizesPorMoldura; prioridade?: boolean; cedo?: boolean }) {
   const img = servico.imagem;
+  const sizes = img.moldura === "navegador" ? porMoldura.navegador : porMoldura.celular;
   return (
     <div className="c-visual" data-moldura={img.moldura}>
       {img.moldura === "ilustracao" ? (

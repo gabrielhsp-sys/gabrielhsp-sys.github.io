@@ -295,6 +295,15 @@ terminal, busca ou animação de entrada (essas camadas ficam em `/sobre/` e `/p
   conferidos por `tests/contraste.test.mjs`. O claro não vale na área do recrutador nem no modo
   retrô. Logo do claro: `public/marca/logo-horizontal-claro.png`, o mesmo desenho com o nome em
   tinta (`scripts/marca-claro.mjs`).
+- **Imagens e molduras (2026-11-20):** as páginas de cliente mostram o trabalho em prints
+  (`scripts/capturas.mjs` → `npm run imagens` → `public/capturas/`, AVIF + WebP, origem e alt em
+  `lib/capturas.json`) dentro de molduras desenhadas em CSS (`components/molduras.tsx`: navegador,
+  notebook e celular; raio 12 px na janela, 30/23 px no celular). O fundo da moldura é escuro nos dois
+  temas, porque é o aparelho. Cartões com imagem usam raio de 16 px e uma área de imagem (`.c-visual`)
+  com o aparelho cortado embaixo. Toda imagem tem alt, largura e altura; o que está na primeira dobra
+  do desktop carrega cedo, o resto é lazy. Só o próprio trabalho: os 7 demos, as demonstrações e o
+  bot; o Carona 70, sem print com dados de exemplo, aparece em texto, e o serviço "Aplicativos" usa
+  uma ilustração em SVG.
 - **WhatsApp fixo:** canto inferior direito, com texto "WhatsApp"; sai da frente quando um campo
   recebe foco; não existe no `/orcamento/`, onde vira o link "Prefiro conversar direto no WhatsApp".
 

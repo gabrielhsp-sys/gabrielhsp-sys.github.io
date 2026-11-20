@@ -22,7 +22,9 @@ export async function marcaClaro() {
     [data[i], data[i + 1], data[i + 2]] = TINTA;
     trocados += 1;
   }
-  await sharp(data, { raw: info }).png({ compressionLevel: 9 }).toFile(path.join(dir, "logo-horizontal-claro.png"));
+  // Paleta de 64 cores: o logo tem tres cores e a borda suavizada; o arquivo cai
+  // de ~24 KB para poucos KB, e ele e baixado em toda pagina (preload no cabecalho).
+  await sharp(data, { raw: info }).png({ compressionLevel: 9, palette: true, colors: 64 }).toFile(path.join(dir, "logo-horizontal-claro.png"));
   console.log(`marca-claro: ${trocados} pixels do nome trocados para a tinta; ${info.width}x${info.height}`);
 }
 

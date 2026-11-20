@@ -23,7 +23,7 @@ export default function ServicosPage() {
       <div className="c-feature-list">
         {servicos.map((s, i) => (
           <section key={s.slug} className="c-feature" aria-labelledby={`s-${s.slug}`} data-lado={i % 2 ? "direita" : "esquerda"}>
-            <ServicoImagem servico={s} sizes="(min-width: 900px) 460px, 92vw" prioridade={i === 0} />
+            <ServicoImagem servico={s} sizes={{ navegador: "(min-width: 900px) 460px, 82vw", celular: "(min-width: 900px) 210px, 40vw" }} prioridade={i === 0} />
             <div className="c-feature-text">
               <h2 id={`s-${s.slug}`}>{s.nome}</h2>
               <p>{s.resumo}</p>

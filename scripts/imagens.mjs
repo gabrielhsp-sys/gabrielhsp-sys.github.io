@@ -118,10 +118,14 @@ async function capturas() {
     process.exit(1);
   }
   const origem = JSON.parse(fs.readFileSync(origemFile, "utf8"));
-  const LARGURAS = { desktop: [480, 800, 1200], celular: [240, 440, 660], conversa: [320, 480, 620] };
+  // Larguras pensadas nas molduras: o notebook do hero no celular tem ~300 px
+  // (900 px em tela de densidade 3, daí a de 960); o celular da faixa, ~156 px (480).
+  const LARGURAS = { desktop: [480, 720, 960, 1200], celular: [240, 480, 660], conversa: [320, 480, 620] };
   const TELA_CELULAR = 390 / 844;
-  const avif = { quality: 64, effort: 5, chromaSubsampling: "4:4:4" };
-  const webp = { quality: 84, effort: 5 };
+  // Qualidade medida no print do hero (960 px): AVIF 64 = 45 KB, 52 = 30 KB, sem
+  // perda visível do texto no tamanho exibido; no celular o print do hero é o LCP.
+  const avif = { quality: 52, effort: 5, chromaSubsampling: "4:4:4" };
+  const webp = { quality: 78, effort: 5 };
   fs.rmSync(out, { recursive: true, force: true });
   fs.mkdirSync(out, { recursive: true });
   const manifest = {};

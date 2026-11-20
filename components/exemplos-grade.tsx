@@ -35,13 +35,14 @@ function escolher(tipo: TipoExemplo | null) {
 
 const host = "gabrielsys.com.br";
 
-function Imagem({ exemplo, cedo }: { exemplo: Exemplo; cedo: boolean }) {
+function Imagem({ exemplo, cedo, prioridade }: { exemplo: Exemplo; cedo: boolean; prioridade: boolean }) {
   const img = exemplo.imagem;
   if (img.moldura === "texto") {
     return (
       <div className="c-visual" data-moldura="texto">
         <CarProfile size={64} weight="duotone" aria-hidden="true" />
-        <span>App Android. Ainda sem print com dados de exemplo.</span>
+        {/* Nota visual do lugar da imagem; o leitor de tela ja ouve o texto do cartao. */}
+        <span aria-hidden="true">App Android. Ainda sem print com dados de exemplo.</span>
       </div>
     );
   }
@@ -53,7 +54,9 @@ function Imagem({ exemplo, cedo }: { exemplo: Exemplo; cedo: boolean }) {
       </div>
     );
   }
-  const shot = <Captura nome={img.captura as CapturaNome} sizes="(min-width: 1100px) 340px, (min-width: 640px) 45vw, 92vw" cedo={cedo} />;
+  // Largura do print, nao do cartao: no navegador ~88% do cartao; no celular, o aparelho (ate 190 px).
+  const sizes = img.moldura === "navegador" ? "(min-width: 1100px) 300px, (min-width: 640px) 40vw, 82vw" : "170px";
+  const shot = <Captura nome={img.captura as CapturaNome} sizes={sizes} cedo={cedo} prioridade={prioridade} />;
   return (
     <div className="c-visual" data-moldura={img.moldura}>
       {img.moldura === "navegador" ? (
@@ -90,7 +93,8 @@ export function ExemplosGrade({ exemplos, filtro = true, cedo = 3 }: { exemplos:
         {exemplos.map((e, i) => {
           const conteudo = (
             <>
-              <Imagem exemplo={e} cedo={i < cedo} />
+              {/* O primeiro print e o LCP no celular: so ele tem prioridade de rede. */}
+              <Imagem exemplo={e} cedo={i < cedo} prioridade={i === 0} />
               <span className="c-badge" data-kind={e.natureza}>{e.natureza === "real" ? "Projeto real" : "Demonstração"}</span>
               <strong>{e.titulo}</strong>
               <span className="c-exemplo-mostra">{e.mostra}</span>

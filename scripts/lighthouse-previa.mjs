@@ -1,6 +1,7 @@
 // Lighthouse (13.5.0, fixado no package.json, D-132) nas páginas principais da
 // prévia, em 390x844 (celular) e 1440x900 (computador). Precisa do out/ servido em
-// :4173 (node scripts/serve-out.mjs out 4173) e de um Chrome em CHROME_PATH.
+// :4173 (node scripts/serve-out.mjs out 4173; outra porta em LH_PORTA, para medir
+// um out/ antigo lado a lado) e de um Chrome em CHROME_PATH.
 // Uso: node scripts/lighthouse-previa.mjs <pasta-de-saida>
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
@@ -8,7 +9,8 @@ import path from "node:path";
 
 const saida = process.argv[2] ?? "lighthouse";
 fs.mkdirSync(saida, { recursive: true });
-const rotas = ["/", "/servicos/sites/", "/exemplos/", "/exemplos/sites/alimentacao/", "/como-funciona/", "/orcamento/", "/sobre/"];
+const porta = process.env.LH_PORTA ?? "4173";
+const rotas = ["/", "/servicos/", "/servicos/sites/", "/exemplos/", "/exemplos/sites/alimentacao/", "/como-funciona/", "/orcamento/", "/sobre/"];
 const perfis = {
   "390": ["--form-factor=mobile", "--screenEmulation.mobile", "--screenEmulation.width=390", "--screenEmulation.height=844", "--screenEmulation.deviceScaleFactor=3"],
   "1440": ["--preset=desktop", "--screenEmulation.width=1440", "--screenEmulation.height=900", "--screenEmulation.deviceScaleFactor=1"],
@@ -20,7 +22,7 @@ for (const rota of rotas) {
     // cwd na pasta de saida: no WSL o chrome-launcher cria o perfil temporario
     // como uma pasta relativa "C:\\Users\\...\\lighthouse.*" no diretorio atual.
     execFileSync(path.resolve("node_modules/.bin/lighthouse"), [
-      `http://127.0.0.1:4173${rota}`, "--quiet", "--output=json", `--output-path=${path.resolve(arquivo)}`,
+      `http://127.0.0.1:${porta}${rota}`, "--quiet", "--output=json", `--output-path=${path.resolve(arquivo)}`,
       "--only-categories=performance,accessibility,best-practices,seo",
       "--chrome-flags=--headless=new --no-sandbox", ...flags,
     ], { stdio: "ignore", cwd: path.resolve(saida) });

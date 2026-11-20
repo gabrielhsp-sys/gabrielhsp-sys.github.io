@@ -12,7 +12,7 @@ export function BareChrome({ children }: { children: React.ReactNode }) {
         {/* Marca sem link: aqui ela identifica, nao navega. */}
         <span className="c-brand">
           {/* eslint-disable-next-line @next/next/no-img-element -- export estatico, sem otimizador */}
-          <img className="c-brand-full c-logo-escuro" src="/marca/logo-horizontal.png" alt="GABRIEL.SYS" width={328} height={40} />
+          <img className="c-brand-full c-logo-escuro" src="/marca/logo-horizontal.png" alt="GABRIEL.SYS" width={328} height={40} loading="lazy" />
           {/* eslint-disable-next-line @next/next/no-img-element -- export estatico, sem otimizador */}
           <img className="c-brand-full c-logo-claro" src="/marca/logo-horizontal-claro.png" alt="GABRIEL.SYS" width={328} height={40} />
         </span>

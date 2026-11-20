@@ -36,7 +36,7 @@ export default async function ServicoPage({ params }: Props) {
             label={`Pedir orçamento de ${s.um.replace(/^uma? /, "")}`}
           />
         </div>
-        <ServicoImagem servico={s} sizes="(min-width: 1100px) 420px, 92vw" prioridade />
+        <ServicoImagem servico={s} sizes={{ navegador: "(min-width: 1000px) 460px, 82vw", celular: "190px" }} prioridade />
       </header>
       <section className="c-section" aria-labelledby="ajuda-titulo">
         <h2 id="ajuda-titulo">Onde isso ajuda</h2>

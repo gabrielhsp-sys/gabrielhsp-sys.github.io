@@ -54,7 +54,8 @@
 }
 
 /* Logo: a versao de fundo claro so troca a cor do nome (scripts/marca-claro.mjs). */
-.c-logo-claro { display: none; }
+/* :root na frente para vencer `.c-brand img { display: block }` (0,1,1). */
+:root .c-logo-claro { display: none; }
 :root[data-theme="light"]:not([data-retro="on"]) .c-logo-claro { display: block; }
 :root[data-theme="light"]:not([data-retro="on"]) .c-logo-escuro { display: none; }
 
@@ -127,7 +128,7 @@ html:has([data-chrome="cliente"]) { scroll-padding-top: 88px; scroll-padding-bot
 /* ── corpo ── */
 .c-hero { padding: clamp(48px, 9vw, 120px) 0 clamp(40px, 6vw, 72px); }
 .c-hero-compact { padding-top: clamp(32px, 5vw, 64px); }
-.c-hero h1, .c-section h2, .o-title, .c-service-card h2 { text-wrap: balance; }
+.c-hero h1, .c-section h2, .o-title, .c-feature-text h2 { text-wrap: balance; }
 .c-hero h1 { max-width: 20ch; margin: 0; font-size: clamp(2.4rem, 6vw, 4.25rem); font-weight: 700; line-height: 1.04; letter-spacing: -.03em; }
 .c-hero-compact h1 { font-size: clamp(2.1rem, 4.6vw, 3.4rem); }
 .c-lede + .o-hint { margin-top: 16px; }
@@ -247,9 +248,11 @@ html:has([data-chrome="cliente"]) { scroll-padding-top: 88px; scroll-padding-bot
 .c-filtro button:active { transform: scale(.97); }
 @media (hover: hover) and (pointer: fine) { .c-filtro button:hover { color: var(--paper); background: var(--ink-2); } }
 .c-filtro-total { margin: 0 0 16px; color: var(--paper-dim); font-size: 1rem; }
+/* No celular os seis filtros quebram em linhas: numa faixa que rola de lado,
+   "Automacoes" e "Sistemas" ficavam fora da tela sem aviso (ui-ux-pro-max,
+   "Chip Collection Reflow"). */
 @media (max-width: 520px) {
-  .c-filtro { flex-wrap: nowrap; overflow-x: auto; margin-inline: calc(-1 * clamp(16px, 5vw, 56px)); padding: 2px clamp(16px, 5vw, 56px) 6px; scrollbar-width: none; }
-  .c-filtro button { flex: none; }
+  .c-filtro button { padding: 0 12px; }
 }
 
 /* Os 7 sites no celular, lado a lado; no celular, uma faixa que rola de lado. */
@@ -262,7 +265,7 @@ html:has([data-chrome="cliente"]) { scroll-padding-top: 88px; scroll-padding-bot
 .c-phone-strip .f-celular-tela::before { height: 10px; top: 6px; }
 @media (hover: hover) and (pointer: fine) { .c-phone-strip a:hover .f-celular { transform: translateY(-4px); } .c-phone-strip a:hover > span { color: var(--amber); } }
 @media (max-width: 900px) {
-  .c-phone-strip { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: min(40vw, 170px); overflow-x: auto; margin-inline: calc(-1 * clamp(16px, 5vw, 56px)); padding: 4px clamp(16px, 5vw, 56px) 12px; scroll-snap-type: x mandatory; scroll-padding-inline: clamp(16px, 5vw, 56px); }
+  .c-phone-strip { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: min(40vw, 170px); overflow-x: auto; overscroll-behavior-x: contain; margin-inline: calc(-1 * clamp(16px, 5vw, 56px)); padding: 4px clamp(16px, 5vw, 56px) 12px; scroll-snap-type: x mandatory; scroll-padding-inline: clamp(16px, 5vw, 56px); }
   .c-phone-strip li { position: relative; scroll-snap-align: start; }
 }
 

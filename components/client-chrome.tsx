@@ -71,9 +71,10 @@ export function ClientChrome({ children }: { children: React.ReactNode }) {
       <BrowserChrome />
       <header className="c-header">
         <Link href="/" className="c-brand" aria-label="GABRIEL.SYS, início">
-          {/* Duas versoes do mesmo logo; o CSS mostra a do tema (cliente.css). */}
+          {/* Duas versoes do mesmo logo; o CSS mostra a do tema (cliente.css). A do
+              escuro e lazy: no tema padrao (claro) ela fica escondida e nem baixa. */}
           {/* eslint-disable-next-line @next/next/no-img-element -- export estatico, sem otimizador */}
-          <img className="c-brand-full c-logo-escuro" src="/marca/logo-horizontal.png" alt="" width={328} height={40} />
+          <img className="c-brand-full c-logo-escuro" src="/marca/logo-horizontal.png" alt="" width={328} height={40} loading="lazy" />
           {/* eslint-disable-next-line @next/next/no-img-element -- export estatico, sem otimizador */}
           <img className="c-brand-full c-logo-claro" src="/marca/logo-horizontal-claro.png" alt="" width={328} height={40} />
           {/* eslint-disable-next-line @next/next/no-img-element -- export estatico, sem otimizador */}
