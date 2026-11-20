@@ -107,3 +107,35 @@ Cloudflare; objetos reais de clientes; qualquer código do painel de gestão.
 Deploy (13) e push (15) são autorizados pelo pedido, condicionados ao gate verde e à origin/main
 sem novidade. Paradas: árvore suja, divergência, gate vermelho, login ou permissão nova no wrangler,
 cobrança, qualquer coisa com cara de segredo (só tipo e local, nunca o valor).
+
+## Fechamento do gate (2026-11-20, branch `codigo-material-2026-11`)
+
+Comandos rodados nesta ordem, com o código de saída lido:
+
+| Comando | Saída | Exit |
+|---|---|---|
+| `npm run check` | lint limpo; `# pass 65 # fail 0` (raiz); `# pass 18 # fail 0` (exemplos-sites); build único; `verificar-saida: 166 links wa.me, todos 5535998840168; 8 demos completos`; verificações dos demos PASS | 0 |
+| `npm run test:cloudflare` | `testar-cloudflare: 54/54 passaram` (eram 43): código válido 200, errado 403 em 612 ms, outro apelido 403 com a mesma resposta, revogado no R2 local 403, envio de PNG com código 201, errado/revogado 403, R2 local com `clientecodigo/…/logo-1.png` e nada do revogado | 0 |
+| `PW_CHROMIUM_PATH=~/.cache/ms-playwright/chromium-1234/chrome-linux64/chrome npx playwright test --project=chromium` | `154 passed` (eram 134) | 0 |
+| `node scripts/previa-material.mjs docs/design/material-codigo-2026-11/previa <código> <link>` contra `wrangler pages dev` | 28 capturas: 7 estados × claro/escuro × 390×844/1440×900 | 0 |
+
+| # | Alegação | Resultado | Evidência |
+|---|---|---|---|
+| A1 | módulo puro reutilizado | PASS | `lib/material-codigo.ts` importado por `lib/material-function.ts` (Function) e `scripts/material-codigo.mjs`; sem `process`, `console` nem `next/` |
+| A2 | certo aceito; errado, outro cliente, vencido, revogado → 403 | PASS | `tests/material-codigo.test.mjs`, `tests/material-rotas.test.mjs`, `test:cloudflare` |
+| A3 | normalização | PASS | teste de tabela (maiúsculas, espaços, hífens; recusa `_`, `.`, `–`, Kelvin, acento, largura total, nulo) |
+| A4 | tempo constante | PASS | `Proxy` conta 8 leituras com o primeiro byte diferente; mutante com saída cedo morto |
+| A5 | código fora da URL e do log, `no-store` | PASS | teste de rota (query ignorada, `console.*` espionado, cabeçalho) e e2e (URL e corpo das duas requisições) |
+| A6 | link longo continua | PASS | testes antigos intactos + rota + e2e + `test:cloudflare` |
+| A7 | 30 dias, `--dias`, revogação | PASS | módulo, gerador, rota e R2 local; limite documentado em `SEGURANCA.md` |
+| A8 | gerador | PASS | `tests/material-codigo-cli.test.mjs` (5) |
+| A9 | atraso fixo e resposta única | PASS | rota (mesmo atraso, corpo e status) e `test:cloudflare` (612 ms). Limite de taxa no código: não existe sem serviço novo (`ratelimits` fora de `supportedPagesConfigFields` no wrangler 4.157) → passo à mão no WAF |
+| A10 | página | PASS | e2e (390 e 1440, axe completo sem código e com erro) + capturas |
+| A11 | contraste 4,5:1 em todos os estados e temas | PASS | e2e por estado e tema (cor computada + axe `color-contrast`); a regra antiga volta a falhar com 1,3:1 e 2,49:1 |
+| A12 | nada gravado sem credencial válida | PASS | rota (R2 falso intacto) e `test:cloudflare` |
+| A13 | produção | ver relatório final da tarefa 14 | — |
+
+Testes que nasceram verdes (guarda ou triangulação, não dirigiram código): "a wrong code, another
+client's code or an expired code is refused", "the code only counts in the request body…",
+"enviar: a wrong, foreign, revoked or expired code…", "enviar: the long signed link still
+uploads…".
