@@ -1,0 +1,8 @@
+/ 287
+/servicos/ 209
+/exemplos/ 155
+/como-funciona/ 227
+/servicos/sites/ 118
+/exemplos/sites/ 175
+/exemplos/bots/ 154
+total 1325

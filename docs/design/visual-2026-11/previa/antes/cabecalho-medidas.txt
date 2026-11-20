@@ -1,0 +1,5 @@
+escuro 320px: cabeçalho 64 px; topo marca 10, Orçamento 10, Menu 10
+escuro 360px: cabeçalho 95 px; topo marca 0, Orçamento 50, Menu 50
+escuro 375px: cabeçalho 95 px; topo marca 0, Orçamento 50, Menu 50
+escuro 390px: cabeçalho 64 px; topo marca 10, Orçamento 10, Menu 10
+escuro 414px: cabeçalho 64 px; topo marca 10, Orçamento 10, Menu 10
