@@ -19,6 +19,7 @@
     "exemplos:build": "npm --prefix exemplos-sites run build",
     "exemplos:test": "npm --prefix exemplos-sites test",
     "material:link": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/material-link.mjs",
+    "material:codigo": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/material-codigo.mjs",
     "test:cloudflare": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/testar-cloudflare.mjs",
     "previa": "WRANGLER_SEND_METRICS=false wrangler pages dev out --ip 127.0.0.1 --port 8788",
     "exemplos:verificar": "npm --prefix exemplos-sites run verificar:dist && npm --prefix exemplos-sites run verificar:creditos && npm --prefix exemplos-sites run verificar:navegador && npm --prefix exemplos-sites run verificar:interacao"

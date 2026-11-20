@@ -4,11 +4,9 @@
 // repositório), o mesmo gravado no projeto Pages, e a base é https://gabrielsys.com.br
 // (--base troca). O script nunca imprime o segredo. O token vai no fragmento (#), que o navegador não envia
 // ao servidor nem no Referer: o link não fica em log de acesso.
-import fs from "node:fs";
-import os from "node:os";
-import path from "node:path";
 import { assinarLink, CLIENTE, LIMITES } from "../lib/material.ts";
 import { SITE_URL } from "../lib/site.ts";
+import { lerSegredo } from "./segredo-material.mjs";
 
 const args = process.argv.slice(2);
 const opcao = (nome, padrao) => {
@@ -29,21 +27,7 @@ if (!cliente || !CLIENTE.test(cliente)) sair("informe o cliente em minúsculas, 
 if (!Number.isInteger(dias) || dias < 1 || dias * 86400 > LIMITES.validadeMaximaSegundos) sair(`--dias entre 1 e ${LIMITES.validadeMaximaSegundos / 86400}`);
 if (!/^https?:\/\/[^\s/]+$/.test(base)) sair("--base precisa ser uma origem, ex.: http://127.0.0.1:8788");
 
-const lerDevVars = () => {
-  const arquivo = path.join(process.cwd(), ".dev.vars");
-  if (!fs.existsSync(arquivo)) return undefined;
-  const linha = fs.readFileSync(arquivo, "utf8").split(/\r?\n/).find((l) => l.startsWith("MATERIAL_SECRET="));
-  return linha?.slice("MATERIAL_SECRET=".length).replace(/^"|"$/g, "");
-};
-const lerProducao = () => {
-  const arquivo = path.join(os.homedir(), ".config/gabrielsys/material-secret");
-  if (!fs.existsSync(arquivo)) sair(`segredo de produção ausente em ${arquivo}`);
-  if (fs.statSync(arquivo).mode & 0o077) sair(`${arquivo} legível por outros usuários: rode chmod 600`);
-  return fs.readFileSync(arquivo, "utf8").trim();
-};
-const segredo = producao ? lerProducao() : process.env.MATERIAL_SECRET ?? lerDevVars();
-if (!segredo) sair("MATERIAL_SECRET ausente (no ambiente ou no .dev.vars)");
-if (segredo.length < LIMITES.segredoMinimo) sair(`MATERIAL_SECRET com menos de ${LIMITES.segredoMinimo} caracteres`);
+const segredo = lerSegredo({ producao, minimo: LIMITES.segredoMinimo, sair });
 
 const expira = Math.floor(Date.now() / 1000) + dias * 86400;
 const { c, e, t } = await assinarLink(segredo, cliente, expira);
