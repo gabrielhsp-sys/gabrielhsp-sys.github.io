@@ -13,7 +13,7 @@ export const metadata: Metadata = pageMetadata({
 // O que e trabalho real e o que e demonstracao fica escrito em cada cartao.
 const grupos = [
   { href: "/exemplos/sites/", nome: "Sites", texto: "Sete sites de exemplo, um para cada ramo, com negócios inventados. Abra no celular e mexa à vontade.", tipo: "Exemplos para mexer" },
-  { href: "/exemplos/aplicativos/", nome: "Aplicativos", texto: "Um aplicativo que eu fiz e uso: divide as contas de uma carona diária entre os celulares do grupo.", tipo: "Projeto real" },
+  { href: "/exemplos/aplicativos/", nome: "Aplicativos", texto: "Um aplicativo Android que eu fiz: divide as contas de uma carona diária entre os celulares do grupo.", tipo: "Projeto real" },
   { href: "/exemplos/bots/", nome: "Robôs no Telegram", texto: "Um robô que eu fiz e que está no ar: lê canais de promoção e só avisa quando aparece o que eu procuro.", tipo: "Projeto real" },
   { href: "/exemplos/automacoes/", nome: "Automações", texto: "Pedidos que viram planilha e resumo do dia, sem digitar nada. Teste aqui mesmo, com dados de mentira.", tipo: "Demonstração" },
   { href: "/exemplos/sistemas/", nome: "Sistemas", texto: "Um controle de estoque com acesso diferente para o dono e para a equipe. Teste aqui mesmo.", tipo: "Demonstração" },

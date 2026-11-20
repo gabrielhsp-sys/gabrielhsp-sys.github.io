@@ -129,10 +129,13 @@ export function ClientChrome({ children }: { children: React.ReactNode }) {
       </footer>
 
       {!onForm && (
-        <a className="c-whats-fixo" href={whatsappContato} target="_blank" rel="noopener" aria-label={`WhatsApp ${WHATSAPP_EXIBICAO}`}>
-          <WhatsappLogo size={24} weight="fill" aria-hidden="true" />
-          <span>WhatsApp</span>
-        </a>
+        // Landmark proprio: o botao fixo fica fora do <main> e do rodape (axe "region").
+        <aside aria-label="Contato rápido">
+          <a className="c-whats-fixo" href={whatsappContato} target="_blank" rel="noopener" aria-label={`WhatsApp ${WHATSAPP_EXIBICAO}`}>
+            <WhatsappLogo size={24} weight="fill" aria-hidden="true" />
+            <span>WhatsApp</span>
+          </a>
+        </aside>
       )}
     </div>
   );
