@@ -42,6 +42,16 @@ for (const file of text) {
   if (hits) errors.push(`${path.relative(out, file)}: "${hits[0]}" (o site diz "bot")`);
 }
 
+// 5. Todo print das paginas de cliente vem de uma rota que existe nesta saida
+//    (lib/capturas.json, rodada visual 2026-11-20), e todas as variantes foram copiadas.
+const capturas = JSON.parse(fs.readFileSync(path.join(process.cwd(), "lib/capturas.json"), "utf8"));
+for (const [nome, c] of Object.entries(capturas)) {
+  if (!fs.existsSync(path.join(out, c.rota, "index.html"))) errors.push(`captura ${nome}: rota ${c.rota} não existe em out/`);
+  for (const w of c.variantes) for (const ext of ["avif", "webp"]) {
+    if (!fs.existsSync(path.join(out, "capturas", `${nome}-${w}.${ext}`))) errors.push(`captura ${nome}-${w}.${ext} não foi para out/`);
+  }
+}
+
 if (waCount === 0) errors.push("nenhum link wa.me na saída (o oráculo não viu nada)");
 
 const page = (route) => path.join(out, route, "index.html");

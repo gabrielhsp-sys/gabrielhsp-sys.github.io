@@ -1,5 +1,9 @@
 // Imagem de fundo da home: AVIF + WebP em quatro larguras para o srcset.
-// Uso: npm run imagens            (gera public/home/ e lib/hero-image.json)
+// Prints das paginas de cliente (rodada visual 2026-11-20): AVIF + WebP em tres
+// larguras, a partir de assets-src/capturas/ (scripts/capturas.mjs).
+// Uso: npm run imagens            (gera public/home/, lib/hero-image.json,
+//                                  public/capturas/ e lib/capturas.json)
+//      npm run imagens -- --so-capturas  (pula a bancada, que e lenta)
 //      npm run imagens -- --comparar   (tambem salva as comparacoes no escuro)
 //
 // A fonte ja vem ampliada (Real-ESRGAN, 3840 px): aqui so reduz e codifica.
@@ -24,6 +28,11 @@ const PORTRAIT_WIDTHS = [550, 825, 1100];
 // Qualidade escolhida pelas comparacoes (docs/design/home-imagem/README.md).
 const AVIF = { quality: 88, effort: 5, chromaSubsampling: "4:4:4" };
 const WEBP = { quality: 95, effort: 6, smartSubsample: true, preset: "photo" };
+
+if (process.argv.includes("--so-capturas")) {
+  await capturas();
+  process.exit(0);
+}
 
 if (!fs.existsSync(SRC)) {
   console.error(`imagens: falta ${SRC} (a imagem ampliada da bancada).`);
@@ -92,4 +101,47 @@ if (process.argv.includes("--comparar")) {
   }
   fs.writeFileSync(path.join(DOCS, "erro-no-escuro.txt"), lines.join("\n") + "\n");
   console.log(lines.join("\n"));
+}
+
+await capturas();
+
+// ── Prints (assets-src/capturas/ -> public/capturas/ + lib/capturas.json) ──
+// Tela de interface tem texto fino: 4:4:4 e qualidade mais alta que foto. Os
+// prints de celular e os recortes ficam na proporcao da tela da moldura de
+// celular (390 x 844), cortados do topo: pixel escondido pela moldura nao vai.
+async function capturas() {
+  const dir = "assets-src/capturas";
+  const out = "public/capturas";
+  const origemFile = path.join(dir, "origem.json");
+  if (!fs.existsSync(origemFile)) {
+    console.error(`imagens: falta ${origemFile} (rode node scripts/capturas.mjs).`);
+    process.exit(1);
+  }
+  const origem = JSON.parse(fs.readFileSync(origemFile, "utf8"));
+  const LARGURAS = { desktop: [480, 800, 1200], celular: [240, 440, 660], conversa: [320, 480, 620] };
+  const TELA_CELULAR = 390 / 844;
+  const avif = { quality: 64, effort: 5, chromaSubsampling: "4:4:4" };
+  const webp = { quality: 84, effort: 5 };
+  fs.rmSync(out, { recursive: true, force: true });
+  fs.mkdirSync(out, { recursive: true });
+  const manifest = {};
+  let total = 0;
+  for (const [nome, info] of Object.entries(origem)) {
+    const src = path.join(dir, `${nome}.png`);
+    const meta = await sharp(src).metadata();
+    const crop = { left: 0, top: 0, width: meta.width, height: meta.height };
+    if (info.tipo === "celular") crop.height = Math.min(meta.height, Math.round(meta.width / TELA_CELULAR));
+    const variantes = [];
+    for (const largura of LARGURAS[info.tipo].filter((w) => w <= crop.width)) {
+      const base = sharp(src).extract(crop).resize({ width: largura, kernel: "lanczos3" });
+      const a = await base.clone().avif(avif).toFile(path.join(out, `${nome}-${largura}.avif`));
+      const w = await base.clone().webp(webp).toFile(path.join(out, `${nome}-${largura}.webp`));
+      total += a.size + w.size;
+      variantes.push(largura);
+    }
+    manifest[nome] = { rota: info.rota, tipo: info.tipo, alt: info.alt, width: crop.width, height: crop.height, variantes };
+    console.log(`capturas/${nome}: ${crop.width}x${crop.height} -> ${variantes.join(", ")} px`);
+  }
+  fs.writeFileSync("lib/capturas.json", JSON.stringify(manifest, null, 2) + "\n");
+  console.log(`imagens: ${Object.keys(manifest).length} prints, ${(total / 1024).toFixed(0)} KB em AVIF + WebP`);
 }

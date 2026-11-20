@@ -1,0 +1,206 @@
+{
+  "site-alimentacao-desktop": {
+    "rota": "/exemplos/sites/alimentacao/",
+    "tipo": "desktop",
+    "alt": "Site de exemplo da Lanchonete Brasa & Pão no computador: título grande em vermelho, foto de hambúrguer e o botão “Pedir pelo WhatsApp”.",
+    "width": 1440,
+    "height": 900,
+    "variantes": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "site-alimentacao-celular": {
+    "rota": "/exemplos/sites/alimentacao/",
+    "tipo": "celular",
+    "alt": "O mesmo site da Lanchonete Brasa & Pão no celular: o cardápio começa com o botão de pedir pelo WhatsApp.",
+    "width": 780,
+    "height": 1688,
+    "variantes": [
+      240,
+      440,
+      660
+    ]
+  },
+  "site-beleza-desktop": {
+    "rota": "/exemplos/sites/beleza/",
+    "tipo": "desktop",
+    "alt": "Site de exemplo do Studio Íris Estética no computador: “Um tempo só seu, no Centro de Areado”, foto de um tratamento facial e o botão de agendar horário.",
+    "width": 1440,
+    "height": 900,
+    "variantes": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "site-beleza-celular": {
+    "rota": "/exemplos/sites/beleza/",
+    "tipo": "celular",
+    "alt": "O mesmo site do Studio Íris Estética no celular: título, foto e o botão de agendar horário pelo WhatsApp.",
+    "width": 780,
+    "height": 1688,
+    "variantes": [
+      240,
+      440,
+      660
+    ]
+  },
+  "site-cabeleireiro-desktop": {
+    "rota": "/exemplos/sites/cabeleireiro/",
+    "tipo": "desktop",
+    "alt": "Site de exemplo da Barbearia Navalha Fina no computador: fundo escuro de barbearia, o nome em letras grandes e o botão “Marcar corte”.",
+    "width": 1440,
+    "height": 900,
+    "variantes": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "site-cabeleireiro-celular": {
+    "rota": "/exemplos/sites/cabeleireiro/",
+    "tipo": "celular",
+    "alt": "O mesmo site da Barbearia Navalha Fina no celular: o nome da barbearia e o botão “Marcar corte”.",
+    "width": 780,
+    "height": 1688,
+    "variantes": [
+      240,
+      440,
+      660
+    ]
+  },
+  "site-saude-desktop": {
+    "rota": "/exemplos/sites/saude/",
+    "tipo": "desktop",
+    "alt": "Site de exemplo da Clínica Vida Integrada no computador: consultas e terapias, horário, endereço e o botão “Marcar consulta”.",
+    "width": 1440,
+    "height": 900,
+    "variantes": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "site-saude-celular": {
+    "rota": "/exemplos/sites/saude/",
+    "tipo": "celular",
+    "alt": "O mesmo site da Clínica Vida Integrada no celular: horário, endereço, convênios e o botão “Marcar consulta”.",
+    "width": 780,
+    "height": 1688,
+    "variantes": [
+      240,
+      440,
+      660
+    ]
+  },
+  "site-fitness-desktop": {
+    "rota": "/exemplos/sites/fitness/",
+    "tipo": "desktop",
+    "alt": "Site de exemplo da Arena Fit Studio no computador: “Vem treinar na Arena” em azul forte e o botão de agendar a aula experimental.",
+    "width": 1440,
+    "height": 900,
+    "variantes": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "site-fitness-celular": {
+    "rota": "/exemplos/sites/fitness/",
+    "tipo": "celular",
+    "alt": "O mesmo site da Arena Fit Studio no celular: chamada para a aula experimental grátis.",
+    "width": 780,
+    "height": 1688,
+    "variantes": [
+      240,
+      440,
+      660
+    ]
+  },
+  "site-loja-desktop": {
+    "rota": "/exemplos/sites/loja/",
+    "tipo": "desktop",
+    "alt": "Site de exemplo do Empório da Praça no computador: “Da roça para a praça”, foto da prateleira e o catálogo com filtros.",
+    "width": 1440,
+    "height": 900,
+    "variantes": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "site-loja-celular": {
+    "rota": "/exemplos/sites/loja/",
+    "tipo": "celular",
+    "alt": "O mesmo site do Empório da Praça no celular: o catálogo com filtros de produto.",
+    "width": 780,
+    "height": 1688,
+    "variantes": [
+      240,
+      440,
+      660
+    ]
+  },
+  "site-servicos-desktop": {
+    "rota": "/exemplos/sites/servicos/",
+    "tipo": "desktop",
+    "alt": "Site de exemplo da Prado Serviços Automotivos no computador: “Orçamento antes de mexer”, foto da oficina e o botão de pedir orçamento.",
+    "width": 1440,
+    "height": 900,
+    "variantes": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "site-servicos-celular": {
+    "rota": "/exemplos/sites/servicos/",
+    "tipo": "celular",
+    "alt": "O mesmo site da Prado Serviços Automotivos no celular: o pedido de orçamento pelo WhatsApp e a lista de serviços.",
+    "width": 780,
+    "height": 1688,
+    "variantes": [
+      240,
+      440,
+      660
+    ]
+  },
+  "automacao": {
+    "rota": "/exemplos/automacoes/",
+    "tipo": "celular",
+    "alt": "Demonstração de automação: os pedidos de uma lanchonete inventada viram linhas numa planilha, com cliente e itens.",
+    "width": 704,
+    "height": 1524,
+    "variantes": [
+      240,
+      440,
+      660
+    ]
+  },
+  "sistema": {
+    "rota": "/exemplos/sistemas/",
+    "tipo": "celular",
+    "alt": "Demonstração de sistema: controle de estoque com entrada como equipe ou como dono e botões para registrar entrada e saída.",
+    "width": 704,
+    "height": 1500,
+    "variantes": [
+      240,
+      440,
+      660
+    ]
+  },
+  "bot-conversa": {
+    "rota": "/exemplos/bots/",
+    "tipo": "conversa",
+    "alt": "Conversa simulada com o bot de uma lanchonete inventada no Telegram: o cliente pergunta se abre hoje e o bot responde o horário.",
+    "width": 620,
+    "height": 718,
+    "variantes": [
+      320,
+      480,
+      620
+    ]
+  }
+}
