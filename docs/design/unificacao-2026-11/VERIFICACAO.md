@@ -83,6 +83,32 @@ original.
 Nenhum nesta branch: tudo é commit local. O que exige o Gabriel (conta, bucket, segredo, domínio,
 DNS, publicar as páginas de redirecionamento) fica no relatório final.
 
-## Fechamento
+## Fechamento (2026-11-19, branch `site-unificado-2026-11`)
 
-Preenchido no fim da execução.
+Comandos rodados no fim, nesta ordem, com o código de saída lido:
+
+| Comando | Saída | Exit |
+|---|---|---|
+| `npm run check` | lint limpo; `# pass 31 # fail 0` (raiz); `# pass 18 # fail 0` (exemplos-sites); build único; `verificar-saida: 165 links wa.me, todos 5535998840168; 8 demos completos` | 0 |
+| `PW_CHROMIUM_PATH=<chromium do cache> npx playwright test --project=chromium` | `72 passed` | 0 |
+| `npm run test:cloudflare` | `testar-cloudflare: 43/43 passaram` | 0 |
+
+| # | Alegação | Resultado | Evidência |
+|---|---|---|---|
+| A1 | todo `wa.me`/`tel:`/celular na saída é o Business | PASS | `verificar-saida.mjs` (oráculo à mão); sonda com número falso derrubou o script nos 3 formatos |
+| A2 | cada ramo do `/orcamento/` gera a mensagem certa | PASS | `tests/orcamento.test.mjs` (9) + `tests/e2e/orcamento.spec.mjs` (7 ramos + envio) |
+| A3 | mensagem compacta | PASS | caso mais longo: link ≤ 2000 caracteres; o limite real do wa.me segue `needs-verification` |
+| A4 | formulário por teclado e leitor de tela | PASS (automático) | e2e só teclado; axe 0 no início e no "Confira". Leitor de tela real: **não testado** (manual) |
+| A5 | animação, terminal e Ctrl+K só na área do recrutador; Konami em tudo; som ligado | PASS | `cliente.spec.mjs` e `recrutador.spec.mjs` |
+| A6 | nenhuma camada engole clique | PASS | um clique durante a animação navega; botão fixo some com campo em foco e não existe no formulário |
+| A7 | 7 demos + lead no build único | PASS | `verificar-saida.mjs` (links locais resolvidos) |
+| A8 | cópia rastreável | PASS | `exemplos-sites/ORIGEM.md` e `EXEMPLOS.md` com `2e7a9f42…`; `git cat-file -e` sai 0 |
+| A9 | upload do `/material/` | PASS | `tests/material.test.mjs` (4) + `test:cloudflare` (token válido/falso/vencido/outro cliente, SVG, 11 MB, 45 MB, cota, sem listagem, R2 local) |
+| A10 | `_redirects` e `_headers` | PASS | `test:cloudflare` (6 redirecionamentos 301, cabeçalhos) |
+| A11 | segredo fora do Git | PASS | `git check-ignore .dev.vars` = 0; `git log --all -- .dev.vars` vazio |
+| A12 | Lighthouse e axe | PASS com pendência | acessibilidade 100 em tudo; CLS 0,22 no demo de alimentação no celular (veio do demos-nichos) |
+| A13 | ≤ 3 toques do Instagram ao pedido | PASS (automático) | e2e no celular; o teste real em Android/iPhone é `manual`, com o Gabriel |
+
+Continua incerto: o limite de tamanho do `?text=` do wa.me; o navegador interno do Instagram abrindo o
+WhatsApp; Firefox (não está no cache do Playwright e não foi baixado); os limites reais da
+Cloudflare em produção.

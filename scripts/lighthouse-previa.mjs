@@ -17,11 +17,13 @@ const linhas = [];
 for (const rota of rotas) {
   for (const [nome, flags] of Object.entries(perfis)) {
     const arquivo = path.join(saida, `${rota.replace(/\//g, "_") || "_"}-${nome}.json`);
-    execFileSync("node_modules/.bin/lighthouse", [
-      `http://127.0.0.1:4173${rota}`, "--quiet", "--output=json", `--output-path=${arquivo}`,
+    // cwd na pasta de saida: no WSL o chrome-launcher cria o perfil temporario
+    // como uma pasta relativa "C:\\Users\\...\\lighthouse.*" no diretorio atual.
+    execFileSync(path.resolve("node_modules/.bin/lighthouse"), [
+      `http://127.0.0.1:4173${rota}`, "--quiet", "--output=json", `--output-path=${path.resolve(arquivo)}`,
       "--only-categories=performance,accessibility,best-practices,seo",
       "--chrome-flags=--headless=new --no-sandbox", ...flags,
-    ], { stdio: "ignore" });
+    ], { stdio: "ignore", cwd: path.resolve(saida) });
     const r = JSON.parse(fs.readFileSync(arquivo, "utf8"));
     const c = r.categories;
     const n = (k) => Math.round((c[k]?.score ?? 0) * 100);
