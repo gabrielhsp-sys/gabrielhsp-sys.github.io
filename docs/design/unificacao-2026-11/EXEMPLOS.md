@@ -21,8 +21,9 @@ Os sete demos e o demo de lead vêm de `~/Dev/projects/personal/demos-nichos`, c
 | `scripts/verificar-*.mjs` e `cdp.mjs` **mantidos e adaptados** (o servidor local do `cdp.mjs` tira o base e mapeia `/para/` para `l/`; o `verificar-dist` confere a faixa nova e a ausência da home Astro) | rodam no `npm run check` da raiz (`exemplos:verificar`), ao lado de `scripts/verificar-saida.mjs`. Numa primeira versão desta branch eles tinham sido apagados; a revisão de código apontou que isso enfraquecia a verificação, e voltaram |
 | teste da faixa (`src/lib/whatsapp.test.ts`) com o novo oráculo | a especificação da faixa mudou (orçamento no lugar do portfólio) |
 
-Os depoimentos que aparecem dentro de alguns demos são dos negócios fictícios, como o resto do
-conteúdo deles, e a faixa diz isso em todas as páginas. Não são depoimentos sobre o GABRIEL.SYS.
+A seção de depoimentos (de clientes inventados dos negócios fictícios) saiu dos seis demos que a
+tinham: o prompt proíbe depoimento inventado, sem exceção. Os dados continuam em `src/data/`, sem
+uso; o componente `Depoimentos.astro` foi apagado.
 
 ## Como rodar
 
