@@ -111,7 +111,7 @@ const siteCard = h(
     "div",
     { style: { width: 560, display: "flex", flexDirection: "column", gap: 28 } },
     h("div", { style: { display: "flex", fontSize: 54, fontWeight: 700, lineHeight: 1.05, letterSpacing: "-0.03em" } },
-      "Sites, aplicativos e robôs para o seu negócio."),
+      "Sites, aplicativos e bots para o seu negócio."),
     h("div", { style: { display: "flex", fontSize: 26, lineHeight: 1.35, color: paperDim } },
       "Sob encomenda. Areado-MG, atendo online em todo o Brasil."),
     mono(host, { color: amber, fontSize: 22 }),

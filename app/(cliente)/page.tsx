@@ -13,10 +13,10 @@ export default function Inicio() {
     <main id="conteudo" className="c-page">
       <StructuredData page="home" />
       <section className="c-hero" aria-labelledby="inicio-titulo">
-        <h1 id="inicio-titulo">Sites, aplicativos e robôs para o seu negócio.</h1>
+        <h1 id="inicio-titulo">Sites, aplicativos e bots para o seu negócio.</h1>
         <p className="c-lede">
           Eu sou o Gabriel. Faço sob encomenda o que o seu negócio precisa: um site que leva o cliente
-          direto para o seu WhatsApp, um aplicativo, um robô no Telegram ou uma tarefa repetitiva que
+          direto para o seu WhatsApp, um aplicativo, um bot no Telegram ou uma tarefa repetitiva que
           passa a se fazer sozinha.
         </p>
         <Ctas orcamento="/orcamento/?origem=inicio" />

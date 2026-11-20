@@ -9,9 +9,9 @@ export const SITE_URL = "https://gabrielsys.com.br";
 export const site = {
   name: "GABRIEL.SYS",
   owner: "Gabriel Henrique",
-  title: "GABRIEL.SYS — sites, aplicativos e robôs para o seu negócio",
+  title: "GABRIEL.SYS — sites, aplicativos e bots para o seu negócio",
   description:
-    "Sites, aplicativos, robôs no Telegram, automações e sistemas sob encomenda para o seu negócio. Areado-MG, atendo online em todo o Brasil.",
+    "Sites, aplicativos, bots no Telegram, automações e sistemas sob encomenda para o seu negócio. Areado-MG, atendo online em todo o Brasil.",
   url: SITE_URL,
   github: "https://github.com/gabrielhsp-sys",
   linkedin: "https://www.linkedin.com/in/gabrielhsp-dev/",

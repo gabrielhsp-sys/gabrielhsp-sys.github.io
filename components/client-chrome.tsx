@@ -117,7 +117,7 @@ export function ClientChrome({ children }: { children: React.ReactNode }) {
         <div className="c-footer-main">
           {/* eslint-disable-next-line @next/next/no-img-element -- export estatico, sem otimizador */}
           <img src="/marca/logo-horizontal.png" alt="GABRIEL.SYS" width={246} height={30} />
-          <p>Sites, aplicativos, robôs no Telegram, automações e sistemas sob encomenda.</p>
+          <p>Sites, aplicativos, bots no Telegram, automações e sistemas sob encomenda.</p>
           <p>{ATENDIMENTO.frase} {ATENDIMENTO.resposta}</p>
         </div>
         <ul className="c-footer-contact" aria-label="Contato">

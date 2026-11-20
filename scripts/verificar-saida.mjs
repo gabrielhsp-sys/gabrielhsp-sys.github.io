@@ -2,7 +2,9 @@
 //  1. todo número de celular brasileiro em HTML/JS/JSON/XML/TXT, todo wa.me e todo tel: é o
 //     WhatsApp Business, escrito AQUI à mão (não importado do código que o monta);
 //  2. os 7 demos e o lead existem, com noindex, e todo src/href local deles resolve em out/;
-//  3. /orcamento/, /material/ e /para/ têm noindex.
+//  3. /orcamento/, /material/ e /para/ têm noindex;
+//  4. a palavra "robô"/"robôs" não aparece em nenhum texto da saída (pedido de 2026-11-20:
+//     o site diz "bot", inclusive em metadados, alt e demos).
 import fs from "node:fs";
 import path from "node:path";
 
@@ -35,6 +37,11 @@ for (const file of text) {
     if (`55${match.replace(/\D/g, "")}` !== BUSINESS) errors.push(`${rel}: telefone ${match} não é o Business`);
   }
 }
+for (const file of text) {
+  const hits = fs.readFileSync(file, "utf8").match(/rob[ôÔ]s?/gi);
+  if (hits) errors.push(`${path.relative(out, file)}: "${hits[0]}" (o site diz "bot")`);
+}
+
 if (waCount === 0) errors.push("nenhum link wa.me na saída (o oráculo não viu nada)");
 
 const page = (route) => path.join(out, route, "index.html");

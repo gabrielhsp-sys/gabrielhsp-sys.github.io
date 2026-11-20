@@ -75,12 +75,12 @@ test("app branch", async ({ page }) => {
 });
 
 test("Telegram bot branch", async ({ page }) => {
-  await inicio(page, "Um robô no Telegram");
+  await inicio(page, "Um bot no Telegram");
   await caixa(page, "Mandar lembretes");
   await page.getByLabel(/Explique com um exemplo/).fill("Lembrar a equipe da escala");
   await page.getByRole("group", { name: /Quem conversa/ }).getByRole("radio", { name: "Equipe" }).check();
   expect(await fim(page)).toBe(
-    [...cabeca("Um robô no Telegram"), "*O robô deve:* Mandar lembretes", "*Exemplo:* Lembrar a equipe da escala", "*Conversa com:* Equipe", "", RODAPE].join("\n"),
+    [...cabeca("Um bot no Telegram"), "*O bot deve:* Mandar lembretes", "*Exemplo:* Lembrar a equipe da escala", "*Conversa com:* Equipe", "", RODAPE].join("\n"),
   );
 });
 
@@ -151,7 +151,7 @@ test("keyboard only: errors are announced, focus goes to the summary, then the f
 test("the service page preselects the need", async ({ page }) => {
   await page.addInitScript(() => localStorage.removeItem("gsys:orcamento"));
   await page.goto("/orcamento/?precisa=robo&origem=servicos-bots");
-  await expect(page.getByRole("radio", { name: /Um robô no Telegram/ })).toBeChecked();
+  await expect(page.getByRole("radio", { name: /Um bot no Telegram/ })).toBeChecked();
 });
 
 for (const passo of ["inicio", "confira"]) {

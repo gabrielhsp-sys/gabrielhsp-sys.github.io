@@ -76,7 +76,7 @@ test("answers from an abandoned branch and empty optional fields stay out of the
     negocio: "",
     ramo: "nao-negocio",
     cidade: "Poços de Caldas",
-    // respondido antes de trocar "site" por "robô": não pode aparecer
+    // respondido antes de trocar "site" por "bot": não pode aparecer
     tipoSite: "catalogo",
     clienteFaz: ["whatsapp"],
     roboFaz: ["lembretes", "avisar"],
@@ -89,11 +89,11 @@ test("answers from an abandoned branch and empty optional fields stay out of the
     [
       "Olá, Gabriel! Vim pelo site e quero um orçamento.",
       "",
-      "*O que preciso:* Um robô no Telegram",
+      "*O que preciso:* Um bot no Telegram",
       "*Negócio:* Não é para um negócio, Poços de Caldas",
       "*Nome:* João",
       "",
-      "*O robô deve:* Avisar de algo, Mandar lembretes",
+      "*O bot deve:* Avisar de algo, Mandar lembretes",
       "*Exemplo:* Lembrar o grupo da pelada toda quinta às 18h.",
       "*Conversa com:* Só eu",
       "",

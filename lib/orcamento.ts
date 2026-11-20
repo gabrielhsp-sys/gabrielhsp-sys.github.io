@@ -30,7 +30,7 @@ const op = (valor: string, rotulo: string, dica?: string): Opcao => ({ valor, ro
 export const PRECISA: Opcao[] = [
   op("site", "Um site", "para o cliente achar você e chamar no WhatsApp"),
   op("aplicativo", "Um aplicativo", "agenda, pedidos, fidelidade, cadastro"),
-  op("robo", "Um robô no Telegram", "que avisa, responde ou lembra sozinho"),
+  op("robo", "Um bot no Telegram", "que avisa, responde ou lembra sozinho"),
   op("automacao", "Uma automação", "tarefa repetitiva, planilha ou relatório"),
   op("sistema", "Um sistema", "controle de clientes, pedidos, estoque ou agenda"),
   op("outro", "Outra coisa ou ainda não sei", "conte do seu jeito"),
@@ -108,11 +108,11 @@ export const ETAPAS: Etapa[] = [
   },
   {
     id: "robo",
-    titulo: "Como vai ser o robô?",
+    titulo: "Como vai ser o bot?",
     quando: (r) => r.precisa === "robo",
     campos: [
       {
-        id: "roboFaz", tipo: "checkbox", rotulo: "O que o robô deve fazer?", naMensagem: "O robô deve", obrigatorio: true, ajuda: "Marque quantas quiser.",
+        id: "roboFaz", tipo: "checkbox", rotulo: "O que o bot deve fazer?", naMensagem: "O bot deve", obrigatorio: true, ajuda: "Marque quantas quiser.",
         opcoes: [op("avisar", "Avisar de algo"), op("responder", "Responder perguntas"), op("pedidos", "Receber pedidos"), op("lembretes", "Mandar lembretes"), op("outra", "Outra coisa")],
       },
       { id: "roboExemplo", tipo: "textarea", rotulo: "Explique com um exemplo", naMensagem: "Exemplo", obrigatorio: true, ajuda: "Por exemplo: quando entrar um pedido, avisar a cozinha no grupo." },

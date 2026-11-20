@@ -1,6 +1,6 @@
 // Os cinco serviços, numa linguagem de quem tem um negócio. Fonte do texto:
 // docs/design/unificacao-2026-11/PLANO.md, seção 3, com as decisões de
-// 2026-11-19 (sem preço, robô só no Telegram, "eu"). O que o plano não trouxe
+// 2026-11-19 (sem preço, bot só no Telegram, "eu"). O que o plano não trouxe
 // é rascunho e está listado em "Textos para o Gabriel revisar" no relatório.
 
 export const servicoSlugs = ["sites", "aplicativos", "bots", "automacoes", "sistemas"] as const;
@@ -73,10 +73,10 @@ export const servicos: Servico[] = [
   },
   {
     slug: "bots",
-    um: "um robô no Telegram",
-    nome: "Robôs no Telegram",
+    um: "um bot no Telegram",
+    nome: "Bots no Telegram",
     resumo: "Avisam, respondem e lembram, mesmo quando você não está olhando.",
-    titulo: "Um robô no Telegram que trabalha enquanto você cuida do resto.",
+    titulo: "Um bot no Telegram que trabalha enquanto você cuida do resto.",
     resolve:
       "Ele avisa quando chega um pedido, responde as perguntas de sempre, manda lembrete para a sua equipe ou vigia algo na internet e só te chama quando importa.",
     situacoes: [
@@ -85,11 +85,11 @@ export const servicos: Servico[] = [
       "Ficar de olho numa promoção ou num preço e te chamar só quando aparecer.",
     ],
     recebe: [
-      "O robô funcionando no Telegram, no seu grupo ou conversando com quem você quiser.",
+      "O bot funcionando no Telegram, no seu grupo ou conversando com quem você quiser.",
       "Um jeito simples de ligar, desligar e mudar o que ele faz.",
       "Ele rodando sozinho, sem depender do seu computador ligado.",
     ],
-    exemplo: { rotulo: "Ver o robô funcionando", href: "/exemplos/bots/" },
+    exemplo: { rotulo: "Ver o bot funcionando", href: "/exemplos/bots/" },
     orcamento: "robo",
   },
   {

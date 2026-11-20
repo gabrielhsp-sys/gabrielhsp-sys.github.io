@@ -7,7 +7,7 @@ import { servicos } from "@/lib/servicos";
 
 export const metadata: Metadata = pageMetadata({
   title: "Serviços",
-  description: "Sites, aplicativos, robôs no Telegram, automações e sistemas sob encomenda para o seu negócio.",
+  description: "Sites, aplicativos, bots no Telegram, automações e sistemas sob encomenda para o seu negócio.",
   path: "/servicos/",
 });
 

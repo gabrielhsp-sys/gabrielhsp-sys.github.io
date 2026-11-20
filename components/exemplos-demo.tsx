@@ -32,13 +32,13 @@ const ROTEIROS: { id: string; botao: string; falas: Fala[] }[] = [
 ];
 
 export function ChatSimulado() {
-  const [falas, setFalas] = useState<Fala[]>([{ de: "robo", texto: "Olá! Eu sou o robô da Lanchonete Exemplo. Aviso a equipe e respondo as perguntas de sempre." }]);
+  const [falas, setFalas] = useState<Fala[]>([{ de: "robo", texto: "Olá! Eu sou o bot da Lanchonete Exemplo. Aviso a equipe e respondo as perguntas de sempre." }]);
   return (
     <div className="d-demo">
       <div className="d-chat" role="log" aria-live="polite" aria-label="Conversa simulada no Telegram">
         {falas.map((f, i) => (
           <p key={i} className="d-bubble" data-de={f.de}>
-            <span className="sr-only">{f.de === "robo" ? "Robô: " : "Cliente: "}</span>
+            <span className="sr-only">{f.de === "robo" ? "Bot: " : "Cliente: "}</span>
             {f.texto}
           </p>
         ))}

@@ -18,13 +18,13 @@ export const metadata: Metadata = {
     siteName: site.name,
     title: site.title,
     description: site.description,
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: `${site.name}: sites, aplicativos e robôs para o seu negócio` }],
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: `${site.name}: sites, aplicativos e bots para o seu negócio` }],
   },
   twitter: {
     card: "summary_large_image",
     title: site.title,
     description: site.description,
-    images: [{ url: "/og.png", alt: `${site.name}: sites, aplicativos e robôs para o seu negócio` }],
+    images: [{ url: "/og.png", alt: `${site.name}: sites, aplicativos e bots para o seu negócio` }],
   },
 };
 

@@ -6,7 +6,7 @@ import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = pageMetadata({
   title: "Exemplos",
-  description: "Sites de exemplo para sete ramos, um aplicativo, um robô no Telegram e demonstrações de automação e de sistema.",
+  description: "Sites de exemplo para sete ramos, um aplicativo, um bot no Telegram e demonstrações de automação e de sistema.",
   path: "/exemplos/",
 });
 
@@ -14,7 +14,7 @@ export const metadata: Metadata = pageMetadata({
 const grupos = [
   { href: "/exemplos/sites/", nome: "Sites", texto: "Sete sites de exemplo, um para cada ramo, com negócios inventados. Abra no celular e mexa à vontade.", tipo: "Exemplos para mexer" },
   { href: "/exemplos/aplicativos/", nome: "Aplicativos", texto: "Um aplicativo Android que eu fiz: divide as contas de uma carona diária entre os celulares do grupo.", tipo: "Projeto real" },
-  { href: "/exemplos/bots/", nome: "Robôs no Telegram", texto: "Um robô que eu fiz e que está no ar: lê canais de promoção e só avisa quando aparece o que eu procuro.", tipo: "Projeto real" },
+  { href: "/exemplos/bots/", nome: "Bots no Telegram", texto: "Um bot que eu fiz e que está no ar: lê canais de promoção e só avisa quando aparece o que eu procuro.", tipo: "Projeto real" },
   { href: "/exemplos/automacoes/", nome: "Automações", texto: "Pedidos que viram planilha e resumo do dia, sem digitar nada. Teste aqui mesmo, com dados de mentira.", tipo: "Demonstração" },
   { href: "/exemplos/sistemas/", nome: "Sistemas", texto: "Um controle de estoque com acesso diferente para o dono e para a equipe. Teste aqui mesmo.", tipo: "Demonstração" },
 ];

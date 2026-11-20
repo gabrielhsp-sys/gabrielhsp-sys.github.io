@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 const suggestions = [
   { href: "/", label: "Início", hint: "o que eu faço e como pedir" },
-  { href: "/servicos/", label: "Serviços", hint: "sites, aplicativos, robôs, automações e sistemas" },
+  { href: "/servicos/", label: "Serviços", hint: "sites, aplicativos, bots, automações e sistemas" },
   { href: "/exemplos/", label: "Exemplos", hint: "veja antes de pedir" },
   { href: "/orcamento/", label: "Pedir orçamento", hint: "algumas perguntas e a mensagem pronta no WhatsApp" },
   { href: "/sobre/", label: "Sobre e projetos", hint: "para recrutadores" },
