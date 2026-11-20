@@ -1,0 +1,96 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "outputDirectory": "public",
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "https://gabrielsys.com.br/exemplos/sites/",
+      "permanent": true
+    },
+    {
+      "source": "/alimentacao",
+      "destination": "https://gabrielsys.com.br/exemplos/sites/alimentacao/",
+      "permanent": true
+    },
+    {
+      "source": "/beleza",
+      "destination": "https://gabrielsys.com.br/exemplos/sites/beleza/",
+      "permanent": true
+    },
+    {
+      "source": "/cabeleireiro",
+      "destination": "https://gabrielsys.com.br/exemplos/sites/cabeleireiro/",
+      "permanent": true
+    },
+    {
+      "source": "/saude",
+      "destination": "https://gabrielsys.com.br/exemplos/sites/saude/",
+      "permanent": true
+    },
+    {
+      "source": "/fitness",
+      "destination": "https://gabrielsys.com.br/exemplos/sites/fitness/",
+      "permanent": true
+    },
+    {
+      "source": "/loja",
+      "destination": "https://gabrielsys.com.br/exemplos/sites/loja/",
+      "permanent": true
+    },
+    {
+      "source": "/servicos",
+      "destination": "https://gabrielsys.com.br/exemplos/sites/servicos/",
+      "permanent": true
+    },
+    {
+      "source": "/alimentacao/",
+      "destination": "https://gabrielsys.com.br/exemplos/sites/alimentacao/",
+      "permanent": true
+    },
+    {
+      "source": "/beleza/",
+      "destination": "https://gabrielsys.com.br/exemplos/sites/beleza/",
+      "permanent": true
+    },
+    {
+      "source": "/cabeleireiro/",
+      "destination": "https://gabrielsys.com.br/exemplos/sites/cabeleireiro/",
+      "permanent": true
+    },
+    {
+      "source": "/saude/",
+      "destination": "https://gabrielsys.com.br/exemplos/sites/saude/",
+      "permanent": true
+    },
+    {
+      "source": "/fitness/",
+      "destination": "https://gabrielsys.com.br/exemplos/sites/fitness/",
+      "permanent": true
+    },
+    {
+      "source": "/loja/",
+      "destination": "https://gabrielsys.com.br/exemplos/sites/loja/",
+      "permanent": true
+    },
+    {
+      "source": "/servicos/",
+      "destination": "https://gabrielsys.com.br/exemplos/sites/servicos/",
+      "permanent": true
+    },
+    {
+      "source": "/l/:slug",
+      "destination": "https://gabrielsys.com.br/para/:slug/",
+      "permanent": true
+    },
+    {
+      "source": "/l/:slug/",
+      "destination": "https://gabrielsys.com.br/para/:slug/",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "destination": "https://gabrielsys.com.br/exemplos/sites/",
+      "permanent": true
+    }
+  ]
+}
