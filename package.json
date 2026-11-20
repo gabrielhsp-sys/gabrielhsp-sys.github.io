@@ -10,7 +10,7 @@
     "start": "next start",
     "lint": "eslint .",
     "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test tests/*.test.mjs",
-    "check": "npm run lint && npm run test && npm run exemplos:test && npm run build",
+    "check": "npm run lint && npm run test && npm run exemplos:test && npm run build && npm run exemplos:verificar",
     "postbuild": "node scripts/verify-export.mjs && node scripts/verificar-saida.mjs",
     "imagens": "node scripts/imagens.mjs",
     "marca": "node scripts/marca.mjs",
@@ -20,7 +20,8 @@
     "exemplos:test": "npm --prefix exemplos-sites test",
     "material:link": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/material-link.mjs",
     "test:cloudflare": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/testar-cloudflare.mjs",
-    "previa": "WRANGLER_SEND_METRICS=false wrangler pages dev out --ip 127.0.0.1 --port 8788"
+    "previa": "WRANGLER_SEND_METRICS=false wrangler pages dev out --ip 127.0.0.1 --port 8788",
+    "exemplos:verificar": "npm --prefix exemplos-sites run verificar:dist && npm --prefix exemplos-sites run verificar:creditos && npm --prefix exemplos-sites run verificar:navegador && npm --prefix exemplos-sites run verificar:interacao"
   },
   "dependencies": {
     "@fontsource-variable/bricolage-grotesque": "^5.3.0",

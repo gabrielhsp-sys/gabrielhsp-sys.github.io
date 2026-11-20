@@ -9,8 +9,10 @@ export function BareChrome({ children }: { children: React.ReactNode }) {
       <BrowserChrome />
       <header className="c-header c-header-bare">
         {/* Marca sem link: aqui ela identifica, nao navega. */}
-        {/* eslint-disable-next-line @next/next/no-img-element -- export estatico, sem otimizador */}
-        <img className="c-brand" src="/marca/logo-horizontal.png" alt="GABRIEL.SYS" width={328} height={40} />
+        <span className="c-brand">
+          {/* eslint-disable-next-line @next/next/no-img-element -- export estatico, sem otimizador */}
+          <img className="c-brand-full" src="/marca/logo-horizontal.png" alt="GABRIEL.SYS" width={328} height={40} />
+        </span>
         <div className="c-header-tools">
           <PreferenceTools />
         </div>

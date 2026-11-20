@@ -22,7 +22,6 @@ export default function NotFound() {
     <ClientChrome>
       <main id="conteudo" className="c-page">
         <header className="c-hero c-hero-compact">
-          <p className="c-kicker" aria-hidden="true">erro 404</p>
           <h1>Esta página não existe.</h1>
           <p className="c-lede">O endereço pode ter mudado. Estes caminhos existem:</p>
         </header>

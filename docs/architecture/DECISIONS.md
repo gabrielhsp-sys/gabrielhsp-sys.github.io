@@ -318,3 +318,43 @@ WebKit do Playwright não roda no Fedora; o motor do Safari é conferido no
 WebKitGTK do sistema (`docs/design/revisao-2026-10/medidas/webkitgtk.py`).
 
 Detalhes e medidas: `docs/design/revisao-2026-10/RELATORIO.md` §8.
+
+## ADR-024 — um site de serviço, com a área do recrutador separada (2026-11-19)
+
+Pedido e decisões do Gabriel em `prompts/2026-11-19-site-unificado/prompt.md` (plano em
+`docs/design/unificacao-2026-11/PLANO.md`; ecossistema D-218 a D-223).
+
+- O início (`/`) e as páginas de cliente falam com o dono de pequeno negócio: serviços, exemplos,
+  como funciona e orçamento. Contato de cliente só pelo WhatsApp Business (`lib/contato.ts`, um
+  gerador em `lib/whatsapp.ts`), botão fixo em toda página de cliente.
+- **Supera a ADR-007 no endereço**: o arquivo continua sendo a única listagem, agora em
+  `/projetos/`; os estudos de caso em `/projetos/<slug>/` e as áreas em `/projetos/area/<area>/`.
+  O antigo home + "Sobre" viram `/sobre/`. Os endereços antigos (`/about/`, `/archive/`,
+  `/projects/<slug>/`, `/area/<area>/`) ganham 301 em `public/_redirects`.
+- **Supera a ADR-017 no lugar**: a animação de entrada roda só em `/sobre/` e `/projetos/`. Terminal e
+  busca `Ctrl/⌘ + K` também só ali; o Konami vale no site todo (provider raiz); o som segue ligado
+  por padrão. A ADR-014 continua: nenhuma camada intercepta clique (teste e2e).
+- Cada grupo de rotas tem o seu chrome: `app/(cliente)` (`ClientChrome`), `app/(recrutador)`
+  (`RecruiterChrome`) e `app/(nu)` (`BareChrome`, para `/material/`).
+- A ADR-010 (rótulo claro) vale nas duas áreas; nas páginas de cliente o glossário é o do PLANO §3.
+
+## ADR-025 — hospedagem prevista no Cloudflare Pages, demos no mesmo build (2026-11-19)
+
+**Supera a ADR-001 no destino**: o export continua estático, mas a hospedagem prevista é o
+Cloudflare Pages (plano grátis), por permitir site comercial e fazer 301 de verdade. Nada foi
+criado na Cloudflare; o GitHub Pages segue publicando a `main` até o Gabriel trocar o workflow.
+Os demos Astro estão em `exemplos-sites/` (cópia de `demos-nichos` `2e7a9f4`) e `npm run build`
+junta tudo num `out/` (`scripts/juntar-exemplos.mjs`). `SITE_URL` em `lib/site.ts` é a URL única
+(domínio `gabrielsys.com.br`, compra pendente). `scripts/verificar-saida.mjs` confere no `out/` que
+todo `wa.me`, `tel:` e celular é o Business.
+
+## ADR-026 — /material/: link assinado e upload para o R2 (2026-11-19)
+
+A página escondida `/material/` substitui o formulário Tally de material pós-venda. Não é área
+autenticada (sem conta nem senha): o acesso é um link com token HMAC-SHA256 e validade, no
+fragmento da URL, gerado por `npm run material:link`. A Pages Function grava num bucket R2
+privado, por cliente, sem rota de leitura ou listagem; só PNG, JPG, WEBP e PDF; limites por
+arquivo, envio e cliente. Segredo só em `.dev.vars` (local) e no secret do Pages. Auditoria em
+`docs/design/unificacao-2026-11/SEGURANCA-MATERIAL.md`; `wrangler` 4.157.0 só para a prévia local
+(`docs/design/unificacao-2026-11/WRANGLER.md`).
+

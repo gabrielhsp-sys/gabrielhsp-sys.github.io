@@ -33,14 +33,10 @@ const sites = path.join(out, "exemplos", "sites");
 fs.mkdirSync(sites, { recursive: true });
 for (const entry of fs.readdirSync(dist, { withFileTypes: true })) {
   if (entry.name === "l") continue;
-  const src = path.join(dist, entry.name);
-  if (entry.isDirectory()) {
-    fs.mkdirSync(path.join(sites, entry.name), { recursive: true });
-    copy(src, path.join(sites, entry.name));
-  } else {
-    copy(dist, sites); // nunca acontece hoje: o dist só tem pastas
-    break;
-  }
+  // O dist do Astro só tem pastas (a home e o 404 saíram); arquivo solto é erro de build.
+  if (!entry.isDirectory()) throw new Error(`arquivo inesperado na raiz de exemplos-sites/dist: ${entry.name}`);
+  fs.mkdirSync(path.join(sites, entry.name), { recursive: true });
+  copy(path.join(dist, entry.name), path.join(sites, entry.name));
 }
 const leads = path.join(dist, "l");
 if (fs.existsSync(leads)) {

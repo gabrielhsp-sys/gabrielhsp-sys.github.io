@@ -278,8 +278,10 @@ terminal, busca ou animação de entrada (essas camadas ficam em `/sobre/` e `/p
   pergunta frequente, demonstração), 999 px na pílula (chip de ramo, botão fixo de WhatsApp).
 - **Cores de função, fora da paleta e registradas:** `#1f7a4d` é o verde do WhatsApp (botão fixo e
   "Enviar pelo WhatsApp", texto branco 5,3:1), `#18663f` o hover dele; o erro usa o `#f09c8d` já
-  registrado; a conversa simulada do robô usa as cores do Telegram (`#0f1a22`, `#213547`,
-  `#2b5278`), só dentro da demonstração.
+  registrado; o rodapé usa `#0a0908`, o mesmo preto do trilho; a conversa simulada do robô usa as
+  cores do Telegram (`#0f1a22`, `#213547`, `#2b5278`, texto `#eef4f8`), só dentro da demonstração.
+- **Selos "Projeto real" e "Demonstração":** neutros (marfim, borda `hardware-line`), porque âmbar é
+  ação e menta é o estado "No ar" (ADR-018); a demonstração tem borda tracejada.
 - **Marca:** `public/marca/` (derivada de `assets-src/marca/logo.png` por `npm run marca`); no
   cabeçalho, o logo horizontal com 32 px de altura (22 px no celular, só o símbolo abaixo de 360 px);
   favicon = só o símbolo.

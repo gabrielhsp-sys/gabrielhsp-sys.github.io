@@ -67,7 +67,7 @@ html:has([data-chrome="cliente"]) { scroll-padding-top: 88px; scroll-padding-bot
 .c-hero h1, .c-section h2, .o-title, .c-service-card h2 { text-wrap: balance; }
 .c-hero h1 { max-width: 20ch; margin: 0; font-size: clamp(2.4rem, 6vw, 4.25rem); font-weight: 700; line-height: 1.04; letter-spacing: -.03em; }
 .c-hero-compact h1 { font-size: clamp(2.1rem, 4.6vw, 3.4rem); }
-.c-kicker { margin: 0 0 18px; color: var(--amber); font-family: var(--mono); font-size: .9375rem; font-weight: 600; letter-spacing: .02em; }
+.c-lede + .o-hint { margin-top: 16px; }
 .c-lede { max-width: 58ch; margin: 24px 0 0; color: var(--paper-dim); font-size: clamp(1.125rem, 1.6vw, 1.3rem); }
 .c-note { margin: 18px 0 0; color: var(--paper-dim); font-size: 1rem; }
 .c-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
@@ -109,8 +109,10 @@ html:has([data-chrome="cliente"]) { scroll-padding-top: 88px; scroll-padding-bot
 .c-checks li { display: grid; grid-template-columns: 24px 1fr; gap: 12px; align-items: start; }
 .c-checks svg { margin-top: 4px; color: var(--mint); }
 
-.c-badge { display: inline-flex; align-self: flex-start; margin: 0 0 14px; padding: 4px 10px; border: 1px solid var(--amber); border-radius: 8px; color: var(--amber); font-family: var(--mono); font-size: .875rem; font-weight: 600; }
-.c-badge[data-kind="real"] { border-color: var(--mint); color: var(--mint); }
+/* Selo de natureza do exemplo. Neutro de proposito: ambar e acao e menta e o
+   estado "No ar" (ADR-018); "demonstracao" se distingue pela borda tracejada. */
+.c-badge { display: inline-flex; align-self: flex-start; margin: 0 0 14px; padding: 4px 10px; border: 1px solid var(--line); border-radius: 8px; color: var(--paper); font-family: var(--mono); font-size: .875rem; font-weight: 600; }
+.c-badge[data-kind="demo"] { border-style: dashed; }
 
 .c-faq { display: grid; gap: 10px; max-width: 70ch; }
 .c-faq details { border: 1px solid var(--line-soft); border-radius: 12px; background: var(--ink-2); }
@@ -271,7 +273,7 @@ html[data-typing="true"] .c-whats-fixo { opacity: 0; transform: translateY(140%)
 @media (prefers-reduced-motion: reduce) { .o-progress-bar i { transition: none; } }
 
 /* ── demonstracoes (/exemplos/) ── */
-.d-demo { display: grid; gap: 16px; padding: 20px; border: 1px dashed var(--amber); border-radius: 12px; background: var(--ink-2); }
+.d-demo { display: grid; gap: 16px; padding: 20px; border: 1px dashed var(--line); border-radius: 12px; background: var(--ink-2); }
 .d-chat { display: flex; flex-direction: column; gap: 10px; max-height: 26rem; overflow-y: auto; padding: 16px; border-radius: 12px; background: #0f1a22; }
 .d-bubble { max-width: 85%; margin: 0; padding: 10px 14px; border-radius: 12px; font-size: 1.0625rem; line-height: 1.45; }
 .d-bubble[data-de="robo"] { align-self: flex-start; background: #213547; color: #eef4f8; border-bottom-left-radius: 4px; }

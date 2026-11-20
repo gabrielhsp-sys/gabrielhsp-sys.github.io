@@ -9,7 +9,12 @@
     "build": "astro build",
     "preview": "astro preview",
     "test": "node --test \"src/**/*.test.ts\"",
-    "imagens": "node scripts/imagens.mjs"
+    "imagens": "node scripts/imagens.mjs",
+    "verificar:dist": "node scripts/verificar-dist.mjs",
+    "verificar:creditos": "node scripts/verificar-creditos.mjs",
+    "verificar:navegador": "node scripts/verificar-navegador.mjs",
+    "verificar:interacao": "node scripts/verificar-interacao.mjs",
+    "verificar": "npm test && npm run build && npm run verificar:dist && npm run verificar:creditos && npm run verificar:navegador && npm run verificar:interacao"
   },
   "dependencies": {
     "@fontsource/archivo": "5.3.0",

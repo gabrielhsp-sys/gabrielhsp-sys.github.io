@@ -66,20 +66,22 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 
         const hero = document.querySelector(".hero");
         const featured = document.querySelector("#projetos");
         const heading = featured.querySelector("h2").getBoundingClientRect().top;
-        // A antiga pagina "Sobre" (com a foto) virou a secao #quem-sou de /sobre/
-        // em 2026-11-19: a foto e conteudo dela, nao fundo da pagina.
-        const about = document.querySelector("#quem-sou");
-        const below = [...document.querySelectorAll("body *")].filter((el) => hero.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING && !hero.contains(el) && !about?.contains(el));
+        const below = [...document.querySelectorAll("body *")].filter((el) => hero.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING && !hero.contains(el));
         return {
           next: hero.nextElementSibling?.id,
           gap: heading - hero.getBoundingClientRect().bottom,
           padding: parseFloat(getComputedStyle(featured).paddingTop),
-          images: below.filter((el) => getComputedStyle(el).backgroundImage.includes("url(") || el.matches("img, picture, video")).map((el) => el.className || el.tagName),
+          // Toda imagem e todo fundo com imagem abaixo do hero, com o lugar onde estao.
+          images: below
+            .filter((el) => getComputedStyle(el).backgroundImage.includes("url(") || el.matches("img, picture, video"))
+            .map((el) => `${el.closest("#quem-sou") ? "#quem-sou " : ""}${el.tagName} ${el.getAttribute("src")?.replace(/[?&].*$/, "") ?? ""}`.trim()),
         };
       });
       expect(facts.next).toBe("projetos");
       expect(facts.gap).toBeCloseTo(facts.padding, 0);
-      expect(facts.images).toEqual([]);
+      // 2026-11-19: a antiga pagina "Sobre" virou a secao #quem-sou de /sobre/. A
+      // unica imagem permitida abaixo do hero e a foto de perfil dela; nenhum fundo.
+      expect(facts.images).toEqual(["#quem-sou IMG /profile.jpg"]);
     });
   });
 }

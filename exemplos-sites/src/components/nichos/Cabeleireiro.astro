@@ -8,7 +8,6 @@ import Base from '../../layouts/Base.astro';
 import Foto from '../Foto.astro';
 import BotaoWhats from '../BotaoWhats.astro';
 import Agenda from '../Agenda.astro';
-import Depoimentos from '../Depoimentos.astro';
 import Rodape from '../Rodape.astro';
 import type { DadosCabeleireiro } from '../../data/tipos.ts';
 import { formatarPreco } from '../../lib/mensagens.ts';
@@ -88,8 +87,7 @@ const iniciais = (nome: string) => nome.split(' ').map((p) => p[0]).slice(0, 2).
         <Agenda config={d.agenda} servicos={d.cortes.lista.map((c) => c.nome)} negocio={d.negocio.nome} rotuloDemo={d.rotulo} botaoTexto={d.botaoPrincipal} rotuloProfissional="Barbeiro" />
       </div>
     </section>
-
-    <Depoimentos lista={d.depoimentos} titulo="Na cadeira" />
+    {/* Sem depoimentos: nenhum depoimento inventado no site (prompt de 2026-11-19, tarefa 5). */}
   </main>
 
   <Rodape dados={d} />

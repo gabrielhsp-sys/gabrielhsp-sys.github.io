@@ -9,7 +9,6 @@ import Base from '../../layouts/Base.astro';
 import Foto from '../Foto.astro';
 import BotaoWhats from '../BotaoWhats.astro';
 import GradeAulas from '../GradeAulas.astro';
-import Depoimentos from '../Depoimentos.astro';
 import Rodape from '../Rodape.astro';
 import type { DadosFitness } from '../../data/tipos.ts';
 import { formatarPreco } from '../../lib/mensagens.ts';
@@ -82,8 +81,7 @@ for (let i = 0; i < palavras.length; i += 2) linhas.push(palavras.slice(i, i + 2
       </ul>
       <BotaoWhats rotuloDemo={d.rotulo} texto={d.botaoPrincipal} />
     </section>
-
-    <Depoimentos lista={d.depoimentos} titulo="Quem treina aqui" />
+    {/* Sem depoimentos: nenhum depoimento inventado no site (prompt de 2026-11-19, tarefa 5). */}
   </main>
 
   <Rodape dados={d} />

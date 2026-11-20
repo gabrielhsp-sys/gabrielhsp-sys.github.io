@@ -9,9 +9,12 @@ import { SITE_URL } from "../../../../lib/site.ts";
 const aqui = path.dirname(new URL(import.meta.url).pathname);
 const novo = SITE_URL.replace(/\/$/, "");
 
-// Mapa dos caminhos antigos do portfólio (o mesmo de public/_redirects).
-const PROJETOS = ["academic-system", "banco-de-dados-cpp", "faculdade-bcc", "fedora-post-install", "gabriel-sys-site", "telegram-offers"];
-const AREAS = ["software", "web", "academico"];
+// Mapa dos caminhos antigos do portfólio (o mesmo de public/_redirects). Projetos e
+// áreas derivados de content/public (AGENTS.md, regra 3), não escritos à mão.
+const raiz = path.resolve(aqui, "../../../..");
+const registros = fs.readdirSync(path.join(raiz, "content/public")).filter((f) => /\.mdx?$/.test(f));
+const PROJETOS = registros.map((f) => f.replace(/\.mdx?$/, ""));
+const AREAS = [...new Set(registros.map((f) => fs.readFileSync(path.join(raiz, "content/public", f), "utf8").match(/^area:\s*(\S+)/m)?.[1]).filter(Boolean))];
 const mapa = {
   "/": "/",
   "/about/": "/sobre/",

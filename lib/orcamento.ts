@@ -29,7 +29,7 @@ const op = (valor: string, rotulo: string, dica?: string): Opcao => ({ valor, ro
 
 export const PRECISA: Opcao[] = [
   op("site", "Um site", "para o cliente achar você e chamar no WhatsApp"),
-  op("aplicativo", "Um aplicativo", "agenda, pedidos, controle, cadastro"),
+  op("aplicativo", "Um aplicativo", "agenda, pedidos, fidelidade, cadastro"),
   op("robo", "Um robô no Telegram", "que avisa, responde ou lembra sozinho"),
   op("automacao", "Uma automação", "tarefa repetitiva, planilha ou relatório"),
   op("sistema", "Um sistema", "controle de clientes, pedidos, estoque ou agenda"),
@@ -127,7 +127,7 @@ export const ETAPAS: Etapa[] = [
       { id: "autoTarefa", tipo: "textarea", rotulo: "Que tarefa você quer que se faça sozinha?", naMensagem: "Tarefa", obrigatorio: true, ajuda: "Conte como você faz hoje, passo a passo." },
       {
         id: "autoOnde", tipo: "checkbox", rotulo: "Onde isso acontece?", naMensagem: "Onde acontece", obrigatorio: false, ajuda: "Marque quantas quiser.",
-        opcoes: [op("whatsapp", "WhatsApp"), op("telegram", "Telegram"), op("planilha", "Planilha"), op("email", "E-mail"), op("site", "Site"), op("programa", "Outro programa"), op("papel", "Papel")],
+        opcoes: [op("whatsapp", "WhatsApp"), op("telegram", "Telegram"), op("planilha", "Planilha"), op("email", "E-mail"), op("site", "Site"), op("sistema", "Sistema"), op("papel", "Papel")],
       },
       { id: "autoFrequencia", tipo: "radio", rotulo: "Com que frequência?", naMensagem: "Frequência", obrigatorio: true, opcoes: [op("toda-hora", "Toda hora"), op("algumas-dia", "Algumas vezes por dia"), op("uma-dia", "Uma vez por dia"), op("quando-mandar", "Quando eu mandar")] },
     ],

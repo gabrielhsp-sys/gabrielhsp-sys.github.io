@@ -10,7 +10,6 @@ import Foto from '../Foto.astro';
 import BotaoWhats from '../BotaoWhats.astro';
 import TabelaServicos from '../TabelaServicos.astro';
 import Agenda from '../Agenda.astro';
-import Depoimentos from '../Depoimentos.astro';
 import Rodape from '../Rodape.astro';
 import type { DadosBeleza } from '../../data/tipos.ts';
 import { imagemOg, tituloPagina } from '../../lib/paginas.ts';
@@ -82,8 +81,7 @@ const iniciais = (nome: string) => nome.split(' ').map((p) => p[0]).slice(0, 2).
         ))}
       </ul>
     </section>
-
-    <Depoimentos lista={d.depoimentos} titulo="O que dizem" />
+    {/* Sem depoimentos: nenhum depoimento inventado no site (prompt de 2026-11-19, tarefa 5). */}
   </main>
 
   <Rodape dados={d} />

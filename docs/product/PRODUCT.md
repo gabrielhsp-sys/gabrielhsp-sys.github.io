@@ -1,5 +1,13 @@
 # Produto
 
+> **Atualização de 2026-11-19 (ADR-024, branch `site-unificado-2026-11`).** O site virou o serviço
+> GABRIEL.SYS para cliente leigo (páginas `/`, `/servicos/`, `/exemplos/`, `/como-funciona/`,
+> `/orcamento/`); este documento descreve a **área do recrutador** (`/sobre/`, `/projetos/`), que
+> mantém o conteúdo e as regras abaixo. Mudanças de escopo: hospedagem prevista no Cloudflare Pages
+> (não mais GitHub Pages); a página escondida `/material/` recebe arquivos de clientes por link
+> assinado (não é área autenticada: não há conta nem senha); os demos de sites vivem no mesmo
+> repositório. Detalhes em `docs/architecture/DECISIONS.md`, ADR-024 a ADR-026.
+
 ## Promessa
 
 GABRIEL.SYS é o portfólio público de Gabriel Henrique. Quem chega para contratar

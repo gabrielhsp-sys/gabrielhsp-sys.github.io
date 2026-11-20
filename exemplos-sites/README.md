@@ -1,3 +1,9 @@
+> **Esta pasta é a cópia dos demos dentro do site GABRIEL.SYS (2026-11-19).** Publicação: junto
+> com o site, em `/exemplos/sites/<ramo>/` e `/para/<slug>/` (não mais na Vercel). Origem e mudanças:
+> `ORIGEM.md` e `docs/design/unificacao-2026-11/EXEMPLOS.md` na raiz do repositório. O WhatsApp vem
+> de `lib/whatsapp.ts` e `lib/contato.ts` da raiz (não da mirante). Onde o texto abaixo fala de
+> Vercel, mirante ou `/l/`, vale a nota acima.
+
 # demos-nichos
 
 Sete sites-demo de comércio para mandar por WhatsApp a donos de negócio em Areado-MG, mais uma
