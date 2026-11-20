@@ -1,8 +1,11 @@
-// Gera o link do /material/ para um cliente: `npm run material:link -- <cliente> [--dias 14] [--base URL]`
-// O segredo vem de MATERIAL_SECRET no ambiente ou do .dev.vars (ignorado pelo Git). O
-// script nunca imprime o segredo. O token vai no fragmento (#), que o navegador não envia
+// Gera o link do /material/ para um cliente: `npm run material:link -- <cliente> [--dias 14] [--base URL] [--producao]`
+// O segredo vem de MATERIAL_SECRET no ambiente ou do .dev.vars (ignorado pelo Git). Com
+// --producao, vem só de ~/.config/gabrielsys/material-secret (chmod 600, fora do
+// repositório), o mesmo gravado no projeto Pages, e a base é https://gabrielsys.com.br
+// (--base troca). O script nunca imprime o segredo. O token vai no fragmento (#), que o navegador não envia
 // ao servidor nem no Referer: o link não fica em log de acesso.
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { assinarLink, CLIENTE, LIMITES } from "../lib/material.ts";
 import { SITE_URL } from "../lib/site.ts";
@@ -12,6 +15,8 @@ const opcao = (nome, padrao) => {
   const i = args.indexOf(`--${nome}`);
   return i >= 0 ? args.splice(i, 2)[1] : padrao;
 };
+const producao = args.includes("--producao");
+if (producao) args.splice(args.indexOf("--producao"), 1);
 const dias = Number(opcao("dias", "14"));
 const base = opcao("base", SITE_URL).replace(/\/$/, "");
 const [cliente] = args;
@@ -30,7 +35,13 @@ const lerDevVars = () => {
   const linha = fs.readFileSync(arquivo, "utf8").split(/\r?\n/).find((l) => l.startsWith("MATERIAL_SECRET="));
   return linha?.slice("MATERIAL_SECRET=".length).replace(/^"|"$/g, "");
 };
-const segredo = process.env.MATERIAL_SECRET ?? lerDevVars();
+const lerProducao = () => {
+  const arquivo = path.join(os.homedir(), ".config/gabrielsys/material-secret");
+  if (!fs.existsSync(arquivo)) sair(`segredo de produção ausente em ${arquivo}`);
+  if (fs.statSync(arquivo).mode & 0o077) sair(`${arquivo} legível por outros usuários: rode chmod 600`);
+  return fs.readFileSync(arquivo, "utf8").trim();
+};
+const segredo = producao ? lerProducao() : process.env.MATERIAL_SECRET ?? lerDevVars();
 if (!segredo) sair("MATERIAL_SECRET ausente (no ambiente ou no .dev.vars)");
 if (segredo.length < LIMITES.segredoMinimo) sair(`MATERIAL_SECRET com menos de ${LIMITES.segredoMinimo} caracteres`);
 
