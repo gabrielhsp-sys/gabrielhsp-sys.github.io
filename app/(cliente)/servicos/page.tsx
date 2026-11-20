@@ -31,7 +31,7 @@ export default function ServicosPage() {
       </div>
       <section className="c-section c-final" aria-labelledby="final-titulo">
         <h2 id="final-titulo">Não sabe qual é o seu caso?</h2>
-        <p>Me conte o problema do seu jeito. Eu digo o que resolve e quanto custa antes de você decidir.</p>
+        <p>Me conte o problema do seu jeito. Eu digo o que resolve e quanto custa antes de você decidir qualquer coisa.</p>
         <Ctas orcamento="/orcamento/?origem=servicos" />
       </section>
     </main>

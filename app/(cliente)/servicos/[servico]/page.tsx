@@ -27,7 +27,6 @@ export default async function ServicoPage({ params }: Props) {
     <main id="conteudo" className="c-page">
       <Link className="c-back" href="/servicos/"><ArrowLeft size={18} aria-hidden="true" /> Todos os serviços</Link>
       <header className="c-hero c-hero-compact">
-        <p className="c-kicker">{s.nome}</p>
         <h1>{s.titulo}</h1>
         <p className="c-lede">{s.resolve}</p>
         <Ctas

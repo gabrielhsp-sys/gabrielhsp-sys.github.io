@@ -23,18 +23,18 @@ export default function AplicativosExemploPage() {
         <p className="c-badge" data-kind="real">Projeto real</p>
         <h1>Carona 70: as contas da carona, certas e sem discussão.</h1>
         <p className="c-lede">
-          Um aplicativo Android que eu fiz para um grupo que divide a carona até a faculdade. Antes, cada
-          viagem, cada passageiro e cada pagamento ficavam na memória de alguém. Agora ficam no celular.
+          Um aplicativo Android que eu fiz para um grupo que divide a carona até a faculdade. Cada viagem,
+          cada passageiro e cada pagamento ficam registrados no celular de todo mundo.
         </p>
       </header>
       <section className="c-section" aria-labelledby="faz-titulo">
         <h2 id="faz-titulo">O que ele faz</h2>
         <ul className="c-list">
           <li>Marca quem foi na ida e na volta de cada saída do carro, no dia.</li>
-          <li>Calcula sozinho quanto cada pessoa deve e quanto vai para o dono do carro.</li>
+          <li>Calcula sozinho quanto cada pessoa deve, dia a dia e na semana.</li>
           <li>Quando alguém paga, desconta da dívida mais antiga e guarda o histórico.</li>
           <li>Os celulares do grupo veem a mesma coisa na hora, e o app funciona mesmo sem internet.</li>
-          <li>Lembra o grupo de acertar as contas da semana.</li>
+          <li>Manda lembretes toda semana.</li>
         </ul>
       </section>
       <section className="c-section" aria-labelledby="seu-titulo">

@@ -19,7 +19,7 @@ export default function MaterialPage() {
           Aqui você me manda tudo o que vai no seu site: informações, fotos e textos. Leva uns 10 minutos. Não
           tem alguma coisa agora? Pule e me mande depois pelo WhatsApp.
         </p>
-        <p className="o-hint">Aceito PNG, JPG, WEBP e PDF, até 10 MB por arquivo e 40 MB por envio. Só eu vejo o que você mandar.</p>
+        <p className="o-hint">Aceito PNG, JPG, WEBP e PDF, até 10&nbsp;MB por arquivo e 40&nbsp;MB por envio. Só eu vejo o que você mandar.</p>
       </header>
       <noscript><p className="o-hint">Esta página precisa de JavaScript para enviar arquivos.</p></noscript>
       <MaterialForm />

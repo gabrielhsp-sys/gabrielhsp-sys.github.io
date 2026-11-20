@@ -67,6 +67,15 @@ export function MaterialForm() {
       .catch(() => setEstado("invalido"));
   }, []);
 
+  // Saindo com respostas ou arquivos ainda nao enviados: o navegador pergunta antes.
+  const sujo = estado === "pronto" && (Object.values(textos).some((v) => v.trim()) || Object.values(arquivos).some((l) => l.length > 0));
+  useEffect(() => {
+    if (!sujo) return;
+    const avisar = (event: BeforeUnloadEvent) => { event.preventDefault(); };
+    window.addEventListener("beforeunload", avisar);
+    return () => window.removeEventListener("beforeunload", avisar);
+  }, [sujo]);
+
   const texto = (id: string) => textos[id] ?? "";
   const setTexto = (id: string, v: string) => setTextos((t) => ({ ...t, [id]: v }));
 
@@ -198,7 +207,7 @@ export function MaterialForm() {
 
       <fieldset className="m-section">
         <legend>Fotos</legend>
-        <p className="o-hint">Foto de celular serve. Até 10 MB cada. Pode mandar várias de uma vez.</p>
+        <p className="o-hint">Foto de celular serve. Até 10&nbsp;MB cada. Pode mandar várias de uma vez.</p>
         <CampoArquivo campo={{ id: "fachada", rotulo: "Fachada e ambiente", varios: true }} arquivos={arquivos} setArquivos={setArquivos} />
         <CampoArquivo campo={{ id: "trabalhos", rotulo: "Produtos, pratos ou trabalhos", varios: true }} arquivos={arquivos} setArquivos={setArquivos} />
         <CampoArquivo campo={{ id: "equipe", rotulo: "Equipe", varios: true }} arquivos={arquivos} setArquivos={setArquivos} />

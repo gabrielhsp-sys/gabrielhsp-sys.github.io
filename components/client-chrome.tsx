@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { InstagramLogoIcon as InstagramLogo, ListIcon as List, WhatsappLogoIcon as WhatsappLogo, XIcon as X } from "@phosphor-icons/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BrowserChrome } from "@/components/browser-chrome";
 import { PreferenceTools } from "@/components/system-chrome";
 import { ATENDIMENTO, INSTAGRAM, INSTAGRAM_URL, WHATSAPP_EXIBICAO } from "@/lib/contato";
@@ -23,6 +23,7 @@ const nav = [
 export function ClientChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuButton = useRef<HTMLButtonElement>(null);
   // Navegou, o menu fecha. Ajuste de estado na renderizacao, nao em efeito.
   const [lastPath, setLastPath] = useState(pathname);
   if (lastPath !== pathname) {
@@ -35,7 +36,13 @@ export function ClientChrome({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!menuOpen) return;
-    const onKey = (event: KeyboardEvent) => { if (event.key === "Escape") setMenuOpen(false); };
+    // Esc fecha e devolve o foco ao botao: o menu some (display: none) e o foco
+    // que estava num link dele cairia no <body>.
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setMenuOpen(false);
+      menuButton.current?.focus();
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [menuOpen]);
@@ -64,7 +71,9 @@ export function ClientChrome({ children }: { children: React.ReactNode }) {
       <header className="c-header">
         <Link href="/" className="c-brand" aria-label="GABRIEL.SYS, início">
           {/* eslint-disable-next-line @next/next/no-img-element -- export estatico, sem otimizador */}
-          <img src="/marca/logo-horizontal.png" alt="" width={328} height={40} />
+          <img className="c-brand-full" src="/marca/logo-horizontal.png" alt="" width={328} height={40} />
+          {/* eslint-disable-next-line @next/next/no-img-element -- export estatico, sem otimizador */}
+          <img className="c-brand-symbol" src="/marca/simbolo.png" alt="" width={30} height={26} loading="lazy" />
         </Link>
         <nav className="c-nav" id="menu-principal" aria-label="Principal" data-open={menuOpen || undefined}>
           {nav.map((item) => (
@@ -89,6 +98,7 @@ export function ClientChrome({ children }: { children: React.ReactNode }) {
             <span className="c-cta-short">Orçamento</span>
           </Link>
           <button
+            ref={menuButton}
             className="c-menu-button"
             type="button"
             aria-expanded={menuOpen}

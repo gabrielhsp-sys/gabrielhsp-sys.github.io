@@ -267,6 +267,25 @@ A imagem `assets-src/imagens/hero-bancada.png` (AVIF + WebP por `npm run imagens
 
 Ctrl/⌘ + K abre uma camada central. Ela inclui carregamento, erro e vazio, torna o fundo inerte, prende o foco, fecha com Escape e devolve o foco ao invocador.
 
+### Páginas de cliente (2026-11-19)
+
+O site de serviço (`/`, `/servicos/`, `/exemplos/`, `/como-funciona/`, `/orcamento/`, `/material/`) usa
+a mesma paleta e as mesmas fontes, com regras próprias em `app/cliente.css` (prefixos `c-`, `o-`,
+`d-`, `m-`): corpo em 18 px (1.125rem), campos em 17 px, menos rótulo em mono, nenhum trilho,
+terminal, busca ou animação de entrada (essas camadas ficam em `/sobre/` e `/projetos/`).
+
+- **Raios:** 8 px nos controles (botão, campo, opção, selo), 12 px nos painéis (cartão, passo,
+  pergunta frequente, demonstração), 999 px na pílula (chip de ramo, botão fixo de WhatsApp).
+- **Cores de função, fora da paleta e registradas:** `#1f7a4d` é o verde do WhatsApp (botão fixo e
+  "Enviar pelo WhatsApp", texto branco 5,3:1), `#18663f` o hover dele; o erro usa o `#f09c8d` já
+  registrado; a conversa simulada do robô usa as cores do Telegram (`#0f1a22`, `#213547`,
+  `#2b5278`), só dentro da demonstração.
+- **Marca:** `public/marca/` (derivada de `assets-src/marca/logo.png` por `npm run marca`); no
+  cabeçalho, o logo horizontal com 32 px de altura (22 px no celular, só o símbolo abaixo de 360 px);
+  favicon = só o símbolo.
+- **WhatsApp fixo:** canto inferior direito, com texto "WhatsApp"; sai da frente quando um campo
+  recebe foco; não existe no `/orcamento/`, onde vira o link "Prefiro conversar direto no WhatsApp".
+
 ## Do's and Don'ts
 
 ### Do:

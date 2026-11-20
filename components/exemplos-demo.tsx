@@ -165,8 +165,9 @@ export function SistemaDemo() {
                 <td>{p.qtd}</td>
                 {dono && <td>{p.minimo}</td>}
                 <td className="d-row-actions">
-                  <button type="button" onClick={() => mudar(p.nome, -1)} aria-label={`Saída de 1: ${p.nome}`}>−1</button>
-                  <button type="button" onClick={() => mudar(p.nome, 5)} aria-label={`Entrada de 5: ${p.nome}`}>+5</button>
+                  {/* O nome acessivel comeca pelo texto visivel (WCAG 2.5.3). */}
+                  <button type="button" onClick={() => mudar(p.nome, -1)}>−1<span className="sr-only"> saída de {p.nome}</span></button>
+                  <button type="button" onClick={() => mudar(p.nome, 5)}>+5<span className="sr-only"> entrada de {p.nome}</span></button>
                 </td>
               </tr>
             ))}

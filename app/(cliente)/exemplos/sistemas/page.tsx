@@ -33,8 +33,8 @@ export default function SistemasExemploPage() {
         <p className="c-badge" data-kind="real">Projeto real</p>
         <h2 id="real-titulo">Já fiz assim de verdade</h2>
         <p>
-          Um sistema acadêmico com cadastro, notas e controle de acesso por papel: cada tipo de usuário entra
-          com o próprio login e só faz o que o papel dele permite.
+          Um sistema acadêmico com cadastro e controle de acesso por papel: cada tipo de usuário entra com o
+          próprio login e só faz o que o papel dele permite.
         </p>
         <Link className="c-more" href="/projetos/academic-system/">Como eu fiz <ArrowRight size={18} aria-hidden="true" /></Link>
       </section>

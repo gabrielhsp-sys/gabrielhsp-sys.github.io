@@ -4,6 +4,9 @@
    #b8b09f sobre #0c0b0a passam de 9:1; tinta sobre ambar, 9,7:1. */
 
 .c-frame { min-height: 100vh; display: flex; flex-direction: column; }
+/* WCAG 2.4.11: o foco que rola para a vista para antes do cabecalho fixo (72 px)
+   e acima do botao fixo de WhatsApp (56 px + margem). */
+html:has([data-chrome="cliente"]) { scroll-padding-top: 88px; scroll-padding-bottom: 96px; }
 .c-page { flex: 1; width: 100%; max-width: 72rem; margin: 0 auto; padding: 0 clamp(16px, 5vw, 56px) clamp(48px, 7vw, 96px); font-size: 1.125rem; line-height: 1.6; }
 
 /* ── cabecalho ── */
@@ -22,8 +25,9 @@
 }
 .c-brand { display: inline-flex; align-items: center; min-height: 44px; flex-shrink: 0; }
 .c-brand img { display: block; width: auto; height: 32px; }
+.c-brand .c-brand-symbol { display: none; }
 .c-nav { display: flex; align-items: center; gap: 4px; margin-left: auto; }
-.c-nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 6px; color: var(--paper-dim); font-size: 1.0625rem; text-decoration: none; }
+.c-nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 8px; color: var(--paper-dim); font-size: 1.0625rem; text-decoration: none; }
 .c-nav a[aria-current="page"] { color: var(--paper); text-decoration: underline; text-decoration-color: var(--amber); text-decoration-thickness: 2px; text-underline-offset: .4em; }
 @media (hover: hover) and (pointer: fine) { .c-nav a:hover { color: var(--paper); background: var(--ink-2); } }
 .c-nav-whats { display: none !important; }
@@ -60,6 +64,7 @@
 /* ── corpo ── */
 .c-hero { padding: clamp(48px, 9vw, 120px) 0 clamp(40px, 6vw, 72px); }
 .c-hero-compact { padding-top: clamp(32px, 5vw, 64px); }
+.c-hero h1, .c-section h2, .o-title, .c-service-card h2 { text-wrap: balance; }
 .c-hero h1 { max-width: 20ch; margin: 0; font-size: clamp(2.4rem, 6vw, 4.25rem); font-weight: 700; line-height: 1.04; letter-spacing: -.03em; }
 .c-hero-compact h1 { font-size: clamp(2.1rem, 4.6vw, 3.4rem); }
 .c-kicker { margin: 0 0 18px; color: var(--amber); font-family: var(--mono); font-size: .9375rem; font-weight: 600; letter-spacing: .02em; }
@@ -87,7 +92,7 @@
 @media (hover: hover) and (pointer: fine) { .c-chips a:hover { border-color: var(--amber); color: var(--amber); } }
 
 .c-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 16px; margin: 0; padding: 0; list-style: none; counter-reset: passo; }
-.c-steps li { display: flex; flex-direction: column; gap: 6px; padding: 20px; border: 1px solid var(--line-soft); border-radius: 10px; background: var(--ink-2); counter-increment: passo; }
+.c-steps li { display: flex; flex-direction: column; gap: 6px; padding: 20px; border: 1px solid var(--line-soft); border-radius: 12px; background: var(--ink-2); counter-increment: passo; }
 .c-steps li::before { content: counter(passo); color: var(--amber); font-family: var(--mono); font-size: 1rem; font-weight: 600; }
 .c-steps strong { font-size: 1.15rem; line-height: 1.3; }
 .c-steps span { color: var(--paper-dim); }
@@ -104,11 +109,11 @@
 .c-checks li { display: grid; grid-template-columns: 24px 1fr; gap: 12px; align-items: start; }
 .c-checks svg { margin-top: 4px; color: var(--mint); }
 
-.c-badge { display: inline-flex; align-self: flex-start; margin: 0 0 14px; padding: 4px 10px; border: 1px solid var(--amber); border-radius: 6px; color: var(--amber); font-family: var(--mono); font-size: .875rem; font-weight: 600; }
+.c-badge { display: inline-flex; align-self: flex-start; margin: 0 0 14px; padding: 4px 10px; border: 1px solid var(--amber); border-radius: 8px; color: var(--amber); font-family: var(--mono); font-size: .875rem; font-weight: 600; }
 .c-badge[data-kind="real"] { border-color: var(--mint); color: var(--mint); }
 
 .c-faq { display: grid; gap: 10px; max-width: 70ch; }
-.c-faq details { border: 1px solid var(--line-soft); border-radius: 10px; background: var(--ink-2); }
+.c-faq details { border: 1px solid var(--line-soft); border-radius: 12px; background: var(--ink-2); }
 .c-faq summary { display: flex; align-items: center; min-height: 56px; padding: 0 20px; font-weight: 650; cursor: pointer; }
 .c-faq p { margin: 0; padding: 0 20px 20px; color: var(--paper-dim); }
 
@@ -198,6 +203,13 @@ html[data-typing="true"] .c-whats-fixo { opacity: 0; transform: translateY(140%)
   .c-ctas .c-button { width: 100%; }
 }
 
+/* Abaixo de 360 px marca, "Orcamento" e "Menu" nao cabem numa linha: fica so o
+   simbolo da marca (o nome segue no rodape e no nome acessivel do link). */
+@media (max-width: 359px) {
+  .c-brand .c-brand-full { display: none; }
+  .c-brand .c-brand-symbol { display: block; height: 26px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .c-whats-fixo, .c-cta, .c-button { transition: none; }
 }
@@ -232,9 +244,9 @@ html[data-typing="true"] .c-whats-fixo { opacity: 0; transform: translateY(140%)
 .o-field textarea { resize: vertical; }
 .o-field input:focus-visible, .o-field textarea:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; border-color: var(--amber); }
 .o-field[data-invalid] input[type="text"], .o-field[data-invalid] textarea { border-color: var(--red); }
-.o-error { margin: 0 0 10px; color: #f5a090; font-weight: 600; }
+.o-error { margin: 0 0 10px; color: #f09c8d; font-weight: 600; }
 .o-options { display: grid; gap: 10px; }
-.o-option { position: relative; display: grid; grid-template-columns: 24px 1fr; align-items: start; gap: 14px; min-height: 56px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--ink-2); cursor: pointer; }
+.o-option { position: relative; display: grid; grid-template-columns: 24px 1fr; align-items: start; gap: 14px; min-height: 56px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 8px; background: var(--ink-2); cursor: pointer; }
 .o-option input { width: 22px; height: 22px; margin: 2px 0 0; accent-color: var(--amber); }
 .o-option strong { display: block; font-weight: 600; }
 .o-option small { display: block; color: var(--paper-dim); font-size: .975rem; }
@@ -243,12 +255,12 @@ html[data-typing="true"] .c-whats-fixo { opacity: 0; transform: translateY(140%)
 @media (hover: hover) and (pointer: fine) { .o-option:hover { border-color: var(--paper-faint); } }
 .o-field[data-invalid] .o-option { border-color: var(--red); }
 .o-next { margin-top: 4px; }
-.o-error-summary { margin: 12px 0 20px; padding: 16px 20px; border: 2px solid var(--red); border-radius: 10px; background: rgb(240 120 99 / .08); }
+.o-error-summary { margin: 12px 0 20px; padding: 16px 20px; border: 2px solid var(--red); border-radius: 12px; background: rgb(240 120 99 / .08); }
 .o-error-summary:focus { outline: 2px solid var(--amber); outline-offset: 3px; }
 .o-error-summary h2 { margin: 0 0 8px; font-size: 1.2rem; }
 .o-error-summary ul { margin: 0; padding-left: 1.2em; }
-.o-error-summary a { color: #f5a090; font-weight: 600; }
-.o-message { margin: 0 0 18px; padding: 18px; overflow-x: auto; border: 1px solid var(--line-soft); border-radius: 10px; background: var(--ink-2); color: var(--paper); font-family: var(--mono); font-size: .95rem; line-height: 1.55; white-space: pre-wrap; word-break: break-word; }
+.o-error-summary a { color: #f09c8d; font-weight: 600; }
+.o-message { margin: 0 0 18px; padding: 18px; overflow-x: auto; border: 1px solid var(--line-soft); border-radius: 12px; background: var(--ink-2); color: var(--paper); font-family: var(--mono); font-size: .95rem; line-height: 1.55; white-space: pre-wrap; word-break: break-word; }
 .o-change { display: grid; gap: 4px; margin: 0 0 8px; padding: 0; list-style: none; }
 .o-change li { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 48px; border-bottom: 1px solid var(--line-faint); color: var(--paper-dim); }
 .o-change button { min-height: 44px; padding: 0 12px; border: 1px solid var(--line); border-radius: 8px; background: transparent; color: var(--paper); font-weight: 600; cursor: pointer; }
@@ -260,8 +272,8 @@ html[data-typing="true"] .c-whats-fixo { opacity: 0; transform: translateY(140%)
 
 /* ── demonstracoes (/exemplos/) ── */
 .d-demo { display: grid; gap: 16px; padding: 20px; border: 1px dashed var(--amber); border-radius: 12px; background: var(--ink-2); }
-.d-chat { display: flex; flex-direction: column; gap: 10px; max-height: 26rem; overflow-y: auto; padding: 16px; border-radius: 10px; background: #0f1a22; }
-.d-bubble { max-width: 85%; margin: 0; padding: 10px 14px; border-radius: 14px; font-size: 1.0625rem; line-height: 1.45; }
+.d-chat { display: flex; flex-direction: column; gap: 10px; max-height: 26rem; overflow-y: auto; padding: 16px; border-radius: 12px; background: #0f1a22; }
+.d-bubble { max-width: 85%; margin: 0; padding: 10px 14px; border-radius: 12px; font-size: 1.0625rem; line-height: 1.45; }
 .d-bubble[data-de="robo"] { align-self: flex-start; background: #213547; color: #eef4f8; border-bottom-left-radius: 4px; }
 .d-bubble[data-de="pessoa"] { align-self: flex-end; background: #2b5278; color: #fff; border-bottom-right-radius: 4px; }
 .d-actions { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -272,15 +284,16 @@ html[data-typing="true"] .c-whats-fixo { opacity: 0; transform: translateY(140%)
 .d-result { min-height: 1.6em; margin: 10px 0 0; color: var(--mint); font-weight: 600; }
 .d-table-wrap { overflow-x: auto; }
 .d-table { width: 100%; border-collapse: collapse; font-size: 1rem; }
+.d-table td { font-variant-numeric: tabular-nums; }
 .d-table th, .d-table td { padding: 10px 8px; border-bottom: 1px solid var(--line-soft); text-align: left; vertical-align: middle; }
 .d-table th { color: var(--paper-dim); font-weight: 600; }
-.d-table tr[data-baixo] td { color: #f5a090; }
+.d-table tr[data-baixo] td { color: #f09c8d; }
 .d-row-actions { display: flex; gap: 6px; }
 .d-row-actions button { min-width: 44px; min-height: 44px; border: 1px solid var(--line); border-radius: 8px; background: transparent; color: var(--paper); font-weight: 700; cursor: pointer; }
 .d-roles { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: 10px; margin: 0; padding: 0; border: 0; }
 .d-roles legend { margin-bottom: 8px; font-weight: 650; }
 .d-alert { padding: 12px 14px; border: 1px solid var(--amber); border-radius: 8px; color: var(--amber); font-weight: 600; }
-.d-video { display: block; width: 100%; max-width: 960px; height: auto; border: 1px solid var(--line-soft); border-radius: 10px; background: #000; }
+.d-video { display: block; width: 100%; max-width: 960px; height: auto; border: 1px solid var(--line-soft); border-radius: 12px; background: #000; }
 .c-button:disabled { opacity: .5; cursor: not-allowed; }
 
 /* ── /material/ ── */
@@ -289,7 +302,7 @@ html[data-typing="true"] .c-whats-fixo { opacity: 0; transform: translateY(140%)
 .m-section > legend { padding: 0 8px; font-size: 1.3rem; font-weight: 700; }
 .m-section .o-option + .o-option { margin-top: 10px; }
 .m-file { width: 100%; min-height: 52px; padding: 10px; border: 1px dashed var(--line); border-radius: 8px; background: var(--ink-2); color: var(--paper); font: inherit; }
-.m-file::file-selector-button { min-height: 40px; margin-right: 12px; padding: 0 14px; border: 0; border-radius: 6px; background: var(--amber); color: var(--ink); font-weight: 650; cursor: pointer; }
+.m-file::file-selector-button { min-height: 40px; margin-right: 12px; padding: 0 14px; border: 0; border-radius: 8px; background: var(--amber); color: var(--ink); font-weight: 650; cursor: pointer; }
 .m-done { display: grid; justify-items: start; gap: 12px; color: var(--mint); }
 .m-done h2 { margin: 0; color: var(--paper); font-size: 2rem; }
 .m-done p { margin: 0; color: var(--paper-dim); }

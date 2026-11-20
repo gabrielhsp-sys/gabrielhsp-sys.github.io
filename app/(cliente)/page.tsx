@@ -13,7 +13,6 @@ export default function Inicio() {
     <main id="conteudo" className="c-page">
       <StructuredData page="home" />
       <section className="c-hero" aria-labelledby="inicio-titulo">
-        <p className="c-kicker">{ATENDIMENTO.frase}</p>
         <h1 id="inicio-titulo">Sites, aplicativos e robôs para o seu negócio.</h1>
         <p className="c-lede">
           Eu sou o Gabriel. Faço sob encomenda o que o seu negócio precisa: um site que leva o cliente
@@ -21,7 +20,7 @@ export default function Inicio() {
           passa a se fazer sozinha.
         </p>
         <Ctas orcamento="/orcamento/?origem=inicio" />
-        <p className="c-note">{ATENDIMENTO.resposta}</p>
+        <p className="c-note">{ATENDIMENTO.frase} {ATENDIMENTO.resposta}</p>
       </section>
 
       <section className="c-section" aria-labelledby="faco-titulo">

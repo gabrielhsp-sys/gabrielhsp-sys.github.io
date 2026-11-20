@@ -118,3 +118,17 @@ test.describe("examples", () => {
     await expect(page.locator('[data-faixa="orcamento"]')).toHaveAttribute("href", "/orcamento/?precisa=site&origem=demo-alimentacao");
   });
 });
+
+test.describe("phone menu by keyboard", () => {
+  test.use({ viewport: { width: 390, height: 844 } });
+  test("Escape inside the open menu closes it and returns focus to the Menu button", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("html")).toHaveAttribute("data-retro", "off");
+    const botao = page.getByRole("button", { name: "Menu" });
+    await botao.click();
+    await page.getByRole("navigation", { name: "Principal" }).getByRole("link", { name: "Serviços" }).focus();
+    await page.keyboard.press("Escape");
+    await expect(botao).toBeFocused();
+    await expect(botao).toHaveAttribute("aria-expanded", "false");
+  });
+});

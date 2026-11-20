@@ -26,7 +26,7 @@ export function Steps() {
   return (
     <ol className="c-steps">
       <li><strong>Você me conta o que precisa</strong><span>Pelo formulário de orçamento ou direto no WhatsApp.</span></li>
-      <li><strong>Eu respondo em até 24 horas</strong><span>Com o que vou fazer, o prazo e o valor.</span></li>
+      <li><strong>Eu respondo em até 24 horas</strong><span>Depois, te mando o que vou fazer, o prazo e o valor.</span></li>
       <li><strong>Você aprova e me manda o material</strong><span>Fotos, textos e logo, por um link só seu.</span></li>
       <li><strong>Eu entrego e você confere</strong><span>Só vai ao ar depois que você aprovar.</span></li>
     </ol>
