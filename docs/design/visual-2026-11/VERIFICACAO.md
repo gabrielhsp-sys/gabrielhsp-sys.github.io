@@ -90,3 +90,41 @@ fica como sugestão.
 ## Riscos e irreversíveis
 
 Nenhum: tudo é commit local. Commit no ecossistema também local, sem push.
+
+## Fechamento (2026-11-20, branch `visual-2026-11`, build de `095b055`)
+
+Comandos rodados no fim, depois das correções da revisão, com o código de saída lido:
+
+| Comando | Saída | Exit |
+|---|---|---|
+| `npm run check` | lint limpo; `# pass 42 # fail 0` (raiz); `# pass 18 # fail 0` (exemplos-sites); build; `verificar-saida: 165 links wa.me, todos 5535998840168; 8 demos completos` (com as checagens novas de "robô" e de origem dos prints) | 0 |
+| `npm run test:cloudflare` | `testar-cloudflare: 43/43 passaram` | 0 |
+| `PW_CHROMIUM_PATH=~/.cache/ms-playwright/chromium-1234/chrome-linux64/chrome npx playwright test --project=chromium` | `134 passed` (eram 72 na `main`) | 0 |
+| `grep -rli "robô" out \| wc -l` | `0` | 0 |
+| `node scripts/lighthouse-previa.mjs` | `qualidade/lighthouse.md` | 0 |
+
+| # | Alegação | Resultado | Evidência |
+|---|---|---|---|
+| T1 | claro na primeira visita, mesmo com o sistema no escuro | PASS | `tema.spec.mjs` (fundo `rgb(247, 243, 234)`, theme-color igual) |
+| T2 | alternar persiste | PASS | `tema.spec.mjs` (clique → `dark` → recarrega → `dark`; volta ao claro) |
+| T3 | sem piscar | PASS | `tema.spec.mjs` com todo `/_next/static/*.js` bloqueado: o `<html>` já vem `dark` |
+| T4 | storage bloqueado não quebra | PASS | `tema.spec.mjs` (getter que lança; abre no claro, sem `pageerror`) |
+| T5 | seletor no cabeçalho (desktop) e no Menu (celular) | PASS | `tema.spec.mjs` |
+| T6 | AA nos dois temas | PASS | `tests/contraste.test.mjs` (sonda com token ruim ficou vermelha) + axe nas rotas de cliente nos dois temas (`a11y.spec.mjs`) |
+| T7 | logo legível nos dois | PASS | `tema.spec.mjs`: exatamente um logo visível por tema no cabeçalho e no rodapé (vermelho antes da correção da especificidade) + capturas `previa/depois/` |
+| H1 | uma linha em 320/360/375/390/414, nos dois temas | PASS | `cabecalho.spec.mjs` (10 casos, também com o Menu aberto); `previa/depois/cabecalho-medidas.txt` (64 px em todas; antes, 95 px em 360 e 375) |
+| H2 | fonte do sistema maior | PASS (aproximado) | `cabecalho.spec.mjs` com `font-size` raiz a 125% em 360 px. Android real: `manual`, com o Gabriel |
+| R1 | nenhum "robô" | PASS | `tests/sem-robo.test.mjs` (vermelho → verde), `verificar-saida.mjs`, grep acima |
+| I1 | toda imagem é print do trabalho dele | PASS | `tests/capturas.test.mjs` + checagem de rota em `verificar-saida.mjs`; fotos dentro dos demos: Unsplash, creditadas em `exemplos-sites/CREDITOS.md` |
+| I2 | alt, tamanho, lazy fora da dobra | PASS | `visual.spec.mjs` em 1440 e 390 (só a imagem LCP é eager, dentro da dobra); CLS 0 nas páginas de cliente |
+| I3 | AVIF/WebP pelo pipeline | PASS | `npm run imagens` (`--so-capturas` para pular a bancada); `npm ls sharp` → `sharp@0.35.4` |
+| P1 | hero com prints em molduras | PASS | `visual.spec.mjs` (notebook + celular, imagens carregadas, legenda "Demonstração") |
+| P2 | cartão com imagem por serviço | PASS | `visual.spec.mjs` (5 cartões; "Aplicativos" com ilustração em SVG rotulada) |
+| P3 | grade com filtro | PASS | `visual.spec.mjs` (12 itens, Bots → 2, URL `?tipo=bots`, recarrega, teclado, contagem anunciada) |
+| P4 | passos curtos | PASS | `visual.spec.mjs` (4 passos, ≤ 14 palavras) |
+| P5 | menos texto | PARCIAL | `node scripts/contar-palavras.mjs`: total 1325 → 1190; `/` 287 → 248; `/servicos/` 209 → 151; `/exemplos/sites/` 175 → 113; `/como-funciona/` 227 → 199. `/exemplos/` subiu (155 → 205): 12 cartões com selo, título e "Abrir o site" no lugar de 5 grupos de texto; a prosa por item ficou de uma linha |
+| K1 | regras de antes | PASS | e2e existentes sem enfraquecer (`cliente`, `recrutador`, `orcamento`, `hero`, `campos`); `verificar-saida.mjs` |
+| Q1 | acessibilidade e desempenho | PASS com custo | axe 0 nos dois temas; Lighthouse acessibilidade 100. Desempenho no celular 96 → 91–98 nas páginas de cliente (LCP passou a ser o print do hero); desktop 100 |
+
+Continua incerto: leitor de tela real; Android/iPhone reais (cabeçalho com fonte do sistema e o
+navegador do Instagram); Firefox (não está no cache do Playwright e não foi baixado).

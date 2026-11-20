@@ -1,0 +1,10 @@
+claro 320px: cabeçalho 64 px; topo marca 10, Orçamento 10, Menu 10
+claro 360px: cabeçalho 64 px; topo marca 10, Orçamento 10, Menu 10
+claro 375px: cabeçalho 64 px; topo marca 10, Orçamento 10, Menu 10
+claro 390px: cabeçalho 64 px; topo marca 10, Orçamento 10, Menu 10
+claro 414px: cabeçalho 64 px; topo marca 10, Orçamento 10, Menu 10
+escuro 320px: cabeçalho 64 px; topo marca 10, Orçamento 10, Menu 10
+escuro 360px: cabeçalho 64 px; topo marca 10, Orçamento 10, Menu 10
+escuro 375px: cabeçalho 64 px; topo marca 10, Orçamento 10, Menu 10
+escuro 390px: cabeçalho 64 px; topo marca 10, Orçamento 10, Menu 10
+escuro 414px: cabeçalho 64 px; topo marca 10, Orçamento 10, Menu 10

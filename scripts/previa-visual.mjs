@@ -21,6 +21,11 @@ for (const tema of temasArg.split(",")) {
     for (const [nome, rota] of rotas) {
       await p.goto(base + rota, { waitUntil: "networkidle" });
       await p.screenshot({ path: `${dir}/${nome}-${tema}-${w}x${h}.jpg`, type: "jpeg", quality: 78 });
+      // Rola até o fim para as imagens lazy carregarem antes da página inteira.
+      const altura = await p.evaluate(() => document.documentElement.scrollHeight);
+      for (let y = 0; y < altura; y += h) { await p.evaluate((yy) => window.scrollTo(0, yy), y); await p.waitForTimeout(120); }
+      await p.evaluate(() => window.scrollTo(0, 0));
+      await p.waitForLoadState("networkidle");
       await p.screenshot({ path: `${dir}/${nome}-${tema}-${w}x${h}-inteira.jpg`, type: "jpeg", quality: 62, fullPage: true });
     }
     await ctx.close();

@@ -68,3 +68,24 @@ Nenhuma métrica, cliente, logo de cliente ou depoimento inventado nas páginas.
 - Alvos: todos os controles novos têm 44 px; os cartões inteiros são o link.
 - `prefers-reduced-motion`: as transições novas caem para `none`.
 - Não testado: leitor de tela real (NVDA/TalkBack) e zoom de 200% à mão.
+
+## Lighthouse (resultado)
+
+Tabelas completas, antes e depois: `qualidade/lighthouse.md`. Páginas de cliente:
+
+| Rota | Celular antes → depois | LCP celular | Computador | CLS |
+|---|---|---|---|---|
+| `/` | 96 → 91 | 2,8 → 3,5 s | 100 → 100 | 0 |
+| `/servicos/` | 96 → 94 | 2,7 → 3,0 s | 100 → 100 | 0 |
+| `/servicos/sites/` | 96 → 95 | 2,8 → 2,9 s | 100 → 100 | 0 |
+| `/exemplos/` | 96 → 92 | 2,8 → 3,4 s | 100 → 100 | 0 |
+| `/como-funciona/` | 96 → 96 | 2,8 → 2,7 s | 100 → 100 | 0 |
+| `/orcamento/` | 96 → 98 | 2,8 → 2,4 s | 100 → 100 | 0 |
+
+Acessibilidade, boas práticas e SEO: 100 nas páginas de cliente, antes e depois (SEO 69 no
+`/orcamento/` e no demo é o `noindex` de propósito). O custo das imagens aparece no celular: antes o
+LCP era o título; agora é o print do hero (o texto pinta em ~0,9 s). O que baixou o custo, medido
+no início: tirar o preload duplo dos logos (React pré-carregava os dois; o escuro virou lazy),
+`sizes` pela largura do aparelho e não do cartão, a conversa do bot que não baixa abaixo de 1000 px,
+uma só imagem com `fetchpriority=high` e AVIF 52 nos prints (85 → 91; peso 700 → ~490 KB).
+O demo de alimentação (CLS 0,22) e o `/sobre/` não mudaram nesta rodada.
