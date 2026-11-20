@@ -6,6 +6,7 @@ import { InstagramLogoIcon as InstagramLogo, ListIcon as List, WhatsappLogoIcon 
 import { useEffect, useRef, useState } from "react";
 import { BrowserChrome } from "@/components/browser-chrome";
 import { PreferenceTools } from "@/components/system-chrome";
+import { TemaToggle } from "@/components/tema";
 import { ATENDIMENTO, INSTAGRAM, INSTAGRAM_URL, WHATSAPP_EXIBICAO } from "@/lib/contato";
 import { whatsappContato } from "@/lib/contato-links";
 
@@ -70,8 +71,11 @@ export function ClientChrome({ children }: { children: React.ReactNode }) {
       <BrowserChrome />
       <header className="c-header">
         <Link href="/" className="c-brand" aria-label="GABRIEL.SYS, início">
+          {/* Duas versoes do mesmo logo; o CSS mostra a do tema (cliente.css). */}
           {/* eslint-disable-next-line @next/next/no-img-element -- export estatico, sem otimizador */}
-          <img className="c-brand-full" src="/marca/logo-horizontal.png" alt="" width={328} height={40} />
+          <img className="c-brand-full c-logo-escuro" src="/marca/logo-horizontal.png" alt="" width={328} height={40} />
+          {/* eslint-disable-next-line @next/next/no-img-element -- export estatico, sem otimizador */}
+          <img className="c-brand-full c-logo-claro" src="/marca/logo-horizontal-claro.png" alt="" width={328} height={40} />
           {/* eslint-disable-next-line @next/next/no-img-element -- export estatico, sem otimizador */}
           <img className="c-brand-symbol" src="/marca/simbolo.png" alt="" width={30} height={26} loading="lazy" />
         </Link>
@@ -84,15 +88,18 @@ export function ClientChrome({ children }: { children: React.ReactNode }) {
           <a className="c-nav-whats" href={whatsappContato} target="_blank" rel="noopener">
             <WhatsappLogo size={20} aria-hidden="true" /> WhatsApp {WHATSAPP_EXIBICAO}
           </a>
-          {/* No celular o som fica dentro do menu: no cabecalho so cabem marca,
-              "Orcamento" e "Menu" numa linha de 390 px. */}
+          {/* No celular som e tema ficam dentro do menu: no cabecalho so cabem
+              marca, "Orcamento" e "Menu" numa linha, de 320 a 414 px. */}
           <div className="c-nav-prefs">
             <span>Som do site</span>
             <PreferenceTools />
           </div>
+          <div className="c-nav-prefs">
+            <TemaToggle rotulo />
+          </div>
         </nav>
         <div className="c-header-tools">
-          <span className="c-prefs-desktop"><PreferenceTools /></span>
+          <span className="c-prefs-desktop"><PreferenceTools /><TemaToggle /></span>
           <Link className="c-cta" href="/orcamento/">
             <span className="c-cta-long">Pedir orçamento</span>
             <span className="c-cta-short">Orçamento</span>
@@ -116,7 +123,9 @@ export function ClientChrome({ children }: { children: React.ReactNode }) {
       <footer className="c-footer">
         <div className="c-footer-main">
           {/* eslint-disable-next-line @next/next/no-img-element -- export estatico, sem otimizador */}
-          <img src="/marca/logo-horizontal.png" alt="GABRIEL.SYS" width={246} height={30} />
+          <img className="c-logo-escuro" src="/marca/logo-horizontal.png" alt="GABRIEL.SYS" width={246} height={30} loading="lazy" />
+          {/* eslint-disable-next-line @next/next/no-img-element -- export estatico, sem otimizador */}
+          <img className="c-logo-claro" src="/marca/logo-horizontal-claro.png" alt="GABRIEL.SYS" width={246} height={30} loading="lazy" />
           <p>Sites, aplicativos, bots no Telegram, automações e sistemas sob encomenda.</p>
           <p>{ATENDIMENTO.frase} {ATENDIMENTO.resposta}</p>
         </div>

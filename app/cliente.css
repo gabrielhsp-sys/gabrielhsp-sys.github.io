@@ -1,7 +1,62 @@
 /* Paginas de cliente (2026-11-19). Mesma identidade do DESIGN.md (preto quente,
    marfim, ambar de acao, Bricolage + IBM Plex Mono), com texto maior e menos
-   rotulo em mono (decisao 5, D-095). Contraste: marfim #e9e0ca e marfim-escuro
-   #b8b09f sobre #0c0b0a passam de 9:1; tinta sobre ambar, 9,7:1. */
+   rotulo em mono (D-095).
+
+   Dois temas (pedido de 2026-11-20): CLARO por padrao, escuro pelo seletor do
+   cabecalho. O script do <head> (lib/tema.ts) poe data-theme no <html>. Todo
+   par de cor de texto e de borda tem contraste AA nos dois temas, conferido por
+   tests/contraste.test.mjs (o oraculo le os blocos abaixo). O claro NAO vale:
+   - na area do recrutador (.site-frame: foto da bancada, terminal, medida no escuro);
+   - no modo retro (Konami), que tem paleta propria.
+
+   Tokens so do cliente; os de base (--ink, --paper, --line...) vem de globals.css. */
+:root {
+  --amber-fill: var(--amber);          /* fundo do botao solido */
+  --amber-fill-hover: #ffc35c;
+  --amber-fill-border: var(--amber);
+  --on-amber: #0c0b0a;                 /* texto sobre o botao solido */
+  --error-text: #f09c8d;               /* vermelho de falha clareado para texto */
+  --c-header-bg: rgb(12 11 10 / .94);
+  --c-footer-bg: #0a0908;
+  --c-frame-bg: #201d19;               /* moldura de notebook/celular em volta do print */
+  --c-frame-edge: #39342d;
+  --c-shadow: rgb(0 0 0 / .45);
+}
+
+:root[data-theme="light"]:not([data-retro="on"]):not(:has(.site-frame)) {
+  color-scheme: light;
+  --ink: #f7f3ea;
+  --ink-2: #fffdf8;
+  --ink-3: #ebe4d6;
+  --paper: #1d1a16;
+  --paper-dim: #4b453c;
+  --paper-faint: #665f53;
+  --line: #857c6d;
+  --line-soft: #ddd4c4;
+  --line-faint: #ebe4d6;
+  --amber: #8a500e;                    /* ambar de texto, link e foco no claro */
+  --amber-deep: #b57323;
+  --mint: #17704d;
+  --red: #b23a26;
+  --pink: #a83a5e;
+  --violet: #6a5a94;
+  --blue: #2f6797;
+  --amber-fill: #f0ab3c;
+  --amber-fill-hover: #f7bd5e;
+  --amber-fill-border: #a8681c;
+  --on-amber: #1d1a16;
+  --error-text: #a3321f;
+  --c-header-bg: rgb(247 243 234 / .94);
+  --c-footer-bg: #efe9dc;
+  --c-frame-bg: #2a2621;
+  --c-frame-edge: #4b453c;
+  --c-shadow: rgb(60 45 20 / .18);
+}
+
+/* Logo: a versao de fundo claro so troca a cor do nome (scripts/marca-claro.mjs). */
+.c-logo-claro { display: none !important; }
+:root[data-theme="light"]:not([data-retro="on"]) .c-logo-claro { display: block !important; }
+:root[data-theme="light"]:not([data-retro="on"]) .c-logo-escuro { display: none !important; }
 
 .c-frame { min-height: 100vh; display: flex; flex-direction: column; }
 /* WCAG 2.4.11: o foco que rola para a vista para antes do cabecalho fixo (72 px)
@@ -20,7 +75,7 @@ html:has([data-chrome="cliente"]) { scroll-padding-top: 88px; scroll-padding-bot
   min-height: 72px;
   padding: env(safe-area-inset-top, 0px) clamp(16px, 4vw, 48px) 0;
   border-bottom: 1px solid var(--line-soft);
-  background: rgb(12 11 10 / .94);
+  background: var(--c-header-bg);
   backdrop-filter: blur(8px);
 }
 .c-brand { display: inline-flex; align-items: center; min-height: 44px; flex-shrink: 0; }
@@ -42,10 +97,10 @@ html:has([data-chrome="cliente"]) { scroll-padding-top: 88px; scroll-padding-bot
   gap: 10px;
   min-height: 48px;
   padding: 0 20px;
-  border: 1px solid var(--amber);
+  border: 1px solid var(--amber-fill-border);
   border-radius: 8px;
-  background: var(--amber);
-  color: var(--ink);
+  background: var(--amber-fill);
+  color: var(--on-amber);
   font-size: 1.0625rem;
   font-weight: 650;
   text-decoration: none;
@@ -54,11 +109,19 @@ html:has([data-chrome="cliente"]) { scroll-padding-top: 88px; scroll-padding-bot
 .c-cta { min-height: 44px; padding: 0 16px; }
 .c-button-ghost { border-color: var(--line); background: transparent; color: var(--paper); }
 @media (hover: hover) and (pointer: fine) {
-  .c-cta:hover, .c-button:hover { background: #ffc35c; border-color: #ffc35c; }
+  .c-cta:hover, .c-button:hover { background: var(--amber-fill-hover); }
   .c-button-ghost:hover { background: var(--ink-2); border-color: var(--paper-faint); }
 }
 .c-cta:active, .c-button:active { transform: scale(.98); }
 .c-menu-button { display: none; }
+/* Seletor de tema: icone de 44 px no cabecalho (desktop); com rotulo no Menu (celular). */
+.c-theme-toggle { display: inline-grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 8px; background: transparent; color: var(--paper-dim); cursor: pointer; transition: transform var(--press) ease; }
+.c-theme-toggle:active { transform: scale(.94); }
+@media (hover: hover) and (pointer: fine) { .c-theme-toggle:hover { background: var(--ink-3); color: var(--paper); } }
+.c-theme-toggle-label { display: inline-flex; align-items: center; gap: 10px; width: 100%; height: auto; min-height: 52px; padding: 0 8px; color: var(--paper); font-size: 1.125rem; font-weight: 400; justify-content: flex-start; }
+.c-theme-toggle-label::after { content: ""; flex: none; width: 40px; height: 24px; margin-left: auto; border: 1px solid var(--line); border-radius: 999px; background: radial-gradient(circle at 11px 50%, var(--paper-dim) 7px, transparent 7.5px); }
+.c-theme-toggle-label[aria-pressed="true"]::after { border-color: var(--amber); background: radial-gradient(circle at 28px 50%, var(--amber) 7px, transparent 7.5px); }
+.c-header-tools .sound-toggle { color: var(--paper-dim); }
 .c-cta-short { display: none; }
 
 /* ── corpo ── */
@@ -133,7 +196,7 @@ html:has([data-chrome="cliente"]) { scroll-padding-top: 88px; scroll-padding-bot
   gap: 24px 48px;
   padding: clamp(40px, 6vw, 64px) clamp(16px, 5vw, 56px) calc(clamp(40px, 6vw, 64px) + 72px + env(safe-area-inset-bottom, 0px));
   border-top: 1px solid var(--line-soft);
-  background: #0a0908;
+  background: var(--c-footer-bg);
   color: var(--paper-dim);
 }
 .c-footer-main img { width: auto; height: 30px; }
@@ -161,7 +224,7 @@ html:has([data-chrome="cliente"]) { scroll-padding-top: 88px; scroll-padding-bot
   font-size: 1.0625rem;
   font-weight: 700;
   text-decoration: none;
-  box-shadow: 0 10px 30px rgb(0 0 0 / .45);
+  box-shadow: 0 10px 30px var(--c-shadow);
   transition: transform .2s var(--ease-out), opacity .2s ease;
 }
 @media (hover: hover) and (pointer: fine) { .c-whats-fixo:hover { background: #18663f; } }
@@ -190,6 +253,7 @@ html[data-typing="true"] .c-whats-fixo { opacity: 0; transform: translateY(140%)
   .c-nav-whats { display: inline-flex !important; gap: 10px; }
   .c-nav-prefs { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 52px; padding: 0 8px; border-top: 1px solid var(--line-faint); color: var(--paper-dim); }
   .c-prefs-desktop { display: none; }
+  .c-nav-prefs .c-theme-toggle-label { padding: 0; }
   .c-footer { grid-template-columns: 1fr; }
 }
 
@@ -220,7 +284,7 @@ html[data-typing="true"] .c-whats-fixo { opacity: 0; transform: translateY(140%)
 .o-form { max-width: 44rem; }
 .o-progress { display: grid; gap: 8px; margin: 0 0 8px; color: var(--paper-dim); font-family: var(--mono); font-size: .9375rem; font-weight: 600; }
 .o-progress-bar { display: block; height: 6px; overflow: hidden; border-radius: 3px; background: var(--ink-3); }
-.o-progress-bar i { display: block; height: 100%; background: var(--amber); transition: width .3s var(--ease-out); }
+.o-progress-bar i { display: block; height: 100%; background: var(--amber-fill-border); transition: width .3s var(--ease-out); }
 .o-back { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin: 4px 0; padding: 0; border: 0; background: none; color: var(--amber); font-weight: 600; cursor: pointer; }
 .o-step { margin-top: 12px; }
 .o-title { margin: 8px 0 12px; font-weight: 700; font-size: clamp(1.6rem, 3.2vw, 2.2rem); line-height: 1.15; }
@@ -250,7 +314,7 @@ html[data-typing="true"] .c-whats-fixo { opacity: 0; transform: translateY(140%)
 .o-field textarea { resize: vertical; }
 .o-field :is(input, textarea, select):focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; border-color: var(--amber); }
 .o-field[data-invalid] :is(input:not([type="radio"], [type="checkbox"], [type="file"], [type="hidden"]), textarea, select) { border-color: var(--red); }
-.o-error { margin: 0 0 10px; color: #f09c8d; font-weight: 600; }
+.o-error { margin: 0 0 10px; color: var(--error-text); font-weight: 600; }
 .o-options { display: grid; gap: 10px; }
 .o-option { position: relative; display: grid; grid-template-columns: 24px 1fr; align-items: start; gap: 14px; min-height: 56px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 8px; background: var(--ink-2); cursor: pointer; }
 .o-option input { width: 22px; height: 22px; margin: 2px 0 0; accent-color: var(--amber); }
@@ -265,7 +329,7 @@ html[data-typing="true"] .c-whats-fixo { opacity: 0; transform: translateY(140%)
 .o-error-summary:focus { outline: 2px solid var(--amber); outline-offset: 3px; }
 .o-error-summary h2 { margin: 0 0 8px; font-size: 1.2rem; }
 .o-error-summary ul { margin: 0; padding-left: 1.2em; }
-.o-error-summary a { color: #f09c8d; font-weight: 600; }
+.o-error-summary a { color: var(--error-text); font-weight: 600; }
 .o-message { margin: 0 0 18px; padding: 18px; overflow-x: auto; border: 1px solid var(--line-soft); border-radius: 12px; background: var(--ink-2); color: var(--paper); font-family: var(--mono); font-size: .95rem; line-height: 1.55; white-space: pre-wrap; word-break: break-word; }
 .o-change { display: grid; gap: 4px; margin: 0 0 8px; padding: 0; list-style: none; }
 .o-change li { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 48px; border-bottom: 1px solid var(--line-faint); color: var(--paper-dim); }
@@ -293,7 +357,7 @@ html[data-typing="true"] .c-whats-fixo { opacity: 0; transform: translateY(140%)
 .d-table td { font-variant-numeric: tabular-nums; }
 .d-table th, .d-table td { padding: 10px 8px; border-bottom: 1px solid var(--line-soft); text-align: left; vertical-align: middle; }
 .d-table th { color: var(--paper-dim); font-weight: 600; }
-.d-table tr[data-baixo] td { color: #f09c8d; }
+.d-table tr[data-baixo] td { color: var(--error-text); }
 .d-row-actions { display: flex; gap: 6px; }
 .d-row-actions button { min-width: 44px; min-height: 44px; border: 1px solid var(--line); border-radius: 8px; background: transparent; color: var(--paper); font-weight: 700; cursor: pointer; }
 .d-roles { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: 10px; margin: 0; padding: 0; border: 0; }
@@ -308,7 +372,7 @@ html[data-typing="true"] .c-whats-fixo { opacity: 0; transform: translateY(140%)
 .m-section > legend { padding: 0 8px; font-size: 1.3rem; font-weight: 700; }
 .m-section .o-option + .o-option { margin-top: 10px; }
 .m-file { width: 100%; min-height: 52px; padding: 10px; border: 1px dashed var(--line); border-radius: 8px; background: var(--ink-2); color: var(--paper); font: inherit; }
-.m-file::file-selector-button { min-height: 40px; margin-right: 12px; padding: 0 14px; border: 0; border-radius: 8px; background: var(--amber); color: var(--ink); font-weight: 650; cursor: pointer; }
+.m-file::file-selector-button { min-height: 40px; margin-right: 12px; padding: 0 14px; border: 0; border-radius: 8px; background: var(--amber-fill); color: var(--on-amber); font-weight: 650; cursor: pointer; }
 .m-done { display: grid; justify-items: start; gap: 12px; color: var(--mint); }
 .m-done h2 { margin: 0; color: var(--paper); font-size: 2rem; }
 .m-done p { margin: 0; color: var(--paper-dim); }

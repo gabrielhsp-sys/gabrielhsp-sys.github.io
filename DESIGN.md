@@ -285,6 +285,16 @@ terminal, busca ou animação de entrada (essas camadas ficam em `/sobre/` e `/p
 - **Marca:** `public/marca/` (derivada de `assets-src/marca/logo.png` por `npm run marca`); no
   cabeçalho, o logo horizontal com 32 px de altura (22 px no celular, só o símbolo abaixo de 360 px);
   favicon = só o símbolo.
+- **Tema claro e escuro (2026-11-20):** o claro é o padrão na primeira visita, independente do
+  sistema; o escuro fica a um toque (ícone de lua no cabeçalho no desktop, "Tema escuro" com chave
+  dentro do Menu no celular). A escolha fica em `localStorage` (`gsys:tema`); um script inline no
+  `<head>` (`lib/tema.ts`) põe `data-theme` no `<html>` antes do primeiro pintar. Paleta clara:
+  papel `#f7f3ea`, cartão `#fffdf8`, encaixe `#ebe4d6`, tinta `#1d1a16`, texto `#4b453c`,
+  metadado `#665f53`, borda `#857c6d`, âmbar de texto e foco `#8a500e` (o botão sólido continua
+  `#f0ab3c`, com tinta e borda `#a8681c`), menta `#17704d`, erro `#a3321f`. Todos os pares são
+  conferidos por `tests/contraste.test.mjs`. O claro não vale na área do recrutador nem no modo
+  retrô. Logo do claro: `public/marca/logo-horizontal-claro.png`, o mesmo desenho com o nome em
+  tinta (`scripts/marca-claro.mjs`).
 - **WhatsApp fixo:** canto inferior direito, com texto "WhatsApp"; sai da frente quando um campo
   recebe foco; não existe no `/orcamento/`, onde vira o link "Prefiro conversar direto no WhatsApp".
 

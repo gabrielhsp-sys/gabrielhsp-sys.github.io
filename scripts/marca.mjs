@@ -96,3 +96,7 @@ await (await square(96, 10)).toFile(path.join(root, "app/icon.png"));
 await (await square(180, 22)).toFile(path.join(root, "app/apple-icon.png"));
 
 console.log("marca: public/marca/{simbolo,logo-horizontal,logo-vertical}.png, app/icon.png, app/apple-icon.png");
+
+// Versão para fundo claro: o mesmo logo horizontal, só o nome em tinta.
+const { marcaClaro } = await import("./marca-claro.mjs");
+await marcaClaro();

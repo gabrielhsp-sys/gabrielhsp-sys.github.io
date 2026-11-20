@@ -4,6 +4,7 @@ import "./cliente.css";
 import { display, mono } from "./fonts";
 import { PersonalityProvider } from "@/components/personality";
 import { site } from "@/lib/site";
+import { TEMA_SCRIPT } from "@/lib/tema";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -28,11 +29,11 @@ export const metadata: Metadata = {
   },
 };
 
-// A barra do navegador e a area segura acompanham o fundo preto quente; o
-// dock e as camadas fixas somam env(safe-area-inset-*) no CSS.
+// Sem themeColor aqui: a cor da barra do navegador acompanha o tema e quem
+// escreve o <meta name="theme-color"> e o script do tema (lib/tema.ts). O dock
+// e as camadas fixas somam env(safe-area-inset-*) no CSS.
 export const viewport: Viewport = {
-  themeColor: "#0c0b0a",
-  colorScheme: "dark",
+  colorScheme: "light dark",
   viewportFit: "cover",
 };
 
@@ -41,7 +42,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     // Extensoes que reescrevem a pagina antes da hidratacao (Dark Reader e
     // companhia) injetam atributos no <html>. O aviso e delas, nao do site;
     // suprimir aqui nao esconde divergencia de nenhum outro elemento.
-    <html lang="pt-BR" className={`${display.variable} ${mono.variable}`} suppressHydrationWarning>
+    // data-theme: o servidor manda o claro (padrao); o script do <head> troca
+    // pela escolha salva antes do primeiro pintar (lib/tema.ts).
+    <html lang="pt-BR" data-theme="light" className={`${display.variable} ${mono.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: TEMA_SCRIPT }} />
+      </head>
       <body>
         <a className="skip-link" href="#conteudo">Pular para o conteúdo</a>
         <PersonalityProvider>
