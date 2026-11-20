@@ -5,7 +5,9 @@
 import { spawn } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
+import { execFileSync } from "node:child_process";
 import { assinarLink } from "../lib/material.ts";
+import { gerarCodigo } from "../lib/material-codigo.ts";
 
 const root = process.cwd();
 const PORTA = 8788;
@@ -14,6 +16,16 @@ const estado = path.join(root, ".wrangler", `teste-${Date.now()}`);
 const segredo = fs.readFileSync(path.join(root, ".dev.vars"), "utf8").match(/^MATERIAL_SECRET=(.+)$/m)?.[1];
 if (!segredo) throw new Error(".dev.vars sem MATERIAL_SECRET");
 if (!fs.existsSync(path.join(root, "out", "index.html"))) throw new Error("out/ ausente: rode npm run build");
+
+// Lista de revogação no R2 local, antes de subir: "revogada" perde o acesso.
+const listaRevogados = path.join(root, ".wrangler", `revogados-${Date.now()}.txt`);
+fs.mkdirSync(path.dirname(listaRevogados), { recursive: true });
+fs.writeFileSync(listaRevogados, "# teste\nrevogada\n");
+execFileSync(path.join(root, "node_modules/.bin/wrangler"), ["r2", "object", "put", "gabrielsys-material/_controle/revogados.txt", "--file", listaRevogados, "--local", "--persist-to", estado], {
+  env: { ...process.env, WRANGLER_SEND_METRICS: "false", CI: "1" },
+  stdio: "ignore",
+});
+fs.rmSync(listaRevogados);
 
 // Cota baixa só neste teste (60 KB), para provar o limite por cliente sem gravar 300 MB.
 const COTA_TESTE = 60 * 1024;
@@ -50,9 +62,12 @@ const RESPOSTAS = { negocio: "Teste Ltda", nome: "Fulano", ramo: "loja", whatsap
 
 async function enviar(link, arquivos = [], { respostas = RESPOSTAS, origem } = {}) {
   const form = new FormData();
-  form.set("c", link.c);
-  form.set("e", String(link.e));
-  form.set("t", link.t);
+  if (link.codigo) form.set("codigo", link.codigo);
+  else {
+    form.set("c", link.c);
+    form.set("e", String(link.e));
+    form.set("t", link.t);
+  }
   form.set("respostas", JSON.stringify(respostas));
   for (const [campo, nome, tipo, dados] of arquivos) form.append(campo, new Blob([dados], { type: tipo }), nome);
   const headers = origem ? { origin: origem } : {};
@@ -94,6 +109,30 @@ try {
   confere("verificar: token falso 403", (await verificar(falso)) === 403);
   confere("verificar: vencido 403", (await verificar(vencido)) === 403);
   confere("verificar: outro cliente 403", (await verificar(outro)) === 403);
+
+  // ── código de acesso ──
+  const codigo = (await gerarCodigo(segredo, "cliente-codigo", { agora: agora() })).codigo;
+  const revogado = (await gerarCodigo(segredo, "revogada", { agora: agora() })).codigo;
+  const outroApelido = codigo.replace(/^cliente-codigo-/, "outro-cliente-");
+  const errado = codigo.slice(0, -1) + (codigo.endsWith("a") ? "b" : "a");
+  const conferirCodigo = async (texto) => {
+    const inicio = performance.now();
+    const r = await fetch(`${BASE}/api/material/verificar`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ codigo: texto }) });
+    return { status: r.status, corpo: await r.text(), ms: performance.now() - inicio, cache: r.headers.get("cache-control") };
+  };
+  const certo = await conferirCodigo(`  ${codigo.toUpperCase()} `);
+  confere("código: válido (maiúsculas e espaços) 200 com o cliente", certo.status === 200 && certo.corpo.includes('"cliente":"clientecodigo"') && certo.cache === "no-store", `${certo.status} ${certo.corpo}`);
+  const ruim = await conferirCodigo(errado);
+  confere("código: errado 403", ruim.status === 403 && ruim.corpo === '{"ok":false}', `${ruim.status} ${ruim.corpo}`);
+  confere("código: recusa espera o atraso fixo (≥ 600 ms)", ruim.ms >= 600, `${Math.round(ruim.ms)} ms`);
+  const alheio = await conferirCodigo(outroApelido);
+  confere("código: com outro apelido 403, resposta igual", alheio.status === 403 && alheio.corpo === ruim.corpo, String(alheio.status));
+  confere("código: revogado na lista do R2 403", (await conferirCodigo(revogado)).status === 403);
+  confere("código: certo responde sem atraso", certo.ms < 600, `${Math.round(certo.ms)} ms`);
+  let sc = await enviar({ codigo }, [["logo", "codigo.png", "image/png", bytes(PNG, 2048)]]);
+  confere("enviar: código válido + PNG 201", sc === 201, String(sc));
+  confere("enviar: código errado 403", (sc = await enviar({ codigo: errado }, [["logo", "x.png", "image/png", bytes(PNG, 2048)]])) === 403, String(sc));
+  confere("enviar: código revogado 403", (sc = await enviar({ codigo: revogado }, [["logo", "x.png", "image/png", bytes(PNG, 2048)]])) === 403, String(sc));
 
   // ── upload ──
   const png = bytes(PNG, 2048);
@@ -144,6 +183,8 @@ try {
   confere("R2 local tem cliente-teste/…/logo-1.png", /cliente-teste\/[^\s"]+\/logo-1\.png/.test(tudo));
   confere("R2 local tem cliente-teste/…/respostas.json", /cliente-teste\/[^\s"]+\/respostas\.json/.test(tudo));
   confere("R2 local não tem nada dos envios recusados", !/grande\.png|logo\.svg|\.\.\/|outro-cliente/.test(tudo));
+  confere("R2 local tem clientecodigo/…/logo-1.png (envio com código)", /clientecodigo\/[^\s"]+\/logo-1\.png/.test(tudo));
+  confere("R2 local não tem nada do código revogado", !/(^|[^_])revogada\/[^\s"]+\.png/.test(tudo));
 } catch (erro) {
   confere("execução", false, String(erro?.message ?? erro));
 } finally {
