@@ -1,13 +1,13 @@
 ---
 // Faixa fixa e discreta no topo de todo demo: avisa que é demonstração e leva ao WhatsApp
-// do Gabriel (ação principal, em verde) e ao portfólio (link neutro ao lado). Cores neutras
+// do Gabriel (ação principal, em verde) e ao orçamento do site (link neutro ao lado). Cores neutras
 // próprias, para não brigar com a identidade do nicho. Endereços e textos: src/data/contato.ts.
 // Altura = --faixa-h (44 px): cada link ocupa a altura toda e chega ao alvo de toque de 44 px.
-import { FAIXA_DEMO, PORTFOLIO_GABRIEL } from '../data/contato.ts';
+import { FAIXA_DEMO, orcamentoDemo } from '../data/contato.ts';
 import { linkDemo } from '../lib/whatsapp.ts';
 
-interface Props { rotulo: string }
-const { rotulo } = Astro.props;
+interface Props { rotulo: string; origem: string }
+const { rotulo, origem } = Astro.props;
 ---
 <aside class="faixa-demo" aria-label="Aviso de demonstração">
   <a class="faixa-demo__whats" href={linkDemo(rotulo)} target="_blank" rel="noopener" data-wa data-faixa="whatsapp">
@@ -15,7 +15,7 @@ const { rotulo } = Astro.props;
     <span class="faixa-demo__texto faixa-demo__texto--curto">{FAIXA_DEMO.textoCurto}</span>
     <span class="faixa-demo__cta">{FAIXA_DEMO.rotuloLink}</span>
   </a>
-  <a class="faixa-demo__portfolio" href={PORTFOLIO_GABRIEL} target="_blank" rel="noopener" data-faixa="portfolio">{FAIXA_DEMO.rotuloPortfolio}</a>
+  <a class="faixa-demo__portfolio" href={orcamentoDemo(origem)} data-faixa="orcamento">{FAIXA_DEMO.rotuloOrcamento}</a>
 </aside>
 
 <style>

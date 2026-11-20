@@ -4,7 +4,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { linkDemo } from './whatsapp.ts';
-import { WHATSAPP_GABRIEL, PORTFOLIO_GABRIEL, FAIXA_DEMO } from '../data/contato.ts';
+import { WHATSAPP_GABRIEL, FAIXA_DEMO, orcamentoDemo } from '../data/contato.ts';
 import { NICHOS, ORDEM } from '../data/nichos/index.ts';
 
 const NUMERO = '5535998840168'; // do pedido: wa.me/5535998840168
@@ -54,19 +54,17 @@ test('rótulos dos nichos são distintos (o Gabriel sabe de qual demo veio a men
   assert.equal(new Set(rotulos).size, 7);
 });
 
-// Faixa de demo: link do portfólio ao lado do WhatsApp (docs/PLANO-RENOMEAR.md, R3).
-// Oráculo: o endereço confirmado pelo Gabriel em 2026-11-14, escrito à mão.
-test('a constante do portfólio tem o endereço confirmado', () => {
-  assert.equal(PORTFOLIO_GABRIEL, 'https://gabrielhsp-sys.github.io/');
-  const url = new URL(PORTFOLIO_GABRIEL);
-  assert.equal(url.protocol, 'https:');
-  assert.equal(url.host, 'gabrielhsp-sys.github.io');
+// Faixa de demo (2026-11-19): o link neutro ao lado do WhatsApp deixou de ser o portfólio e
+// passou a ser o formulário de orçamento do mesmo site (PLANO.md da unificação, passo 6).
+// Oráculo: o endereço escrito à mão a partir do plano.
+test('o link de orçamento da faixa marca o serviço e a origem do demo', () => {
+  assert.equal(orcamentoDemo('alimentacao'), '/orcamento/?precisa=site&origem=demo-alimentacao');
 });
 
 test('textos da faixa: aviso longo, aviso curto e rótulos dos dois links', () => {
-  assert.equal(FAIXA_DEMO.texto, 'Site de demonstração — feito por Gabriel');
-  assert.match(FAIXA_DEMO.textoCurto, /feito por Gabriel$/);
+  assert.equal(FAIXA_DEMO.texto, 'Site de demonstração, negócio fictício — feito por GABRIEL.SYS');
+  assert.match(FAIXA_DEMO.textoCurto, /GABRIEL\.SYS$/);
   assert.ok(FAIXA_DEMO.textoCurto.length < FAIXA_DEMO.texto.length);
   assert.equal(FAIXA_DEMO.rotuloLink, 'Quero um assim');
-  assert.equal(FAIXA_DEMO.rotuloPortfolio, 'Portfólio');
+  assert.equal(FAIXA_DEMO.rotuloOrcamento, 'Pedir orçamento');
 });

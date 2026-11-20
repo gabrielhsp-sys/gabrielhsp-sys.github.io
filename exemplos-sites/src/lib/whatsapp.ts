@@ -1,7 +1,6 @@
-// Gerador dos links wa.me dos demos.
-// Reaproveita linkWhatsApp da mirante (~/Dev/projects/tools/mirante, item "whatsapp", licença
-// própria de uso por cliente) por import relativo, sem copiar o arquivo.
-import { linkWhatsApp } from '../../../../tools/mirante/mirante/lib/whatsapp.ts';
+// Gerador dos links wa.me dos demos: o mesmo do site GABRIEL.SYS (lib/whatsapp.ts na raiz do
+// repositório). Antes vinha da mirante, por caminho fora do projeto; a cópia não traz a mirante.
+import { linkWhatsApp } from '../../../lib/whatsapp.ts';
 import { WHATSAPP_GABRIEL, mensagemDemo } from '../data/contato.ts';
 
 /** Link do WhatsApp do Gabriel com o texto do demo (`rotulo` = nicho ou nome do lead). */

@@ -16,7 +16,9 @@ interface Props {
 const { chave, sizes = '100vw', prioridade = false, alt, class: classe } = Astro.props;
 const info = (imagens as Record<string, { alt: string; larguras: number[]; proporcao: number }>)[chave];
 if (!info) throw new Error(`Foto sem entrada em src/data/imagens.json: ${chave}`);
-const src = (w: number, ext: string) => `/img/${chave}-${w}.${ext}`;
+// Base path do build único (/exemplos/sites/): as fotos ficam em public/img da cópia.
+const prefixo = import.meta.env.BASE_URL.replace(/\/$/, "");
+const src = (w: number, ext: string) => `${prefixo}/img/${chave}-${w}.${ext}`;
 const srcset = (ext: string) => info.larguras.map((w) => `${src(w, ext)} ${w}w`).join(', ');
 const base = info.larguras.includes(960) ? 960 : info.larguras[info.larguras.length - 1];
 const altura = Math.round(base / info.proporcao);

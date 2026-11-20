@@ -3,18 +3,13 @@
   "type": "module",
   "version": "0.1.0",
   "private": true,
-  "description": "Sete sites-demo por nicho para comércio de Areado-MG (Astro estático).",
+  "description": "Sete sites de demonstração por ramo (Astro estático), publicados em /exemplos/sites/ do site GABRIEL.SYS.",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
     "test": "node --test \"src/**/*.test.ts\"",
-    "imagens": "node scripts/imagens.mjs",
-    "verificar:dist": "node scripts/verificar-dist.mjs",
-    "verificar:creditos": "node scripts/verificar-creditos.mjs",
-    "verificar:navegador": "node scripts/verificar-navegador.mjs",
-    "verificar:interacao": "node scripts/verificar-interacao.mjs",
-    "verificar": "npm test && npm run build && npm run verificar:dist && npm run verificar:creditos && npm run verificar:navegador && npm run verificar:interacao"
+    "imagens": "node scripts/imagens.mjs"
   },
   "dependencies": {
     "@fontsource/archivo": "5.3.0",

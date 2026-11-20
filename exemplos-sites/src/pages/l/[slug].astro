@@ -1,6 +1,7 @@
 ---
-// Rota de lead: /l/<slug> lê src/data/leads/<slug>.ts (mesmo formato de um nicho + nichoBase)
-// e usa o layout do nicho-base. Fora da home e de qualquer menu; noindex como todas as páginas.
+// Rota de lead: lê src/data/leads/<slug>.ts (mesmo formato de um nicho + nichoBase) e usa o
+// layout do nicho-base. O Astro gera dist/l/<slug>/; o build da raiz move para /para/<slug>/
+// (scripts/juntar-exemplos.mjs). Fora de qualquer menu; noindex como todas as páginas.
 import type { GetStaticPaths } from 'astro';
 import type { Lead } from '../../data/tipos.ts';
 import Alimentacao from '../../components/nichos/Alimentacao.astro';
@@ -20,7 +21,7 @@ export const getStaticPaths = (() => {
 }) satisfies GetStaticPaths;
 
 const { lead } = Astro.props as { lead: Lead };
-const caminho = `/l/${Astro.params.slug}`;
+const caminho = `/para/${Astro.params.slug}/`;
 const PAGINAS = { alimentacao: Alimentacao, beleza: Beleza, cabeleireiro: Cabeleireiro, saude: Saude, fitness: Fitness, loja: Loja, servicos: Servicos };
 const Pagina = PAGINAS[lead.nichoBase] as any;
 ---

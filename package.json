@@ -6,15 +6,18 @@
     "predev": "node scripts/generate-search-index.mjs && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/generate-og-image.mjs",
     "dev": "next dev",
     "prebuild": "node scripts/generate-search-index.mjs && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/generate-og-image.mjs",
-    "build": "next build",
+    "build": "next build && npm run exemplos:build && node scripts/juntar-exemplos.mjs",
     "start": "next start",
     "lint": "eslint .",
     "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test tests/*.test.mjs",
-    "check": "npm run lint && npm run test && npm run build",
-    "postbuild": "node scripts/verify-export.mjs",
+    "check": "npm run lint && npm run test && npm run exemplos:test && npm run build",
+    "postbuild": "node scripts/verify-export.mjs && node scripts/verificar-saida.mjs",
     "imagens": "node scripts/imagens.mjs",
     "marca": "node scripts/marca.mjs",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "exemplos:instalar": "npm ci --prefix exemplos-sites --no-audit --no-fund",
+    "exemplos:build": "npm --prefix exemplos-sites run build",
+    "exemplos:test": "npm --prefix exemplos-sites test"
   },
   "dependencies": {
     "@fontsource-variable/bricolage-grotesque": "^5.3.0",
