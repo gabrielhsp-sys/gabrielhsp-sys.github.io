@@ -5,7 +5,7 @@
 // Grava no R2 privado (binding MATERIAL_BUCKET) sob o prefixo do cliente, num
 // "envio" novo a cada POST. Não há rota de leitura nem de listagem.
 import { CLIENTE, LIMITES, tipoPermitido, verificarLink } from "../../../lib/material";
-import { type Contexto, agoraSegundos, origemValida, resposta } from "../../../lib/material-function";
+import { type Contexto, agoraSegundos, origemValida, resposta, usoDoCliente } from "../../../lib/material-function";
 
 export const CAMPOS_ARQUIVO = ["logo", "fachada", "trabalhos", "equipe", "cardapio", "produtos"] as const;
 const OBRIGATORIOS = ["negocio", "nome", "ramo", "whatsappSite"] as const;
@@ -83,6 +83,13 @@ export async function onRequestPost({ request, env }: Contexto): Promise<Respons
     contagem[campo] = (contagem[campo] ?? 0) + 1;
     // O nome original não entra na chave (só nos metadados, aparado): nada de caminho vindo do cliente.
     prontos.push({ chave: `${envio}/${campo}-${contagem[campo]}.${tipo.ext}`, dados, mime: tipo.mime });
+  }
+
+  // Cota por cliente (auditoria 2026-11-19, achado 1): um link vazado não enche o bucket.
+  const cota = Number(env.MATERIAL_COTA_BYTES) > 0 ? Number(env.MATERIAL_COTA_BYTES) : LIMITES.cotaClienteBytes;
+  const novo = prontos.reduce((soma, p) => soma + p.dados.byteLength, 0) + bruto.length;
+  if ((await usoDoCliente(env.MATERIAL_BUCKET, cliente)) + novo > cota) {
+    return resposta(507, { ok: false, erro: "Limite de material deste link atingido. Me chame no WhatsApp." });
   }
 
   // Tudo validado: só agora grava. Respostas por último, como "envio completo".

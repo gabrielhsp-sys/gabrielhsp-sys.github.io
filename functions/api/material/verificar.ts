@@ -5,7 +5,10 @@ import { type Contexto, agoraSegundos, origemValida, resposta } from "../../../l
 
 export async function onRequestPost({ request, env }: Contexto): Promise<Response> {
   if (!origemValida(request)) return resposta(403, { ok: false });
-  if (Number(request.headers.get("content-length") ?? "0") > 1024) return resposta(413, { ok: false });
+  // Sem Content-Length não há como limitar a leitura (auditoria 2026-11-19, achado 2).
+  const tamanho = request.headers.get("content-length");
+  if (!tamanho) return resposta(411, { ok: false });
+  if (Number(tamanho) > 1024) return resposta(413, { ok: false });
   let link: { c?: string; e?: string; t?: string };
   try {
     link = (await request.json()) as typeof link;

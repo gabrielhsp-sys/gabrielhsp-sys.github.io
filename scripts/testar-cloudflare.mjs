@@ -15,7 +15,9 @@ const segredo = fs.readFileSync(path.join(root, ".dev.vars"), "utf8").match(/^MA
 if (!segredo) throw new Error(".dev.vars sem MATERIAL_SECRET");
 if (!fs.existsSync(path.join(root, "out", "index.html"))) throw new Error("out/ ausente: rode npm run build");
 
-const wrangler = spawn(path.join(root, "node_modules/.bin/wrangler"), ["pages", "dev", "out", "--port", String(PORTA), "--ip", "127.0.0.1", "--persist-to", estado], {
+// Cota baixa só neste teste (60 KB), para provar o limite por cliente sem gravar 300 MB.
+const COTA_TESTE = 60 * 1024;
+const wrangler = spawn(path.join(root, "node_modules/.bin/wrangler"), ["pages", "dev", "out", "--port", String(PORTA), "--ip", "127.0.0.1", "--persist-to", estado, "--binding", `MATERIAL_COTA_BYTES=${COTA_TESTE}`], {
   env: { ...process.env, WRANGLER_SEND_METRICS: "false", CI: "1" },
   stdio: ["ignore", "pipe", "pipe"],
 });
@@ -107,6 +109,25 @@ try {
   confere("enviar: sem autorizações 422", (s = await enviar(valido, [], { respostas: { ...RESPOSTAS, autorizaUso: false } })) === 422, String(s));
   confere("enviar: campo desconhecido 400", (s = await enviar(valido, [["../../x", "a.png", "image/png", png]])) === 400, String(s));
   confere("enviar: outra origem 403", (s = await enviar(valido, [], { origem: "https://atacante.example" })) === 403, String(s));
+
+  // Cota por cliente: outro cliente envia até estourar; o primeiro continua livre.
+  const cheio = await assinarLink(segredo, "cliente-cheio", agora() + 3600);
+  const vinte = bytes(PNG, 20 * 1024);
+  const estados = [];
+  for (let i = 0; i < 4; i += 1) estados.push(await enviar(cheio, [["fachada", `c${i}.png`, "image/png", vinte]]));
+  confere("cota: envios até o limite passam e o seguinte dá 507", estados.slice(0, 2).every((x) => x === 201) && estados.at(-1) === 507, estados.join(","));
+  confere("cota: é por cliente", (s = await enviar(valido, [["logo", "logo2.png", "image/png", png]])) === 201, String(s));
+
+  // Verificação sem Content-Length (corpo em pedaços): recusada.
+  const semTamanho = await new Promise((resolve) => {
+    import("node:http").then(({ request }) => {
+      const req = request(`${BASE}/api/material/verificar`, { method: "POST", headers: { "content-type": "application/json", "transfer-encoding": "chunked" } }, (r) => resolve(r.statusCode));
+      req.on("error", () => resolve(0));
+      req.write("{");
+      req.end("}");
+    });
+  });
+  confere("verificar sem Content-Length 411", semTamanho === 411, String(semTamanho));
 
   // ── sem leitura nem listagem ──
   for (const rota of ["/api/material/", "/api/material/cliente-teste", "/api/material/cliente-teste/respostas.json"]) {

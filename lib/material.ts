@@ -13,6 +13,8 @@ export const LIMITES = {
   arquivosPorEnvio: 20,
   /** Respostas de texto (JSON) por envio. */
   respostasBytes: 64 * 1024,
+  /** Cota por cliente no bucket (soma de todos os envios do link). */
+  cotaClienteBytes: 300 * 1024 * 1024,
   /** Teto de validade de um link, a partir de agora. */
   validadeMaximaSegundos: 60 * 24 * 3600,
   /** Segredo mínimo (caracteres). */
