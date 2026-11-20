@@ -439,7 +439,10 @@ html[data-typing="true"] .c-whats-fixo { opacity: 0; transform: translateY(140%)
 .o-error-summary:focus { outline: 2px solid var(--amber); outline-offset: 3px; }
 .o-error-summary h2 { margin: 0 0 8px; font-size: 1.2rem; }
 .o-error-summary ul { margin: 0; padding-left: 1.2em; }
-.o-error-summary a { color: var(--error-text); font-weight: 600; }
+/* Link de texto dentro do aviso fica na cor de erro; botao (.c-button) dentro do
+   aviso mantem as cores dele (antes: texto e icone vermelhos sobre o verde do WhatsApp). */
+.o-error-summary a:not(.c-button) { color: var(--error-text); font-weight: 600; }
+.o-error-summary .c-button { margin-top: 12px; }
 .o-message { margin: 0 0 18px; padding: 18px; overflow-x: auto; border: 1px solid var(--line-soft); border-radius: 12px; background: var(--ink-2); color: var(--paper); font-family: var(--mono); font-size: .95rem; line-height: 1.55; white-space: pre-wrap; word-break: break-word; }
 .o-change { display: grid; gap: 4px; margin: 0 0 8px; padding: 0; list-style: none; }
 .o-change li { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 48px; border-bottom: 1px solid var(--line-faint); color: var(--paper-dim); }
@@ -474,7 +477,8 @@ html[data-typing="true"] .c-whats-fixo { opacity: 0; transform: translateY(140%)
 .d-roles legend { margin-bottom: 8px; font-weight: 650; }
 .d-alert { padding: 12px 14px; border: 1px solid var(--amber); border-radius: 8px; color: var(--amber); font-weight: 600; }
 .d-video { display: block; width: 100%; max-width: 960px; height: auto; border: 1px solid var(--line-soft); border-radius: 12px; background: #000; }
-.c-button:disabled { opacity: .5; cursor: not-allowed; }
+/* Desabilitado sem opacity: o texto continua com contraste AA (a opacidade derrubava para ~2:1). */
+.c-button:disabled { border-color: var(--line); background: var(--ink-3); color: var(--paper); cursor: not-allowed; }
 
 /* ── /material/ ── */
 .m-form { display: grid; gap: 8px; max-width: 44rem; }
@@ -483,6 +487,13 @@ html[data-typing="true"] .c-whats-fixo { opacity: 0; transform: translateY(140%)
 .m-section .o-option + .o-option { margin-top: 10px; }
 .m-file { width: 100%; min-height: 52px; padding: 10px; border: 1px dashed var(--line); border-radius: 8px; background: var(--ink-2); color: var(--paper); font: inherit; }
 .m-file::file-selector-button { min-height: 40px; margin-right: 12px; padding: 0 14px; border: 0; border-radius: 8px; background: var(--amber-fill); color: var(--on-amber); font-weight: 650; cursor: pointer; }
+.m-acesso { max-width: 28rem; }
+.m-codigo { font-family: var(--mono); letter-spacing: .04em; }
+.o-error:empty { margin: 0; }
+.m-acesso .o-error:not(:empty) { margin: 10px 0 0; }
+.m-sem-codigo { max-width: 28rem; margin: 36px 0 0; padding-top: 24px; border-top: 1px solid var(--line-soft); }
+.m-sem-codigo p { margin: 0 0 12px; font-size: 1.1rem; font-weight: 650; }
+.m-cliente { margin: 0 0 4px; color: var(--paper); font-size: 1.0625rem; }
 .m-done { display: grid; justify-items: start; gap: 12px; color: var(--mint); }
 .m-done h2 { margin: 0; color: var(--paper); font-size: 2rem; }
 .m-done p { margin: 0; color: var(--paper-dim); }

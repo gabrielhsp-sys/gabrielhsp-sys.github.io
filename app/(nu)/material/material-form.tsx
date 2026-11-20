@@ -6,8 +6,11 @@ import { whatsappContato } from "@/lib/contato-links";
 
 /* Envio do material do site (fotos, logo, textos e autorizacoes), para quem ja
    fechou. Perguntas do formulario Tally "Material do seu site" (tally.so/r/Eqd2ML,
-   lido em 2026-11-19). O link traz o token no fragmento (#c=&e=&t=); a Function
-   /api/material/* confere o token, o tipo e o tamanho de cada arquivo. */
+   lido em 2026-11-19). A entrada e o codigo de acesso que o Gabriel manda no
+   WhatsApp (lib/material-codigo.ts) ou o link longo antigo (#c=&e=&t=); a Function
+   /api/material/* confere a credencial, o tipo e o tamanho de cada arquivo.
+   O codigo fica so em memoria e no sessionStorage desta aba (try/catch); vai no
+   corpo das requisicoes, nunca na URL. */
 
 const RAMOS = [
   ["alimentacao", "Alimentação"], ["beleza", "Beleza e estética"], ["cabeleireiro", "Barbearia ou cabeleireiro"],
@@ -37,11 +40,35 @@ const ACEITOS = ".png,.jpg,.jpeg,.webp,.pdf,image/png,image/jpeg,image/webp,appl
 const MB = 1024 * 1024;
 const extOk = (nome: string) => /\.(png|jpe?g|webp|pdf)$/i.test(nome);
 
-type Estado = "verificando" | "invalido" | "pronto" | "enviando" | "enviado";
+type Estado = "entrada" | "conferindo" | "pronto" | "enviando" | "enviado";
+type Credencial = { codigo: string } | { c: string; e: string; t: string };
+type Aviso = null | "codigo" | "vazio" | "link" | "rede";
+
+const ERRO_CODIGO = "Código inválido ou vencido. Confira ou chame no WhatsApp.";
+const TEXTO_AVISO: Record<Exclude<Aviso, null | "link">, string> = {
+  codigo: ERRO_CODIGO,
+  vazio: "Digite o código de acesso.",
+  rede: "Não consegui conferir agora. Confira a internet e tente de novo.",
+};
+
+const CHAVE_SESSAO = "gsys:material-codigo";
+const lerSessao = () => {
+  try { return sessionStorage.getItem(CHAVE_SESSAO); } catch { return null; }
+};
+const gravarSessao = (codigo: string | null) => {
+  try {
+    if (codigo) sessionStorage.setItem(CHAVE_SESSAO, codigo);
+    else sessionStorage.removeItem(CHAVE_SESSAO);
+  } catch { /* storage bloqueado: o codigo fica so em memoria */ }
+};
 
 export function MaterialForm() {
-  const [estado, setEstado] = useState<Estado>("verificando");
-  const [link, setLink] = useState<{ c: string; e: string; t: string } | null>(null);
+  const [estado, setEstado] = useState<Estado>("entrada");
+  const [porCodigo, setPorCodigo] = useState(true);
+  const [aviso, setAviso] = useState<Aviso>(null);
+  const [digitado, setDigitado] = useState("");
+  const [credencial, setCredencial] = useState<Credencial | null>(null);
+  const [cliente, setCliente] = useState("");
   const [textos, setTextos] = useState<Record<string, string>>({});
   const [ramo, setRamo] = useState("");
   const [autoriza, setAutoriza] = useState({ autorizaUso: false, autorizaDireitos: false });
@@ -50,22 +77,56 @@ export function MaterialForm() {
   const [progresso, setProgresso] = useState(0);
   const resumoRef = useRef<HTMLDivElement>(null);
   const fimRef = useRef<HTMLHeadingElement>(null);
+  const codigoRef = useRef<HTMLInputElement>(null);
+
+  const recusar = (proximo: Aviso) => {
+    gravarSessao(null);
+    setCredencial(null);
+    setAviso(proximo);
+    setEstado("entrada");
+  };
+
+  const conferir = async (cred: Credencial, origem: "codigo" | "link" | "sessao") => {
+    setPorCodigo(origem === "codigo");
+    setAviso(null);
+    setEstado("conferindo");
+    try {
+      const r = await fetch("/api/material/verificar", { method: "POST", cache: "no-store", headers: { "content-type": "application/json" }, body: JSON.stringify(cred) });
+      const dados = r.ok ? ((await r.json()) as { ok?: boolean; cliente?: string }) : null;
+      if (dados?.ok) {
+        if ("codigo" in cred) gravarSessao(cred.codigo);
+        setCredencial(cred);
+        setCliente(typeof dados.cliente === "string" ? dados.cliente : "");
+        setEstado("pronto");
+        return;
+      }
+      recusar(origem === "link" ? "link" : origem === "sessao" ? null : "codigo");
+    } catch {
+      setAviso(origem === "link" ? "link" : "rede");
+      setEstado("entrada");
+    }
+  };
 
   useEffect(() => {
     const p = new URLSearchParams(window.location.hash.slice(1));
-    const dados = { c: p.get("c") ?? "", e: p.get("e") ?? "", t: p.get("t") ?? "" };
-    if (!dados.c || !dados.e || !dados.t) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- leitura unica do endereco
-      setEstado("invalido");
+    const link = { c: p.get("c") ?? "", e: p.get("e") ?? "", t: p.get("t") ?? "" };
+    const salvo = lerSessao();
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- leitura unica do endereco e da aba
+    if (link.c || link.e || link.t) void conferir(link, "link");
+    else if (salvo) void conferir({ codigo: salvo }, "sessao");
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- uma vez, na montagem
+  }, []);
+
+  const entrar = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (estado === "conferindo") return;
+    if (!digitado.trim()) {
+      setAviso("vazio");
+      codigoRef.current?.focus();
       return;
     }
-    fetch("/api/material/verificar", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(dados) })
-      .then((r) => {
-        setLink(dados);
-        setEstado(r.ok ? "pronto" : "invalido");
-      })
-      .catch(() => setEstado("invalido"));
-  }, []);
+    void conferir({ codigo: digitado }, "codigo");
+  };
 
   // Saindo com respostas ou arquivos ainda nao enviados: o navegador pergunta antes.
   const sujo = estado === "pronto" && (Object.values(textos).some((v) => v.trim()) || Object.values(arquivos).some((l) => l.length > 0));
@@ -100,7 +161,7 @@ export function MaterialForm() {
     event.preventDefault();
     const lista = validar();
     setErros(lista);
-    if (lista.length || !link) {
+    if (lista.length || !credencial) {
       window.setTimeout(() => resumoRef.current?.focus(), 0);
       return;
     }
@@ -110,9 +171,12 @@ export function MaterialForm() {
     for (const id of [...base, ...camposRamo]) if (texto(id).trim()) respostas[id] = texto(id).trim();
 
     const form = new FormData();
-    form.set("c", link.c);
-    form.set("e", link.e);
-    form.set("t", link.t);
+    if ("codigo" in credencial) form.set("codigo", credencial.codigo);
+    else {
+      form.set("c", credencial.c);
+      form.set("e", credencial.e);
+      form.set("t", credencial.t);
+    }
     form.set("respostas", JSON.stringify(respostas));
     const permitidos = ["logo", "fachada", "trabalhos", "equipe", ...(PORRAMO[ramo]?.arquivos?.map((a) => a.id) ?? [])];
     for (const [campo, lista2] of Object.entries(arquivos)) if (permitidos.includes(campo)) for (const f of lista2) form.append(campo, f);
@@ -128,10 +192,14 @@ export function MaterialForm() {
         window.setTimeout(() => fimRef.current?.focus(), 0);
         return;
       }
+      if (xhr.status === 403) {
+        recusar(porCodigoAtual(credencial) ? "codigo" : "link");
+        return;
+      }
       let msg = "Não consegui receber. Tente de novo ou me mande pelo WhatsApp.";
       try { msg = (JSON.parse(xhr.responseText) as { erro?: string }).erro ?? msg; } catch { /* resposta sem JSON */ }
       setErros([msg]);
-      setEstado(xhr.status === 403 ? "invalido" : "pronto");
+      setEstado("pronto");
       window.setTimeout(() => resumoRef.current?.focus(), 0);
     };
     xhr.onerror = () => {
@@ -144,15 +212,50 @@ export function MaterialForm() {
     xhr.send(form);
   };
 
-  if (estado === "verificando") return <p className="o-hint" role="status">Conferindo o seu link…</p>;
+  if (estado === "conferindo" && !porCodigo) return <p className="o-hint" role="status">Conferindo o seu acesso…</p>;
 
-  if (estado === "invalido") {
+  if (estado === "entrada" || estado === "conferindo") {
+    const textoErro = aviso && aviso !== "link" ? TEXTO_AVISO[aviso] : "";
     return (
-      <div className="o-error-summary" role="alert">
-        <h2>Este link não vale mais</h2>
-        <p>Ele pode ter vencido ou estar incompleto. Me chame no WhatsApp que eu mando um novo.</p>
-        <a className="c-button o-send" href={whatsappContato} target="_blank" rel="noopener"><WhatsappLogo size={20} aria-hidden="true" /> Chamar no WhatsApp</a>
-      </div>
+      <>
+        {aviso === "link" && (
+          <div className="o-error-summary" role="alert">
+            <h2>Este link não vale mais</h2>
+            <p>Ele pode ter vencido ou estar incompleto. Digite o código que eu te mandei ou me chame no WhatsApp.</p>
+            <a className="c-button o-send" href={whatsappContato} target="_blank" rel="noopener"><WhatsappLogo size={20} aria-hidden="true" /> Chamar no WhatsApp</a>
+          </div>
+        )}
+        {/* method="post": sem JavaScript, o codigo nunca vai para a URL. */}
+        <form className="m-acesso" method="post" onSubmit={entrar} noValidate aria-busy={estado === "conferindo"}>
+          <div className="o-field">
+            <label htmlFor="m-codigo">Código de acesso</label>
+            <p className="o-hint" id="m-codigo-ajuda">Está na mensagem que eu te mandei no WhatsApp. Parece com: ana-k7m2-qxp4</p>
+            <input
+              ref={codigoRef}
+              id="m-codigo"
+              name="codigo"
+              className="m-codigo"
+              type="text"
+              inputMode="text"
+              autoComplete="off"
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck={false}
+              maxLength={80}
+              value={digitado}
+              onChange={(e) => setDigitado(e.target.value)}
+              aria-invalid={textoErro ? true : undefined}
+              aria-describedby="m-codigo-ajuda m-codigo-erro"
+            />
+            <p className="o-error" id="m-codigo-erro" role="alert">{textoErro}</p>
+          </div>
+          <button className="c-button" type="submit">{estado === "conferindo" ? "Conferindo…" : "Entrar"}</button>
+        </form>
+        <div className="m-sem-codigo">
+          <p>Ainda não tem código?</p>
+          <a className="c-button o-send" href={whatsappContato} target="_blank" rel="noopener"><WhatsappLogo size={20} aria-hidden="true" /> Chame no WhatsApp</a>
+        </div>
+      </>
     );
   }
 
@@ -170,6 +273,8 @@ export function MaterialForm() {
   const extras = PORRAMO[ramo];
   return (
     <form className="m-form" onSubmit={enviar} noValidate aria-busy={estado === "enviando"}>
+      <p className="m-cliente">Envio de <strong>{cliente || "você"}</strong>. Leva uns 10 minutos. Não tem alguma coisa agora? Pule e me mande depois pelo WhatsApp.</p>
+      <p className="o-hint">Aceito PNG, JPG, WEBP e PDF, até 10&nbsp;MB por arquivo e 40&nbsp;MB por envio. Só eu vejo o que você mandar.</p>
       {erros.length > 0 && (
         <div className="o-error-summary" ref={resumoRef} tabIndex={-1} role="alert" aria-labelledby="m-erro">
           <h2 id="m-erro">Falta acertar</h2>
@@ -250,6 +355,8 @@ export function MaterialForm() {
     </form>
   );
 }
+
+const porCodigoAtual = (c: Credencial | null) => Boolean(c && "codigo" in c);
 
 function CampoTexto({ id, rotulo, longo, ajuda, obrigatorio, tipo = "text", valor, onChange }: Texto & { valor: string; onChange: (id: string, v: string) => void }) {
   const ajudaId = useId();
