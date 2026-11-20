@@ -54,6 +54,11 @@ const subscribeMotion = (notify: () => void) => {
 };
 const motionSnapshot = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+const KONAMI = [
+  "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown",
+  "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a",
+];
+
 /* ───────────────────────────────── som ───────────────────────────────────────
    Web Audio puro: osciladores e ganho, sem arquivo de audio e sem biblioteca.
    Herdado do portfolio de 2025 (script.js, funcao `bip`). */
@@ -297,10 +302,28 @@ export function PersonalityProvider({ children }: { children: React.ReactNode })
     play("move");
   }, [pathname, play]);
 
+  /* Konami: liga e desliga o modo retro em TODO o site (decisao 8 de
+     2026-11-19). Fica no provider, que envolve todas as rotas, e nao nos
+     chromes. Durante o snake as setas sao do jogo, nao do codigo. */
+  const konamiAt = useRef(0);
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (document.querySelector('[data-playing="true"]')) return;
+      const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
+      konamiAt.current = key === KONAMI[konamiAt.current] ? konamiAt.current + 1 : key === KONAMI[0] ? 1 : 0;
+      if (konamiAt.current === KONAMI.length) {
+        konamiAt.current = 0;
+        toggleRetro();
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [toggleRetro]);
+
   /* recado para quem abre o console */
   useEffect(() => {
     console.log(
-      `%c GABRIEL.SYS \n\n Se você chegou até aqui, a gente já tem assunto.\n Aperte \` em qualquer página para abrir o terminal.\n\n ${site.email}\n`,
+      `%c GABRIEL.SYS \n\n Se você chegou até aqui, a gente já tem assunto.\n Em /sobre/, aperte \` para abrir o terminal.\n\n ${site.email}\n`,
       "color:#f0ab3c;font-family:monospace;font-size:12px;line-height:1.6",
     );
   }, []);

@@ -27,7 +27,7 @@ const records = fs
     const meta = entry.parse(data);
     return {
       ...meta,
-      href: `/projects/${name.replace(/\.mdx?$/, "")}/`,
+      href: `/projetos/${name.replace(/\.mdx?$/, "")}/`,
       text: content
         .replace(/[`#>*_\[\]()]/g, " ")
         .replace(/\s+/g, " ")

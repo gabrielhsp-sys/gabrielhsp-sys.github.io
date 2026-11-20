@@ -1,3 +1,4 @@
+import { ATENDIMENTO, INSTAGRAM_URL, WHATSAPP } from "@/lib/contato";
 import { profile, site } from "@/lib/site";
 
 /* Dados estruturados (schema.org em JSON-LD): ligam o nome ao site, ao GitHub e
@@ -8,7 +9,7 @@ const person = {
   "@type": "Person",
   "@id": `${site.url}/#gabriel`,
   name: site.owner,
-  url: `${site.url}/`,
+  url: `${site.url}/sobre/`,
   image: `${site.url}/profile.jpg`,
   email: `mailto:${site.email}`,
   description: `Estudante de ${profile.course} na ${profile.institution}. Procura: ${profile.seeking}.`,
@@ -16,12 +17,25 @@ const person = {
   sameAs: [site.github, site.linkedin],
 };
 
+const business = {
+  "@type": "ProfessionalService",
+  "@id": `${site.url}/#servico`,
+  name: site.name,
+  url: `${site.url}/`,
+  description: site.description,
+  telephone: `+${WHATSAPP}`,
+  address: { "@type": "PostalAddress", addressLocality: ATENDIMENTO.cidade.split("-")[0], addressRegion: "MG", addressCountry: "BR" },
+  areaServed: { "@type": "Country", name: "Brasil" },
+  founder: { "@id": person["@id"] },
+  sameAs: [INSTAGRAM_URL],
+};
+
 const graphs = {
   home: [
-    person,
-    { "@type": "WebSite", "@id": `${site.url}/#site`, url: `${site.url}/`, name: site.name, inLanguage: "pt-BR", author: { "@id": person["@id"] } },
+    business,
+    { "@type": "WebSite", "@id": `${site.url}/#site`, url: `${site.url}/`, name: site.name, inLanguage: "pt-BR", publisher: { "@id": business["@id"] } },
   ],
-  about: [{ "@type": "ProfilePage", url: `${site.url}/about/`, inLanguage: "pt-BR", mainEntity: person }],
+  sobre: [person, { "@type": "ProfilePage", url: `${site.url}/sobre/`, inLanguage: "pt-BR", mainEntity: { "@id": person["@id"] } }],
 };
 
 export function StructuredData({ page }: { page: keyof typeof graphs }) {

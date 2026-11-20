@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -7,22 +6,15 @@ import {
   EnvelopeSimpleIcon as Envelope,
   GithubLogoIcon as GithubLogo,
 } from "@phosphor-icons/react/dist/ssr";
-import { StructuredData } from "@/components/structured-data";
-import { pageMetadata } from "@/lib/metadata";
 import { profile, site } from "@/lib/site";
 
-export const metadata: Metadata = pageMetadata({
-  title: "Sobre",
-  description: "Gabriel Henrique, estudante de Ciência da Computação na UNIFAL-MG, procurando estágio: curso, período, contato e como este site funciona.",
-  path: "/about/",
-});
-
-export default function AboutPage() {
+/* O antigo /about/ (2026-11): agora uma secao de /sobre/, logo antes do contato.
+   O H1 da pagina e o do hero; aqui o nome vira H2. */
+export function AboutSection() {
   return (
-    <main id="conteudo" className="about-page">
-      <StructuredData page="about" />
+    <section className="about-page" id="quem-sou" aria-labelledby="about-heading">
       <header className="about-heading">
-        <h1>Gabriel Henrique.</h1>
+        <h2 id="about-heading" className="about-name">Gabriel Henrique.</h2>
         {/* O que quem contrata procura primeiro, antes da historia. */}
         <dl className="facts">
           <div><dt>curso</dt><dd>{profile.course}</dd></div>
@@ -53,7 +45,7 @@ export default function AboutPage() {
           <p>
             Hoje estudo Ciência da Computação na UNIFAL-MG e mantenho projetos que passam por Java, C++, Linux, Docker, redes e interfaces. Não tenho interesse em fingir que tudo nasceu pronto. Este arquivo existe para guardar as versões, as decisões e os caminhos entre uma coisa e outra.
           </p>
-          <h2>Como este site funciona</h2>
+          <h3>Como este site funciona</h3>
           <p>
             Cada projeto público é um arquivo Markdown ou MDX versionado no GitHub e validado no build. Três áreas organizam o acervo, o estado mostra em que ponto cada coisa está, e as relações criam atalhos entre um trabalho e outro.
           </p>
@@ -61,11 +53,11 @@ export default function AboutPage() {
             O acervo privado planejado fica fisicamente separado deste deploy. Nada de conversa, e-mail ou nota pessoal vira página sem seleção e revisão explícitas.
           </p>
           <p>
-            A camada de personalidade — animação de entrada, sons, terminal, modo retrô — é opcional por princípio: nada essencial depende dela, tudo funciona só com teclado, e o movimento some para quem pediu menos movimento.
+            A camada de personalidade — animação de entrada, sons, terminal, modo retrô — mora nesta área, é opcional por princípio: nada essencial depende dela, tudo funciona só com teclado, e o movimento some para quem pediu menos movimento.
           </p>
           {/* Quem chega aqui pela navegacao precisa de um caminho de volta ao trabalho. */}
           <div className="about-actions">
-            <Link href="/archive/">ver os projetos <ArrowRight size={17} aria-hidden="true" /></Link>
+            <Link href="/projetos/">ver os projetos <ArrowRight size={17} aria-hidden="true" /></Link>
             <a href={site.github} target="_blank" rel="noreferrer">
               <GithubLogo size={20} aria-hidden="true" /> GitHub <ArrowUpRight size={17} aria-hidden="true" />
             </a>
@@ -74,6 +66,6 @@ export default function AboutPage() {
           </div>
         </article>
       </div>
-    </main>
+    </section>
   );
 }

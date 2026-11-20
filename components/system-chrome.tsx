@@ -38,12 +38,13 @@ type SearchRecord = {
 
 type TerminalLine = { kind: "in" | "out" | "err" | "good"; text: string; href?: string };
 
+/* Area do recrutador (/sobre e /projetos). "Inicio" volta ao site de servico;
+   o contato tecnico (e-mail, GitHub, LinkedIn) fecha a pagina /sobre/. */
 const nav = [
-  { href: "/", label: "Início", icon: House },
-  { href: "/archive/", label: "Projetos", icon: ArchiveBox },
-  { href: "/about/", label: "Sobre", icon: Info },
-  // A secao de contato fecha a home; de outra pagina, o link volta a ela.
-  { href: "/#contato", label: "Contato", icon: EnvelopeSimple },
+  { href: "/", label: "Site", icon: House },
+  { href: "/sobre/", label: "Sobre", icon: Info },
+  { href: "/projetos/", label: "Projetos", icon: ArchiveBox },
+  { href: "/sobre/#contato", label: "Contato", icon: EnvelopeSimple },
 ];
 
 const isActive = (href: string, pathname: string) =>
@@ -53,11 +54,6 @@ const terminalIntro: TerminalLine[] = [
   { kind: "out", text: "GABRIEL.SYS — terminal do portfólio" },
   { kind: "out", text: "Tudo que está no site também está aqui, em texto." },
   { kind: "out", text: "Digite `help` para ver os comandos." },
-];
-
-const KONAMI = [
-  "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown",
-  "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a",
 ];
 
 function BrandMark() {
@@ -70,28 +66,13 @@ function BrandMark() {
   );
 }
 
-/* Rotas que so chegam por link direto e ficam fora da navegacao do site. Nelas
-   nao ha trilho, dock, busca, terminal nem rodape: um clique perdido nao pode
-   tirar a pessoa do formulario, porque nao ha menu para voltar. */
-const barePaths = ["/orcamento"];
-
-const isBare = (pathname: string) =>
-  barePaths.some((path) => pathname === path || pathname.startsWith(`${path}/`));
-
 type ChromeProps = {
   updated: { iso: string; label: string };
   children: React.ReactNode;
 };
 
-export function SystemChrome(props: ChromeProps) {
-  const pathname = usePathname();
-  // Componentes separados, nao um `if` dentro do chrome: assim os atalhos de
-  // teclado (Ctrl K, crase, konami) nem chegam a ser registrados nessas rotas.
-  return isBare(pathname) ? <BareChrome>{props.children}</BareChrome> : <SiteChrome {...props} />;
-}
-
 /* Som e retro sao preferencias, nao navegacao: continuam em qualquer rota. */
-function PreferenceTools() {
+export function PreferenceTools() {
   const { sound, retro } = usePersonality();
   return (
     <>
@@ -114,24 +95,11 @@ function PreferenceTools() {
   );
 }
 
-function BareChrome({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="site-frame" data-chrome="bare">
-      <BrowserChrome />
-      <div className="site-column">
-        <header className="topbar">
-          {/* Marca sem link: aqui ela identifica, nao navega. */}
-          <p className="wordmark" translate="no">
-            GABRIEL<span>.SYS</span>
-          </p>
-          <div className="topbar-tools">
-            <PreferenceTools />
-          </div>
-        </header>
-        {children}
-      </div>
-    </div>
-  );
+/* Chrome da area do recrutador: trilho, busca Ctrl/Cmd+K, terminal e a
+   animacao de entrada moram SO aqui (decisoes 7 e 8 de 2026-11-19). As paginas
+   de cliente usam components/client-chrome.tsx, sem nenhum desses atalhos. */
+export function RecruiterChrome(props: ChromeProps) {
+  return <SiteChrome {...props} />;
 }
 
 function SiteChrome({ updated, children }: ChromeProps) {
@@ -156,7 +124,6 @@ function SiteChrome({ updated, children }: ChromeProps) {
   const terminalLayerRef = useRef<HTMLDivElement>(null);
   const openerRef = useRef<HTMLElement | null>(null);
   const layerWasOpen = useRef(false);
-  const konamiAt = useRef(0);
 
   const { sound, retro, achievements } = usePersonality();
 
@@ -249,18 +216,6 @@ function SiteChrome({ updated, children }: ChromeProps) {
       const isTyping = ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName);
       const bareKey = !event.ctrlKey && !event.metaKey && !event.altKey;
 
-      /* konami — em qualquer lugar, menos durante o snake */
-      if (!playing) {
-        const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
-        konamiAt.current = key === KONAMI[konamiAt.current]
-          ? konamiAt.current + 1
-          : (key === KONAMI[0] ? 1 : 0);
-        if (konamiAt.current === KONAMI.length) {
-          konamiAt.current = 0;
-          retro.toggle();
-        }
-      }
-
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
         event.preventDefault();
         openSearch();
@@ -321,7 +276,7 @@ function SiteChrome({ updated, children }: ChromeProps) {
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [closeLayers, openResult, openSearch, openTerminal, playing, results, retro, searchOpen, selected, terminalOpen]);
+  }, [closeLayers, openResult, openSearch, openTerminal, playing, results, searchOpen, selected, terminalOpen]);
 
   useEffect(() => {
     const openFromPage = (event: Event) => {
@@ -444,7 +399,7 @@ function SiteChrome({ updated, children }: ChromeProps) {
       case "arquivo":
       case "archive":
         push(out("abrindo a lista completa…"));
-        openResult("/archive/");
+        openResult("/projetos/");
         return;
       case "contato":
         void navigator.clipboard?.writeText(site.email).then(
@@ -485,7 +440,7 @@ function SiteChrome({ updated, children }: ChromeProps) {
       case "sobre":
       case "whoami":
         push(out("gabriel henrique · ciência da computação · unifal-mg"));
-        openResult("/about/");
+        openResult("/sobre/");
         return;
       case "theme":
       case "tema":
@@ -608,7 +563,7 @@ function SiteChrome({ updated, children }: ChromeProps) {
       <BrowserChrome />
 
       <aside className="system-rail" aria-label="Navegação principal">
-        <Link href="/" className="brand-link" aria-label="GABRIEL.SYS — início" translate="no">
+        <Link href="/sobre/" className="brand-link" aria-label="GABRIEL.SYS — sobre" translate="no">
           <BrandMark />
         </Link>
         <nav className="rail-nav">
@@ -639,7 +594,7 @@ function SiteChrome({ updated, children }: ChromeProps) {
         <header className="topbar" ref={topbarRef}>
           {/* No desktop a marca e o monograma do trilho; o nome por extenso so
               aparece no celular, onde o trilho nao existe. */}
-          <Link href="/" className="wordmark" translate="no">
+          <Link href="/sobre/" className="wordmark" translate="no">
             GABRIEL<span>.SYS</span>
           </Link>
           <p className="system-state">
@@ -776,6 +731,7 @@ function SiteChrome({ updated, children }: ChromeProps) {
           role="dialog"
           aria-modal="true"
           aria-label="Terminal GABRIEL.SYS"
+          data-playing={playing ? "true" : undefined}
         >
           <div className="terminal-titlebar">
             <span>gabriel.sys — tty1</span>

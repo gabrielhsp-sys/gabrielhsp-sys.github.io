@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 /* Cursor piscando no titulo da aba quando ela perde o foco.
 
    O icone por rota NAO mora mais aqui. Ele e declarado pelo proprio Next,
-   com `app/icon.svg` na raiz e `app/archive/icon.svg` e `app/area/icon.svg`
+   com `app/icon.png` na raiz (o simbolo da marca) e `projetos/icon.svg` e `projetos/area/icon.svg`
    nas rotas de acervo. Trocar o favicon por DOM removia do <head> as tags
    <link rel="icon"> que o React renderiza; na navegacao seguinte o React
    tentava desmontar um no que ja nao tinha pai e estourava

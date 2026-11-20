@@ -30,7 +30,7 @@ export function getAllContent(): ContentItem[] {
       ...parsed,
       body: content,
       slug,
-      href: `/projects/${slug}/`,
+      href: `/projetos/${slug}/`,
       readingTime: wordsPerMinute(content),
     };
   });

@@ -34,7 +34,7 @@ test("the personality layer does not touch icon links rendered by React", () => 
 });
 
 test("the per-route icon is declared by file convention", () => {
-  for (const icon of ["app/icon.svg", "app/archive/icon.svg", "app/area/icon.svg"]) {
+  for (const icon of ["app/icon.png", "app/(recrutador)/projetos/icon.svg", "app/(recrutador)/projetos/area/icon.svg"]) {
     assert.ok(fs.existsSync(path.join(process.cwd(), icon)), `${icon} must exist`);
   }
 });

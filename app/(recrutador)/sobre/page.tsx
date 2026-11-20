@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import {
   ArrowRightIcon as ArrowRight,
@@ -12,7 +13,18 @@ import { StructuredData } from "@/components/structured-data";
 import { getAllContent, getFeaturedContent, getPublicAreas, toArchiveItem } from "@/lib/content";
 import hero from "@/lib/hero-image.json";
 import { formatPeriod } from "@/lib/period";
+import { pageMetadata } from "@/lib/metadata";
 import { areaLabels } from "@/lib/site";
+import { AboutSection } from "./about-section";
+
+// Porta do recrutador (decisao de 2026-11-19): o conteudo que era a home do
+// portfolio, mais a antiga pagina "Sobre". O tom tecnico fica aqui.
+export const metadata: Metadata = pageMetadata({
+  title: "Sobre e projetos",
+  description:
+    "Gabriel Henrique, estudante de Ciência da Computação na UNIFAL-MG, procurando estágio: estudos de caso, projetos, stack e contato.",
+  path: "/sobre/",
+});
 
 // O que aparece em "O que eu faco". Cada bloco aponta para projetos que
 // existem neste repositorio — nada de habilidade sem prova.
@@ -75,7 +87,7 @@ const numberWords = ["Nenhum", "Um", "Dois", "Três", "Quatro", "Cinco", "Seis",
 const countCases = (count: number) =>
   `${numberWords[count] ?? count} ${count === 1 ? "estudo de caso" : "estudos de caso"}`;
 
-export default function Home() {
+export default function SobrePage() {
   const featured = getFeaturedContent();
   const areas = getPublicAreas();
   // Os destaques ja estao nos cards; o arquivo da home mostra so o resto.
@@ -84,7 +96,7 @@ export default function Home() {
 
   return (
     <main id="conteudo">
-      <StructuredData page="home" />
+      <StructuredData page="sobre" />
       {/* ── HERO: a bancada atras, so ate o fim dele ────────── */}
       {/* Hero: tese a esquerda, indice dos estudos de caso a direita. */}
       <section className="hero" aria-labelledby="hero-heading">
@@ -199,7 +211,7 @@ export default function Home() {
                 {block.stack.map((tool) => <li key={tool}>{tool}</li>)}
               </ul>
               {areas.includes(block.area) && (
-                <Link href={`/area/${block.area}/`}>
+                <Link href={`/projetos/area/${block.area}/`}>
                   ver projetos de {areaLabels[block.area].toLowerCase()} <ArrowRight size={16} aria-hidden="true" />
                 </Link>
               )}
@@ -217,11 +229,13 @@ export default function Home() {
           <div className="archive-table">
             {others.map((item, index) => <ArchiveLine item={item} index={index} key={item.id} />)}
           </div>
-          <Link className="archive-more" href="/archive/">
+          <Link className="archive-more" href="/projetos/">
             ver o arquivo completo <ArrowRight size={16} aria-hidden="true" />
           </Link>
         </section>
       )}
+
+      <AboutSection />
 
       {/* ── CONTATO ──────────────────────────────────────────── */}
       <ContactSection />

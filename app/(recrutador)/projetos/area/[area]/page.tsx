@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { area: slug } = await params;
   const area = getPublicAreas().find((candidate) => candidate === slug);
   if (!area) return {};
-  return pageMetadata({ title: areaLabels[area], description: areaDescriptions[area], path: `/area/${slug}/` });
+  return pageMetadata({ title: areaLabels[area], description: areaDescriptions[area], path: `/projetos/area/${slug}/` });
 }
 
 export default async function AreaPage({ params }: Props) {

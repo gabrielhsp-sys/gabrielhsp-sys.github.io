@@ -56,7 +56,7 @@ export default async function ProjectDetail({ params }: Props) {
 
   return (
     <main id="conteudo" className="article-page">
-      <Link href="/archive/" className="back-link"><ArrowLeft size={17} aria-hidden="true" /> todos os projetos</Link>
+      <Link href="/projetos/" className="back-link"><ArrowLeft size={17} aria-hidden="true" /> todos os projetos</Link>
       <header className="article-header" data-area={item.area}>
         <h1>{item.title}</h1>
         <p>{item.summary}</p>
@@ -64,7 +64,7 @@ export default async function ProjectDetail({ params }: Props) {
         <dl className="facts">
           <div>
             <dt>área</dt>
-            <dd><Link className="area-mark" data-area={item.area} href={`/area/${item.area}/`}>{areaLabels[item.area]}</Link></dd>
+            <dd><Link className="area-mark" data-area={item.area} href={`/projetos/area/${item.area}/`}>{areaLabels[item.area]}</Link></dd>
           </div>
           <div><dt>estado</dt><dd><Status value={item.status} /></dd></div>
           {/* Um intervalo ("JAN 2024 – SET 2026") ocupa a linha inteira no celular. */}

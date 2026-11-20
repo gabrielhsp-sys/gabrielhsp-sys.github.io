@@ -6,7 +6,7 @@ import { pageMetadata } from "@/lib/metadata";
 export const metadata: Metadata = pageMetadata({
   title: "Projetos",
   description: "Todos os projetos públicos de Gabriel Henrique, filtráveis por área e estado.",
-  path: "/archive/",
+  path: "/projetos/",
 });
 
 export default function ArchivePage() {
