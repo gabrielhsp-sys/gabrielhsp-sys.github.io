@@ -1,0 +1,15 @@
+# Cloudflare Pages: configuração local para `wrangler pages dev` (prévia com o R2
+# simulado). NADA aqui foi criado na Cloudflare: a conta, o projeto e o bucket são
+# passos do Gabriel (docs/design/unificacao-2026-11/RELATORIO.md, "Para publicar").
+name = "gabrielsys"
+pages_build_output_dir = "out"
+compatibility_date = "2026-11-01"
+
+# Bucket PRIVADO para o /material/ (sem domínio público, sem r2.dev). O nome é
+# sugestão; se o Gabriel criar com outro, troque só bucket_name.
+[[r2_buckets]]
+binding = "MATERIAL_BUCKET"
+bucket_name = "gabrielsys-material"
+
+# O segredo MATERIAL_SECRET NÃO fica aqui: em local, no .dev.vars (ignorado pelo
+# Git); em produção, `wrangler pages secret put MATERIAL_SECRET` (passo do Gabriel).

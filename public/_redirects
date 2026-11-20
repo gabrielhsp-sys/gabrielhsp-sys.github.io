@@ -1,0 +1,20 @@
+# Cloudflare Pages: endereços antigos do portfólio (2026-11-19). 301 = mudou de vez.
+# Formato: origem destino código. Os dois jeitos (com e sem barra no fim) entram.
+/about/                 /sobre/                  301
+/about                  /sobre/                  301
+/archive/               /projetos/               301
+/archive                /projetos/               301
+/projects/:slug/        /projetos/:slug/         301
+/projects/:slug         /projetos/:slug/         301
+/area/:area/            /projetos/area/:area/    301
+/area/:area             /projetos/area/:area/    301
+
+# Endereços do antigo gabriel-sites.vercel.app, caso alguém troque só o domínio.
+/l/:slug/               /para/:slug/             301
+/l/:slug                /para/:slug/             301
+/alimentacao            /exemplos/sites/alimentacao/   301
+/beleza                 /exemplos/sites/beleza/        301
+/cabeleireiro           /exemplos/sites/cabeleireiro/  301
+/saude                  /exemplos/sites/saude/         301
+/fitness                /exemplos/sites/fitness/       301
+/loja                   /exemplos/sites/loja/          301

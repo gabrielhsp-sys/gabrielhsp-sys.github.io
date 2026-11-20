@@ -1,0 +1,35 @@
+# Cloudflare Pages: cabeçalhos de segurança (2026-11-19).
+# script-src precisa de 'unsafe-inline': o export estático do Next injeta scripts
+# inline de hidratação e não há servidor para gerar nonce. Nada de terceiros roda:
+# todo script, estilo e fonte vem do próprio domínio. O único iframe é o mapa do
+# OpenStreetMap nos sites de exemplo.
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self'; connect-src 'self'; frame-src https://www.openstreetmap.org; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  Strict-Transport-Security: max-age=31536000
+  Cross-Origin-Opener-Policy: same-origin
+
+# Página de envio de material: o token vai no fragmento; nada de Referer nem cache.
+# O "!" tira o Referrer-Policy da regra /*; sem ele o Pages junta os dois valores.
+/material/*
+  ! Referrer-Policy
+  Referrer-Policy: no-referrer
+  Cache-Control: no-store
+  X-Robots-Tag: noindex, nofollow
+
+/orcamento/*
+  X-Robots-Tag: noindex, nofollow
+
+# Demos de lead: nunca no buscador. (Os 7 demos de ramo já levam noindex no HTML;
+# um padrão /exemplos/sites/* pegaria também a lista /exemplos/sites/, que é indexável.)
+/para/*
+  X-Robots-Tag: noindex, nofollow
+
+# Arquivos com hash no nome: cache longo.
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+/exemplos/sites/_astro/*
+  Cache-Control: public, max-age=31536000, immutable

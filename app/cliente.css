@@ -282,3 +282,14 @@ html[data-typing="true"] .c-whats-fixo { opacity: 0; transform: translateY(140%)
 .d-alert { padding: 12px 14px; border: 1px solid var(--amber); border-radius: 8px; color: var(--amber); font-weight: 600; }
 .d-video { display: block; width: 100%; max-width: 960px; height: auto; border: 1px solid var(--line-soft); border-radius: 10px; background: #000; }
 .c-button:disabled { opacity: .5; cursor: not-allowed; }
+
+/* ── /material/ ── */
+.m-form { display: grid; gap: 8px; max-width: 44rem; }
+.m-section { margin: 0 0 24px; padding: 20px; border: 1px solid var(--line-soft); border-radius: 12px; }
+.m-section > legend { padding: 0 8px; font-size: 1.3rem; font-weight: 700; }
+.m-section .o-option + .o-option { margin-top: 10px; }
+.m-file { width: 100%; min-height: 52px; padding: 10px; border: 1px dashed var(--line); border-radius: 8px; background: var(--ink-2); color: var(--paper); font: inherit; }
+.m-file::file-selector-button { min-height: 40px; margin-right: 12px; padding: 0 14px; border: 0; border-radius: 6px; background: var(--amber); color: var(--ink); font-weight: 650; cursor: pointer; }
+.m-done { display: grid; justify-items: start; gap: 12px; color: var(--mint); }
+.m-done h2 { margin: 0; color: var(--paper); font-size: 2rem; }
+.m-done p { margin: 0; color: var(--paper-dim); }

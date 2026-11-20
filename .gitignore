@@ -13,3 +13,8 @@ videos/*/snapshots/
 videos/*/.hyperframes/
 test-results/
 playwright-report/
+
+# Cloudflare local (wrangler pages dev): segredo e estado simulado, nunca no Git
+.dev.vars
+.dev.vars.*
+.wrangler/
