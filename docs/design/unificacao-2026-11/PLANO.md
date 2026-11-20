@@ -1,5 +1,9 @@
 # Unificação do GABRIEL.SYS: plano (2026-11)
 
+
+> Nota de 2026-11-19 (branch `site-unificado-2026-11`): o histórico foi reescrito (D-217). Onde este
+> plano fala do "número pessoal", ele já foi removido; o único número citado aqui é o do WhatsApp
+> Business, 5535998840168. Os SHAs citados são anteriores à reescrita e não existem mais.
 Estado: **PROPOSTA**, só planejamento. Nenhuma mudança foi feita no site, nos demos, no Tally, em
 DNS ou em serviço externo. Pedido de origem: `prompts/2026-11-19-unificacao-plano/prompt.md`.
 Decisões já confirmadas pelo Gabriel em 2026-11-19 (site único, marca GABRIEL.SYS, formulário
@@ -68,9 +72,9 @@ portfólio além do briefing.
 - Saída: `buildSummary()` (`steps.ts`, fim) monta "BRIEFING DE PROJETO · GABRIEL.SYS" com as
   etapas visíveis em seções `## ETAPA` e uma linha por campo; o botão abre
   `https://wa.me/${briefingWhatsapp}?text=…` (`briefing-form.tsx:181`) e há botão de copiar.
-- **Número usado: `briefingWhatsapp = "5535998840168"` (`lib/site.ts:16`) = o número pessoal.**
+- **Número usado: `briefingWhatsapp` (`lib/site.ts:16`) = o número pessoal (já removido).**
   Confirmado também no ar: o chunk publicado `/_next/static/chunks/0rscpmr17e-1i.js` contém
-  `5535998840168` (curl em 2026-11-19).
+  o número pessoal (curl em 2026-11-19).
 - Layout "nu" (`components/system-chrome.tsx:76`, `barePaths = ["/orcamento"]`): sem menu, busca,
   terminal nem rodapé. O botão de som continua (`PreferenceTools`).
 
@@ -136,9 +140,9 @@ Número único em `src/data/contato.ts` (`WHATSAPP_GABRIEL = '5535998840168'`), 
 `[Demo <nicho>] Oi Gabriel, vi o demo e quero um site assim`. No ar, a home tem só
 `wa.me/5535998840168` (curl em 2026-11-19).
 
-### 1d. Onde o número pessoal (5535998840168) aparece para cliente
+### 1d. Onde o número pessoal (já removido) aparece para cliente
 
-Busca em `~/Dev/projects` (todos os formatos: `998840168`, `99884-0168`) e nos sites no ar:
+Busca em `~/Dev/projects` (todos os formatos do número pessoal) e nos sites no ar:
 
 | Onde | Público para cliente? | Estado |
 |---|---|---|
@@ -666,7 +670,7 @@ aprovação).
 ### Objetivo (estado final observável)
 
 `https://<domínio>/` responde com o site novo; todo botão de contato de todas as páginas (site e
-demos) aponta para `wa.me/5535998840168`; nenhum arquivo publicado contém `5535998840168`; os 4
+demos) aponta para `wa.me/5535998840168`; nenhum arquivo publicado contém o número pessoal; os 4
 endereços antigos levam ao endereço novo equivalente.
 
 ### Fora de escopo
@@ -680,7 +684,7 @@ qualquer conteúdo de cliente real sem autorização.
 |---|---|---|---|---|---|
 | 0 | Aprovar este plano e responder as decisões; registrar as decisões no ecossistema | Gabriel + sessão (`ecosystem-decision-log`) | `~/Dev/ai/ecosystem/docs/decisions/DECISION-LOG.md` | `manual` (aprovação) | — |
 | 1 | Conferir disponibilidade e comprar o domínio | **Gabriel, à mão** (registro.br) | — | `comando`: `whois <domínio>` mostra o titular | não renovar |
-| 2 | Número único: `lib/contato.ts` com `WHATSAPP = "5535998840168"`; apagar `briefingWhatsapp` | sessão | `lib/site.ts`, novo `lib/contato.ts` | `teste` novo: todo `wa.me` do `out/` = Business; `comando`: `grep -rE "998840168" out/ ; test $? -eq 1` | `git revert` |
+| 2 | Número único: `lib/contato.ts` com `WHATSAPP = "5535998840168"`; apagar `briefingWhatsapp` | sessão | `lib/site.ts`, novo `lib/contato.ts` | `teste` novo: todo `wa.me` do `out/` = Business; `comando`: `grep -rE "<número pessoal>" out/ ; test $? -eq 1` | `git revert` |
 | 3 | Rotas e páginas de cliente (Início, Serviços ×5, Exemplos, Como funciona) com o texto aprovado; `/about`→`/sobre`, `/archive`→`/projetos`, `/projects`→`/projetos` | sessão | `app/`, `content/` | `build` (`npm run check`, exit 0); `teste` de rotas no `out/` | `git revert` |
 | 4 | Personalidade conforme decisões 5–7 | sessão | `components/personality.tsx`, `boot-sequence.tsx`, `system-chrome.tsx` | `teste` e2e (Playwright): sem boot e sem som em `/`, `/servicos/*`, `/orcamento/`; terminal ausente nessas rotas | `git revert` |
 | 5 | Formulário único (seção 4), com testes por ramo | sessão | `app/orcamento/` | `teste`: para cada um dos 6 caminhos, a mensagem gerada é igual a um texto esperado (oráculo escrito à mão); `teste` e2e: teclado só, `axe` 0 violações | `git revert` |
@@ -707,7 +711,7 @@ qualquer conteúdo de cliente real sem autorização.
 
 | Alegação | Evidência que a cobre |
 |---|---|
-| nenhum arquivo publicado tem o número pessoal | `grep -rE "998840168\|99884-?0168" out/` sem resultado (exit 1), no CI, a cada build |
+| nenhum arquivo publicado tem o número pessoal | `grep -rE "<número pessoal>" out/` sem resultado (exit 1), no CI, a cada build |
 | todo contato vai ao Business | teste que extrai todos os `wa.me/…` de `out/` e exige `5535998840168` |
 | o formulário gera a mensagem certa nos 6 caminhos | 6 testes contra textos esperados escritos à mão (oráculo) |
 | o site é usável sem mouse e sem barreira | e2e com `@axe-core/playwright` 0 violações nas páginas de cliente; navegação por teclado no formulário |
@@ -781,7 +785,7 @@ histórico Git (decisão 13). Nenhum destes foi feito nesta sessão.
 12. **Como o site fala.** Opções: "eu" (uma pessoa) · "nós" (empresa).
     Recomendo **"eu"**: é verdade, e para pequeno negócio falar direto com quem faz é vantagem.
 
-13. **Número pessoal no histórico do GitHub.** Ele está nos commits públicos desde `aff339d`.
+13. **Número pessoal no histórico do GitHub.** Ele está nos commits públicos desde `aff339d` (SHA anterior à reescrita de 2026-11-19, que não existe mais).
     Opções: deixar (sai do site, fica no histórico) · reescrever o histórico (irreversível, quebra
     clones e links de commit).
     Recomendo **deixar**: o número sai de tudo o que o cliente vê, e reescrever histórico custa mais
