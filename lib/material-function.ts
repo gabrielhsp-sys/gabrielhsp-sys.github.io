@@ -1,6 +1,8 @@
 // Peças comuns das Pages Functions do /material/ (functions/api/material/). Fica fora de
 // functions/ para nunca virar rota.
 // Tipos mínimos escritos aqui (sem @cloudflare/workers-types, que seria outra dependência).
+import { verificarLink } from "./material.ts";
+import { verificarCodigo } from "./material-codigo.ts";
 
 export interface R2PutOptions {
   httpMetadata?: { contentType?: string };
@@ -8,6 +10,7 @@ export interface R2PutOptions {
 }
 export interface R2BucketMinimo {
   put(key: string, value: ArrayBuffer | string, options?: R2PutOptions): Promise<unknown>;
+  get(key: string): Promise<{ text(): Promise<string> } | null>;
   list(options: { prefix: string; cursor?: string; limit?: number }): Promise<{ objects: { size: number }[]; truncated: boolean; cursor?: string }>;
 }
 export interface Env {
@@ -33,6 +36,57 @@ export interface Contexto {
   env: Env;
 }
 
+/**
+ * Atraso fixo antes de responder a uma credencial recusada (código ou link errado, vencido,
+ * revogado, de outro cliente). Fixo: não depende do motivo, então não revela qual foi.
+ */
+export const ATRASO_RECUSA_MS = 600;
+
+/** Fronteiras das rotas: o relógio e a espera. Os testes injetam as suas. */
+export interface Dependencias {
+  agora: () => number;
+  esperar: (ms: number) => Promise<void>;
+}
+
+/** Credencial vinda do corpo da requisição: o código OU o link longo (c, e, t). */
+export type Credencial = { codigo?: unknown; c?: unknown; e?: unknown; t?: unknown };
+
+const texto = (v: unknown) => (typeof v === "string" ? v : null);
+
+/**
+ * Confere a credencial e devolve o cliente (prefixo no bucket), ou null. O código ganha do link
+ * quando os dois vêm. Não diz o motivo da recusa.
+ */
+export async function autorizar(env: Env, credencial: Credencial, agora: number): Promise<string | null> {
+  const segredo = env.MATERIAL_SECRET ?? "";
+  const codigo = texto(credencial.codigo);
+  let cliente: string | null = null;
+  if (codigo !== null) {
+    cliente = (await verificarCodigo(segredo, codigo, agora))?.cliente ?? null;
+  } else {
+    const link = { c: texto(credencial.c), e: texto(credencial.e), t: texto(credencial.t) };
+    if (await verificarLink(segredo, link, agora)) cliente = link.c;
+  }
+  if (!cliente || !env.MATERIAL_BUCKET) return null;
+  return (await revogados(env.MATERIAL_BUCKET)).has(compactar(cliente)) ? null : cliente;
+}
+
+/**
+ * Revogação antes do prazo: objeto privado `_controle/revogados.txt` no mesmo bucket, um apelido
+ * por linha (`#` comenta). Vale para o código e para o link longo do apelido. O prefixo
+ * `_controle/` nunca é de cliente: apelido começa com letra ou dígito (CLIENTE).
+ */
+export const CHAVE_REVOGADOS = "_controle/revogados.txt";
+
+const compactar = (apelido: string) => apelido.replace(/[\s-]/g, "").replace(/[A-Z]/g, (c) => c.toLowerCase());
+
+async function revogados(bucket: R2BucketMinimo): Promise<Set<string>> {
+  const objeto = await bucket.get(CHAVE_REVOGADOS);
+  if (!objeto) return new Set();
+  const linhas = (await objeto.text()).split(/\r?\n/).map((l) => l.replace(/#.*/, "")).map(compactar);
+  return new Set(linhas.filter(Boolean));
+}
+
 export const resposta = (status: number, corpo: Record<string, unknown>) =>
   new Response(JSON.stringify(corpo), {
     status,
@@ -46,3 +100,8 @@ export const origemValida = (request: Request) => {
 };
 
 export const agoraSegundos = () => Math.floor(Date.now() / 1000);
+
+export const PADRAO: Dependencias = {
+  agora: agoraSegundos,
+  esperar: (ms) => new Promise((resolve) => setTimeout(resolve, ms)),
+};

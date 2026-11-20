@@ -1,11 +1,12 @@
 // POST /api/material/enviar (multipart/form-data)
+//   codigo         o código de acesso (lib/material-codigo.ts), OU
 //   c, e, t        o link assinado (lib/material.ts)
 //   respostas      JSON com as respostas de texto
 //   <campo>        arquivos, só nos campos de CAMPOS_ARQUIVO
 // Grava no R2 privado (binding MATERIAL_BUCKET) sob o prefixo do cliente, num
 // "envio" novo a cada POST. Não há rota de leitura nem de listagem.
-import { CLIENTE, LIMITES, tipoPermitido, verificarLink } from "../../../lib/material";
-import { type Contexto, agoraSegundos, origemValida, resposta, usoDoCliente } from "../../../lib/material-function";
+import { CLIENTE, LIMITES, tipoPermitido } from "../../../lib/material.ts";
+import { ATRASO_RECUSA_MS, type Contexto, type Dependencias, PADRAO, autorizar, origemValida, resposta, usoDoCliente } from "../../../lib/material-function.ts";
 
 export const CAMPOS_ARQUIVO = ["logo", "fachada", "trabalhos", "equipe", "cardapio", "produtos"] as const;
 const OBRIGATORIOS = ["negocio", "nome", "ramo", "whatsappSite"] as const;
@@ -14,7 +15,7 @@ const FOLGA_MULTIPART = 1024 * 1024;
 
 const aleatorio = () => [...crypto.getRandomValues(new Uint8Array(6))].map((b) => b.toString(16).padStart(2, "0")).join("");
 
-export async function onRequestPost({ request, env }: Contexto): Promise<Response> {
+export const criarEnviar = (deps: Dependencias = PADRAO) => async ({ request, env }: Contexto): Promise<Response> => {
   if (!env.MATERIAL_SECRET || !env.MATERIAL_BUCKET) return resposta(503, { ok: false, erro: "Envio indisponível agora." });
   if (!origemValida(request)) return resposta(403, { ok: false, erro: "Origem não permitida." });
 
@@ -35,12 +36,13 @@ export async function onRequestPost({ request, env }: Contexto): Promise<Respons
     return resposta(400, { ok: false, erro: "Envio ilegível." });
   }
 
-  const link = { c: form.get("c") as string | null, e: form.get("e") as string | null, t: form.get("t") as string | null };
-  if (!(await verificarLink(env.MATERIAL_SECRET, link, agoraSegundos()))) {
-    return resposta(403, { ok: false, erro: "Link inválido ou vencido." });
+  // Nada é lido além disto, nem gravado, sem credencial válida.
+  const credencial = { codigo: form.get("codigo") ?? undefined, c: form.get("c"), e: form.get("e"), t: form.get("t") };
+  const cliente = await autorizar(env, credencial, deps.agora());
+  if (!cliente || !CLIENTE.test(cliente)) {
+    await deps.esperar(ATRASO_RECUSA_MS);
+    return resposta(403, { ok: false, erro: "Código inválido ou vencido." });
   }
-  const cliente = link.c as string;
-  if (!CLIENTE.test(cliente)) return resposta(403, { ok: false, erro: "Link inválido ou vencido." });
 
   // Respostas de texto: objeto plano, só texto e booleano, com limites.
   const bruto = form.get("respostas");
@@ -100,4 +102,6 @@ export async function onRequestPost({ request, env }: Contexto): Promise<Respons
     httpMetadata: { contentType: "application/json; charset=utf-8" },
   });
   return resposta(201, { ok: true, arquivos: prontos.length });
-}
+};
+
+export const onRequestPost = criarEnviar();
