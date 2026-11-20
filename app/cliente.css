@@ -232,7 +232,11 @@ html[data-typing="true"] .c-whats-fixo { opacity: 0; transform: translateY(140%)
 .o-field:focus { outline: none; }
 .o-field legend, .o-field > label { display: block; margin: 0 0 10px; padding: 0; font-size: 1.15rem; font-weight: 650; }
 .o-optional { color: var(--paper-dim); font-weight: 400; }
-.o-field input[type="text"], .o-field textarea {
+/* Todo campo de digitar ou escolher, de qualquer tipo (text, tel, email, number,
+   url, search, date...), textarea e select. Radio, checkbox e arquivo tem estilo
+   proprio. O preflight do Tailwind zera borda e fundo de todo input: um tipo que
+   ficar fora desta regra some na tela (tests/e2e/campos.spec.mjs). */
+.o-field :is(input:not([type="radio"], [type="checkbox"], [type="file"], [type="hidden"]), textarea, select) {
   width: 100%;
   min-height: 52px;
   padding: 12px 14px;
@@ -244,8 +248,8 @@ html[data-typing="true"] .c-whats-fixo { opacity: 0; transform: translateY(140%)
   font-size: 1.0625rem;
 }
 .o-field textarea { resize: vertical; }
-.o-field input:focus-visible, .o-field textarea:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; border-color: var(--amber); }
-.o-field[data-invalid] input[type="text"], .o-field[data-invalid] textarea { border-color: var(--red); }
+.o-field :is(input, textarea, select):focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; border-color: var(--amber); }
+.o-field[data-invalid] :is(input:not([type="radio"], [type="checkbox"], [type="file"], [type="hidden"]), textarea, select) { border-color: var(--red); }
 .o-error { margin: 0 0 10px; color: #f09c8d; font-weight: 600; }
 .o-options { display: grid; gap: 10px; }
 .o-option { position: relative; display: grid; grid-template-columns: 24px 1fr; align-items: start; gap: 14px; min-height: 56px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 8px; background: var(--ink-2); cursor: pointer; }
